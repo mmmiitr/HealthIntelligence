@@ -28,9 +28,9 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
     target: 7.0, // Target A1C level
   })) : [];
 
-  const currentA1C = patientProfile?.currentA1C || "0.0";
-  const nextAppointment = patientProfile?.nextAppointment || "Not scheduled";
-  const medicationAdherence = patientProfile?.medicationAdherence || "0";
+  const currentA1C = (patientProfile as any)?.currentA1C || "0.0";
+  const nextAppointment = (patientProfile as any)?.nextAppointment || "Not scheduled";
+  const medicationAdherence = (patientProfile as any)?.medicationAdherence || "0";
 
   // Group educational tips by category
   const tipsByCategory = Array.isArray(educationalTips) ? educationalTips.reduce((acc: any, tip: any) => {

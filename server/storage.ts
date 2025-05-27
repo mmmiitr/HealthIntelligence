@@ -65,9 +65,9 @@ export class MemStorage implements IStorage {
         id: this.adminMetricsList.length + 1,
         month: months[monthIndex],
         year,
-        totalRevenue: baseRevenue.toFixed(2),
-        costPerPatient: costPerPatient.toFixed(2),
-        bedOccupancy: bedOccupancy.toFixed(1),
+        totalRevenue: Math.round(baseRevenue).toString(),
+        costPerPatient: Math.round(costPerPatient).toString(),
+        bedOccupancy: Math.round(bedOccupancy * 10) / 10,
         isPredicted: false
       });
     }
@@ -85,9 +85,9 @@ export class MemStorage implements IStorage {
         id: this.adminMetricsList.length + 1,
         month: months[monthIndex],
         year,
-        totalRevenue: baseRevenue.toFixed(2),
-        costPerPatient: costPerPatient.toFixed(2),
-        bedOccupancy: bedOccupancy.toFixed(1),
+        totalRevenue: Math.round(baseRevenue).toString(),
+        costPerPatient: Math.round(costPerPatient).toString(),
+        bedOccupancy: Math.round(bedOccupancy * 10) / 10,
         isPredicted: true
       });
     }
