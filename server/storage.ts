@@ -1,8 +1,9 @@
 import { 
-  users, departments, financialData, patientData, revenueBySpecialty, 
-  ageDistribution, insights,
-  type User, type InsertUser, type Department, type FinancialData, 
-  type PatientData, type RevenueBySpecialty, type AgeDistribution, type Insight 
+  users, adminMetrics, resourceUtilization, clinicalMetrics, a1cTrends, 
+  riskDistribution, highRiskPatients, patientProfile, personalA1CHistory, educationalTips,
+  type User, type InsertUser, type AdminMetrics, type ResourceUtilization,
+  type ClinicalMetrics, type A1cTrends, type RiskDistribution, type HighRiskPatients,
+  type PatientProfile, type PersonalA1CHistory, type EducationalTips
 } from "@shared/schema";
 
 export interface IStorage {
@@ -10,182 +11,197 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   
-  getDepartments(): Promise<Department[]>;
-  getFinancialData(filter?: string): Promise<FinancialData[]>;
-  getPatientData(filter?: string): Promise<PatientData[]>;
-  getRevenueBySpecialty(filter?: string): Promise<RevenueBySpecialty[]>;
-  getAgeDistribution(filter?: string): Promise<AgeDistribution[]>;
-  getInsights(filter?: string): Promise<Insight[]>;
+  // Admin Dashboard Methods
+  getAdminMetrics(timeFilter?: string): Promise<AdminMetrics[]>;
+  getResourceUtilization(timeFilter?: string): Promise<ResourceUtilization[]>;
+  
+  // Clinician Dashboard Methods
+  getClinicalMetrics(timeFilter?: string): Promise<ClinicalMetrics[]>;
+  getA1cTrends(timeFilter?: string): Promise<A1cTrends[]>;
+  getRiskDistribution(timeFilter?: string): Promise<RiskDistribution[]>;
+  getHighRiskPatients(): Promise<HighRiskPatients[]>;
+  
+  // Patient Dashboard Methods
+  getPatientProfile(): Promise<PatientProfile | undefined>;
+  getPersonalA1CHistory(timeFilter?: string): Promise<PersonalA1CHistory[]>;
+  getEducationalTips(): Promise<EducationalTips[]>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
-  private departments: Department[];
-  private financialDataList: FinancialData[];
-  private patientDataList: PatientData[];
-  private revenueBySpecialtyList: RevenueBySpecialty[];
-  private ageDistributionList: AgeDistribution[];
-  private insightsList: Insight[];
+  private adminMetricsList: AdminMetrics[];
+  private resourceUtilizationList: ResourceUtilization[];
+  private clinicalMetricsList: ClinicalMetrics[];
+  private a1cTrendsList: A1cTrends[];
+  private riskDistributionList: RiskDistribution[];
+  private highRiskPatientsList: HighRiskPatients[];
+  private patientProfileData: PatientProfile;
+  private personalA1CHistoryList: PersonalA1CHistory[];
+  private educationalTipsList: EducationalTips[];
   private currentId: number;
 
   constructor() {
     this.users = new Map();
     this.currentId = 1;
-    this.initializeHealthcareData();
+    this.initializeDiabetesData();
   }
 
-  private initializeHealthcareData() {
-    // Initialize departments
-    this.departments = [
-      { id: 1, name: "Cardiology", revenue: "450000.00", cost: "320000.00", patientCount: 1250, satisfaction: "94.2" },
-      { id: 2, name: "Orthopedics", revenue: "380000.00", cost: "280000.00", patientCount: 980, satisfaction: "91.8" },
-      { id: 3, name: "Neurology", revenue: "320000.00", cost: "240000.00", patientCount: 720, satisfaction: "93.5" },
-      { id: 4, name: "Pediatrics", revenue: "280000.00", cost: "200000.00", patientCount: 1580, satisfaction: "96.1" },
-      { id: 5, name: "Emergency", revenue: "350000.00", cost: "290000.00", patientCount: 2100, satisfaction: "89.4" },
-      { id: 6, name: "Dermatology", revenue: "220000.00", cost: "160000.00", patientCount: 850, satisfaction: "92.7" }
-    ];
-
-    // Initialize financial data (historical and predicted)
-    this.financialDataList = [];
+  private initializeDiabetesData() {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
 
-    // Historical data (previous 12 months)
+    // Admin Metrics - Revenue and cost data for diabetes care
+    this.adminMetricsList = [];
     for (let i = 11; i >= 0; i--) {
       const monthIndex = (currentMonth - i + 12) % 12;
       const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
-      const baseRevenue = 2000000 + (Math.random() * 400000);
-      const baseCost = baseRevenue * 0.75;
+      const baseRevenue = 850000 + (Math.random() * 150000); // Diabetes care revenue
+      const costPerPatient = 420 + (Math.random() * 80);
+      const bedOccupancy = 72 + (Math.random() * 15);
       
-      this.financialDataList.push({
-        id: this.financialDataList.length + 1,
+      this.adminMetricsList.push({
+        id: this.adminMetricsList.length + 1,
         month: months[monthIndex],
         year,
         totalRevenue: baseRevenue.toFixed(2),
-        operatingCosts: baseCost.toFixed(2),
-        netProfit: (baseRevenue - baseCost).toFixed(2),
-        costPerPatient: (baseCost / 4800).toFixed(2),
+        costPerPatient: costPerPatient.toFixed(2),
+        bedOccupancy: bedOccupancy.toFixed(1),
         isPredicted: false
       });
     }
 
-    // Current month
-    this.financialDataList.push({
-      id: this.financialDataList.length + 1,
-      month: months[currentMonth],
-      year: currentYear,
-      totalRevenue: "2400000.00",
-      operatingCosts: "1800000.00",
-      netProfit: "600000.00",
-      costPerPatient: "485.00",
-      isPredicted: false
-    });
-
-    // Predicted data (next 6 months)
+    // Predicted admin metrics (next 6 months)
     for (let i = 1; i <= 6; i++) {
       const monthIndex = (currentMonth + i) % 12;
       const year = currentMonth + i > 11 ? currentYear + 1 : currentYear;
-      const growth = 1 + (i * 0.02); // 2% growth per month
-      const baseRevenue = 2400000 * growth;
-      const baseCost = baseRevenue * 0.73; // Improving efficiency
+      const growth = 1 + (i * 0.025); // 2.5% growth for diabetes care
+      const baseRevenue = 950000 * growth;
+      const costPerPatient = 485 + (i * 5); // Slightly increasing costs
+      const bedOccupancy = 75 + (i * 0.5);
       
-      this.financialDataList.push({
-        id: this.financialDataList.length + 1,
+      this.adminMetricsList.push({
+        id: this.adminMetricsList.length + 1,
         month: months[monthIndex],
         year,
         totalRevenue: baseRevenue.toFixed(2),
-        operatingCosts: baseCost.toFixed(2),
-        netProfit: (baseRevenue - baseCost).toFixed(2),
-        costPerPatient: (baseCost / (4800 + i * 100)).toFixed(2),
+        costPerPatient: costPerPatient.toFixed(2),
+        bedOccupancy: bedOccupancy.toFixed(1),
         isPredicted: true
       });
     }
 
-    // Initialize patient data
-    this.patientDataList = [];
+    // Resource Utilization by Department
+    const departments = ["Endocrinology", "Cardiology", "Nephrology", "Ophthalmology", "Podiatry"];
+    this.resourceUtilizationList = departments.map((dept, index) => ({
+      id: index + 1,
+      department: dept,
+      utilization: (65 + Math.random() * 25).toFixed(1),
+      month: months[currentMonth],
+      year: currentYear
+    }));
+
+    // Clinical Metrics
+    this.clinicalMetricsList = [];
     for (let i = 11; i >= 0; i--) {
       const monthIndex = (currentMonth - i + 12) % 12;
       const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
-      const totalPatients = 4500 + Math.floor(Math.random() * 600);
-      const newPatients = Math.floor(totalPatients * 0.25);
       
-      this.patientDataList.push({
-        id: this.patientDataList.length + 1,
+      this.clinicalMetricsList.push({
+        id: this.clinicalMetricsList.length + 1,
         month: months[monthIndex],
         year,
-        totalPatients,
-        newPatients,
-        existingPatients: totalPatients - newPatients,
-        retention: (72 + Math.random() * 8).toFixed(1),
-        isPredicted: false
+        averageA1C: (7.2 + (Math.random() * 0.8)).toFixed(2),
+        adherenceRate: (78 + Math.random() * 12).toFixed(1),
+        complicationRate: (12 + Math.random() * 6).toFixed(1)
       });
     }
 
-    // Current month patient data
-    this.patientDataList.push({
-      id: this.patientDataList.length + 1,
-      month: months[currentMonth],
-      year: currentYear,
-      totalPatients: 4847,
-      newPatients: 1234,
-      existingPatients: 3613,
-      retention: "74.5",
-      isPredicted: false
-    });
-
-    // Revenue by specialty data
-    this.revenueBySpecialtyList = [];
-    const specialties = ["Cardiology", "Orthopedics", "Neurology", "Pediatrics", "Emergency", "Dermatology"];
-    const revenueData = [450, 380, 320, 280, 350, 220];
-    const growthData = [15, 8, 12, 22, 15, 18];
-
-    specialties.forEach((specialty, index) => {
-      this.revenueBySpecialtyList.push({
-        id: index + 1,
-        specialty,
-        revenue: (revenueData[index] * 1000).toFixed(2),
-        growth: growthData[index].toFixed(1),
-        month: months[currentMonth],
-        year: currentYear
+    // A1C Trends
+    this.a1cTrendsList = [];
+    for (let i = 11; i >= 0; i--) {
+      const monthIndex = (currentMonth - i + 12) % 12;
+      const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
+      
+      this.a1cTrendsList.push({
+        id: this.a1cTrendsList.length + 1,
+        month: months[monthIndex],
+        year,
+        averageA1C: (7.1 + (Math.random() * 0.9)).toFixed(2),
+        patientCount: 850 + Math.floor(Math.random() * 200)
       });
-    });
+    }
 
-    // Age distribution data
-    this.ageDistributionList = [
-      { id: 1, ageGroup: "0-18 years", percentage: "18.0", count: 872, month: months[currentMonth], year: currentYear },
-      { id: 2, ageGroup: "19-35 years", percentage: "28.0", count: 1357, month: months[currentMonth], year: currentYear },
-      { id: 3, ageGroup: "36-50 years", percentage: "24.0", count: 1163, month: months[currentMonth], year: currentYear },
-      { id: 4, ageGroup: "51-65 years", percentage: "20.0", count: 969, month: months[currentMonth], year: currentYear },
-      { id: 5, ageGroup: "65+ years", percentage: "10.0", count: 485, month: months[currentMonth], year: currentYear }
+    // Risk Distribution
+    this.riskDistributionList = [
+      { id: 1, riskLevel: "Low", percentage: "45.0", count: 382, month: months[currentMonth], year: currentYear },
+      { id: 2, riskLevel: "Medium", percentage: "35.0", count: 297, month: months[currentMonth], year: currentYear },
+      { id: 3, riskLevel: "High", percentage: "20.0", count: 170, month: months[currentMonth], year: currentYear }
     ];
 
-    // AI insights
-    this.insightsList = [
+    // High Risk Patients
+    this.highRiskPatientsList = [
+      { id: 1, patientName: "Maria Rodriguez", a1c: "9.2", lastVisit: "2025-01-15", riskFactors: "Poor adherence, hypertension" },
+      { id: 2, patientName: "James Wilson", a1c: "8.8", lastVisit: "2025-01-20", riskFactors: "Cardiovascular disease, obesity" },
+      { id: 3, patientName: "Sarah Chen", a1c: "9.5", lastVisit: "2025-01-12", riskFactors: "Kidney complications, smoking" },
+      { id: 4, patientName: "Michael Brown", a1c: "8.9", lastVisit: "2025-01-18", riskFactors: "Eye complications, poor diet" },
+      { id: 5, patientName: "Linda Davis", a1c: "9.1", lastVisit: "2025-01-22", riskFactors: "Neuropathy, medication non-compliance" }
+    ];
+
+    // Patient Profile (John Doe)
+    this.patientProfileData = {
+      id: 1,
+      patientName: "John Doe",
+      currentA1C: "7.8",
+      nextAppointment: "March 15, 2025",
+      medicationAdherence: "82.5"
+    };
+
+    // Personal A1C History for John Doe
+    this.personalA1CHistoryList = [];
+    for (let i = 11; i >= 0; i--) {
+      const monthIndex = (currentMonth - i + 12) % 12;
+      const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
+      
+      this.personalA1CHistoryList.push({
+        id: this.personalA1CHistoryList.length + 1,
+        month: months[monthIndex],
+        year,
+        a1c: (7.2 + (Math.random() * 1.2)).toFixed(1),
+        patientId: 1
+      });
+    }
+
+    // Educational Tips
+    this.educationalTipsList = [
       {
         id: 1,
-        type: "revenue",
-        title: "Revenue Optimization",
-        description: "Cardiology department shows 15% growth potential. Consider increasing appointment slots during peak hours (10 AM - 2 PM).",
-        impact: "positive",
-        createdAt: new Date()
+        category: "diet",
+        title: "Carbohydrate Counting",
+        description: "Monitor your carb intake and maintain consistent portions at each meal to help stabilize blood sugar levels.",
+        isActive: true
       },
       {
         id: 2,
-        type: "patient",
-        title: "Patient Retention",
-        description: "92% patient satisfaction in Pediatrics. Implement similar care protocols in other departments.",
-        impact: "positive",
-        createdAt: new Date()
+        category: "exercise",
+        title: "Regular Physical Activity",
+        description: "Aim for 150 minutes of moderate aerobic activity per week. Even a 10-minute walk after meals can help lower blood sugar.",
+        isActive: true
       },
       {
         id: 3,
-        type: "capacity",
-        title: "Capacity Alert",
-        description: "Emergency department reaching 85% capacity. Consider staff reallocation for next 3 months.",
-        impact: "warning",
-        createdAt: new Date()
+        category: "medication",
+        title: "Medication Timing",
+        description: "Take your diabetes medications at the same time each day. Use phone alarms or pill organizers to maintain consistency.",
+        isActive: true
+      },
+      {
+        id: 4,
+        category: "diet",
+        title: "Portion Control",
+        description: "Use the plate method: fill half your plate with non-starchy vegetables, a quarter with lean protein, and a quarter with whole grains.",
+        isActive: true
       }
     ];
   }
@@ -207,29 +223,60 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async getDepartments(): Promise<Department[]> {
-    return this.departments;
+  // Admin Dashboard Methods
+  async getAdminMetrics(timeFilter?: string): Promise<AdminMetrics[]> {
+    if (timeFilter) {
+      // Filter based on time period
+      const monthsToShow = timeFilter === "3months" ? 3 : timeFilter === "6months" ? 6 : 12;
+      return this.adminMetricsList.slice(-monthsToShow);
+    }
+    return this.adminMetricsList;
   }
 
-  async getFinancialData(filter?: string): Promise<FinancialData[]> {
-    // In a real implementation, filter would affect the data
-    return this.financialDataList;
+  async getResourceUtilization(timeFilter?: string): Promise<ResourceUtilization[]> {
+    return this.resourceUtilizationList;
   }
 
-  async getPatientData(filter?: string): Promise<PatientData[]> {
-    return this.patientDataList;
+  // Clinician Dashboard Methods
+  async getClinicalMetrics(timeFilter?: string): Promise<ClinicalMetrics[]> {
+    if (timeFilter) {
+      const monthsToShow = timeFilter === "3months" ? 3 : timeFilter === "6months" ? 6 : 12;
+      return this.clinicalMetricsList.slice(-monthsToShow);
+    }
+    return this.clinicalMetricsList;
   }
 
-  async getRevenueBySpecialty(filter?: string): Promise<RevenueBySpecialty[]> {
-    return this.revenueBySpecialtyList;
+  async getA1cTrends(timeFilter?: string): Promise<A1cTrends[]> {
+    if (timeFilter) {
+      const monthsToShow = timeFilter === "3months" ? 3 : timeFilter === "6months" ? 6 : 12;
+      return this.a1cTrendsList.slice(-monthsToShow);
+    }
+    return this.a1cTrendsList;
   }
 
-  async getAgeDistribution(filter?: string): Promise<AgeDistribution[]> {
-    return this.ageDistributionList;
+  async getRiskDistribution(timeFilter?: string): Promise<RiskDistribution[]> {
+    return this.riskDistributionList;
   }
 
-  async getInsights(filter?: string): Promise<Insight[]> {
-    return this.insightsList;
+  async getHighRiskPatients(): Promise<HighRiskPatients[]> {
+    return this.highRiskPatientsList;
+  }
+
+  // Patient Dashboard Methods
+  async getPatientProfile(): Promise<PatientProfile | undefined> {
+    return this.patientProfileData;
+  }
+
+  async getPersonalA1CHistory(timeFilter?: string): Promise<PersonalA1CHistory[]> {
+    if (timeFilter) {
+      const monthsToShow = timeFilter === "3months" ? 3 : timeFilter === "6months" ? 6 : 12;
+      return this.personalA1CHistoryList.slice(-monthsToShow);
+    }
+    return this.personalA1CHistoryList;
+  }
+
+  async getEducationalTips(): Promise<EducationalTips[]> {
+    return this.educationalTipsList.filter(tip => tip.isActive);
   }
 }
 
