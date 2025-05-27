@@ -29,15 +29,15 @@ export interface IStorage {
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
-  private adminMetricsList: AdminMetrics[];
-  private resourceUtilizationList: ResourceUtilization[];
-  private clinicalMetricsList: ClinicalMetrics[];
-  private a1cTrendsList: A1cTrends[];
-  private riskDistributionList: RiskDistribution[];
-  private highRiskPatientsList: HighRiskPatients[];
-  private patientProfileData: PatientProfile;
-  private personalA1CHistoryList: PersonalA1CHistory[];
-  private educationalTipsList: EducationalTips[];
+  private adminMetricsList: AdminMetrics[] = [];
+  private resourceUtilizationList: ResourceUtilization[] = [];
+  private clinicalMetricsList: ClinicalMetrics[] = [];
+  private a1cTrendsList: A1cTrends[] = [];
+  private riskDistributionList: RiskDistribution[] = [];
+  private highRiskPatientsList: HighRiskPatients[] = [];
+  private patientProfileData: PatientProfile | null = null;
+  private personalA1CHistoryList: PersonalA1CHistory[] = [];
+  private educationalTipsList: EducationalTips[] = [];
   private currentId: number;
 
   constructor() {
@@ -156,7 +156,7 @@ export class MemStorage implements IStorage {
       currentA1C: "7.8",
       nextAppointment: "March 15, 2025",
       medicationAdherence: "82.5"
-    };
+    } as PatientProfile;
 
     // Personal A1C History for John Doe
     this.personalA1CHistoryList = [];
@@ -264,7 +264,7 @@ export class MemStorage implements IStorage {
 
   // Patient Dashboard Methods
   async getPatientProfile(): Promise<PatientProfile | undefined> {
-    return this.patientProfileData;
+    return this.patientProfileData || undefined;
   }
 
   async getPersonalA1CHistory(timeFilter?: string): Promise<PersonalA1CHistory[]> {

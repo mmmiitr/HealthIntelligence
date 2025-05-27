@@ -26,24 +26,24 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
   });
 
   // Get current clinical metrics
-  const currentMetrics = clinicalMetrics?.[clinicalMetrics.length - 1];
+  const currentMetrics = Array.isArray(clinicalMetrics) && clinicalMetrics.length > 0 ? clinicalMetrics[clinicalMetrics.length - 1] : null;
   const averageA1C = currentMetrics?.averageA1C || "0.0";
   const adherenceRate = currentMetrics?.adherenceRate || "0";
   const complicationRate = currentMetrics?.complicationRate || "0";
 
   // Prepare A1C trend chart data
-  const a1cChartData = a1cTrends?.map((item: any) => ({
+  const a1cChartData = Array.isArray(a1cTrends) ? a1cTrends.map((item: any) => ({
     month: item.month,
-    a1c: parseFloat(item.averageA1C),
-    patientCount: item.patientCount,
-  })) || [];
+    a1c: isNaN(parseFloat(item.averageA1C)) ? 0 : parseFloat(item.averageA1C),
+    patientCount: item.patientCount || 0,
+  })) : [];
 
   // Prepare risk distribution chart data
-  const riskChartData = riskDistribution?.map((item: any) => ({
+  const riskChartData = Array.isArray(riskDistribution) ? riskDistribution.map((item: any) => ({
     name: `${item.riskLevel} Risk`,
-    value: parseFloat(item.percentage),
-    count: item.count,
-  })) || [];
+    value: isNaN(parseFloat(item.percentage)) ? 0 : parseFloat(item.percentage),
+    count: item.count || 0,
+  })) : [];
 
   const COLORS = ['#00A86B', '#F59E0B', '#EF4444'];
 
@@ -197,7 +197,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 </tr>
               </thead>
               <tbody>
-                {highRiskPatients?.map((patient: any) => (
+                {Array.isArray(highRiskPatients) ? highRiskPatients.map((patient: any) => (
                   <tr key={patient.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-3 px-4 text-gray-900 font-medium">{patient.patientName}</td>
                     <td className="py-3 px-4">
