@@ -17,18 +17,22 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
   });
 
   // Prepare revenue trend data with predictions
-  const revenueTrendData = adminMetrics?.map((item: any, index: number) => ({
-    month: item.month,
-    revenue: parseFloat(item.totalRevenue) / 1000,
-    isPredicted: item.isPredicted,
-    // Add confidence intervals for predicted data
-    lowerCI: item.isPredicted ? (parseFloat(item.totalRevenue) / 1000) * 0.95 : null,
-    upperCI: item.isPredicted ? (parseFloat(item.totalRevenue) / 1000) * 1.05 : null,
-  })) || [];
+  const revenueTrendData = Array.isArray(adminMetrics) ? adminMetrics.map((item: any, index: number) => {
+    const revenue = isNaN(parseFloat(item.totalRevenue)) ? 0 : parseFloat(item.totalRevenue) / 1000;
+    return {
+      month: item.month,
+      revenue: revenue,
+      isPredicted: item.isPredicted,
+      // Add confidence intervals for predicted data
+      lowerCI: item.isPredicted ? revenue * 0.95 : null,
+      upperCI: item.isPredicted ? revenue * 1.05 : null,
+    };
+  }) : [];
 
   // Get current metrics for cards
-  const currentMetrics = adminMetrics?.[adminMetrics.length - 1];
-  const totalRevenue = currentMetrics ? (parseFloat(currentMetrics.totalRevenue) / 1000000).toFixed(1) : "0.0";
+  const currentMetrics = Array.isArray(adminMetrics) && adminMetrics.length > 0 ? adminMetrics[adminMetrics.length - 1] : null;
+  const totalRevenue = currentMetrics ? 
+    (isNaN(parseFloat(currentMetrics.totalRevenue)) ? 0 : parseFloat(currentMetrics.totalRevenue) / 1000000).toFixed(1) : "0.0";
   const costPerPatient = currentMetrics?.costPerPatient || "0";
   const bedOccupancy = currentMetrics?.bedOccupancy || "0";
 
@@ -139,7 +143,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={resourceUtilization} layout="horizontal">
+              <BarChart data={Array.isArray(resourceUtilization) ? resourceUtilization : []} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
                 <YAxis dataKey="department" type="category" width={100} />
