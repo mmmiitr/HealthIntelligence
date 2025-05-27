@@ -3,94 +3,93 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Healthcare analytics routes
-  app.get("/api/departments", async (req, res) => {
+  // Admin Dashboard Routes
+  app.get("/api/admin/metrics", async (req, res) => {
     try {
-      const filter = req.query.filter as string;
-      const departments = await storage.getDepartments();
-      res.json(departments);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to fetch departments" });
-    }
-  });
-
-  app.get("/api/financial-data", async (req, res) => {
-    try {
-      const filter = req.query.filter as string;
-      const data = await storage.getFinancialData(filter);
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getAdminMetrics(timeFilter);
       res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch financial data" });
+      res.status(500).json({ message: "Failed to fetch admin metrics" });
     }
   });
 
-  app.get("/api/patient-data", async (req, res) => {
+  app.get("/api/admin/resource-utilization", async (req, res) => {
     try {
-      const filter = req.query.filter as string;
-      const data = await storage.getPatientData(filter);
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getResourceUtilization(timeFilter);
       res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch patient data" });
+      res.status(500).json({ message: "Failed to fetch resource utilization data" });
     }
   });
 
-  app.get("/api/revenue-by-specialty", async (req, res) => {
+  // Clinician Dashboard Routes
+  app.get("/api/clinician/metrics", async (req, res) => {
     try {
-      const filter = req.query.filter as string;
-      const data = await storage.getRevenueBySpecialty(filter);
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getClinicalMetrics(timeFilter);
       res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch revenue by specialty data" });
+      res.status(500).json({ message: "Failed to fetch clinical metrics" });
     }
   });
 
-  app.get("/api/age-distribution", async (req, res) => {
+  app.get("/api/clinician/a1c-trends", async (req, res) => {
     try {
-      const filter = req.query.filter as string;
-      const data = await storage.getAgeDistribution(filter);
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getA1cTrends(timeFilter);
       res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch age distribution data" });
+      res.status(500).json({ message: "Failed to fetch A1C trends" });
     }
   });
 
-  app.get("/api/insights", async (req, res) => {
+  app.get("/api/clinician/risk-distribution", async (req, res) => {
     try {
-      const filter = req.query.filter as string;
-      const data = await storage.getInsights(filter);
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getRiskDistribution(timeFilter);
       res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch insights" });
+      res.status(500).json({ message: "Failed to fetch risk distribution" });
     }
   });
 
-  // Performance metrics endpoint
-  app.get("/api/performance-metrics", async (req, res) => {
+  app.get("/api/clinician/high-risk-patients", async (req, res) => {
     try {
-      const metrics = {
-        patientSatisfaction: "94.2",
-        averageWaitTime: "18",
-        staffUtilization: "87",
-        bedOccupancy: "78"
-      };
-      res.json(metrics);
+      const data = await storage.getHighRiskPatients();
+      res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch performance metrics" });
+      res.status(500).json({ message: "Failed to fetch high-risk patients" });
     }
   });
 
-  // Current financial overview
-  app.get("/api/financial-overview", async (req, res) => {
+  // Patient Dashboard Routes
+  app.get("/api/patient/profile", async (req, res) => {
     try {
-      const overview = {
-        totalRevenue: "2.4M",
-        operatingCosts: "1.8M",
-        netProfit: "600K",
-        costPerPatient: "485"
-      };
-      res.json(overview);
+      const data = await storage.getPatientProfile();
+      res.json(data);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch financial overview" });
+      res.status(500).json({ message: "Failed to fetch patient profile" });
+    }
+  });
+
+  app.get("/api/patient/a1c-history", async (req, res) => {
+    try {
+      const timeFilter = req.query.timeFilter as string;
+      const data = await storage.getPersonalA1CHistory(timeFilter);
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch A1C history" });
+    }
+  });
+
+  app.get("/api/patient/educational-tips", async (req, res) => {
+    try {
+      const data = await storage.getEducationalTips();
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch educational tips" });
     }
   });
 
