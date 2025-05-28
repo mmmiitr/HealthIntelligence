@@ -732,7 +732,8 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip formatter={(value) => [`${value} visits`, 'Patient Visits']} />
+                <Tooltip formatter={(value) => [`${value} visits`, 'Patient Visits']} 
+                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
                 <Line
                   type="monotone"
@@ -759,7 +760,8 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={(value) => `$${value}`} />
-                <Tooltip formatter={(value, name) => [`$${value}`, name]} />
+                <Tooltip formatter={(value, name) => [`$${value}`, name]} 
+                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
                 <Line
                   type="monotone"
