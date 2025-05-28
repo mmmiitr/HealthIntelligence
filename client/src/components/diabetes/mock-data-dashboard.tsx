@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Database, Table, TrendingUp, Users, DollarSign } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart, ReferenceLine } from "recharts";
-import { revenueData, hba1cData, visitsData, populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, getFilteredData, additionalDataConsiderations } from "@/lib/mock-data";
+import { revenueData, hba1cData, visitsData, populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, getFilteredData, additionalDataConsiderations, serviceUtilizationData, patientEngagementData } from "@/lib/mock-data";
 
 interface MockDataDashboardProps {
   timeFilter: string;
