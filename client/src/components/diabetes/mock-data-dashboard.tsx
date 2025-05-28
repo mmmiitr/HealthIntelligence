@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Database, Table, TrendingUp, Users, DollarSign } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { revenueData, hba1cData, visitsData, getFilteredData, additionalDataConsiderations } from "@/lib/mock-data";
 
 interface MockDataDashboardProps {
   timeFilter: string;
@@ -10,39 +12,17 @@ interface MockDataDashboardProps {
 
 export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps) {
   const [activeDataset, setActiveDataset] = useState("revenue");
+  const [localTimeFilter, setLocalTimeFilter] = useState(timeFilter);
 
-  // Mock datasets based on your requirements
-  const revenueData = [
-    { month: 'Jan', revenue: 850000, predictedRevenue: 920000, lowerCI: 890000, upperCI: 950000 },
-    { month: 'Feb', revenue: 920000, predictedRevenue: 980000, lowerCI: 950000, upperCI: 1010000 },
-    { month: 'Mar', revenue: 880000, predictedRevenue: 950000, lowerCI: 920000, upperCI: 980000 },
-    { month: 'Apr', revenue: 950000, predictedRevenue: 1020000, lowerCI: 990000, upperCI: 1050000 },
-    { month: 'May', revenue: 1000000, predictedRevenue: 1080000, lowerCI: 1050000, upperCI: 1110000 },
-    { month: 'Jun', revenue: null, predictedRevenue: 1150000, lowerCI: 1120000, upperCI: 1180000 },
-  ];
-
-  const hba1cData = [
-    { month: 'Jan', avgHbA1c: 7.8, predictedHbA1c: 7.5 },
-    { month: 'Feb', avgHbA1c: 7.6, predictedHbA1c: 7.3 },
-    { month: 'Mar', avgHbA1c: 7.4, predictedHbA1c: 7.1 },
-    { month: 'Apr', avgHbA1c: 7.2, predictedHbA1c: 6.9 },
-    { month: 'May', avgHbA1c: 7.0, predictedHbA1c: 6.8 },
-    { month: 'Jun', avgHbA1c: null, predictedHbA1c: 6.7 },
-  ];
-
-  const visitsData = [
-    { month: 'Jan', patientId: 'P001', visitCount: 2, predictedVisitCount: 3 },
-    { month: 'Feb', patientId: 'P001', visitCount: 1, predictedVisitCount: 2 },
-    { month: 'Mar', patientId: 'P001', visitCount: 3, predictedVisitCount: 3 },
-    { month: 'Apr', patientId: 'P001', visitCount: 2, predictedVisitCount: 2 },
-    { month: 'May', patientId: 'P001', visitCount: 4, predictedVisitCount: 3 },
-    { month: 'Jun', patientId: 'P001', visitCount: null, predictedVisitCount: 3 },
-  ];
+  // Get filtered data based on time selection
+  const filteredRevenueData = getFilteredData(revenueData, localTimeFilter);
+  const filteredHba1cData = getFilteredData(hba1cData, localTimeFilter);
+  const filteredVisitsData = getFilteredData(visitsData, localTimeFilter);
 
   const datasets = [
-    { id: "revenue", label: "Revenue Data", icon: DollarSign, data: revenueData },
-    { id: "hba1c", label: "HbA1c Data", icon: TrendingUp, data: hba1cData },
-    { id: "visits", label: "Visit Data", icon: Users, data: visitsData },
+    { id: "revenue", label: "Revenue Data", icon: DollarSign, data: filteredRevenueData },
+    { id: "hba1c", label: "HbA1c Data", icon: TrendingUp, data: filteredHba1cData },
+    { id: "visits", label: "Visit Data", icon: Users, data: filteredVisitsData },
   ];
 
   const renderChart = () => {
@@ -221,8 +201,25 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Mock Data Dashboard</h2>
-        <p className="text-gray-600 mt-1">Technical team view of datasets and AI/ML model outputs</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Mock Data Dashboard</h2>
+            <p className="text-gray-600 mt-1">Technical team view of datasets and AI/ML model outputs</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <label className="text-sm text-gray-600">Time Period:</label>
+            <Select value={localTimeFilter} onValueChange={setLocalTimeFilter}>
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Select time period" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="3months">Last 3 Months</SelectItem>
+                <SelectItem value="6months">Last 6 Months</SelectItem>
+                <SelectItem value="1year">Last Year</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </div>
 
       {/* Dataset Selection */}
@@ -291,42 +288,33 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-blue-900 mb-2">Clinical Data</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Comorbidities (hypertension, cardiovascular disease)</li>
-                <li>• Medication adherence rates</li>
-                <li>• Laboratory values (lipid panels, kidney function)</li>
-                <li>• Vital signs trends</li>
-              </ul>
-            </div>
-            <div className="p-4 bg-green-50 rounded-lg">
-              <h4 className="font-semibold text-green-900 mb-2">Operational Data</h4>
-              <ul className="text-sm text-green-800 space-y-1">
-                <li>• Payer mix (insurance types, coverage levels)</li>
-                <li>• Regional trends and demographics</li>
-                <li>• Seasonal patterns in care utilization</li>
-                <li>• Provider performance metrics</li>
-              </ul>
-            </div>
-            <div className="p-4 bg-purple-50 rounded-lg">
-              <h4 className="font-semibold text-purple-900 mb-2">Social Determinants</h4>
-              <ul className="text-sm text-purple-800 space-y-1">
-                <li>• Socioeconomic status indicators</li>
-                <li>• Geographic access to care</li>
-                <li>• Food security and nutrition data</li>
-                <li>• Technology access for remote monitoring</li>
-              </ul>
-            </div>
-            <div className="p-4 bg-orange-50 rounded-lg">
-              <h4 className="font-semibold text-orange-900 mb-2">Outcome Metrics</h4>
-              <ul className="text-sm text-orange-800 space-y-1">
-                <li>• Emergency department visits</li>
-                <li>• Hospitalization rates</li>
-                <li>• Quality of life scores</li>
-                <li>• Patient satisfaction ratings</li>
-              </ul>
-            </div>
+            {additionalDataConsiderations.map((category, index) => (
+              <div key={index} className={`p-4 rounded-lg ${
+                index === 0 ? 'bg-blue-50' : 
+                index === 1 ? 'bg-green-50' : 
+                index === 2 ? 'bg-purple-50' : 'bg-orange-50'
+              }`}>
+                <h4 className={`font-semibold mb-2 ${
+                  index === 0 ? 'text-blue-900' : 
+                  index === 1 ? 'text-green-900' : 
+                  index === 2 ? 'text-purple-900' : 'text-orange-900'
+                }`}>{category.category}</h4>
+                <ul className={`text-sm space-y-1 ${
+                  index === 0 ? 'text-blue-800' : 
+                  index === 1 ? 'text-green-800' : 
+                  index === 2 ? 'text-purple-800' : 'text-orange-800'
+                }`}>
+                  {category.items.map((item, itemIndex) => (
+                    <li key={itemIndex}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-700 italic">
+              💡 Note: Consider adding comorbidities, payer mix, and regional trends for enhanced predictive accuracy.
+            </p>
           </div>
         </CardContent>
       </Card>

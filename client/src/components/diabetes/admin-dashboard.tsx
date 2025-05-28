@@ -254,11 +254,11 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                 <div>
                   <p className="text-sm text-red-700 font-medium">High-Risk Patients</p>
-                  <p className="text-xs text-red-600">HbA1c {'>'} 8.5%</p>
+                  <p className="text-xs text-red-600">HbA1c above 8.5%</p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-red-900">4.2</p>
-                  <p className="text-xs text-red-600">visits/patient</p>
+                  <p className="text-xs text-red-600">Predicted visits/patient</p>
                 </div>
               </div>
               <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
@@ -268,7 +268,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-yellow-900">2.8</p>
-                  <p className="text-xs text-yellow-600">visits/patient</p>
+                  <p className="text-xs text-yellow-600">Predicted visits/patient</p>
                 </div>
               </div>
               <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
@@ -278,7 +278,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-green-900">1.6</p>
-                  <p className="text-xs text-green-600">visits/patient</p>
+                  <p className="text-xs text-green-600">Predicted visits/patient</p>
                 </div>
               </div>
             </div>
