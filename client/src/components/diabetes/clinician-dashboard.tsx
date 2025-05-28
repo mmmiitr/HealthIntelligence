@@ -75,7 +75,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600" title="Key indicator of blood sugar control over 2-3 months">Average A1C</p>
+                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C</p>
                 <p className="text-2xl font-bold text-gray-900">{averageA1C}%</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
