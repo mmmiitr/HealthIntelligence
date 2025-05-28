@@ -61,8 +61,15 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Patient Dashboard</h2>
-        <p className="text-gray-600 mt-1">Personal diabetes management for John Doe</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Patient Dashboard</h2>
+            <p className="text-gray-600 mt-1">Personal diabetes management for John Doe</p>
+          </div>
+          <div className="flex flex-col items-end space-y-2">
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:27 PM IST</p>
+          </div>
+        </div>
       </div>
 
       {/* Personal Metrics Cards */}
@@ -238,6 +245,30 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
               <BookOpen className="h-8 w-8 text-orange-600 mx-auto mb-2" />
               <h4 className="font-medium text-gray-900">Learning Resources</h4>
               <p className="text-xs text-gray-600 mt-1">Educational materials</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Next Steps Section */}
+      <Card className="bg-blue-50 shadow-lg border-l-4 border-blue-500 mt-6">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900">Next Steps</CardTitle>
+          <p className="text-sm text-gray-600">Recommended actions to improve your diabetes management</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <p className="text-gray-800">
+                <span className="font-medium">Increase CCM Enrollment:</span> Current 75%, Target 85% to improve outcomes.
+              </p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <p className="text-gray-800">
+                <span className="font-medium">Reduce No-Show Appointments:</span> Current 12%, Target &lt;10% with reminders.
+              </p>
             </div>
           </div>
         </CardContent>
