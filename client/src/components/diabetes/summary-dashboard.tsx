@@ -66,7 +66,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics (Q2 2025)</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2024"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
@@ -174,7 +174,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                   <p className="text-sm font-medium text-gray-600">Care Coordination</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
+                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2023"}</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
