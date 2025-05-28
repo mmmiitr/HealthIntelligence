@@ -142,15 +142,24 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
             <p className="text-sm text-gray-600">Current utilization rates across diabetes care departments</p>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={Array.isArray(resourceUtilization) ? resourceUtilization : []} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
-                <YAxis dataKey="department" type="category" width={100} />
-                <Tooltip formatter={(value) => [`${value}%`, "Utilization"]} />
-                <Bar dataKey="utilization" fill="#0066CC" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="space-y-4">
+              {Array.isArray(resourceUtilization) ? resourceUtilization.map((item: any) => (
+                <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium text-gray-900">{item.department}</span>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-32 bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-primary h-2 rounded-full" 
+                        style={{ width: `${Math.min(parseFloat(item.utilization) || 0, 100)}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">{item.utilization}%</span>
+                  </div>
+                </div>
+              )) : (
+                <p className="text-gray-500 text-center py-4">Loading utilization data...</p>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
