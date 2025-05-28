@@ -76,67 +76,65 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
 
       {/* Personal Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-blue-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Activity className="h-5 w-5 text-blue-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Personal A1C Level</p>
-                <p className="text-2xl font-bold text-gray-900">{currentA1C}%</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Activity className="text-blue-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <Badge className={`${
-                parseFloat(currentA1C) <= 7 ? "bg-green-100 text-green-800" : 
-                parseFloat(currentA1C) <= 8 ? "bg-yellow-100 text-yellow-800" : 
-                "bg-red-100 text-red-800"
-              }`}>
-                {parseFloat(currentA1C) <= 7 ? "Good Control" : 
-                 parseFloat(currentA1C) <= 8 ? "Fair Control" : "Needs Improvement"}
-              </Badge>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q2 CURRENT</p>
+                <p className="text-lg font-bold text-gray-900">{currentA1C}%</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q3 TARGET</p>
+                <p className="text-lg font-bold text-green-600">&lt;7.0%</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-green-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Calendar className="h-5 w-5 text-green-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Next Appointment</p>
-                <p className="text-lg font-bold text-gray-900">{nextAppointment}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Calendar className="text-green-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-blue-600 font-medium">📅 Dr. Sarah Johnson</span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q2 SCHEDULED</p>
+                <p className="text-sm font-bold text-gray-900">{nextAppointment}</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q3 PROVIDER</p>
+                <p className="text-sm font-bold text-green-600">Dr. Johnson</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-purple-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Pill className="h-5 w-5 text-purple-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Medication Adherence</p>
-                <p className="text-2xl font-bold text-gray-900">{medicationAdherence}%</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <Pill className="text-purple-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <Badge className={`${
-                parseFloat(medicationAdherence) >= 90 ? "bg-green-100 text-green-800" : 
-                parseFloat(medicationAdherence) >= 80 ? "bg-yellow-100 text-yellow-800" : 
-                "bg-red-100 text-red-800"
-              }`}>
-                {parseFloat(medicationAdherence) >= 90 ? "Excellent" : 
-                 parseFloat(medicationAdherence) >= 80 ? "Good" : "Needs Improvement"}
-              </Badge>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q2 CURRENT</p>
+                <p className="text-lg font-bold text-gray-900">{medicationAdherence}%</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">Q3 TARGET</p>
+                <p className="text-lg font-bold text-purple-600">95%</p>
+              </div>
             </div>
           </CardContent>
         </Card>
