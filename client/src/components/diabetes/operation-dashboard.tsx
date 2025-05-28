@@ -110,23 +110,30 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-red-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
-                  <p className="text-xl font-bold text-gray-900">8% / 5%</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-red-500 h-2 rounded-full" style={{width: '100%'}}></div>
                   </div>
-                  <p className="text-xs text-red-600 mt-1">Exceeds target - needs attention</p>
+                  <p className="text-xs text-red-600 text-center">Exceeds target</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                    <p className="text-xl font-bold text-gray-900">6.5%</p>
-                    <p className="text-xs text-gray-600 mt-1">-18.8% improvement projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">8% / 5%</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">6.5%</p>
+                        <p className="text-xs text-blue-600">-18.8% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -146,21 +153,30 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
                   </div>
-                  <p className="text-lg font-bold text-gray-900 text-center">94% / 95%</p>
+                  <p className="text-xs text-gray-600 text-center">99% complete</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-2.5">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                    <p className="text-lg font-bold text-gray-900">96%</p>
-                    <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">94% / 95%</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">96%</p>
+                        <p className="text-xs text-blue-600">+1.1% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -179,23 +195,30 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
-                  <p className="text-xl font-bold text-gray-900">4.6 / 4.5</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-purple-500 h-2 rounded-full" style={{width: '100%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">Exceeds target</p>
+                  <p className="text-xs text-gray-600 text-center">Exceeds target</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                    <p className="text-xl font-bold text-gray-900">4.8</p>
-                    <p className="text-xs text-gray-600 mt-1">+4.3% improvement projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">4.6 / 4.5</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">4.8</p>
+                        <p className="text-xs text-blue-600">+4.3% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
