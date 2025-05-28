@@ -189,12 +189,14 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
               <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
                 {headers.map(header => (
                   <td key={header} className="py-3 px-4 text-gray-900">
-                    {row[header] !== null ? (
-                      typeof row[header] === 'number' && header.includes('revenue') ? 
+                    {row[header] !== null && row[header] !== undefined ? (
+                      typeof row[header] === 'object' && row[header] !== null ? 
+                        JSON.stringify(row[header]) :
+                      typeof row[header] === 'number' && (header.includes('revenue') || header.includes('reimbursement') || header.includes('cost')) ? 
                         `$${row[header]?.toLocaleString()}` : 
                         row[header]
                     ) : (
-                      <span className="text-gray-400 italic">Predicted</span>
+                      <span className="text-gray-400 italic">N/A</span>
                     )}
                   </td>
                 ))}
