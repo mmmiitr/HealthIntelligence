@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Database, Table, TrendingUp, Users, DollarSign } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from "recharts";
-import { revenueData, hba1cData, visitsData, getFilteredData, additionalDataConsiderations } from "@/lib/mock-data";
+import { revenueData, hba1cData, visitsData, populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, getFilteredData, additionalDataConsiderations } from "@/lib/mock-data";
 
 interface MockDataDashboardProps {
   timeFilter: string;
@@ -23,6 +23,10 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
     { id: "revenue", label: "Revenue Data", icon: DollarSign, data: filteredRevenueData },
     { id: "hba1c", label: "HbA1c Data", icon: TrendingUp, data: filteredHba1cData },
     { id: "visits", label: "Visit Data", icon: Users, data: filteredVisitsData },
+    { id: "population", label: "Population Metrics", icon: Users, data: getFilteredData(populationMetricsData, localTimeFilter) },
+    { id: "financial", label: "Financial Metrics", icon: DollarSign, data: getFilteredData(financialMetricsData, localTimeFilter) },
+    { id: "workload", label: "Provider Workload", icon: Users, data: getFilteredData(providerWorkloadData, localTimeFilter) },
+    { id: "predictions", label: "Predictions", icon: TrendingUp, data: getFilteredData(predictionsData, localTimeFilter) },
   ];
 
   const renderChart = () => {
@@ -301,7 +305,7 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
           </div>
           <div className="mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-700 italic">
-              💡 Note: Consider adding bone health risk factors, smoking status, and medication-induced prediabetes risk (Section 2, 4, 5 updates).
+              💡 Note: Consider adding: seasonal trends, demographic segments, telemedicine utilization patterns.
             </p>
           </div>
         </CardContent>
