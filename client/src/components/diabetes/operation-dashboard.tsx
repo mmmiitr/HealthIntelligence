@@ -56,38 +56,68 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-blue-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600"># of Chronic Patients (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">1,247</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 1,315 projected</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="text-blue-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-blue-600 font-medium">↑ +5.1%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">97% complete</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">1,315</p>
+                  <p className="text-xs text-gray-600 mt-1">+1.9% growth projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-white border-l-4 border-red-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Readmission Rate (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">8%</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 6.5% projected</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-red-600 font-medium text-sm">↑ +0.8%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                   <Bed className="text-red-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-red-600 font-medium">↑ +0.8%</span>
-                <span className="text-gray-500 ml-2">needs attention</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-red-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">8% / 5%</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-red-500 h-2 rounded-full" style={{width: '100%'}}></div>
+                  </div>
+                  <p className="text-xs text-red-600 mt-1">Exceeds target - needs attention</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">6.5%</p>
+                  <p className="text-xs text-gray-600 mt-1">-18.8% improvement projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
