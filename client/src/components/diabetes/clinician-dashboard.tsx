@@ -119,8 +119,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate</p>
+                <p className="text-sm font-medium text-gray-600">Medication Compliance (Q2 2025)</p>
                 <p className="text-2xl font-bold text-gray-900">84%</p>
+                <p className="text-xs text-gray-500 mt-1">Next Q3: 87% projected</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <Heart className="text-green-600" />
@@ -128,7 +129,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">↑ +5.2%</span>
-              <span className="text-gray-500 ml-2">medication compliance</span>
+              <span className="text-gray-500 ml-2">vs Q1 2025</span>
             </div>
             <div className="mt-2 p-2 bg-orange-50 rounded">
               <p className="text-xs text-orange-700" title="2024 update to address cannabis use in diabetes care">
@@ -142,8 +143,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Complication Rate</p>
+                <p className="text-sm font-medium text-gray-600">Complication Rate (Q2 2025)</p>
                 <p className="text-2xl font-bold text-gray-900">3.2%</p>
+                <p className="text-xs text-gray-500 mt-1">Next Q3: 2.8% projected</p>
               </div>
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                 <AlertTriangle className="text-red-600" />
@@ -151,7 +153,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">↓ -1.8%</span>
-              <span className="text-gray-500 ml-2">fewer complications</span>
+              <span className="text-gray-500 ml-2">vs Q1 2025</span>
             </div>
           </CardContent>
         </Card>
