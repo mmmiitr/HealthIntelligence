@@ -61,7 +61,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
               
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
                   <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                     <div className="bg-green-500 h-1.5 rounded-full" style={{width: '94%'}}></div>
@@ -70,7 +70,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
                   <p className="text-lg font-bold text-gray-900">$465K</p>
                   <p className="text-xs text-gray-600 mt-1">+9.4% growth projected</p>
                 </div>
@@ -94,7 +94,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">$1.2M / $1.85M</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-blue-500 h-2 rounded-full" style={{width: '65%'}}></div>
@@ -103,7 +103,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
                   <p className="text-xl font-bold text-gray-900">$1.95M</p>
                   <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
                 </div>
@@ -128,7 +128,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-purple-500 h-2 rounded-full" style={{width: '99%'}}></div>
@@ -137,7 +137,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
                   <p className="text-xl font-bold text-gray-900">96%</p>
                   <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
                 </div>

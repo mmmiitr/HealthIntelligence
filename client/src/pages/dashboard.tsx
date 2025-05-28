@@ -13,6 +13,7 @@ import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("summary");
   const [timeFilter, setTimeFilter] = useState("1year");
+  const [viewMode, setViewMode] = useState("monthly");
 
   const tabs = [
     { id: "summary", label: "Summary", icon: BarChart3, description: "Executive Overview" },
@@ -26,19 +27,19 @@ export default function Dashboard() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case "summary":
-        return <SummaryDashboard timeFilter={timeFilter} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       case "finance":
-        return <FinanceDashboard timeFilter={timeFilter} />;
+        return <FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       case "operation":
-        return <OperationDashboard timeFilter={timeFilter} />;
+        return <OperationDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       case "clinician":
-        return <ClinicianDashboard timeFilter={timeFilter} />;
+        return <ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       case "patient":
-        return <PatientDashboard timeFilter={timeFilter} />;
+        return <PatientDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       case "mockdata":
-        return <MockDataDashboard timeFilter={timeFilter} />;
+        return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} />;
       default:
-        return <SummaryDashboard timeFilter={timeFilter} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} />;
     }
   };
 
@@ -55,6 +56,16 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Select value={viewMode} onValueChange={setViewMode}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="View Mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="quarterly">Quarterly</SelectItem>
+                  <SelectItem value="yearly">Yearly</SelectItem>
+                </SelectContent>
+              </Select>
               <Select value={timeFilter} onValueChange={setTimeFilter}>
                 <SelectTrigger className="w-48">
                   <SelectValue placeholder="Select time period" />
