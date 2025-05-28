@@ -110,7 +110,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">↗ +5.2%</span>
-              <span className="text-gray-500 ml-2">better compliance</span>
+              <span className="text-gray-500 ml-2">vs Q1 2025</span>
             </div>
           </CardContent>
         </Card>
