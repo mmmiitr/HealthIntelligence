@@ -49,8 +49,9 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Profit</p>
+                  <p className="text-sm font-medium text-gray-600">Total Profit (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">$425K</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: $465K projected</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <DollarSign className="text-green-600" />
@@ -58,7 +59,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
               </div>
               <div className="mt-4 flex items-center text-sm">
                 <span className="text-green-600 font-medium">↑ +12.5%</span>
-                <span className="text-gray-500 ml-2">quarterly growth</span>
+                <span className="text-gray-500 ml-2">vs Q1 2025</span>
               </div>
             </CardContent>
           </Card>
