@@ -150,9 +150,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Avg A1C Level</p>
+                  <p className="text-sm font-medium text-gray-600">% In-Control HbA1c (&lt;7%)</p>
                   <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
+                    <span className="text-green-600 font-medium text-sm">↑ +4.2%</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
@@ -164,22 +164,22 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                 {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
                   <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '98%'}}></div>
+                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '72%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 text-center">98% near target</p>
+                  <p className="text-xs text-gray-600 text-center">72% in control</p>
                 </div>
                 
                 {/* Row 2: Current values with forecast comparison */}
                 <div className="bg-gray-50 rounded-lg p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
+                      <p className="text-lg font-bold text-gray-900">72%</p>
                       <p className="text-xs text-gray-600">Current</p>
                     </div>
                     {showForecast && (
                       <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">6.9%</p>
-                        <p className="text-xs text-blue-600">-4.2% forecast</p>
+                        <p className="text-lg font-bold text-blue-600">75%</p>
+                        <p className="text-xs text-blue-600">+3% forecast</p>
                       </div>
                     )}
                   </div>
