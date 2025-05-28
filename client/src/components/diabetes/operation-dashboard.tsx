@@ -67,7 +67,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
@@ -77,11 +77,13 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                   <p className="text-xs text-gray-600 mt-1">97% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">1,315</p>
-                  <p className="text-xs text-gray-600 mt-1">+1.9% growth projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">1,315</p>
+                    <p className="text-xs text-gray-600 mt-1">+1.9% growth projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -101,7 +103,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-red-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">8% / 5%</p>
@@ -111,11 +113,13 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                   <p className="text-xs text-red-600 mt-1">Exceeds target - needs attention</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">6.5%</p>
-                  <p className="text-xs text-gray-600 mt-1">-18.8% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">6.5%</p>
+                    <p className="text-xs text-gray-600 mt-1">-18.8% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -135,7 +139,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
@@ -145,11 +149,13 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                   <p className="text-xs text-gray-600 mt-1">99% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">96%</p>
-                  <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">96%</p>
+                    <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -168,7 +174,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">4.6 / 4.5</p>
@@ -178,11 +184,13 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                   <p className="text-xs text-gray-600 mt-1">Exceeds target</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">4.8</p>
-                  <p className="text-xs text-gray-600 mt-1">+4.3% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">4.8</p>
+                    <p className="text-xs text-gray-600 mt-1">+4.3% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
