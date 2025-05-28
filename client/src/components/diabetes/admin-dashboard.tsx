@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData, patientFlowData, revenueByInsuranceData } from "@/lib/mock-data";
 
@@ -12,7 +12,7 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
-  const [showFinancialMetrics, setShowFinancialMetrics] = useState(true);
+  const [activeTab, setActiveTab] = useState("finance");
   
   const { data: adminMetrics } = useQuery({
     queryKey: ["/api/admin/metrics", timeFilter],
@@ -80,15 +80,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 03:52 PM IST</p>
-            <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-600">Financial Metrics</span>
-              <Switch
-                checked={showFinancialMetrics}
-                onCheckedChange={setShowFinancialMetrics}
-              />
-              <span className="text-sm text-gray-600">Operational Metrics</span>
-            </div>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:20 PM IST</p>
           </div>
         </div>
       </div>
@@ -617,9 +609,38 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
         </Card>
       </div>
 
-      {/* Financial vs Operational Toggle Content */}
-      {showFinancialMetrics ? (
-        <div className="space-y-6">
+      {/* Finance and Operation Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="finance">Finance</TabsTrigger>
+          <TabsTrigger value="operation">Operation</TabsTrigger>
+        </TabsList>
+
+        {/* Finance Tab */}
+        <TabsContent value="finance" className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold text-gray-900">Financial Overview</h2>
+          </div>
+          
+          {/* Action Item Card */}
+          <Card className="bg-red-50 border-l-4 border-red-500 shadow-md">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-red-900">Action Item: Reduce 30-Day Readmission Rate</h3>
+                    <p className="text-red-700">Current: 8%</p>
+                  </div>
+                </div>
+                <div className="text-sm text-red-600" title="High readmission rates may indicate care gaps">
+                  ⓘ High readmission rates may indicate care gaps
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Financial Impact Analysis */}
           <Card className="bg-white">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
@@ -648,28 +669,15 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               </div>
             </CardContent>
           </Card>
-          
-          {/* ADA 2024 Cost Considerations */}
-          <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-                <DollarSign className="mr-2 h-5 w-5 text-orange-600" />
-                Cost Considerations (ADA 2024)
-                <Badge className="ml-2 bg-orange-100 text-orange-800">Section 1</Badge>
-              </CardTitle>
-              <p className="text-sm text-gray-600 mt-1">Insulin and glucose monitoring device costs</p>
-            </CardHeader>
-            <CardContent>
-              <div className="p-4 bg-orange-50 rounded-lg">
-                <h4 className="font-semibold text-orange-900 mb-2">Insulin Cost Impact</h4>
-                <p className="text-2xl font-bold text-orange-700">-35%</p>
-                <p className="text-sm text-orange-600">Reflects 2024 updates on insulin price lowering</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      ) : (
-        <div className="space-y-6">
+        </TabsContent>
+
+        {/* Operation Tab */}
+        <TabsContent value="operation" className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold text-gray-900">Operational Insights</h2>
+          </div>
+
+          {/* Operational Performance Metrics */}
           <Card className="bg-white">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
@@ -698,25 +706,8 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               </div>
             </CardContent>
           </Card>
-          
-          {/* ADA 2024 Community Support */}
-          <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-                <Users className="mr-2 h-5 w-5 text-purple-600" />
-                Community Support Insights (ADA 2024)
-                <Badge className="ml-2 bg-purple-100 text-purple-800">Section 1</Badge>
-              </CardTitle>
-              <p className="text-sm text-gray-600 mt-1">Enhanced diabetes care delivery models</p>
-            </CardHeader>
-            <CardContent>
-              <div className="p-4 bg-purple-50 rounded-lg">
-                <p className="text-sm text-purple-800">Community paramedics may enhance diabetes care coordination and reduce emergency department visits by providing in-home support and medication management.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+        </TabsContent>
+      </Tabs>
 
       {/* Additional Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
