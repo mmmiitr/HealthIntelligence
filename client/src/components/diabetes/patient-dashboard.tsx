@@ -86,11 +86,11 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q2 CURRENT</p>
+                <p className="text-xs font-medium text-gray-500">MAY CURRENT</p>
                 <p className="text-lg font-bold text-gray-900">{currentA1C}%</p>
               </div>
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q3 TARGET</p>
+                <p className="text-xs font-medium text-gray-500">JUN TARGET</p>
                 <p className="text-lg font-bold text-green-600">&lt;7.0%</p>
               </div>
             </div>
@@ -107,11 +107,11 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q2 SCHEDULED</p>
+                <p className="text-xs font-medium text-gray-500">MAY SCHEDULED</p>
                 <p className="text-sm font-bold text-gray-900">{nextAppointment}</p>
               </div>
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q3 PROVIDER</p>
+                <p className="text-xs font-medium text-gray-500">JUN PROVIDER</p>
                 <p className="text-sm font-bold text-green-600">Dr. Johnson</p>
               </div>
             </div>
@@ -128,11 +128,11 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q2 CURRENT</p>
+                <p className="text-xs font-medium text-gray-500">MAY CURRENT</p>
                 <p className="text-lg font-bold text-gray-900">{medicationAdherence}%</p>
               </div>
               <div className="text-center bg-gray-50 p-2 rounded">
-                <p className="text-xs font-medium text-gray-500">Q3 TARGET</p>
+                <p className="text-xs font-medium text-gray-500">JUN TARGET</p>
                 <p className="text-lg font-bold text-purple-600">95%</p>
               </div>
             </div>

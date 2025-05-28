@@ -93,7 +93,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
                 <p className="text-lg font-bold text-gray-900">{averageA1C}% / 7.1%</p>
                 <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                   <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
@@ -102,7 +102,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               </div>
               
               <div className="bg-blue-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
                 <p className="text-lg font-bold text-gray-900">6.9%</p>
                 <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
               </div>
@@ -126,7 +126,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
                 <p className="text-lg font-bold text-gray-900">{adherenceRate}% / 85%</p>
                 <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                   <div className="bg-green-500 h-1.5 rounded-full" style={{width: '96%'}}></div>
@@ -135,7 +135,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               </div>
               
               <div className="bg-blue-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
                 <p className="text-lg font-bold text-gray-900">88%</p>
                 <p className="text-xs text-gray-600 mt-1">+7.3% improvement projected</p>
               </div>
@@ -159,7 +159,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
                 <p className="text-lg font-bold text-gray-900">84% / 85%</p>
                 <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                   <div className="bg-green-500 h-1.5 rounded-full" style={{width: '99%'}}></div>
@@ -168,7 +168,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               </div>
               
               <div className="bg-blue-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
                 <p className="text-lg font-bold text-gray-900">87%</p>
                 <p className="text-xs text-gray-600 mt-1">+3.6% improvement projected</p>
               </div>
@@ -198,7 +198,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
                 <p className="text-lg font-bold text-gray-900">3.2% / 4.0%</p>
                 <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                   <div className="bg-green-500 h-1.5 rounded-full" style={{width: '80%'}}></div>
@@ -207,7 +207,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               </div>
               
               <div className="bg-blue-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
                 <p className="text-lg font-bold text-gray-900">2.8%</p>
                 <p className="text-xs text-gray-600 mt-1">-12.5% improvement projected</p>
               </div>
