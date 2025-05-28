@@ -1,0 +1,107 @@
+Update the existing React-based healthcare dashboard prototype for chronic care management of diabetic patients, focusing on UI improvements for clarity, usability, and visual hierarchy. Use Material-UI for styling and Recharts for visualizations. Make the following enhancements: 
+
+Address UI Feedback: 
+
+Missing Years on Charts: 
+
+Update all charts (e.g., "Revenue Trends & Predictions" in Admin, "HbA1c Trends & Predictions" in Clinician) to include years in x-axis labels. Use the format "MMM YYYY" (e.g., "Jan 2025", "Feb 2025"). 
+
+Ensure the mock data in mockData.js reflects this format (e.g., month: 'Jan 2025'). 
+
+Trend vs. Prediction Data Not Obvious: 
+
+Enhance chart visuals to distinguish historical data from predictions: 
+
+Historical data (up to May 2025): Solid lines with a darker shade (e.g., #1976d2 for blue). 
+
+Predicted data (June 2025 onward): Dashed lines with a lighter shade (e.g., #64b5f6) and a shaded confidence interval (e.g., fillOpacity={0.1}). 
+
+Add a legend label: "Historical" for solid lines, "Predicted" for dashed lines. 
+
+Add a vertical line at the current date (May 2025) to visually separate past and future data, using Recharts’ ReferenceLine (e.g., <ReferenceLine x="May 2025" stroke="red" label="Today" />). 
+
+Unclear Time Range Representation: 
+
+Add a subtitle below each chart to indicate the time range (e.g., "Data Range: Jan 2025 - Sep 2025"). 
+
+Ensure the Select dropdown for time periods (Last 3 Months, Last 6 Months, Last Year) dynamically updates the chart’s subtitle and data. 
+
+General UI Improvements: 
+
+Visual Hierarchy: 
+
+Group related sections using Material-UI Card components with subtle borders and shadows (e.g., boxShadow: 1). 
+
+Use Typography variants for better hierarchy: h5 for section titles (e.g., "Profitability Overview"), h6 for chart titles, and body1 for descriptions. 
+
+Spacing and Alignment: 
+
+Increase spacing between sections using Grid with spacing={4} for better readability. 
+
+Align cards and charts consistently within each section using Grid item xs values (e.g., xs={12} for full-width charts, xs={4} for cards). 
+
+Color Coding for Clarity: 
+
+Use consistent colors to indicate status: 
+
+Green (#4caf50) for positive metrics (e.g., in-control HbA1c, reduced delays). 
+
+Red (#ef5350) for concerning metrics (e.g., readmission rate, no-show appointments). 
+
+Apply these colors to card text or borders (e.g., borderLeft: '4px solid #4caf50' for positive metrics). 
+
+Tooltips and Descriptions: 
+
+Add tooltips to all cards and charts using Material-UI Tooltip (e.g., <Tooltip title="Explanation"><Typography>Metric</Typography></Tooltip>). 
+
+Example: For "30-Day Readmission Rate", add: "High readmission rates may indicate care gaps." 
+
+Highlight Key Metrics: 
+
+Add a "Key Metrics" banner at the top of Admin and Clinician dashboards using a Material-UI Paper component with elevation={3} and a light background (e.g., #e3f2fd). 
+
+Display critical metrics (e.g., Profitability, % In-Control HbA1c, CCM Enrollment) in this banner for quick access. 
+
+Specific Dashboard Enhancements: 
+
+Admin Dashboard: 
+
+Group "Profitability Overview", "Population Metrics", "Financial Metrics", and "Provider Workload" into separate Card sections with clear titles. 
+
+Update the "Revenue Trends & Predictions" chart to show data range and distinguish historical vs. predicted data as described above. 
+
+Add a caption below "Payer Mix" PieChart: "Represents insurance distribution for diabetic patients." 
+
+Clinician Dashboard: 
+
+Group "Patient Health Progression", "Visit Frequency Prediction", and "Staffing & Resource Allocation" into Card sections. 
+
+Update the "HbA1c Trends & Predictions" chart with years, historical vs. predicted visuals, and a time range subtitle. 
+
+Add a caption below "Patient Risk Distribution" PieChart: "Risk levels based on HbA1c and complication history." 
+
+Mock Data Dashboard: 
+
+Improve table readability: Add Material-UI Table styling with alternating row colors (e.g., backgroundColor: index % 2 ? '#f5f5f5' : 'white'). 
+
+Add a header: "Mock Data Used in Dashboards" using Typography variant h4. 
+
+Styling and Accessibility: 
+
+Maintain the blue-green scheme (#1976d2, #4caf50). 
+
+Ensure responsiveness with Grid (e.g., xs={12} for mobile, sm={4} for desktop cards). 
+
+Add ARIA labels for charts and interactive elements (e.g., aria-label="Revenue trends chart"). 
+
+Ensure high contrast for text (e.g., dark text on light backgrounds). 
+
+Extras: 
+
+Add a footer note in Admin and Clinician dashboards: "Data as of May 2025. Predictions are mock simulations." 
+
+Add a "Last Updated" timestamp in the top-right corner: "Last Updated: May 28, 2025, 03:52 PM IST". 
+
+Provide updated code for AdminDashboard.js, ClinicianDashboard.js, and MockDataDashboard.js. Ensure the app remains functional in Replit. 
+
+ 
