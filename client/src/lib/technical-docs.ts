@@ -226,27 +226,36 @@ export const AUTH_DOCUMENTATION = {
 
 // Integration Guidelines
 export const INTEGRATION_GUIDE = {
-  gettingStarted: [
-    "1. Obtain API credentials from system administrator",
-    "2. Configure authentication headers with Bearer token",
-    "3. Review HIPAA compliance requirements for your use case",
-    "4. Test endpoints in development environment first",
-    "5. Implement proper error handling for all API calls"
+  gettingStarted: `npm install
+npm run dev
+# Application runs on http://localhost:3000`,
+  environmentSetup: [
+    "Clone the repository and install dependencies",
+    "Set up PostgreSQL database with provided schema",
+    "Configure environment variables for database connection",
+    "Run database migrations using Drizzle ORM",
+    "Start the development server with npm run dev",
+    "Verify API endpoints are responding correctly"
   ],
-  errorHandling: {
-    "400": "Bad Request - Check request parameters",
-    "401": "Unauthorized - Invalid or expired token",
-    "403": "Forbidden - Insufficient permissions for this resource",
-    "404": "Not Found - Resource does not exist",
-    "429": "Rate Limited - Too many requests, implement backoff",
-    "500": "Internal Server Error - Contact system administrator"
-  },
+  exampleCode: `// Example API call with authentication
+const response = await fetch('/api/admin/metrics', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json'
+  }
+});
+
+const metrics = await response.json();
+console.log('Admin metrics:', metrics);`,
   bestPractices: [
     "Always validate input data before sending to API",
     "Implement exponential backoff for retries",
     "Cache responses when appropriate to reduce API calls",
     "Use pagination for large datasets",
     "Log all API interactions for debugging",
-    "Never log sensitive patient data"
+    "Never log sensitive patient data",
+    "Follow HIPAA compliance guidelines for all data handling",
+    "Use TypeScript interfaces for type safety"
   ]
 };

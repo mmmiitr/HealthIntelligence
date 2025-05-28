@@ -52,7 +52,7 @@ export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDash
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
+            <p className="text-sm text-gray-500">Last Updated: {getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
