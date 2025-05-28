@@ -55,14 +55,14 @@ export default function Dashboard() {
               <div className="flex items-center space-x-3">
                 <Heart className="text-primary text-2xl" />
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
-                  <div className="flex items-center mt-1 space-x-3">
-                    <Badge className="bg-green-100 text-green-800 flex items-center text-xs">
-                      <Shield className="h-3 w-3 mr-1" />
+                  <div className="flex items-center space-x-4">
+                    <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
+                    <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-2 py-1">
+                      <Shield className="h-2.5 w-2.5 mr-1" />
                       HIPAA Compliant
                     </Badge>
-                    <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs">
-                      <Brain className="h-3 w-3 mr-1" />
+                    <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-2 py-1">
+                      <Brain className="h-2.5 w-2.5 mr-1" />
                       AI-Enhanced Analytics
                     </Badge>
                   </div>
