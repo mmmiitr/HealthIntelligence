@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain } from "lucide-react";
+import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
