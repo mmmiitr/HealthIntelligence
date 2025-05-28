@@ -61,7 +61,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
 
       {/* Population Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Population Metrics</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Population Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-blue-500">
             <CardContent className="p-6">
@@ -70,7 +70,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
                   <p className="text-sm font-medium text-gray-600"># of Chronic Patients ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
+                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -104,7 +104,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
                   <p className="text-sm font-medium text-gray-600">Readmission Rate ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-red-600 font-medium text-sm">↑ +0.8%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
+                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
@@ -138,7 +138,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
                   <p className="text-sm font-medium text-gray-600">Care Coordination</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
+                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -202,7 +202,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
 
       {/* Provider Workload */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Provider Workload</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Provider Workload ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="bg-white">
             <CardContent className="p-6">
@@ -256,7 +256,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
 
       {/* Patient Flow Trends */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Flow Trends</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Flow Trends ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">Hidden Trends in Patient Flow</CardTitle>
@@ -305,7 +305,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
 
       {/* Resource Allocation */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Resource Allocation</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Resource Allocation ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">Resource Allocation</CardTitle>
@@ -340,7 +340,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
 
       {/* Service Utilization */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Service Utilization</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Service Utilization ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">Service Utilization Trends</CardTitle>
