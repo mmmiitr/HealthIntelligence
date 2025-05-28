@@ -40,8 +40,9 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                  <p className="text-sm font-medium text-gray-600">Total Revenue (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">$1.8M</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: $1.95M projected</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <DollarSign className="text-green-600" />
@@ -49,7 +50,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               </div>
               <div className="mt-4 flex items-center text-sm">
                 <span className="text-green-600 font-medium">↑ +8.2%</span>
-                <span className="text-gray-500 ml-2">from last quarter</span>
+                <span className="text-gray-500 ml-2">vs Q1 2025</span>
               </div>
             </CardContent>
           </Card>
@@ -58,8 +59,9 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Patients</p>
+                  <p className="text-sm font-medium text-gray-600">Active Patients (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">1,247</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: 1,310 projected</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="text-blue-600" />
@@ -67,7 +69,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               </div>
               <div className="mt-4 flex items-center text-sm">
                 <span className="text-blue-600 font-medium">↑ +5.1%</span>
-                <span className="text-gray-500 ml-2">new enrollments</span>
+                <span className="text-gray-500 ml-2">vs Q1 2025</span>
               </div>
             </CardContent>
           </Card>
@@ -76,8 +78,9 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Avg A1C Level</p>
+                  <p className="text-sm font-medium text-gray-600">Avg A1C Level (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">7.2%</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: 6.9% projected</p>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <Heart className="text-purple-600" />
@@ -85,7 +88,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               </div>
               <div className="mt-4 flex items-center text-sm">
                 <span className="text-green-600 font-medium">↓ -0.3%</span>
-                <span className="text-gray-500 ml-2">improvement</span>
+                <span className="text-gray-500 ml-2">vs Q1 2025</span>
               </div>
             </CardContent>
           </Card>
@@ -94,8 +97,9 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Coordination</p>
+                  <p className="text-sm font-medium text-gray-600">Care Coordination (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">94%</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: 96% projected</p>
                 </div>
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                   <UserCheck className="text-orange-600" />
@@ -103,7 +107,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               </div>
               <div className="mt-4 flex items-center text-sm">
                 <span className="text-green-600 font-medium">↑ +2.1%</span>
-                <span className="text-gray-500 ml-2">efficiency rate</span>
+                <span className="text-gray-500 ml-2">vs Q1 2025</span>
               </div>
             </CardContent>
           </Card>
