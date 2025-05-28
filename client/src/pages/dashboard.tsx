@@ -20,12 +20,12 @@ export default function Dashboard() {
   const [showForecast, setShowForecast] = useState(false);
 
   const tabs = [
-    { id: "summary", label: "Summary", icon: BarChart3, description: "Executive Overview" },
-    { id: "finance", label: "Finance", icon: DollarSign, description: "Financial Performance" },
-    { id: "operation", label: "Operation", icon: Settings, description: "Operational Efficiency" },
-    { id: "clinician", label: "Clinician", icon: Stethoscope, description: "Healthcare Provider" },
-    { id: "patient", label: "Patient", icon: User, description: "Individual Patient (John Doe)" },
-    { id: "mockdata", label: "Mock Data", icon: Database, description: "Technical Team Data View" },
+    { id: "summary", label: "Summary", icon: BarChart3, description: "" },
+    { id: "finance", label: "Finance", icon: DollarSign, description: "" },
+    { id: "operation", label: "Operations", icon: Settings, description: "" },
+    { id: "clinician", label: "Clinical", icon: Stethoscope, description: "" },
+    { id: "patient", label: "Patient", icon: User, description: "" },
+    { id: "mockdata", label: "Technical", icon: Database, description: "" },
   ];
 
   const renderActiveTab = () => {

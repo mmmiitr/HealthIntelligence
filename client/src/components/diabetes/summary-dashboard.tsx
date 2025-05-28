@@ -108,7 +108,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Patients</p>
+                  <p className="text-sm font-medium text-gray-600">Active Panel Size</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
                   </div>
@@ -192,7 +192,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Coordination</p>
+                  <p className="text-sm font-medium text-gray-600">% Under CCM</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
                     <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2023"}</span>
@@ -216,13 +216,56 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                 <div className="bg-gray-50 rounded-lg p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-lg font-bold text-gray-900">94% / 95%</p>
+                      <p className="text-lg font-bold text-gray-900">94%</p>
                       <p className="text-xs text-gray-600">Current</p>
                     </div>
                     {showForecast && (
                       <div className="text-right">
                         <p className="text-lg font-bold text-blue-600">96%</p>
                         <p className="text-xs text-blue-600">+1.1% forecast</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-l-4 border-purple-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Telemedicine Patients</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-purple-600 font-medium text-sm">↑ +15.3%</span>
+                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
+                  </div>
+                </div>
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Monitor className="text-purple-600" />
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
+                    <div className="bg-purple-500 h-2 rounded-full" style={{width: '68%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 text-center">68% of panel</p>
+                </div>
+                
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">847</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">895</p>
+                        <p className="text-xs text-blue-600">+5.7% forecast</p>
                       </div>
                     )}
                   </div>
