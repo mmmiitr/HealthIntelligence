@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { keyMetricsTrendsData } from "@/lib/mock-data";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -186,6 +188,51 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 <p className="text-white font-medium">No-Show Appointments (12%) exceeds target of 10%.</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Key Metrics Trends Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics Trends</h3>
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Key Metrics Trends Over Time (Mock Data)</CardTitle>
+            <p className="text-sm text-gray-600">Data Range: Jan 2025 - Oct 2025</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={keyMetricsTrendsData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => `${value}%`} />
+                <Tooltip 
+                  formatter={(value, name) => [
+                    `${value}%`, 
+                    name === "inControlHbA1c" ? "% In-Control HbA1c" : "30-Day Readmission Rate"
+                  ]} 
+                  labelFormatter={() => "Mock data simulating trends as of May 2025."}
+                />
+                <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
+                <Line
+                  type="monotone"
+                  dataKey="inControlHbA1c"
+                  stroke="#1976d2"
+                  strokeWidth={3}
+                  name="% In-Control HbA1c"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="readmissionRate"
+                  stroke="#ef5350"
+                  strokeWidth={3}
+                  name="30-Day Readmission Rate"
+                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>

@@ -214,6 +214,35 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
           </CardContent>
         </Card>
+          <Card className="bg-white" title="Compares average HbA1c for CCM-enrolled vs. non-enrolled patients (May 2025).">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">CCM Impact on HbA1c</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-green-600 font-medium text-sm">Significant improvement</span>
+                  </div>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <Heart className="text-green-600" />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">CCM ENROLLED</p>
+                  <p className="text-lg font-bold text-gray-900">6.5%</p>
+                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
+                </div>
+                
+                <div className="bg-orange-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">NON-ENROLLED</p>
+                  <p className="text-lg font-bold text-gray-900">7.2%</p>
+                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
