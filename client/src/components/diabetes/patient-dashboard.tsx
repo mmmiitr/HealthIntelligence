@@ -64,10 +64,11 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Patient Dashboard</h2>
-            <p className="text-gray-600 mt-1">Personal diabetes management for John Doe</p>
+            <h5 className="text-lg font-medium text-gray-700 mt-2">Patient Overview - John Doe</h5>
+            <p className="text-gray-600 mt-1">Personal diabetes management</p>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:27 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:29 PM IST</p>
           </div>
         </div>
       </div>
