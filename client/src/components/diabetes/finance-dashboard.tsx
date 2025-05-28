@@ -212,27 +212,35 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Line
                   type="monotone"
-                  dataKey="medicare"
+                  dataKey="medicare_18_40"
                   stroke="#1976d2"
                   strokeWidth={3}
-                  name="Medicare"
+                  name="Medicare (18-40)"
                   dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
                 />
                 <Line
                   type="monotone"
-                  dataKey="medicaid"
+                  dataKey="medicare_41_65"
                   stroke="#4caf50"
                   strokeWidth={3}
-                  name="Medicaid"
+                  name="Medicare (41-65)"
                   dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
                 />
                 <Line
                   type="monotone"
-                  dataKey="commercial"
+                  dataKey="private_18_40"
                   stroke="#ff9800"
                   strokeWidth={3}
-                  name="Commercial"
+                  name="Private (18-40)"
                   dot={{ fill: "#ff9800", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="private_41_65"
+                  stroke="#9c27b0"
+                  strokeWidth={3}
+                  name="Private (41-65)"
+                  dot={{ fill: "#9c27b0", strokeWidth: 2, r: 4 }}
                 />
               </LineChart>
             </ResponsiveContainer>

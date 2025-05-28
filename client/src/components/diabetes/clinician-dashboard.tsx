@@ -73,8 +73,10 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
         </div>
       </div>
 
-      {/* Clinical Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      {/* Key Metrics */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -151,6 +153,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
 
       {/* AI/ML Prediction Sections */}
