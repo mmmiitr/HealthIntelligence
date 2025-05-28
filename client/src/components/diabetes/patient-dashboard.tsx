@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Activity, Calendar, Pill, BookOpen, Target, Apple, Dumbbell, TrendingUp, User } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { johnDoeHbA1cTrend } from "@/lib/mock-data";
+import { getCurrentTimestamp } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface PatientDashboardProps {
   timeFilter: string;
@@ -85,7 +87,7 @@ export default function PatientDashboard({ timeFilter, viewMode }: PatientDashbo
             <p className="text-gray-600 mt-1">Personal diabetes management</p>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
+            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
@@ -251,9 +253,19 @@ export default function PatientDashboard({ timeFilter, viewMode }: PatientDashbo
             </div>
             <div className="flex items-start space-x-3">
               <Calendar className="h-5 w-5 text-green-600 mt-1" />
-              <div>
+              <div className="flex-1">
                 <p className="font-medium text-gray-900">Next Appointment</p>
-                <p className="text-gray-700">June 5, 2025 at 2:00 PM</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-700">June 5, 2025 at 2:00 PM</p>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.alert("Rescheduling appointment for John Doe (Mock Action)")}
+                    className="ml-4"
+                  >
+                    Reschedule Appointment
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="flex items-start space-x-3">
