@@ -1,11 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle, Download, Settings } from "lucide-react";
+import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
-import { getCurrentTimestamp } from "@/lib/utils";
+import { getViewLabels, getTimePeriodLabel, getComparisonPeriod, BORDER_COLORS } from "@/lib/dashboard-utils";
+import DashboardHeader from "@/components/common/DashboardHeader";
+import MetricCard from "@/components/common/MetricCard";
+import SectionHeader from "@/components/common/SectionHeader";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -17,21 +19,9 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
   };
 
-  // Dynamic labels based on view mode
-  const getViewLabels = () => {
-    switch(viewMode) {
-      case "monthly":
-        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
-      case "quarterly":
-        return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
-      case "yearly":
-        return { current: "2025 PROGRESS", forecast: "2026 FORECAST" };
-      default:
-        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
-    }
-  };
-
-  const labels = getViewLabels();
+  const labels = getViewLabels(viewMode as any);
+  const timePeriod = getTimePeriodLabel(viewMode as any);
+  const comparisonPeriod = getComparisonPeriod(viewMode as any);
 
   return (
     <div>
