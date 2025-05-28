@@ -189,25 +189,25 @@ export const DATABASE_SCHEMAS: DatabaseSchema[] = [
 
 // Authentication & Authorization Documentation
 export const AUTH_DOCUMENTATION = {
-  overview: "JWT-based authentication with role-based access control (RBAC)",
+  method: "JWT-based authentication with role-based access control (RBAC)",
   roles: [
     {
-      role: "admin",
+      name: "Admin",
       description: "Hospital administrators with full system access",
       permissions: ["read:all", "write:all", "delete:appointments", "manage:users"]
     },
     {
-      role: "clinician", 
+      name: "Clinician", 
       description: "Healthcare providers with patient care access",
       permissions: ["read:patients", "write:appointments", "read:lab_results", "write:care_plans"]
     },
     {
-      role: "finance",
+      name: "Finance",
       description: "Financial analysts with revenue/billing access", 
       permissions: ["read:billing", "read:revenue", "write:financial_reports"]
     },
     {
-      role: "patient",
+      name: "Patient",
       description: "Individual patients with limited self-service access",
       permissions: ["read:own_data", "write:appointments", "read:own_lab_results"]
     }
@@ -221,7 +221,15 @@ export const AUTH_DOCUMENTATION = {
       iat: 1640995200,
       exp: 1640998800
     }
-  }
+  },
+  hipaaCompliance: [
+    "All patient data encrypted in transit and at rest",
+    "Access logging for all healthcare data interactions",
+    "Role-based access control with minimum necessary permissions",
+    "Automatic session timeout after 30 minutes of inactivity",
+    "Audit trails maintained for all data access and modifications",
+    "Password complexity requirements and multi-factor authentication"
+  ]
 };
 
 // Integration Guidelines
