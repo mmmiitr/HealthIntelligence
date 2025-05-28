@@ -507,7 +507,8 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis domain={[5.5, 8.5]} tickFormatter={(value) => `${value}%`} />
-                <Tooltip formatter={(value, name) => [`${value}%`, name]} />
+                <Tooltip formatter={(value, name) => [`${value}%`, name]} 
+                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
                 <Line
                   type="monotone"
@@ -528,10 +529,10 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 <Line
                   type="monotone"
                   dataKey="declining"
-                  stroke="#d32f2f"
+                  stroke="#ef5350"
                   strokeWidth={3}
                   name="Declining"
-                  dot={{ fill: "#d32f2f", strokeWidth: 2, r: 4 }}
+                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -550,7 +551,8 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip formatter={(value) => [`${value} visits`, 'Visits per Patient']} />
+                <Tooltip formatter={(value) => [`${value} visits`, 'Visits per Patient']} 
+                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
                 <Bar
                   dataKey="visits"
@@ -575,11 +577,12 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value, name) => [`${value} hours`, name]} />
+              <Tooltip formatter={(value, name) => [`${value} hours`, name]} 
+                       labelFormatter={() => "Mock data simulating trends as of May 2025."} />
               <Legend />
               <Bar
                 dataKey="needed"
-                fill="#d32f2f"
+                fill="#ef5350"
                 name="Needed"
               />
               <Bar
