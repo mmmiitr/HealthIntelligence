@@ -239,6 +239,19 @@ export const johnDoeHbA1cTrend = [
   { month: 'Oct 2025', hba1c: 5.7 }
 ];
 
+export const payerRevenueTrends = [
+  { month: 'Jan 2025', medicare: 4500, medicaid: 1800, private: 3000, other: 900 },
+  { month: 'Feb 2025', medicare: 4650, medicaid: 1850, private: 3100, other: 950 },
+  { month: 'Mar 2025', medicare: 4700, medicaid: 1900, private: 3200, other: 980 },
+  { month: 'Apr 2025', medicare: 4800, medicaid: 1950, private: 3300, other: 1000 },
+  { month: 'May 2025', medicare: 4900, medicaid: 2000, private: 3400, other: 1020 },
+  { month: 'Jun 2025', medicare: 5000, medicaid: 2100, private: 3500, other: 1050 },
+  { month: 'Jul 2025', medicare: 5100, medicaid: 2150, private: 3600, other: 1080 },
+  { month: 'Aug 2025', medicare: 5200, medicaid: 2200, private: 3700, other: 1100 },
+  { month: 'Sep 2025', medicare: 5300, medicaid: 2250, private: 3800, other: 1120 },
+  { month: 'Oct 2025', medicare: 5400, medicaid: 2300, private: 3900, other: 1150 }
+];
+
 export const additionalDataConsiderations = [
   {
     category: 'Clinical Data',
