@@ -86,59 +86,102 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C (Q2 2025)</p>
-                <p className="text-2xl font-bold text-gray-900">{averageA1C}%</p>
-                <p className="text-xs text-gray-500 mt-1">Next Q3: 6.9% projected</p>
+                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C</p>
+                <div className="flex items-center space-x-2 mt-1">
+                  <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
+                </div>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <Activity className="text-blue-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 font-medium">↓ -0.3%</span>
-              <span className="text-gray-500 ml-2">vs Q1 2025</span>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-lg font-bold text-gray-900">{averageA1C}% / 7.1%</p>
+                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                  <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">Near target</p>
+              </div>
+              
+              <div className="bg-blue-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-lg font-bold text-gray-900">6.9%</p>
+                <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate (Q2 2025)</p>
-                <p className="text-2xl font-bold text-gray-900">{adherenceRate}%</p>
-                <p className="text-xs text-gray-500 mt-1">Next Q3: 88% projected</p>
+                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate</p>
+                <div className="flex items-center space-x-2 mt-1">
+                  <span className="text-green-600 font-medium text-sm">↗ +5.2%</span>
+                </div>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <Heart className="text-green-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 font-medium">↗ +5.2%</span>
-              <span className="text-gray-500 ml-2">vs Q1 2025</span>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-lg font-bold text-gray-900">{adherenceRate}% / 85%</p>
+                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                  <div className="bg-green-500 h-1.5 rounded-full" style={{width: '96%'}}></div>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">96% complete</p>
+              </div>
+              
+              <div className="bg-blue-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-lg font-bold text-gray-900">88%</p>
+                <p className="text-xs text-gray-600 mt-1">+7.3% improvement projected</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm font-medium text-gray-600">Medication Compliance (Q2 2025)</p>
-                <p className="text-2xl font-bold text-gray-900">84%</p>
-                <p className="text-xs text-gray-500 mt-1">Next Q3: 87% projected</p>
+                <p className="text-sm font-medium text-gray-600">Medication Compliance</p>
+                <div className="flex items-center space-x-2 mt-1">
+                  <span className="text-green-600 font-medium text-sm">↑ +5.2%</span>
+                </div>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <Heart className="text-green-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 font-medium">↑ +5.2%</span>
-              <span className="text-gray-500 ml-2">vs Q1 2025</span>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-lg font-bold text-gray-900">84% / 85%</p>
+                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                  <div className="bg-green-500 h-1.5 rounded-full" style={{width: '99%'}}></div>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">99% complete</p>
+              </div>
+              
+              <div className="bg-blue-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-lg font-bold text-gray-900">87%</p>
+                <p className="text-xs text-gray-600 mt-1">+3.6% improvement projected</p>
+              </div>
             </div>
-            <div className="mt-2 p-2 bg-orange-50 rounded">
+            
+            <div className="mt-3 p-2 bg-orange-50 rounded">
               <p className="text-xs text-orange-700" title="2024 update to address cannabis use in diabetes care">
                 Ask about tobacco/cannabis use (Section 5)
               </p>
@@ -148,19 +191,33 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
 
         <Card className="bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm font-medium text-gray-600">Complication Rate (Q2 2025)</p>
-                <p className="text-2xl font-bold text-gray-900">3.2%</p>
-                <p className="text-xs text-gray-500 mt-1">Next Q3: 2.8% projected</p>
+                <p className="text-sm font-medium text-gray-600">Complication Rate</p>
+                <div className="flex items-center space-x-2 mt-1">
+                  <span className="text-green-600 font-medium text-sm">↓ -1.8%</span>
+                </div>
               </div>
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                 <AlertTriangle className="text-red-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 font-medium">↓ -1.8%</span>
-              <span className="text-gray-500 ml-2">vs Q1 2025</span>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                <p className="text-lg font-bold text-gray-900">3.2% / 4.0%</p>
+                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                  <div className="bg-green-500 h-1.5 rounded-full" style={{width: '80%'}}></div>
+                </div>
+                <p className="text-xs text-gray-600 mt-1">Below target (lower is better)</p>
+              </div>
+              
+              <div className="bg-blue-50 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                <p className="text-lg font-bold text-gray-900">2.8%</p>
+                <p className="text-xs text-gray-600 mt-1">-12.5% improvement projected</p>
+              </div>
             </div>
           </CardContent>
         </Card>
