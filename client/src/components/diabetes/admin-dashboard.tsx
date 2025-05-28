@@ -114,7 +114,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <p className="text-2xl font-bold text-blue-900">${totalRevenue.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-blue-900">${currentTotalRevenue.toLocaleString()}</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <DollarSign className="text-blue-600" />
