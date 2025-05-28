@@ -96,7 +96,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Care Management Alignment (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">94%</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 96% projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Current: 94% / Est: 95% | Q3: 96% proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <Shield className="text-purple-600" />
