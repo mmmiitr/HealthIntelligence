@@ -64,7 +64,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
                   <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
@@ -73,7 +73,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
                   <p className="text-xl font-bold text-gray-900">1,315</p>
                   <p className="text-xs text-gray-600 mt-1">+1.9% growth projected</p>
                 </div>
@@ -98,7 +98,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-red-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
                   <p className="text-xl font-bold text-gray-900">8% / 5%</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-red-500 h-2 rounded-full" style={{width: '100%'}}></div>
@@ -107,7 +107,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
                   <p className="text-xl font-bold text-gray-900">6.5%</p>
                   <p className="text-xs text-gray-600 mt-1">-18.8% improvement projected</p>
                 </div>
@@ -132,7 +132,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
@@ -141,7 +141,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
                   <p className="text-xl font-bold text-gray-900">96%</p>
                   <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
                 </div>
@@ -165,7 +165,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
                   <p className="text-xl font-bold text-gray-900">4.6 / 4.5</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-purple-500 h-2 rounded-full" style={{width: '100%'}}></div>
@@ -174,7 +174,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
                   <p className="text-xl font-bold text-gray-900">4.8</p>
                   <p className="text-xs text-gray-600 mt-1">+4.3% improvement projected</p>
                 </div>
