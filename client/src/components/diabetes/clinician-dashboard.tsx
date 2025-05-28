@@ -492,6 +492,105 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           </div>
         </CardContent>
       </Card>
+
+      {/* Additional Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Predicted HbA1c Progression */}
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Predicted HbA1c Progression</CardTitle>
+            <p className="text-sm text-gray-600">Predicted HbA1c Trends (Accuracy: 95%)</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={hba1cProgressionData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis domain={[5.5, 8.5]} tickFormatter={(value) => `${value}%`} />
+                <Tooltip formatter={(value, name) => [`${value}%`, name]} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="stable"
+                  stroke="#4caf50"
+                  strokeWidth={3}
+                  name="Stable"
+                  dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="improving"
+                  stroke="#1976d2"
+                  strokeWidth={3}
+                  name="Improving"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="declining"
+                  stroke="#d32f2f"
+                  strokeWidth={3}
+                  name="Declining"
+                  dot={{ fill: "#d32f2f", strokeWidth: 2, r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Predicted Visit Frequency */}
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Predicted Visit Frequency</CardTitle>
+            <p className="text-sm text-gray-600">Predicted Visits per Patient (Accuracy: 95%)</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={visitFrequencyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip formatter={(value) => [`${value} visits`, 'Visits per Patient']} />
+                <Legend />
+                <Bar
+                  dataKey="visits"
+                  fill="#1976d2"
+                  name="Visits per Patient"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Resource Allocation Chart */}
+      <Card className="bg-white shadow-md mt-6">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900">Resource Allocation</CardTitle>
+          <p className="text-sm text-gray-600">Staff Hours for Proactive Allocation</p>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={resourceAllocationData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip formatter={(value, name) => [`${value} hours`, name]} />
+              <Legend />
+              <Bar
+                dataKey="needed"
+                fill="#d32f2f"
+                name="Needed"
+              />
+              <Bar
+                dataKey="available"
+                fill="#4caf50"
+                name="Available"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
     </div>
   );
 }
