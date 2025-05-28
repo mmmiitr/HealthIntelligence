@@ -67,7 +67,7 @@ export class MemStorage implements IStorage {
         year,
         totalRevenue: Math.round(baseRevenue).toString(),
         costPerPatient: Math.round(costPerPatient).toString(),
-        bedOccupancy: Math.round(bedOccupancy * 10) / 10,
+        bedOccupancy: (Math.round(bedOccupancy * 10) / 10).toString(),
         isPredicted: false
       });
     }
@@ -87,7 +87,7 @@ export class MemStorage implements IStorage {
         year,
         totalRevenue: Math.round(baseRevenue).toString(),
         costPerPatient: Math.round(costPerPatient).toString(),
-        bedOccupancy: Math.round(bedOccupancy * 10) / 10,
+        bedOccupancy: (Math.round(bedOccupancy * 10) / 10).toString(),
         isPredicted: true
       });
     }
@@ -97,7 +97,7 @@ export class MemStorage implements IStorage {
     this.resourceUtilizationList = departments.map((dept, index) => ({
       id: index + 1,
       department: dept,
-      utilization: (65 + Math.random() * 25).toFixed(1),
+      utilization: Math.round(65 + Math.random() * 25).toString(),
       month: months[currentMonth],
       year: currentYear
     }));
