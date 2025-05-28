@@ -107,7 +107,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           </CardContent>
         </Card>
 
-        <Card className="bg-white">
+        <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -121,6 +121,11 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">↑ +5.2%</span>
               <span className="text-gray-500 ml-2">medication compliance</span>
+            </div>
+            <div className="mt-2 p-2 bg-orange-50 rounded">
+              <p className="text-xs text-orange-700" title="2024 update to address cannabis use in diabetes care">
+                Ask about tobacco/cannabis use (Section 5)
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -239,13 +244,97 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
         </Card>
       </div>
 
+      {/* ADA 2024 New Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <Card className="bg-white" title="New 2024 recommendation to evaluate fracture risk factors">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Bone Health Screening</p>
+                <p className="text-lg font-bold text-gray-900">78% Screened</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Shield className="text-blue-600" />
+              </div>
+            </div>
+            <div className="mt-4">
+              <p className="text-sm text-blue-700">Screen patients for bone health risks (Section 4)</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white" title="Updated 2024 guidance to use CGM for prevention">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Hypoglycemia Risk</p>
+                <p className="text-lg font-bold text-gray-900">15% High Risk</p>
+              </div>
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <AlertTriangle className="text-red-600" />
+              </div>
+            </div>
+            <div className="mt-4">
+              <p className="text-sm text-red-700">Assess hypoglycemia risk using CGM (Section 6)</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* High-Risk Screening Table */}
+      <Card className="bg-white mb-8" title="Reflects ADA 2024 Standards of Care updates">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+            <AlertTriangle className="mr-2 h-5 w-5 text-orange-600" />
+            High-Risk Screening (ADA 2024)
+            <Badge className="ml-2 bg-orange-100 text-orange-800">Section 2</Badge>
+          </CardTitle>
+          <p className="text-sm text-gray-600 mt-1">Patients requiring enhanced monitoring</p>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Risk Factor</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 text-gray-900">Jane Doe</td>
+                  <td className="py-3 px-4 text-gray-700">Prediabetes from antipsychotics</td>
+                  <td className="py-3 px-4 text-blue-600">Screen per Section 2</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 text-gray-900">John Smith</td>
+                  <td className="py-3 px-4 text-gray-700">Bone health concerns</td>
+                  <td className="py-3 px-4 text-blue-600">Evaluate fracture risk</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 text-gray-900">Maria Garcia</td>
+                  <td className="py-3 px-4 text-gray-700">Cannabis use reported</td>
+                  <td className="py-3 px-4 text-blue-600">Tobacco/cannabis counseling</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 text-gray-900">Robert Johnson</td>
+                  <td className="py-3 px-4 text-gray-700">Frequent hypoglycemia</td>
+                  <td className="py-3 px-4 text-blue-600">CGM assessment</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* A1C Trends */}
         <Card className="bg-white">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">A1C Trends Across Patient Population</CardTitle>
-            <p className="text-sm text-gray-600">Average A1C levels over time</p>
+            <CardTitle className="text-lg font-semibold text-gray-900">HbA1c Trends & Predictions</CardTitle>
+            <p className="text-sm text-gray-600">Tracks population-level HbA1c trends to identify care gaps</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
