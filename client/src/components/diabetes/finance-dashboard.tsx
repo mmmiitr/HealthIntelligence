@@ -36,7 +36,14 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:42 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleString('en-US', { 
+              month: 'short', 
+              day: 'numeric', 
+              year: 'numeric', 
+              hour: '2-digit', 
+              minute: '2-digit',
+              timeZoneName: 'short'
+            })}</p>
           </div>
         </div>
       </div>
@@ -70,7 +77,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Revenue (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">$1.8M</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: $1.95M projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Realized: $1.2M / Est: $1.85M | Q3: $1.95M proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <TrendingUp className="text-blue-600" />
