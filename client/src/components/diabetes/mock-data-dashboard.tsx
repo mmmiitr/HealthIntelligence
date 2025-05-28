@@ -8,9 +8,25 @@ import { revenueData, hba1cData, visitsData, populationMetricsData, financialMet
 
 interface MockDataDashboardProps {
   timeFilter: string;
+  viewMode: string;
 }
 
-export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps) {
+export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDashboardProps) {
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+      case "quarterly":
+        return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
+      case "yearly":
+        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+      default:
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+    }
+  };
+
+  const labels = getViewLabels();
   const [activeDataset, setActiveDataset] = useState("revenue");
   const [localTimeFilter, setLocalTimeFilter] = useState(timeFilter);
 

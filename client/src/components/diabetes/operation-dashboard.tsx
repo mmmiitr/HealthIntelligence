@@ -7,9 +7,25 @@ import { populationMetricsData, providerWorkloadData, patientFlowData, resourceA
 
 interface OperationDashboardProps {
   timeFilter: string;
+  viewMode: string;
 }
 
-export default function OperationDashboard({ timeFilter }: OperationDashboardProps) {
+export default function OperationDashboard({ timeFilter, viewMode }: OperationDashboardProps) {
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+      case "quarterly":
+        return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
+      case "yearly":
+        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+      default:
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+    }
+  };
+
+  const labels = getViewLabels();
   const { data: adminMetrics } = useQuery({
     queryKey: ["/api/admin/metrics", timeFilter],
   });
