@@ -54,7 +54,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Profit</p>
+                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Progress (94%)</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +12.5%</span>
                   </div>
@@ -65,13 +65,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-3">
+                {/* Progress bar - Row 2 for immediate visual feedback */}
+                <div className="bg-gray-50 rounded-lg p-2.5">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
+                    <div className="bg-green-500 h-2 rounded-full" style={{width: '94%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 text-center">94% complete</p>
+                </div>
+                
+                {/* Current values - Row 3 to show what this progress means */}
                 <div className="bg-gray-50 rounded-lg p-2.5">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
-                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                    <div className="bg-green-500 h-1.5 rounded-full" style={{width: '94%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 mt-1">94% complete</p>
+                  <p className="text-xs text-gray-600 mt-1">Progress towards target</p>
                 </div>
                 
                 {showForecast && (
