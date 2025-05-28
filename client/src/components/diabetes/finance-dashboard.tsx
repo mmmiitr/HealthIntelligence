@@ -9,9 +9,10 @@ import { getCurrentTimestamp } from "@/lib/utils";
 interface FinanceDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function FinanceDashboard({ timeFilter, viewMode }: FinanceDashboardProps) {
+export default function FinanceDashboard({ timeFilter, viewMode, showForecast }: FinanceDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
     switch(viewMode) {

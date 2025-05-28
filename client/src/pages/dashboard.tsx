@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database, Brain } from "lucide-react";
 import { getCurrentTimestamp } from "@/lib/utils";
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("summary");
   const [timeFilter, setTimeFilter] = useState("1year");
   const [viewMode, setViewMode] = useState("monthly");
+  const [showForecast, setShowForecast] = useState(false);
 
   const tabs = [
     { id: "summary", label: "Summary", icon: BarChart3, description: "Executive Overview" },
@@ -29,19 +31,19 @@ export default function Dashboard() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case "summary":
-        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "finance":
-        return <FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "operation":
-        return <OperationDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <OperationDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "clinician":
-        return <ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "patient":
-        return <PatientDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <PatientDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "mockdata":
-        return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       default:
-        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
     }
   };
 
@@ -70,6 +72,16 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <label htmlFor="global-forecast-toggle" className="text-sm font-medium text-gray-700">
+                  Show Forecast
+                </label>
+                <Switch
+                  id="global-forecast-toggle"
+                  checked={showForecast}
+                  onCheckedChange={setShowForecast}
+                />
+              </div>
               <Select value={viewMode} onValueChange={setViewMode}>
                 <SelectTrigger className="w-32">
                   <SelectValue placeholder="View Mode" />
