@@ -43,7 +43,6 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                   <p className="text-sm font-medium text-gray-600">Total Revenue</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +8.2%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -51,19 +50,19 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
-                  <p className="text-xl font-bold text-gray-900">$1.2M / $1.85M</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{width: '65%'}}></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                  <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
+                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                    <div className="bg-green-500 h-1.5 rounded-full" style={{width: '65%'}}></div>
                   </div>
                   <p className="text-xs text-gray-600 mt-1">65% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
-                  <p className="text-xl font-bold text-gray-900">$1.95M</p>
+                <div className="bg-blue-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                  <p className="text-lg font-bold text-gray-900">$1.95M</p>
                   <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
                 </div>
               </div>
@@ -77,7 +76,6 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                   <p className="text-sm font-medium text-gray-600">Active Patients</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -85,19 +83,19 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
-                  <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
-                    <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                  <p className="text-lg font-bold text-gray-900">1,247 / 1,290</p>
+                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                    <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '97%'}}></div>
                   </div>
                   <p className="text-xs text-gray-600 mt-1">97% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
-                  <p className="text-xl font-bold text-gray-900">1,310</p>
+                <div className="bg-blue-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                  <p className="text-lg font-bold text-gray-900">1,310</p>
                   <p className="text-xs text-gray-600 mt-1">+1.6% growth projected</p>
                 </div>
               </div>
@@ -111,7 +109,6 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                   <p className="text-sm font-medium text-gray-600">Avg A1C Level</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
-                    <span className="text-gray-500 text-sm">vs Q1</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
@@ -119,19 +116,19 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
-                  <p className="text-xl font-bold text-gray-900">7.2% / 7.1%</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
-                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '98%'}}></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q2 PROGRESS</p>
+                  <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
+                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
+                    <div className="bg-orange-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
                   </div>
                   <p className="text-xs text-gray-600 mt-1">Near target (lower is better)</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
-                  <p className="text-xl font-bold text-gray-900">6.9%</p>
+                <div className="bg-blue-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">Q3 FORECAST</p>
+                  <p className="text-lg font-bold text-gray-900">6.9%</p>
                   <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
                 </div>
               </div>
