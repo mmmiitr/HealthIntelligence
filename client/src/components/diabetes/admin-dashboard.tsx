@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell } from "recharts";
-import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData } from "@/lib/mock-data";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell, ReferenceLine } from "recharts";
+import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData } from "@/lib/mock-data";
 
 interface AdminDashboardProps {
   timeFilter: string;
@@ -61,12 +61,12 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
   const bedOccupancy = currentMetrics?.bedOccupancy || "0";
 
   return (
-    <div>
+    <div className="space-y-6">
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Admin Dashboard</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Admin Dashboard</h2>
             <p className="text-gray-600 mt-1">Hospital administration overview for diabetes care management</p>
             <div className="flex items-center mt-2 space-x-4">
               <Badge className="bg-green-100 text-green-800 flex items-center">
@@ -79,139 +79,178 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               </Badge>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <span className="text-sm text-gray-600">Financial Metrics</span>
-            <Switch
-              checked={showFinancialMetrics}
-              onCheckedChange={setShowFinancialMetrics}
-            />
-            <span className="text-sm text-gray-600">Operational Metrics</span>
+          <div className="flex flex-col items-end space-y-2">
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 03:52 PM IST</p>
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-gray-600">Financial Metrics</span>
+              <Switch
+                checked={showFinancialMetrics}
+                onCheckedChange={setShowFinancialMetrics}
+              />
+              <span className="text-sm text-gray-600">Operational Metrics</span>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Key Metrics Banner */}
+      <Card className="bg-blue-50 border-blue-200 shadow-md">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold text-blue-900 mb-4">Key Metrics</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-green-700">${totalProfit.toLocaleString()}</p>
+              <p className="text-sm text-gray-600">Total Profit</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-blue-700">{latestPopulationData?.inControlHbA1c}%</p>
+              <p className="text-sm text-gray-600">In-Control HbA1c</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-purple-700">{latestPopulationData?.ccmEnrolled}%</p>
+              <p className="text-sm text-gray-600">CCM Enrollment</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-orange-700">{latestPopulationData?.readmissionRate}%</p>
+              <p className="text-sm text-gray-600">30-Day Readmission</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Profitability Overview */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Profitability Overview</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600" title="Reflects revenue minus costs for diabetic patients">Total Profit</p>
-                  <p className="text-2xl font-bold text-green-900">${totalProfit.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">Revenue - Costs</p>
+      <Card className="shadow-md">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold text-gray-900">Profitability Overview</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-white border-l-4 border-green-500">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600" title="Reflects revenue minus costs for diabetic patients">Total Profit</p>
+                    <p className="text-2xl font-bold text-green-900">${totalProfit.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">Revenue - Costs</p>
+                  </div>
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <TrendingUp className="text-green-600" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <TrendingUp className="text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <p className="text-2xl font-bold text-blue-900">${currentTotalRevenue.toLocaleString()}</p>
+            <Card className="bg-white border-l-4 border-blue-500">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                    <p className="text-2xl font-bold text-blue-900">${currentTotalRevenue.toLocaleString()}</p>
+                  </div>
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <DollarSign className="text-blue-600" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-blue-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600" title="Supports Chronic Care Management (CCM), the most common program for chronic care. Other programs can be supported.">% Enrolled in CCM</p>
-                  <p className="text-2xl font-bold text-purple-900">{latestPopulationData?.ccmEnrolled}%</p>
+            <Card className="bg-white border-l-4 border-purple-500">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600" title="Supports Chronic Care Management (CCM), the most common program for chronic care. Other programs can be supported.">% Enrolled in CCM</p>
+                    <p className="text-2xl font-bold text-purple-900">{latestPopulationData?.ccmEnrolled}%</p>
+                  </div>
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                    <Heart className="text-purple-600" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Heart className="text-purple-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Population Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Population Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600"># Chronic Patients</p>
-              <p className="text-xl font-bold text-blue-900">{latestPopulationData?.chronicPatients}</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600"># New Patients</p>
-              <p className="text-xl font-bold text-green-900">{latestPopulationData?.newPatients}</p>
-            </CardContent>
-          </Card>
+      <Card className="shadow-md">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold text-gray-900">Population Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <Card className="bg-white border-l-4 border-blue-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600"># Chronic Patients</p>
+                <p className="text-xl font-bold text-blue-900">{latestPopulationData?.chronicPatients}</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white border-l-4 border-green-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600"># New Patients</p>
+                <p className="text-xl font-bold text-green-900">{latestPopulationData?.newPatients}</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">% HbA1c (&lt;7%)</p>
-              <p className="text-xl font-bold text-green-900">{latestPopulationData?.inControlHbA1c}%</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-green-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600" title="Patients with HbA1c less than 7%">% HbA1c (&lt;7%)</p>
+                <p className="text-xl font-bold text-green-900">{latestPopulationData?.inControlHbA1c}%</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">30-Day Readmission</p>
-              <p className="text-xl font-bold text-red-900">{latestPopulationData?.readmissionRate}%</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-red-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600" title="High readmission rates may indicate care gaps">30-Day Readmission</p>
+                <p className="text-xl font-bold text-red-900">{latestPopulationData?.readmissionRate}%</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">% No-Show Appts</p>
-              <p className="text-xl font-bold text-orange-900">{latestPopulationData?.noShowRate}%</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-red-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600" title="Missed appointments impact care continuity">% No-Show Appts</p>
+                <p className="text-xl font-bold text-orange-900">{latestPopulationData?.noShowRate}%</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">Avg Visits/Month</p>
-              <p className="text-xl font-bold text-blue-900">{latestPopulationData?.avgVisits}</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-blue-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600">Avg Visits/Month</p>
+                <p className="text-xl font-bold text-blue-900">{latestPopulationData?.avgVisits}</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">% Telemedicine</p>
-              <p className="text-xl font-bold text-green-900">{latestPopulationData?.telemedicineVisits}%</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-green-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600" title="Virtual care adoption rate">% Telemedicine</p>
+                <p className="text-xl font-bold text-green-900">{latestPopulationData?.telemedicineVisits}%</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">% High-Risk</p>
-              <p className="text-xl font-bold text-red-900">{latestPopulationData?.highRisk}%</p>
-            </CardContent>
-          </Card>
+            <Card className="bg-white border-l-4 border-red-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600" title="Patients requiring intensive monitoring">% High-Risk</p>
+                <p className="text-xl font-bold text-red-900">{latestPopulationData?.highRisk}%</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm font-medium text-gray-600">CCM Revenue/Patient</p>
-              <p className="text-xl font-bold text-purple-900">${latestPopulationData?.ccmRevenue}</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            <Card className="bg-white border-l-4 border-purple-500">
+              <CardContent className="p-4">
+                <p className="text-sm font-medium text-gray-600">CCM Revenue/Patient</p>
+                <p className="text-xl font-bold text-purple-900">${latestPopulationData?.ccmRevenue}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Financial Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <Card className="shadow-md">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold text-gray-900">Financial Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
