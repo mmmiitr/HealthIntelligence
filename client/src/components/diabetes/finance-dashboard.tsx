@@ -64,21 +64,30 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-green-500 h-2 rounded-full" style={{width: '94%'}}></div>
                   </div>
-                  <p className="text-lg font-bold text-gray-900 text-center">$425K / $450K</p>
+                  <p className="text-xs text-gray-600 text-center">94% complete</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-2.5">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                    <p className="text-lg font-bold text-gray-900">$465K</p>
-                    <p className="text-xs text-gray-600 mt-1">+9.4% growth projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">$465K</p>
+                        <p className="text-xs text-blue-600">+9.4% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -97,21 +106,30 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-blue-500 h-2 rounded-full" style={{width: '65%'}}></div>
                   </div>
-                  <p className="text-lg font-bold text-gray-900 text-center">$1.2M / $1.85M</p>
+                  <p className="text-xs text-gray-600 text-center">65% complete</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-2.5">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                    <p className="text-lg font-bold text-gray-900">$1.95M</p>
-                    <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">$1.95M</p>
+                        <p className="text-xs text-blue-600">+5.4% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -131,21 +149,30 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Row 1: Progress bar with percentage */}
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-2">
                     <div className="bg-purple-500 h-2 rounded-full" style={{width: '99%'}}></div>
                   </div>
-                  <p className="text-lg font-bold text-gray-900 text-center">94% / 95%</p>
+                  <p className="text-xs text-gray-600 text-center">99% complete</p>
                 </div>
                 
-                {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-2.5">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                    <p className="text-lg font-bold text-gray-900">96%</p>
-                    <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                {/* Row 2: Current values with forecast comparison */}
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">94% / 95%</p>
+                      <p className="text-xs text-gray-600">Current</p>
+                    </div>
+                    {showForecast && (
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600">96%</p>
+                        <p className="text-xs text-blue-600">+1.1% forecast</p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
           </Card>
