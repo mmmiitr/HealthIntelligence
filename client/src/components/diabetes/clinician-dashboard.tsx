@@ -67,6 +67,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               </Badge>
             </div>
           </div>
+          <div className="flex flex-col items-end space-y-2">
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:27 PM IST</p>
+          </div>
         </div>
       </div>
 
@@ -594,6 +597,43 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 name="Available"
               />
             </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Patient Engagement */}
+      <Card className="bg-white shadow-md">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900">Patient Engagement</CardTitle>
+          <p className="text-sm text-gray-600">Patient Engagement Trends (Mock Data)</p>
+          <p className="text-xs text-gray-500">Data Range: Jan 2025 - Oct 2025</p>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={patientEngagementData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis tickFormatter={(value) => `${value}%`} />
+              <Tooltip formatter={(value, name) => [`${value}%`, name]} 
+                       labelFormatter={() => "Mock data simulating trends as of May 2025."} />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="adherence"
+                stroke="#1976d2"
+                strokeWidth={3}
+                name="Appointment Adherence"
+                dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="telemedicineUsage"
+                stroke="#4caf50"
+                strokeWidth={3}
+                name="Telemedicine Usage"
+                dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
