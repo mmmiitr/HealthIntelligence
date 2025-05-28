@@ -205,6 +205,47 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
         </Card>
       </div>
 
+      {/* Set Alert Targets */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Set Alert Targets</h3>
+        <Card className="bg-white shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <Settings className="mr-2 h-5 w-5 text-blue-600" />
+              Configure Alert Thresholds
+            </CardTitle>
+            <p className="text-sm text-gray-600">Mock feature: Adjust targets for critical alerts.</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">30-Day Readmission Rate Target (%)</label>
+                <Input 
+                  type="number" 
+                  defaultValue="5" 
+                  className="w-full"
+                  placeholder="Enter target percentage"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">No-Show Appointments Target (%)</label>
+                <Input 
+                  type="number" 
+                  defaultValue="10" 
+                  className="w-full"
+                  placeholder="Enter target percentage"
+                />
+              </div>
+            </div>
+            <div className="mt-6">
+              <Button className="bg-green-600 hover:bg-green-700 text-white">
+                Save Targets
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Key Metrics Trends Section */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics Trends</h3>
