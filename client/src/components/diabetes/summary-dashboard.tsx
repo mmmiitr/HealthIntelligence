@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle, Download, Settings } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 
@@ -9,6 +11,10 @@ interface SummaryDashboardProps {
 }
 
 export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) {
+  const handleDownloadReport = () => {
+    window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
+  };
+
   return (
     <div>
       {/* Header */}
@@ -29,7 +35,14 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:44 PM IST</p>
+            <Button 
+              onClick={handleDownloadReport}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2"
+            >
+              <Download className="h-4 w-4" />
+              <span>Download Report (CSV)</span>
+            </Button>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
           </div>
         </div>
       </div>
