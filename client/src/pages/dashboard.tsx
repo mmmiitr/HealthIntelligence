@@ -119,6 +119,13 @@ export default function Dashboard() {
         <div>
           {renderActiveTab()}
         </div>
+
+        {/* Global Footer with Timestamp */}
+        <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
+          <div className="text-center">
+            <p className="text-sm text-gray-500">Last Updated: {getCurrentTimestamp()}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
