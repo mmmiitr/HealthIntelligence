@@ -124,19 +124,34 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
 
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Coordination (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">94%</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 96% projected</p>
+                  <p className="text-sm font-medium text-gray-600">Care Coordination</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <UserCheck className="text-green-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-green-600 font-medium">↑ +2.1%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">94% / 95%</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">99% complete</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">96%</p>
+                  <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
