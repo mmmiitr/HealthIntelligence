@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database } from "lucide-react";
+import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database, Brain } from "lucide-react";
+import { getCurrentTimestamp } from "@/lib/utils";
 import SummaryDashboard from "@/components/diabetes/summary-dashboard";
 import FinanceDashboard from "@/components/diabetes/finance-dashboard";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
@@ -52,7 +54,19 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
                 <Heart className="text-primary text-2xl" />
-                <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
+                  <div className="flex items-center mt-1 space-x-3">
+                    <Badge className="bg-green-100 text-green-800 flex items-center text-xs">
+                      <Shield className="h-3 w-3 mr-1" />
+                      HIPAA Compliant
+                    </Badge>
+                    <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs">
+                      <Brain className="h-3 w-3 mr-1" />
+                      AI-Enhanced Analytics
+                    </Badge>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">

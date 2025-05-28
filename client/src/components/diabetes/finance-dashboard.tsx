@@ -41,19 +41,6 @@ export default function FinanceDashboard({ timeFilter, viewMode }: FinanceDashbo
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Finance Dashboard</h2>
             <p className="text-gray-600 mt-1">Financial performance and revenue management</p>
-            <div className="flex items-center mt-2 space-x-4">
-              <Badge className="bg-green-100 text-green-800 flex items-center">
-                <Shield className="h-3 w-3 mr-1" />
-                HIPAA Compliant
-              </Badge>
-              <Badge className="bg-blue-100 text-blue-800 flex items-center">
-                <Brain className="h-3 w-3 mr-1" />
-                AI-Enhanced Analytics
-              </Badge>
-            </div>
-          </div>
-          <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
