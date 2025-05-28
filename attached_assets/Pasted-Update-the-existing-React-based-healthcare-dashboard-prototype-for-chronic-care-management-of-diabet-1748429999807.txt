@@ -1,0 +1,73 @@
+Update the existing React-based healthcare dashboard prototype for chronic care management of diabetic patients, refining the UI and adding new insights. Use Material-UI for styling and Recharts for visualizations. Make the following enhancements: 
+
+Update Timestamp: 
+
+Update the "Last Updated" timestamp in all tabs: "Last Updated: May 28, 2025, 04:27 PM IST". 
+
+Enhance Charts: 
+
+Payer Mix Pie Chart (Admin > Finance Tab): 
+
+Update the caption to include the total: "Payer Mix for Diabetic Patients (Total: 500, as of May 2025)". 
+
+Predicted HbA1c Progression (Clinician Tab): 
+
+Add a legend using Recharts’ Legend component to label the lines: "Stable" (#4caf50), "Improving" (#1976d2), "Declining" (#ef5350). 
+
+Add New Insights: 
+
+Admin > Operation Tab: 
+
+Add a "Service Utilization Trends" section with a BarChart: 
+
+Data: Mock usage of services (e.g., { month: 'Jan 2025', labTests: 150, consultations: 200, telemedicine: 100 }). 
+
+X-axis: "MMM YYYY". 
+
+Y-axis: Number of uses. 
+
+Bars: "Lab Tests" (#1976d2), "Consultations" (#4caf50), "Telemedicine" (#64b5f6). 
+
+Caption: "Service Utilization Trends (Mock Data)". 
+
+Subtitle: "Data Range: [Start Month] - [End Month]". 
+
+Tooltip: "Mock data simulating trends as of May 2025." 
+
+Clinician Tab: 
+
+Add a "Patient Engagement" section with a LineChart: 
+
+Data: Mock engagement metrics (e.g., { month: 'Jan 2025', adherence: 80, telemedicineUsage: 30 }). 
+
+X-axis: "MMM YYYY". 
+
+Y-axis: Percentage (%). 
+
+Lines: "Appointment Adherence" (#1976d2), "Telemedicine Usage" (#4caf50). 
+
+Caption: "Patient Engagement Trends (Mock Data)". 
+
+Subtitle: "Data Range: [Start Month] - [End Month]". 
+
+Tooltip: "Mock data simulating trends as of May 2025." 
+
+Enhance Summary Dashboard: 
+
+Add a "Next Steps" section in a Paper component (elevation={3}, background #e3f2fd): 
+
+Recommendation 1: "Increase CCM Enrollment: Current 75%, Target 85% to improve outcomes." 
+
+Recommendation 2: "Reduce No-Show Appointments: Current 12%, Target <10% with reminders." 
+
+Style each recommendation with a bullet point and Typography variant body1. 
+
+Update Mock Data: 
+
+Add datasets in mockData.js for new sections (10 rows each, "MMM YYYY" format): 
+
+Service Utilization: { month: 'Jan 2025', labTests: 150, consultations: 200, telemedicine: 100 }. 
+
+Patient Engagement: { month: 'Jan 2025', adherence: 80, telemedicineUsage: 30 }. 
+
+Update the Mock Data tab to display these new datasets in tables. 
