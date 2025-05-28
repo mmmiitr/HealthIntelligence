@@ -77,13 +77,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-3">
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
-                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                    <div className="bg-green-500 h-1.5 rounded-full" style={{width: '65%'}}></div>
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                    <div className="bg-green-500 h-2 rounded-full" style={{width: '65%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">65% complete</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">$1.2M / $1.85M</p>
                 </div>
                 
                 {showForecast && (
@@ -112,13 +110,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-3">
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-lg font-bold text-gray-900">1,247 / 1,290</p>
-                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                    <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '97%'}}></div>
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                    <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">97% complete</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">1,247 / 1,290</p>
                 </div>
                 
                 {showForecast && (
@@ -147,13 +143,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-3">
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
-                  <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                    <div className="bg-orange-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
+                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '98%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">Near target (lower is better)</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">7.2% / 7.1%</p>
                 </div>
                 
                 {showForecast && (

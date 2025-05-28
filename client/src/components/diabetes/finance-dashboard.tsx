@@ -87,7 +87,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Revenue ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Revenue</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +8.2%</span>
                   </div>
@@ -120,7 +120,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Management Alignment ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Care Management Alignment</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
                     <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
@@ -161,7 +161,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="text-center">
-                  <p className="text-sm font-medium text-gray-600">Reimbursement Rate ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Reimbursement Rate</p>
                   <p className="text-2xl font-bold text-blue-600">$285</p>
                   <p className="text-xs text-gray-500 mt-1">({viewMode === "monthly" ? "Jun" : viewMode === "quarterly" ? "Q3" : "2026"}) Projected: $295</p>
                 </div>
@@ -171,7 +171,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="text-center">
-                  <p className="text-sm font-medium text-gray-600">Cost per Patient ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Cost per Patient</p>
                   <p className="text-2xl font-bold text-orange-600">$230</p>
                   <p className="text-xs text-gray-500 mt-1">({viewMode === "monthly" ? "Jun" : viewMode === "quarterly" ? "Q3" : "2026"}) Projected: $225</p>
                 </div>
@@ -181,7 +181,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="text-center">
-                  <p className="text-sm font-medium text-gray-600">Actual Cost ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Actual Cost</p>
                   <p className="text-2xl font-bold text-red-600">$198</p>
                   <p className="text-xs text-gray-500 mt-1">({viewMode === "monthly" ? "Jun" : viewMode === "quarterly" ? "Q3" : "2026"}) Projected: $192</p>
                 </div>
@@ -191,7 +191,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="text-center">
-                  <p className="text-sm font-medium text-gray-600">Net Margin ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">Net Margin</p>
                   <p className="text-2xl font-bold text-green-600">18.5%</p>
                   <p className="text-xs text-gray-500 mt-1">({viewMode === "monthly" ? "Jun" : viewMode === "quarterly" ? "Q3" : "2026"}) Projected: 21.2%</p>
                 </div>
