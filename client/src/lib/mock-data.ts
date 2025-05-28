@@ -112,18 +112,18 @@ export const getFilteredData = (data: any[], timeFilter: string) => {
   return data.slice(-filterMonths);
 };
 
-// Hidden Trends in Patient Flow (Admin Dashboard)
+// Hidden Trends in Patient Flow (Operation Dashboard)
 export const patientFlowData = [
-  { month: 'Jan 2025', visits: 200 },
-  { month: 'Feb 2025', visits: 250 },
-  { month: 'Mar 2025', visits: 180 },
-  { month: 'Apr 2025', visits: 220 },
-  { month: 'May 2025', visits: 280 },
-  { month: 'Jun 2025', visits: 300 },
-  { month: 'Jul 2025', visits: 320 },
-  { month: 'Aug 2025', visits: 290 },
-  { month: 'Sep 2025', visits: 310 },
-  { month: 'Oct 2025', visits: 340 },
+  { month: 'Jan 2025', inflow: 85, outflow: 20, net: 65 },
+  { month: 'Feb 2025', inflow: 92, outflow: 25, net: 67 },
+  { month: 'Mar 2025', inflow: 78, outflow: 18, net: 60 },
+  { month: 'Apr 2025', inflow: 88, outflow: 22, net: 66 },
+  { month: 'May 2025', inflow: 95, outflow: 28, net: 67 },
+  { month: 'Jun 2025', inflow: 102, outflow: 30, net: 72 },
+  { month: 'Jul 2025', inflow: 98, outflow: 26, net: 72 },
+  { month: 'Aug 2025', inflow: 105, outflow: 32, net: 73 },
+  { month: 'Sep 2025', inflow: 110, outflow: 35, net: 75 },
+  { month: 'Oct 2025', inflow: 115, outflow: 38, net: 77 },
 ];
 
 // Predicted Revenue by Insurance Type and Demographics (Admin Dashboard)
