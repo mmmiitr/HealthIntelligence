@@ -27,7 +27,14 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:42 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleString('en-US', { 
+              month: 'short', 
+              day: 'numeric', 
+              year: 'numeric', 
+              hour: '2-digit', 
+              minute: '2-digit',
+              timeZoneName: 'short'
+            })}</p>
           </div>
         </div>
       </div>
@@ -42,7 +49,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total Revenue (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">$1.8M</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: $1.95M projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Realized: $1.2M / Est: $1.85M | Q3: $1.95M proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <DollarSign className="text-green-600" />
@@ -61,7 +68,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Active Patients (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">1,247</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 1,310 projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Current: 1,247 / Est: 1,290 | Q3: 1,310 proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="text-blue-600" />
@@ -80,7 +87,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Avg A1C Level (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">7.2%</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 6.9% projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Current: 7.2% / Est: 7.1% | Q3: 6.9% proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <Heart className="text-purple-600" />
@@ -99,7 +106,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 <div>
                   <p className="text-sm font-medium text-gray-600">Care Coordination (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">94%</p>
-                  <p className="text-xs text-gray-500 mt-1">Next Q3: 96% projected</p>
+                  <p className="text-xs text-gray-500 mt-1">Current: 94% / Est: 95% | Q3: 96% proj.</p>
                 </div>
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                   <UserCheck className="text-orange-600" />
