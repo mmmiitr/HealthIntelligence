@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart } from "recharts";
+import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell } from "recharts";
+import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData } from "@/lib/mock-data";
 
 interface AdminDashboardProps {
   timeFilter: string;
@@ -20,6 +21,24 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
   const { data: resourceUtilization } = useQuery({
     queryKey: ["/api/admin/resource-utilization", timeFilter],
   });
+
+  // Get latest data for new metrics
+  const latestPopulationData = populationMetricsData[populationMetricsData.length - 1];
+  const latestFinancialData = financialMetricsData[financialMetricsData.length - 1];
+  const latestWorkloadData = providerWorkloadData[providerWorkloadData.length - 1];
+  
+  // Calculate total profit
+  const currentTotalRevenue = 1050000; // From existing revenue data
+  const totalCosts = 940000;
+  const totalProfit = currentTotalRevenue - totalCosts;
+
+  // Payer mix data for pie chart
+  const payerMixData = [
+    { name: 'Medicare', value: 40, color: '#1976d2' },
+    { name: 'Medicaid', value: 20, color: '#4caf50' },
+    { name: 'Private', value: 30, color: '#ff9800' },
+    { name: 'Other', value: 10, color: '#9c27b0' }
+  ];
 
   // Prepare revenue trend data with predictions
   const revenueTrendData = Array.isArray(adminMetrics) ? adminMetrics.map((item: any, index: number) => {
@@ -71,7 +90,259 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
         </div>
       </div>
 
-      {/* Metrics Cards */}
+      {/* Profitability Overview */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Profitability Overview</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600" title="Reflects revenue minus costs for diabetic patients">Total Profit</p>
+                  <p className="text-2xl font-bold text-green-900">${totalProfit.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500">Revenue - Costs</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <TrendingUp className="text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                  <p className="text-2xl font-bold text-blue-900">${totalRevenue.toLocaleString()}</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <DollarSign className="text-blue-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600" title="Supports Chronic Care Management (CCM), the most common program for chronic care. Other programs can be supported.">% Enrolled in CCM</p>
+                  <p className="text-2xl font-bold text-purple-900">{latestPopulationData?.ccmEnrolled}%</p>
+                </div>
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Heart className="text-purple-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Population Metrics */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Population Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600"># Chronic Patients</p>
+              <p className="text-xl font-bold text-blue-900">{latestPopulationData?.chronicPatients}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600"># New Patients</p>
+              <p className="text-xl font-bold text-green-900">{latestPopulationData?.newPatients}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">% HbA1c (&lt;7%)</p>
+              <p className="text-xl font-bold text-green-900">{latestPopulationData?.inControlHbA1c}%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">30-Day Readmission</p>
+              <p className="text-xl font-bold text-red-900">{latestPopulationData?.readmissionRate}%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">% No-Show Appts</p>
+              <p className="text-xl font-bold text-orange-900">{latestPopulationData?.noShowRate}%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">Avg Visits/Month</p>
+              <p className="text-xl font-bold text-blue-900">{latestPopulationData?.avgVisits}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">% Telemedicine</p>
+              <p className="text-xl font-bold text-green-900">{latestPopulationData?.telemedicineVisits}%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">% High-Risk</p>
+              <p className="text-xl font-bold text-red-900">{latestPopulationData?.highRisk}%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-4">
+              <p className="text-sm font-medium text-gray-600">CCM Revenue/Patient</p>
+              <p className="text-xl font-bold text-purple-900">${latestPopulationData?.ccmRevenue}</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Financial Metrics */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Reimbursement/Patient/Month</p>
+                  <p className="text-2xl font-bold text-green-900">${latestFinancialData?.reimbursement}</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <DollarSign className="text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Cost/Patient/Month</p>
+                  <p className="text-2xl font-bold text-blue-900">${latestFinancialData?.cost}</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <DollarSign className="text-blue-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Actual Cost/Patient/Month</p>
+                  <p className="text-2xl font-bold text-orange-900">${latestFinancialData?.actualCost}</p>
+                </div>
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                  <DollarSign className="text-orange-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600 mb-4">Payer Mix</p>
+                  <ResponsiveContainer width="100%" height={120}>
+                    <PieChart>
+                      <Pie
+                        data={payerMixData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={20}
+                        outerRadius={40}
+                        dataKey="value"
+                      >
+                        {payerMixData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => `${value}%`} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Provider Workload */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Provider Workload</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Panel Size per Provider</p>
+                  <p className="text-2xl font-bold text-blue-900">{latestWorkloadData?.panelSize} patients</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Users className="text-blue-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Avg Time to Next Appt</p>
+                  <p className="text-2xl font-bold text-green-900">{latestWorkloadData?.nextApptDays} days</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <Clock className="text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">3rd Next Available Appt</p>
+                  <p className="text-2xl font-bold text-purple-900">{latestWorkloadData?.thirdNextApptDays} days</p>
+                </div>
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Calendar className="text-purple-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* CCM Program Notice */}
+      <div className="mb-8">
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="p-4">
+            <p className="text-sm text-blue-800">
+              <strong>Care Management:</strong> Supports Chronic Care Management (CCM) for diabetes. Other care programs can be supported on request.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Original Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="bg-white">
           <CardContent className="p-6">
