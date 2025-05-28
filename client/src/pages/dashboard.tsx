@@ -74,7 +74,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <label htmlFor="global-forecast-toggle" className="text-sm font-medium text-gray-700">
-                  Show Forecast
+                  Forecast
                 </label>
                 <Switch
                   id="global-forecast-toggle"
