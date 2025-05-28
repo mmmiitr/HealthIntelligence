@@ -12,10 +12,10 @@ import { useState } from "react";
 interface SummaryDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashboardProps) {
-  const [showForecast, setShowForecast] = useState(true);
+export default function SummaryDashboard({ timeFilter, viewMode, showForecast }: SummaryDashboardProps) {
   
   const handleDownloadReport = () => {
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
@@ -60,19 +60,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold text-gray-900">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-          <div className="flex items-center space-x-2">
-            <label htmlFor="forecast-toggle" className="text-sm font-medium text-gray-700">
-              Show Forecast
-            </label>
-            <Switch
-              id="forecast-toggle"
-              checked={showForecast}
-              onCheckedChange={setShowForecast}
-            />
-          </div>
-        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
