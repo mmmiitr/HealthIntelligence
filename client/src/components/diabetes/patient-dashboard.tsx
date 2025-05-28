@@ -10,7 +10,22 @@ interface PatientDashboardProps {
   viewMode: string;
 }
 
-export default function PatientDashboard({ timeFilter }: PatientDashboardProps) {
+export default function PatientDashboard({ timeFilter, viewMode }: PatientDashboardProps) {
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "MAY CURRENT", forecast: "JUN TARGET" };
+      case "quarterly":
+        return { current: "Q2 CURRENT", forecast: "Q3 TARGET" };
+      case "yearly":
+        return { current: "2024 CURRENT", forecast: "2025 TARGET" };
+      default:
+        return { current: "MAY CURRENT", forecast: "JUN TARGET" };
+    }
+  };
+
+  const labels = getViewLabels();
   const { data: patientProfile } = useQuery({
     queryKey: ["/api/patient/profile"],
   });

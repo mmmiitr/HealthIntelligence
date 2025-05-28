@@ -7,9 +7,25 @@ import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocation
 
 interface ClinicianDashboardProps {
   timeFilter: string;
+  viewMode: string;
 }
 
-export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardProps) {
+export default function ClinicianDashboard({ timeFilter, viewMode }: ClinicianDashboardProps) {
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+      case "quarterly":
+        return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
+      case "yearly":
+        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+      default:
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+    }
+  };
+
+  const labels = getViewLabels();
   const { data: clinicalMetrics } = useQuery({
     queryKey: ["/api/clinician/metrics", timeFilter],
   });
