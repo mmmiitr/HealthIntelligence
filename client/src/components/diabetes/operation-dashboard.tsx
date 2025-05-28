@@ -235,13 +235,14 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
             </CardContent>
           </Card>
 
-          <Card className="bg-white" style={{borderLeft: '4px solid #ef5350'}} title="Average wait time for diabetic patients in May 2025.">
+          <Card className="bg-white" style={{borderLeft: '4px solid #ef5350'}} title="Average wait time for diabetic patients in May 2025 (Target: 10 minutes).">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Average Patient Wait Time</p>
                   <p className="text-2xl font-bold text-gray-900">15</p>
                   <p className="text-xs text-gray-500 mt-1">minutes</p>
+                  <p className="text-xs text-blue-600 mt-1">Target: 10 minutes</p>
                 </div>
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                   <Clock className="text-red-600" />
