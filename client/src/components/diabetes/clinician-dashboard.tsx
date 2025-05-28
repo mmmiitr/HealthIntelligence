@@ -299,24 +299,27 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
         </Card>
       </div>
 
-      {/* High-Risk Screening Table */}
+      {/* High-Risk Patients Table */}
       <Card className="bg-white mb-8" title="Reflects ADA 2024 Standards of Care updates">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-            <AlertTriangle className="mr-2 h-5 w-5 text-orange-600" />
-            High-Risk Screening (ADA 2024)
-            <Badge className="ml-2 bg-orange-100 text-orange-800">Section 2</Badge>
+            <AlertTriangle className="mr-2 h-5 w-5 text-red-600" />
+            High-Risk Patients Requiring Attention
+            <Badge className="ml-2 bg-red-100 text-red-800">Urgent</Badge>
           </CardTitle>
-          <p className="text-sm text-gray-600 mt-1">Patients requiring enhanced monitoring</p>
+          <p className="text-sm text-gray-600 mt-1">Patients with concerning metrics requiring immediate clinical intervention</p>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full table-auto">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Risk Factor</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Action</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient ID</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Name</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Current HbA1c</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Risk Factors</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Last Visit</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Action Required</th>
                 </tr>
               </thead>
               <tbody>
