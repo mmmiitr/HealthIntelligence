@@ -27,27 +27,20 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleString('en-US', { 
-              month: 'short', 
-              day: 'numeric', 
-              year: 'numeric', 
-              hour: '2-digit', 
-              minute: '2-digit',
-              timeZoneName: 'short'
-            })}</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:29 PM IST</p>
           </div>
         </div>
       </div>
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics (Q2 2025)</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +8.2%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
@@ -81,7 +74,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Patients (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600">Active Patients</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
@@ -115,7 +108,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Avg A1C Level (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600">Avg A1C Level</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
@@ -149,7 +142,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Coordination (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600">Care Coordination</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
@@ -181,20 +174,21 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
         </div>
       </div>
 
-      {/* Action Item */}
+      {/* Critical Alerts */}
       <div className="mb-8">
-        <Card className="bg-red-50 border-l-4 border-red-500 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-red-600" />
-              <CardTitle className="text-lg font-semibold text-red-900">Action Item</CardTitle>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Critical Alerts</h3>
+        <Card className="bg-red-500 shadow-lg">
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
+                <p className="text-white font-medium">30-Day Readmission Rate (8%) exceeds target of 5%.</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
+                <p className="text-white font-medium">No-Show Appointments (12%) exceeds target of 10%.</p>
+              </div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-red-800 font-medium">Reduce 30-Day Readmission Rate (Current: 8%)</p>
-            <p className="text-sm text-red-600 mt-1" title="High readmission rates may indicate care gaps">
-              High readmission rates may indicate care gaps. Target: &lt;6% within next quarter.
-            </p>
           </CardContent>
         </Card>
       </div>
