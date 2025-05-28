@@ -211,6 +211,20 @@ export const patientEngagementData = [
 ];
 
 // Additional considerations for future data integration (ADA 2024 Standards of Care)
+// Key Metrics Trends dataset for Summary tab
+export const keyMetricsTrendsData = [
+  { month: 'Jan 2025', inControlHbA1c: 60, readmissionRate: 10 },
+  { month: 'Feb 2025', inControlHbA1c: 62, readmissionRate: 9 },
+  { month: 'Mar 2025', inControlHbA1c: 64, readmissionRate: 8.5 },
+  { month: 'Apr 2025', inControlHbA1c: 66, readmissionRate: 8 },
+  { month: 'May 2025', inControlHbA1c: 68, readmissionRate: 7.5 },
+  { month: 'Jun 2025', inControlHbA1c: 70, readmissionRate: 7 },
+  { month: 'Jul 2025', inControlHbA1c: 72, readmissionRate: 6.5 },
+  { month: 'Aug 2025', inControlHbA1c: 74, readmissionRate: 6 },
+  { month: 'Sep 2025', inControlHbA1c: 76, readmissionRate: 5.5 },
+  { month: 'Oct 2025', inControlHbA1c: 78, readmissionRate: 5 }
+];
+
 export const additionalDataConsiderations = [
   {
     category: 'Clinical Data',
