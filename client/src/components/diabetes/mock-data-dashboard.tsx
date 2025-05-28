@@ -2,10 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Database, Table, TrendingUp, Users, DollarSign, Code, Shield, Key, Server, BookOpen, GitBranch, Copy, ExternalLink } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart, ReferenceLine } from "recharts";
-import { revenueData, hba1cData, visitsData, populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, getFilteredData, additionalDataConsiderations, serviceUtilizationData, patientEngagementData } from "@/lib/mock-data";
+import { Database, Code, Shield, Server, BookOpen, GitBranch, Copy } from "lucide-react";
 import { API_ENDPOINTS, DATABASE_SCHEMAS, AUTH_DOCUMENTATION, INTEGRATION_GUIDE } from "@/lib/technical-docs";
 import { getCurrentTimestamp } from "@/lib/utils";
 
@@ -16,8 +13,6 @@ interface MockDataDashboardProps {
 
 export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDashboardProps) {
   const [activeSection, setActiveSection] = useState('overview');
-  const [selectedEndpoint, setSelectedEndpoint] = useState(0);
-  const [selectedSchema, setSelectedSchema] = useState(0);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -32,200 +27,6 @@ export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDash
     { id: 'integration', label: 'Integration Guide', icon: GitBranch },
     { id: 'data-models', label: 'Data Models', icon: Code }
   ];
-
-  // Get filtered data based on time selection
-  const filteredRevenueData = getFilteredData(revenueData, localTimeFilter);
-  const filteredHba1cData = getFilteredData(hba1cData, localTimeFilter);
-  const filteredVisitsData = getFilteredData(visitsData, localTimeFilter);
-
-  const datasets = [
-    { id: "revenue", label: "Revenue Data", icon: DollarSign, data: filteredRevenueData },
-    { id: "hba1c", label: "HbA1c Data", icon: TrendingUp, data: filteredHba1cData },
-    { id: "visits", label: "Visit Data", icon: Users, data: filteredVisitsData },
-    { id: "population", label: "Population Metrics", icon: Users, data: getFilteredData(populationMetricsData, localTimeFilter) },
-    { id: "financial", label: "Financial Metrics", icon: DollarSign, data: getFilteredData(financialMetricsData, localTimeFilter) },
-    { id: "workload", label: "Provider Workload", icon: Users, data: getFilteredData(providerWorkloadData, localTimeFilter) },
-    { id: "predictions", label: "Predictions", icon: TrendingUp, data: getFilteredData(predictionsData, localTimeFilter) },
-  ];
-
-  const renderChart = () => {
-    const currentDataset = datasets.find(d => d.id === activeDataset);
-    if (!currentDataset) return null;
-
-    if (activeDataset === "revenue") {
-      return (
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={currentDataset.data}>
-            <defs>
-              <linearGradient id="confidenceArea" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#1976d2" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#1976d2" stopOpacity={0.05}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis tickFormatter={(value) => `$${(value/1000)}K`} />
-            <Tooltip formatter={(value, name) => [
-              name === 'revenue' ? `$${value?.toLocaleString()}` : `$${value?.toLocaleString()}`,
-              name === 'revenue' ? 'Actual Revenue' : 
-              name === 'predictedRevenue' ? 'Predicted Revenue' : 'Confidence Interval'
-            ]} />
-            <Legend />
-            
-            <Area
-              type="monotone"
-              dataKey="upperCI"
-              stroke="none"
-              fill="url(#confidenceArea)"
-              fillOpacity={0.3}
-            />
-            <Area
-              type="monotone"
-              dataKey="lowerCI"
-              stroke="none"
-              fill="white"
-            />
-            
-            <Line
-              type="monotone"
-              dataKey="revenue"
-              stroke="#1976d2"
-              strokeWidth={3}
-              name="Actual Revenue"
-              dot={{ fill: "#1976d2" }}
-              connectNulls={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="predictedRevenue"
-              stroke="#4caf50"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              name="Predicted Revenue"
-              dot={{ fill: "#4caf50" }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      );
-    }
-
-    if (activeDataset === "hba1c") {
-      return (
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={currentDataset.data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis domain={[6, 8]} tickFormatter={(value) => `${value}%`} />
-            <Tooltip formatter={(value, name) => [
-              `${value}%`,
-              name === 'avgHbA1c' ? 'Historical HbA1c' : 'Predicted HbA1c'
-            ]} />
-            <Legend />
-            {/* Historical Data - Solid Line */}
-            <Line
-              type="monotone"
-              dataKey="avgHbA1c"
-              stroke="#1976d2"
-              strokeWidth={3}
-              name="Historical HbA1c"
-              dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-              connectNulls={false}
-            />
-            {/* Predicted Data - Dashed Line */}
-            <Line
-              type="monotone"
-              dataKey="predictedHbA1c"
-              stroke="#64b5f6"
-              strokeWidth={3}
-              strokeDasharray="5 5"
-              name="Predicted HbA1c"
-              dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
-              connectNulls={false}
-            />
-            {/* Reference Line at Current Date */}
-            <ReferenceLine x="May 2025" stroke="#dc2626" strokeWidth={2} label="Today" />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
-
-    if (activeDataset === "visits") {
-      return (
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={currentDataset.data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip formatter={(value, name) => [
-              value,
-              name === 'visitCount' ? 'Actual Visits' : 'Predicted Visits'
-            ]} />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="visitCount"
-              stroke="#1976d2"
-              strokeWidth={3}
-              name="Actual Visits"
-              dot={{ fill: "#1976d2" }}
-              connectNulls={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="predictedVisitCount"
-              stroke="#4caf50"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              name="Predicted Visits (Zero-Inflated Poisson)"
-              dot={{ fill: "#4caf50" }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
-  };
-
-  const renderTable = () => {
-    const currentDataset = datasets.find(d => d.id === activeDataset);
-    if (!currentDataset) return null;
-
-    const headers = Object.keys(currentDataset.data[0]);
-
-    return (
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto">
-          <thead>
-            <tr className="border-b border-gray-200">
-              {headers.map(header => (
-                <th key={header} className="text-left py-3 px-4 font-semibold text-gray-900 capitalize">
-                  {header.replace(/([A-Z])/g, ' $1').trim()}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentDataset.data.map((row: any, index: number) => (
-              <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                {headers.map(header => (
-                  <td key={header} className="py-3 px-4 text-gray-900">
-                    {row[header] !== null && row[header] !== undefined ? (
-                      typeof row[header] === 'object' && row[header] !== null ? 
-                        JSON.stringify(row[header]) :
-                      typeof row[header] === 'number' && (header.includes('revenue') || header.includes('reimbursement') || header.includes('cost')) ? 
-                        `$${row[header]?.toLocaleString()}` : 
-                        row[header]
-                    ) : (
-                      <span className="text-gray-400 italic">N/A</span>
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -416,59 +217,247 @@ export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDash
         </div>
       )}
 
-      {/* Raw Data Display Only - No Visualizations */}
+      {activeSection === 'database' && (
+        <Card className="bg-white mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <Database className="mr-2 h-5 w-5 text-purple-600" />
+              Database Schema Documentation
+            </CardTitle>
+            <p className="text-sm text-gray-600">PostgreSQL database tables and relationships</p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {DATABASE_SCHEMAS.map((schema, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold text-gray-900">{schema.table}</h4>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => copyToClipboard(schema.table)}
+                    >
+                      <Copy className="h-3 w-3 mr-1" />
+                      Copy Table Name
+                    </Button>
+                  </div>
+                  
+                  <p className="text-gray-700 mb-4">{schema.description}</p>
+                  
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm border-collapse border border-gray-300">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="border border-gray-300 px-3 py-2 text-left">Field</th>
+                          <th className="border border-gray-300 px-3 py-2 text-left">Type</th>
+                          <th className="border border-gray-300 px-3 py-2 text-left">Nullable</th>
+                          <th className="border border-gray-300 px-3 py-2 text-left">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {schema.fields.map((field, i) => (
+                          <tr key={i}>
+                            <td className="border border-gray-300 px-3 py-2 font-mono text-blue-600">{field.name}</td>
+                            <td className="border border-gray-300 px-3 py-2 font-mono">{field.type}</td>
+                            <td className="border border-gray-300 px-3 py-2">{field.nullable ? 'Yes' : 'No'}</td>
+                            <td className="border border-gray-300 px-3 py-2">{field.description}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  {schema.relationships && (
+                    <div className="mt-4">
+                      <h5 className="font-medium text-gray-900 mb-2">Relationships</h5>
+                      <div className="space-y-1">
+                        {schema.relationships.map((rel, i) => (
+                          <div key={i} className="text-sm text-gray-600">
+                            <span className="font-mono bg-gray-100 px-1 rounded">{rel.type}</span> with{' '}
+                            <span className="font-mono bg-gray-100 px-1 rounded">{rel.table}</span> - {rel.description}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* Data Table */}
-      <Card className="bg-white mb-6">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-            <Table className="mr-2 h-5 w-5 text-primary" />
-            {datasets.find(d => d.id === activeDataset)?.label} Table
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {renderTable()}
-        </CardContent>
-      </Card>
-
-      {/* Additional Data Considerations */}
-      <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Additional Data to Consider</CardTitle>
-          <p className="text-sm text-gray-600">Datasets that could enhance model accuracy and insights</p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {additionalDataConsiderations.map((category, index) => (
-              <div key={index} className={`p-4 rounded-lg ${
-                index === 0 ? 'bg-blue-50' : 
-                index === 1 ? 'bg-green-50' : 
-                index === 2 ? 'bg-purple-50' : 'bg-orange-50'
-              }`}>
-                <h4 className={`font-semibold mb-2 ${
-                  index === 0 ? 'text-blue-900' : 
-                  index === 1 ? 'text-green-900' : 
-                  index === 2 ? 'text-purple-900' : 'text-orange-900'
-                }`}>{category.category}</h4>
-                <ul className={`text-sm space-y-1 ${
-                  index === 0 ? 'text-blue-800' : 
-                  index === 1 ? 'text-green-800' : 
-                  index === 2 ? 'text-purple-800' : 'text-orange-800'
-                }`}>
-                  {category.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>• {item}</li>
+      {activeSection === 'auth' && (
+        <Card className="bg-white mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <Shield className="mr-2 h-5 w-5 text-amber-600" />
+              Authentication & Security
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-400">
+                <h4 className="font-semibold text-amber-900 mb-2">🔐 Authentication Method</h4>
+                <p className="text-amber-800">{AUTH_DOCUMENTATION.method}</p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">JWT Token Structure</h4>
+                <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto">
+{JSON.stringify(AUTH_DOCUMENTATION.tokenStructure, null, 2)}
+                </pre>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">Role-Based Access Control</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {AUTH_DOCUMENTATION.roles.map((role, index) => (
+                    <div key={index} className="bg-blue-50 p-3 rounded-lg">
+                      <h5 className="font-medium text-blue-900">{role.name}</h5>
+                      <p className="text-blue-800 text-sm mt-1">{role.description}</p>
+                      <div className="mt-2">
+                        <p className="text-xs text-blue-700 font-medium">Permissions:</p>
+                        <ul className="text-xs text-blue-700 mt-1">
+                          {role.permissions.map((perm, i) => (
+                            <li key={i}>• {perm}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                <h4 className="font-semibold text-red-900 mb-2">🛡️ HIPAA Compliance</h4>
+                <ul className="text-red-800 text-sm space-y-1">
+                  {AUTH_DOCUMENTATION.hipaaCompliance.map((item, index) => (
+                    <li key={index}>• {item}</li>
                   ))}
                 </ul>
               </div>
-            ))}
-          </div>
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-700 italic">
-              💡 Note: Consider adding: seasonal trends, demographic segments, telemedicine utilization patterns.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeSection === 'integration' && (
+        <Card className="bg-white mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <GitBranch className="mr-2 h-5 w-5 text-green-600" />
+              Integration Guide
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">Getting Started</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm">{INTEGRATION_GUIDE.gettingStarted}</pre>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">Environment Setup</h4>
+                <div className="space-y-2">
+                  {INTEGRATION_GUIDE.environmentSetup.map((step, index) => (
+                    <div key={index} className="flex items-start space-x-3">
+                      <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-medium">{index + 1}</span>
+                      <p className="text-gray-700">{step}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">Example Integration</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-xs overflow-x-auto">{INTEGRATION_GUIDE.exampleCode}</pre>
+                </div>
+              </div>
+              
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-green-900 mb-2">💡 Best Practices</h4>
+                <ul className="text-green-800 text-sm space-y-1">
+                  {INTEGRATION_GUIDE.bestPractices.map((practice, index) => (
+                    <li key={index}>• {practice}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeSection === 'data-models' && (
+        <Card className="bg-white mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <Code className="mr-2 h-5 w-5 text-indigo-600" />
+              Data Models & TypeScript Interfaces
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="bg-indigo-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-indigo-900 mb-2">📊 Core Data Models</h4>
+                <p className="text-indigo-800 text-sm">
+                  TypeScript interfaces and Zod schemas for type-safe data handling across the application.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h5 className="font-medium text-gray-900 mb-2">Patient Profile Interface</h5>
+                  <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto">{`interface PatientProfile {
+  id: number;
+  patientName: string;
+  currentHbA1c: number;
+  targetHbA1c: number;
+  lastVisitDate: string;
+  nextAppointment: string;
+  riskLevel: 'Low' | 'Medium' | 'High';
+  medicationAdherence: number;
+  lifestyle: string;
+}`}</pre>
+                </div>
+                
+                <div className="border rounded-lg p-4">
+                  <h5 className="font-medium text-gray-900 mb-2">Clinical Metrics Interface</h5>
+                  <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto">{`interface ClinicalMetrics {
+  id: number;
+  month: string;
+  year: number;
+  avgHbA1c: number;
+  totalPatients: number;
+  controlledPatients: number;
+  averageGlucose: number;
+  medicationAdherence: number;
+  timeFilter?: string;
+}`}</pre>
+                </div>
+                
+                <div className="border rounded-lg p-4">
+                  <h5 className="font-medium text-gray-900 mb-2">Admin Metrics Interface</h5>
+                  <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto">{`interface AdminMetrics {
+  id: number;
+  month: string;
+  year: number;
+  totalRevenue: number;
+  totalPatients: number;
+  operatingCosts: number;
+  netProfit: number;
+  satisfactionScore: number;
+  timeFilter?: string;
+}`}</pre>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
