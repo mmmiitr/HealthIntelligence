@@ -254,7 +254,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                 <div>
                   <p className="text-sm text-red-700 font-medium">High-Risk Patients</p>
-                  <p className="text-xs text-red-600">HbA1c > 8.5%</p>
+                  <p className="text-xs text-red-600">HbA1c {'>'} 8.5%</p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-red-900">4.2</p>
@@ -274,7 +274,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
                 <div>
                   <p className="text-sm text-green-700 font-medium">Well-Controlled</p>
-                  <p className="text-xs text-green-600">HbA1c < 7.5%</p>
+                  <p className="text-xs text-green-600">HbA1c below 7.5%</p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-green-900">1.6</p>
