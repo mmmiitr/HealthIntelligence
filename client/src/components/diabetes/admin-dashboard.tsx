@@ -250,77 +250,77 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
           <CardTitle className="text-xl font-semibold text-gray-900">Financial Metrics</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Reimbursement/Patient/Month</p>
-                  <p className="text-2xl font-bold text-green-900">${latestFinancialData?.reimbursement}</p>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-white border-l-4 border-green-500">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600" title="Monthly reimbursement from insurance">Reimbursement/Patient/Month</p>
+                      <p className="text-2xl font-bold text-green-900">${latestFinancialData?.reimbursement}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                      <DollarSign className="text-green-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Cost/Patient/Month</p>
-                  <p className="text-2xl font-bold text-blue-900">${latestFinancialData?.cost}</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-blue-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              <Card className="bg-white border-l-4 border-blue-500">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600" title="Projected monthly cost per patient">Cost/Patient/Month</p>
+                      <p className="text-2xl font-bold text-blue-900">${latestFinancialData?.cost}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                      <DollarSign className="text-blue-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Actual Cost/Patient/Month</p>
-                  <p className="text-2xl font-bold text-orange-900">${latestFinancialData?.actualCost}</p>
-                </div>
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-orange-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              <Card className="bg-white border-l-4 border-orange-500">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600" title="Actual monthly cost per patient">Actual Cost/Patient/Month</p>
+                      <p className="text-2xl font-bold text-orange-900">${latestFinancialData?.actualCost}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                      <DollarSign className="text-orange-600" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-4">Payer Mix</p>
-                  <ResponsiveContainer width="100%" height={120}>
-                    <PieChart>
-                      <Pie
-                        data={payerMixData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={20}
-                        outerRadius={40}
-                        dataKey="value"
-                      >
-                        {payerMixData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => `${value}%`} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+              <Card className="bg-white border-l-4 border-purple-500">
+                <CardContent className="p-6">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600 mb-4" title="Represents insurance distribution for diabetic patients">Payer Mix</p>
+                    <ResponsiveContainer width="100%" height={120}>
+                      <PieChart>
+                        <Pie
+                          data={payerMixData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={20}
+                          outerRadius={40}
+                          dataKey="value"
+                        >
+                          {payerMixData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value) => `${value}%`} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <p className="text-xs text-gray-500 mt-2">Represents insurance distribution for diabetic patients</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
 
       {/* Provider Workload */}
       <div className="mb-8">
