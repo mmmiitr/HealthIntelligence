@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
+import { useState } from "react";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -13,6 +15,8 @@ interface SummaryDashboardProps {
 }
 
 export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashboardProps) {
+  const [showForecast, setShowForecast] = useState(true);
+  
   const handleDownloadReport = () => {
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
   };
@@ -56,7 +60,19 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold text-gray-900">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+          <div className="flex items-center space-x-2">
+            <label htmlFor="forecast-toggle" className="text-sm font-medium text-gray-700">
+              Show Forecast
+            </label>
+            <Switch
+              id="forecast-toggle"
+              checked={showForecast}
+              onCheckedChange={setShowForecast}
+            />
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
@@ -72,7 +88,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
                 <div className="bg-gray-50 rounded-lg p-2.5">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
@@ -82,11 +98,13 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                   <p className="text-xs text-gray-600 mt-1">65% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">$1.95M</p>
-                  <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">$1.95M</p>
+                    <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -105,7 +123,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
                 <div className="bg-gray-50 rounded-lg p-2.5">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">1,247 / 1,290</p>
@@ -115,11 +133,13 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                   <p className="text-xs text-gray-600 mt-1">97% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">1,310</p>
-                  <p className="text-xs text-gray-600 mt-1">+1.6% growth projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">1,310</p>
+                    <p className="text-xs text-gray-600 mt-1">+1.6% growth projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -138,7 +158,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
                 <div className="bg-gray-50 rounded-lg p-2.5">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
@@ -148,11 +168,13 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                   <p className="text-xs text-gray-600 mt-1">Near target (lower is better)</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">6.9%</p>
-                  <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">6.9%</p>
+                    <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -172,7 +194,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
@@ -182,11 +204,13 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
                   <p className="text-xs text-gray-600 mt-1">99% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">96%</p>
-                  <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">96%</p>
+                    <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
