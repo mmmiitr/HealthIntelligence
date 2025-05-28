@@ -8,12 +8,29 @@ import { keyMetricsTrendsData } from "@/lib/mock-data";
 
 interface SummaryDashboardProps {
   timeFilter: string;
+  viewMode: string;
 }
 
-export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) {
+export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashboardProps) {
   const handleDownloadReport = () => {
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
   };
+
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "{labels.current}", forecast: "{labels.forecast}" };
+      case "quarterly":
+        return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
+      case "yearly":
+        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+      default:
+        return { current: "{labels.current}", forecast: "{labels.forecast}" };
+    }
+  };
+
+  const labels = getViewLabels();
 
   return (
     <div>
@@ -67,7 +84,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
                   <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                     <div className="bg-green-500 h-1.5 rounded-full" style={{width: '65%'}}></div>
@@ -76,7 +93,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
                   <p className="text-lg font-bold text-gray-900">$1.95M</p>
                   <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
                 </div>
@@ -100,7 +117,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">1,247 / 1,290</p>
                   <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                     <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '97%'}}></div>
@@ -109,7 +126,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
                   <p className="text-lg font-bold text-gray-900">1,310</p>
                   <p className="text-xs text-gray-600 mt-1">+1.6% growth projected</p>
                 </div>
@@ -133,7 +150,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
                   <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
                     <div className="bg-orange-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
@@ -142,7 +159,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
                   <p className="text-lg font-bold text-gray-900">6.9%</p>
                   <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
                 </div>
@@ -167,7 +184,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">MAY PROGRESS</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
                   <div className="mt-2 bg-gray-200 rounded-full h-2">
                     <div className="bg-orange-500 h-2 rounded-full" style={{width: '99%'}}></div>
@@ -176,7 +193,7 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
                 </div>
                 
                 <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">JUN FORECAST</p>
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
                   <p className="text-xl font-bold text-gray-900">96%</p>
                   <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
                 </div>
