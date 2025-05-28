@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, TrendingUp, Shield, Brain, AlertTriangle } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
-import { revenueData, revenueByInsuranceData } from "@/lib/mock-data";
+import { revenueData, revenueByInsuranceData, payerRevenueTrends } from "@/lib/mock-data";
+import { getCurrentTimestamp } from "@/lib/utils";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -52,7 +53,7 @@ export default function FinanceDashboard({ timeFilter, viewMode }: FinanceDashbo
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
+            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
@@ -251,6 +252,63 @@ export default function FinanceDashboard({ timeFilter, viewMode }: FinanceDashbo
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Payer Revenue Trends */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Payer Revenue Trends ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Payer Revenue Trends Over Time</CardTitle>
+            <p className="text-sm text-gray-600">Payer Revenue Trends Over Time (Mock Data)</p>
+            <p className="text-xs text-gray-500">Data Range: Jan 2025 - Oct 2025</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={payerRevenueTrends}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => `$${(value/1000)}K`} />
+                <Tooltip formatter={(value, name) => [`$${value?.toLocaleString()}`, name]} 
+                         labelFormatter={() => "Mock data as of May 2025."} />
+                <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
+                <Line
+                  type="monotone"
+                  dataKey="medicare"
+                  stroke="#1976d2"
+                  strokeWidth={3}
+                  name="Medicare"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="medicaid"
+                  stroke="#4caf50"
+                  strokeWidth={3}
+                  name="Medicaid"
+                  dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="private"
+                  stroke="#64b5f6"
+                  strokeWidth={3}
+                  name="Private"
+                  dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="other"
+                  stroke="#ef5350"
+                  strokeWidth={3}
+                  name="Other"
+                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Revenue Predictions */}
