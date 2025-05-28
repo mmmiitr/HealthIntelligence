@@ -10,9 +10,10 @@ import { Button } from "@/components/ui/button";
 interface PatientDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function PatientDashboard({ timeFilter, viewMode }: PatientDashboardProps) {
+export default function PatientDashboard({ timeFilter, viewMode, showForecast }: PatientDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
     switch(viewMode) {

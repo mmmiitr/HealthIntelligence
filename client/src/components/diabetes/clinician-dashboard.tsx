@@ -8,9 +8,10 @@ import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocation
 interface ClinicianDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function ClinicianDashboard({ timeFilter, viewMode }: ClinicianDashboardProps) {
+export default function ClinicianDashboard({ timeFilter, viewMode, showForecast }: ClinicianDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
     switch(viewMode) {

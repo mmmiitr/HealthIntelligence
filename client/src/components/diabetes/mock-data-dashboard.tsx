@@ -9,9 +9,10 @@ import { getCurrentTimestamp } from "@/lib/utils";
 interface MockDataDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function MockDataDashboard({ timeFilter, viewMode }: MockDataDashboardProps) {
+export default function MockDataDashboard({ timeFilter, viewMode, showForecast }: MockDataDashboardProps) {
   const [activeSection, setActiveSection] = useState('overview');
 
   const copyToClipboard = (text: string) => {

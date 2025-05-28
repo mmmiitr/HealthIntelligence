@@ -9,9 +9,10 @@ import { getCurrentTimestamp } from "@/lib/utils";
 interface OperationDashboardProps {
   timeFilter: string;
   viewMode: string;
+  showForecast: boolean;
 }
 
-export default function OperationDashboard({ timeFilter, viewMode }: OperationDashboardProps) {
+export default function OperationDashboard({ timeFilter, viewMode, showForecast }: OperationDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
     switch(viewMode) {
