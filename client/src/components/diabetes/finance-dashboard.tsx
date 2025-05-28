@@ -36,7 +36,7 @@ export default function FinanceDashboard({ timeFilter }: FinanceDashboardProps) 
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:44 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
           </div>
         </div>
       </div>

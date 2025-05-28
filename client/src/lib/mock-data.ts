@@ -225,6 +225,20 @@ export const keyMetricsTrendsData = [
   { month: 'Oct 2025', inControlHbA1c: 78, readmissionRate: 5 }
 ];
 
+// John Doe's HbA1c trend data for Patient tab
+export const johnDoeHbA1cTrend = [
+  { month: 'Jan 2025', hba1c: 6.5 },
+  { month: 'Feb 2025', hba1c: 6.6 },
+  { month: 'Mar 2025', hba1c: 6.4 },
+  { month: 'Apr 2025', hba1c: 6.3 },
+  { month: 'May 2025', hba1c: 6.2 },
+  { month: 'Jun 2025', hba1c: 6.1 },
+  { month: 'Jul 2025', hba1c: 6.0 },
+  { month: 'Aug 2025', hba1c: 5.9 },
+  { month: 'Sep 2025', hba1c: 5.8 },
+  { month: 'Oct 2025', hba1c: 5.7 }
+];
+
 export const additionalDataConsiderations = [
   {
     category: 'Clinical Data',

@@ -1,0 +1,61 @@
+Update the existing React-based healthcare dashboard prototype for chronic care management of diabetic patients, applying final refinements to enhance user experience. Use Material-UI for styling and Recharts for visualizations. Make the following enhancements while leaving other aspects unchanged: 
+
+Update Timestamp: 
+
+Update the "Last Updated" timestamp in all tabs: "Last Updated: May 28, 2025, 05:52 PM IST". 
+
+Add Customizable Targets for Alerts: 
+
+In the Summary tab, add a mock "Set Alert Targets" section in a Paper component (elevation={3}): 
+
+Use Material-UI TextField to simulate editable targets: 
+
+"30-Day Readmission Rate Target (%)": Default value "5". 
+
+"No-Show Appointments Target (%)": Default value "10". 
+
+Add a Button: "Save Targets" (placeholder, no functionality needed). 
+
+Add a note: "Mock feature: Adjust targets for critical alerts." 
+
+Expand Patient Tab: 
+
+In the Patient tab, add a "HbA1c Trend" section with a LineChart: 
+
+Data: Mock HbA1c trend for John Doe (e.g., { month: 'Jan 2025', hba1c: 6.5 }, { month: 'Feb 2025', hba1c: 6.6 }). 
+
+X-axis: "MMM YYYY". 
+
+Y-axis: HbA1c (%). 
+
+Line: Single line (#1976d2). 
+
+Caption: "John Doe’s HbA1c Trend (Mock Data)". 
+
+Subtitle: "Data Range: [Start Month] - [End Month]". 
+
+Tooltip: "Mock data as of May 2025." 
+
+Add a "Care Plan" section with mock data: 
+
+"Medications": "Metformin 500mg daily". 
+
+"Next Appointment": "June 5, 2025". 
+
+Use Typography variant body1 for each item. 
+
+Simulate Export Functionality: 
+
+In the Summary tab, update the "Download Report (CSV)" button to show a mock alert on click: 
+
+Use Material-UI Button with an onClick handler to trigger a window.alert: "Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)". 
+
+No actual download is needed; the alert simulates the action. 
+
+Update Mock Data: 
+
+Add dataset in mockData.js for John Doe’s HbA1c trend (10 rows, "MMM YYYY" format): 
+
+Example: { month: 'Jan 2025', hba1c: 6.5 }. 
+
+ 
