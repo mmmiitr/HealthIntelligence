@@ -45,76 +45,136 @@ export default function SummaryDashboard({ timeFilter }: SummaryDashboardProps) 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total Revenue (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">$1.8M</p>
-                  <p className="text-xs text-gray-500 mt-1">Realized: $1.2M / Est: $1.85M | Q3: $1.95M proj.</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-green-600 font-medium text-sm">↑ +8.2%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <DollarSign className="text-green-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-green-600 font-medium">↑ +8.2%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">$1.2M / $1.85M</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full" style={{width: '65%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">65% complete</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">$1.95M</p>
+                  <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-white border-l-4 border-blue-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Active Patients (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">1,247</p>
-                  <p className="text-xs text-gray-500 mt-1">Current: 1,247 / Est: 1,290 | Q3: 1,310 proj.</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="text-blue-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-blue-600 font-medium">↑ +5.1%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">97% complete</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">1,310</p>
+                  <p className="text-xs text-gray-600 mt-1">+1.6% growth projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-white border-l-4 border-purple-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Avg A1C Level (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">7.2%</p>
-                  <p className="text-xs text-gray-500 mt-1">Current: 7.2% / Est: 7.1% | Q3: 6.9% proj.</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <Heart className="text-purple-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-green-600 font-medium">↓ -0.3%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">7.2% / 7.1%</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '98%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">Near target (lower is better)</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">6.9%</p>
+                  <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-white border-l-4 border-orange-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Care Coordination (Q2 2025)</p>
-                  <p className="text-2xl font-bold text-gray-900">94%</p>
-                  <p className="text-xs text-gray-500 mt-1">Current: 94% / Est: 95% | Q3: 96% proj.</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
+                    <span className="text-gray-500 text-sm">vs Q1</span>
+                  </div>
                 </div>
                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                   <UserCheck className="text-orange-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-green-600 font-medium">↑ +2.1%</span>
-                <span className="text-gray-500 ml-2">vs Q1 2025</span>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q2 PROGRESS</p>
+                  <p className="text-xl font-bold text-gray-900">94% / 95%</p>
+                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '99%'}}></div>
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">99% complete</p>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">Q3 FORECAST</p>
+                  <p className="text-xl font-bold text-gray-900">96%</p>
+                  <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                </div>
               </div>
             </CardContent>
           </Card>
