@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle, Download, Settings } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
+import { getCurrentTimestamp } from "@/lib/utils";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -59,7 +60,7 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
               <Download className="h-4 w-4" />
               <span>Download Report (CSV)</span>
             </Button>
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
+            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
