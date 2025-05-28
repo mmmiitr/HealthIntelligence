@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { populationMetricsData, providerWorkloadData, patientFlowData, resourceAllocationData, serviceUtilizationData } from "@/lib/mock-data";
+import { getCurrentTimestamp } from "@/lib/utils";
 
 interface OperationDashboardProps {
   timeFilter: string;
@@ -54,7 +55,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
+            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
           </div>
         </div>
       </div>
