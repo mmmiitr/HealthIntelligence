@@ -64,7 +64,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
                 <div className="bg-gray-50 rounded-lg p-2.5">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                   <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
@@ -74,11 +74,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <p className="text-xs text-gray-600 mt-1">94% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">$465K</p>
-                  <p className="text-xs text-gray-600 mt-1">+9.4% growth projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">$465K</p>
+                    <p className="text-xs text-gray-600 mt-1">+9.4% growth projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -97,7 +99,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">$1.2M / $1.85M</p>
@@ -107,11 +109,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <p className="text-xs text-gray-600 mt-1">65% complete</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">$1.95M</p>
-                  <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
+                    <p className="text-xl font-bold text-gray-900">$1.95M</p>
+                    <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

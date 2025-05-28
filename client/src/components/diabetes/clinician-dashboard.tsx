@@ -95,7 +95,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-3">
+            <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
               <div className="bg-gray-50 rounded-lg p-2.5">
                 <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
                 <p className="text-lg font-bold text-gray-900">{averageA1C}% / 7.1%</p>
@@ -105,11 +105,13 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                 <p className="text-xs text-gray-600 mt-1">Near target</p>
               </div>
               
-              <div className="bg-blue-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                <p className="text-lg font-bold text-gray-900">6.9%</p>
-                <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
-              </div>
+              {showForecast && (
+                <div className="bg-blue-50 rounded-lg p-2.5">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                  <p className="text-lg font-bold text-gray-900">6.9%</p>
+                  <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
