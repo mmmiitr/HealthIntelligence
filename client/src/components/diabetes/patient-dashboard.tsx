@@ -7,6 +7,7 @@ import { johnDoeHbA1cTrend } from "@/lib/mock-data";
 
 interface PatientDashboardProps {
   timeFilter: string;
+  viewMode: string;
 }
 
 export default function PatientDashboard({ timeFilter }: PatientDashboardProps) {
