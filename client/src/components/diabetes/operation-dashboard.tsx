@@ -67,7 +67,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600"># of Chronic Patients (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600"># of Chronic Patients ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
@@ -101,7 +101,7 @@ export default function OperationDashboard({ timeFilter, viewMode }: OperationDa
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Readmission Rate (Q2 2025)</p>
+                  <p className="text-sm font-medium text-gray-600">Readmission Rate ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-red-600 font-medium text-sm">↑ +0.8%</span>
                     <span className="text-gray-500 text-sm">vs Q1</span>
