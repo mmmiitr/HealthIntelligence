@@ -67,7 +67,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+              <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">1,247 / 1,290</p>
@@ -103,7 +103,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+              <div className="space-y-3">
                 <div className="bg-red-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">8% / 5%</p>
@@ -139,7 +139,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+              <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">94% / 95%</p>
@@ -174,7 +174,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
                 </div>
               </div>
               
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+              <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
                   <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
                   <p className="text-xl font-bold text-gray-900">4.6 / 4.5</p>
