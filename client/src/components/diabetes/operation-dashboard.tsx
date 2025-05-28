@@ -38,14 +38,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleString('en-US', { 
-              month: 'short', 
-              day: 'numeric', 
-              year: 'numeric', 
-              hour: '2-digit', 
-              minute: '2-digit',
-              timeZoneName: 'short'
-            })}</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:44 PM IST</p>
           </div>
         </div>
       </div>
