@@ -253,19 +253,7 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
         </CardContent>
       </Card>
 
-      {/* Chart Visualization */}
-      <Card className="bg-white mb-6">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-            <TrendingUp className="mr-2 h-5 w-5 text-primary" />
-            {datasets.find(d => d.id === activeDataset)?.label} Visualization
-            <Badge className="ml-2 bg-green-100 text-green-800">AI/ML Predictions</Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {renderChart()}
-        </CardContent>
-      </Card>
+      {/* Raw Data Display Only - No Visualizations */}
 
       {/* Data Table */}
       <Card className="bg-white mb-6">
@@ -313,7 +301,7 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
           </div>
           <div className="mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-700 italic">
-              💡 Note: Consider adding comorbidities, payer mix, and regional trends for enhanced predictive accuracy.
+              💡 Note: Consider adding bone health risk factors, smoking status, and medication-induced prediabetes risk (Section 2, 4, 5 updates).
             </p>
           </div>
         </CardContent>
