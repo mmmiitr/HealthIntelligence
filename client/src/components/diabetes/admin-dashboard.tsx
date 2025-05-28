@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell, ReferenceLine } from "recharts";
-import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData, patientFlowData, revenueByInsuranceData } from "@/lib/mock-data";
+import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData, patientFlowData, revenueByInsuranceData, serviceUtilizationData } from "@/lib/mock-data";
 
 interface AdminDashboardProps {
   timeFilter: string;
@@ -80,7 +80,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
             </div>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:20 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 04:27 PM IST</p>
           </div>
         </div>
       </div>
@@ -308,7 +308,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                         <Tooltip formatter={(value, name) => [`${value}%`, name]} />
                       </PieChart>
                     </ResponsiveContainer>
-                    <p className="text-xs text-gray-500 mt-2">Payer Mix for Diabetic Patients (as of May 2025)</p>
+                    <p className="text-xs text-gray-500 mt-2">Payer Mix for Diabetic Patients (Total: 500, as of May 2025)</p>
                   </div>
                 </CardContent>
               </Card>
@@ -704,6 +704,30 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                   <p className="text-sm text-green-600">Above national average of 4.2</p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Service Utilization Trends */}
+          <Card className="bg-white shadow-md">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">Service Utilization Trends</CardTitle>
+              <p className="text-sm text-gray-600">Service Utilization Trends (Mock Data)</p>
+              <p className="text-xs text-gray-500">Data Range: Jan 2025 - Oct 2025</p>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={serviceUtilizationData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value, name) => [`${value} uses`, name]} 
+                           labelFormatter={() => "Mock data simulating trends as of May 2025."} />
+                  <Legend />
+                  <Bar dataKey="labTests" fill="#1976d2" name="Lab Tests" />
+                  <Bar dataKey="consultations" fill="#4caf50" name="Consultations" />
+                  <Bar dataKey="telemedicine" fill="#64b5f6" name="Telemedicine" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </TabsContent>

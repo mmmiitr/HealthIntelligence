@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Heart, AlertTriangle, Users, Brain, Calendar, Shield, TrendingUp } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, Area, AreaChart, ReferenceLine, BarChart, Bar } from "recharts";
-import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocationData } from "@/lib/mock-data";
+import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocationData, patientEngagementData } from "@/lib/mock-data";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -536,6 +536,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 />
               </LineChart>
             </ResponsiveContainer>
+            <p className="text-xs text-gray-500 mt-2">
+              Stable (#4caf50), Improving (#1976d2), Declining (#ef5350)
+            </p>
           </CardContent>
         </Card>
 

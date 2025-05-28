@@ -182,6 +182,34 @@ export const resourceAllocationData = [
   { month: 'Oct 2025', needed: 630, available: 590 },
 ];
 
+// Service Utilization (Admin Dashboard - Operation Tab)
+export const serviceUtilizationData = [
+  { month: 'Jan 2025', labTests: 150, consultations: 200, telemedicine: 100 },
+  { month: 'Feb 2025', labTests: 165, consultations: 210, telemedicine: 120 },
+  { month: 'Mar 2025', labTests: 140, consultations: 195, telemedicine: 110 },
+  { month: 'Apr 2025', labTests: 175, consultations: 220, telemedicine: 135 },
+  { month: 'May 2025', labTests: 180, consultations: 240, telemedicine: 150 },
+  { month: 'Jun 2025', labTests: 190, consultations: 250, telemedicine: 160 },
+  { month: 'Jul 2025', labTests: 185, consultations: 245, telemedicine: 155 },
+  { month: 'Aug 2025', labTests: 200, consultations: 260, telemedicine: 170 },
+  { month: 'Sep 2025', labTests: 195, consultations: 255, telemedicine: 165 },
+  { month: 'Oct 2025', labTests: 210, consultations: 270, telemedicine: 180 },
+];
+
+// Patient Engagement (Clinician Dashboard)
+export const patientEngagementData = [
+  { month: 'Jan 2025', adherence: 80, telemedicineUsage: 30 },
+  { month: 'Feb 2025', adherence: 82, telemedicineUsage: 35 },
+  { month: 'Mar 2025', adherence: 78, telemedicineUsage: 32 },
+  { month: 'Apr 2025', adherence: 85, telemedicineUsage: 40 },
+  { month: 'May 2025', adherence: 87, telemedicineUsage: 45 },
+  { month: 'Jun 2025', adherence: 89, telemedicineUsage: 48 },
+  { month: 'Jul 2025', adherence: 88, telemedicineUsage: 46 },
+  { month: 'Aug 2025', adherence: 90, telemedicineUsage: 50 },
+  { month: 'Sep 2025', adherence: 92, telemedicineUsage: 52 },
+  { month: 'Oct 2025', adherence: 91, telemedicineUsage: 55 },
+];
+
 // Additional considerations for future data integration (ADA 2024 Standards of Care)
 export const additionalDataConsiderations = [
   {
