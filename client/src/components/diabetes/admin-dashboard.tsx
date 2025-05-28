@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell, ReferenceLine } from "recharts";
-import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData } from "@/lib/mock-data";
+import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData, patientFlowData, revenueByInsuranceData } from "@/lib/mock-data";
 
 interface AdminDashboardProps {
   timeFilter: string;
@@ -698,6 +698,87 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
           </Card>
         </div>
       )}
+
+      {/* Additional Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Hidden Trends in Patient Flow */}
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Hidden Trends in Patient Flow</CardTitle>
+            <p className="text-sm text-gray-600">Seasonal Trends in Patient Visits (Mock Data)</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={patientFlowData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip formatter={(value) => [`${value} visits`, 'Patient Visits']} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="visits"
+                  stroke="#1976d2"
+                  strokeWidth={3}
+                  name="Patient Visits"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Predicted Revenue by Insurance Type and Demographics */}
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Predicted Revenue by Insurance Type and Demographics</CardTitle>
+            <p className="text-sm text-gray-600">Revenue Forecast by Insurance and Age Group (Accuracy: 5-10%)</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={revenueByInsuranceData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => `$${value}`} />
+                <Tooltip formatter={(value, name) => [`$${value}`, name]} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="medicare_18_40"
+                  stroke="#1976d2"
+                  strokeWidth={2}
+                  name="Medicare 18-40"
+                  dot={{ fill: "#1976d2", r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="medicare_41_65"
+                  stroke="#64b5f6"
+                  strokeWidth={2}
+                  name="Medicare 41-65"
+                  dot={{ fill: "#64b5f6", r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="private_18_40"
+                  stroke="#4caf50"
+                  strokeWidth={2}
+                  name="Private 18-40"
+                  dot={{ fill: "#4caf50", r: 3 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="private_41_65"
+                  stroke="#81c784"
+                  strokeWidth={2}
+                  name="Private 41-65"
+                  dot={{ fill: "#81c784", r: 3 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
