@@ -54,7 +54,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Progress (94%)</p>
+                  <p className="text-sm font-medium text-gray-600">Total Profit</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +12.5%</span>
                   </div>
@@ -87,7 +87,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Revenue (65%)</p>
+                  <p className="text-sm font-medium text-gray-600">Revenue ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +8.2%</span>
                   </div>
@@ -120,7 +120,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Alignment (99%)</p>
+                  <p className="text-sm font-medium text-gray-600">Care Management Alignment ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
                     <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
