@@ -1,29 +1,29 @@
 // Mock data for diabetes care management dashboard
 
 export const revenueData = [
-  { month: 'Jan 2025', revenue: 850000, predictedRevenue: null, lowerCI: null, upperCI: null },
-  { month: 'Feb 2025', revenue: 920000, predictedRevenue: null, lowerCI: null, upperCI: null },
-  { month: 'Mar 2025', revenue: 880000, predictedRevenue: null, lowerCI: null, upperCI: null },
-  { month: 'Apr 2025', revenue: 950000, predictedRevenue: null, lowerCI: null, upperCI: null },
-  { month: 'May 2025', revenue: 1000000, predictedRevenue: null, lowerCI: null, upperCI: null },
-  { month: 'Jun 2025', revenue: null, predictedRevenue: 1120000, lowerCI: 1070000, upperCI: 1170000 },
-  { month: 'Jul 2025', revenue: null, predictedRevenue: 1150000, lowerCI: 1100000, upperCI: 1200000 },
-  { month: 'Aug 2025', revenue: null, predictedRevenue: 1180000, lowerCI: 1130000, upperCI: 1230000 },
-  { month: 'Sep 2025', revenue: null, predictedRevenue: 1210000, lowerCI: 1160000, upperCI: 1260000 },
-  { month: 'Oct 2025', revenue: null, predictedRevenue: 1240000, lowerCI: 1190000, upperCI: 1290000 },
+  { month: 'Jan 2025', revenue: 850000, predictedRevenue: null, lowerCI: null, upperCI: null, isHistorical: true },
+  { month: 'Feb 2025', revenue: 920000, predictedRevenue: null, lowerCI: null, upperCI: null, isHistorical: true },
+  { month: 'Mar 2025', revenue: 880000, predictedRevenue: null, lowerCI: null, upperCI: null, isHistorical: true },
+  { month: 'Apr 2025', revenue: 950000, predictedRevenue: null, lowerCI: null, upperCI: null, isHistorical: true },
+  { month: 'May 2025', revenue: 1000000, predictedRevenue: null, lowerCI: null, upperCI: null, isHistorical: true },
+  { month: 'Jun 2025', revenue: null, predictedRevenue: 1120000, lowerCI: 1070000, upperCI: 1170000, isHistorical: false },
+  { month: 'Jul 2025', revenue: null, predictedRevenue: 1150000, lowerCI: 1100000, upperCI: 1200000, isHistorical: false },
+  { month: 'Aug 2025', revenue: null, predictedRevenue: 1180000, lowerCI: 1130000, upperCI: 1230000, isHistorical: false },
+  { month: 'Sep 2025', revenue: null, predictedRevenue: 1210000, lowerCI: 1160000, upperCI: 1260000, isHistorical: false },
+  { month: 'Oct 2025', revenue: null, predictedRevenue: 1240000, lowerCI: 1190000, upperCI: 1290000, isHistorical: false },
 ];
 
 export const hba1cData = [
-  { month: 'Jan 2025', avgHbA1c: 7.8, predictedHbA1c: null },
-  { month: 'Feb 2025', avgHbA1c: 7.6, predictedHbA1c: null },
-  { month: 'Mar 2025', avgHbA1c: 7.4, predictedHbA1c: null },
-  { month: 'Apr 2025', avgHbA1c: 7.2, predictedHbA1c: null },
-  { month: 'May 2025', avgHbA1c: 7.0, predictedHbA1c: null },
-  { month: 'Jun 2025', avgHbA1c: null, predictedHbA1c: 6.8 },
-  { month: 'Jul 2025', avgHbA1c: null, predictedHbA1c: 6.7 },
-  { month: 'Aug 2025', avgHbA1c: null, predictedHbA1c: 6.6 },
-  { month: 'Sep 2025', avgHbA1c: null, predictedHbA1c: 6.5 },
-  { month: 'Oct 2025', avgHbA1c: null, predictedHbA1c: 6.4 },
+  { month: 'Jan 2025', avgHbA1c: 7.8, predictedHbA1c: null, isHistorical: true },
+  { month: 'Feb 2025', avgHbA1c: 7.6, predictedHbA1c: null, isHistorical: true },
+  { month: 'Mar 2025', avgHbA1c: 7.4, predictedHbA1c: null, isHistorical: true },
+  { month: 'Apr 2025', avgHbA1c: 7.2, predictedHbA1c: null, isHistorical: true },
+  { month: 'May 2025', avgHbA1c: 7.0, predictedHbA1c: null, isHistorical: true },
+  { month: 'Jun 2025', avgHbA1c: null, predictedHbA1c: 6.8, isHistorical: false },
+  { month: 'Jul 2025', avgHbA1c: null, predictedHbA1c: 6.7, isHistorical: false },
+  { month: 'Aug 2025', avgHbA1c: null, predictedHbA1c: 6.6, isHistorical: false },
+  { month: 'Sep 2025', avgHbA1c: null, predictedHbA1c: 6.5, isHistorical: false },
+  { month: 'Oct 2025', avgHbA1c: null, predictedHbA1c: 6.4, isHistorical: false },
 ];
 
 export const visitsData = [
