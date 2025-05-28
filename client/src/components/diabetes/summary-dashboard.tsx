@@ -21,13 +21,13 @@ export default function SummaryDashboard({ timeFilter, viewMode }: SummaryDashbo
   const getViewLabels = () => {
     switch(viewMode) {
       case "monthly":
-        return { current: "{labels.current}", forecast: "{labels.forecast}" };
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
       case "quarterly":
         return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
       case "yearly":
-        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+        return { current: "2025 PROGRESS", forecast: "2026 FORECAST" };
       default:
-        return { current: "{labels.current}", forecast: "{labels.forecast}" };
+        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
     }
   };
 
