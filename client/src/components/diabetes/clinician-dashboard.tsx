@@ -95,21 +95,30 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               </div>
             </div>
             
-            <div className="space-y-3">
+            <div className="space-y-4">
+              {/* Row 1: Progress bar with percentage */}
               <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-3">
+                <div className="bg-gray-200 rounded-full h-2 mb-2">
                   <div className="bg-blue-500 h-2 rounded-full" style={{width: '98%'}}></div>
                 </div>
-                <p className="text-lg font-bold text-gray-900 text-center">{averageA1C}% / 7.1%</p>
+                <p className="text-xs text-gray-600 text-center">98% at target</p>
               </div>
               
-              {showForecast && (
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">6.9%</p>
-                  <p className="text-xs text-gray-600 mt-1">-4.2% improvement projected</p>
+              {/* Row 2: Current values with forecast comparison */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xl font-bold text-gray-900">{averageA1C}% / 7.1%</p>
+                    <p className="text-xs text-gray-600">Current</p>
+                  </div>
+                  {showForecast && (
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-blue-600">6.9%</p>
+                      <p className="text-xs text-blue-600">-4.2% forecast</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </CardContent>
         </Card>

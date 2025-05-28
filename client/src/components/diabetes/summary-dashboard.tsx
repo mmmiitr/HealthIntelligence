@@ -173,12 +173,12 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                 <div className="bg-gray-50 rounded-lg p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-lg font-bold text-gray-900">7.2% / 7.1%</p>
+                      <p className="text-xl font-bold text-gray-900">7.2% / 7.1%</p>
                       <p className="text-xs text-gray-600">Current</p>
                     </div>
                     {showForecast && (
                       <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">6.9%</p>
+                        <p className="text-xl font-bold text-blue-600">6.9%</p>
                         <p className="text-xs text-blue-600">-4.2% forecast</p>
                       </div>
                     )}
@@ -216,12 +216,12 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                 <div className="bg-gray-50 rounded-lg p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-lg font-bold text-gray-900">94% / 95%</p>
+                      <p className="text-xl font-bold text-gray-900">94% / 95%</p>
                       <p className="text-xs text-gray-600">Current</p>
                     </div>
                     {showForecast && (
                       <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">96%</p>
+                        <p className="text-xl font-bold text-blue-600">96%</p>
                         <p className="text-xs text-blue-600">+1.1% forecast</p>
                       </div>
                     )}
