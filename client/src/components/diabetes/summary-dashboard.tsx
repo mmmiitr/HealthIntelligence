@@ -60,7 +60,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
@@ -178,18 +178,16 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               
               <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
-                  <p className="text-xl font-bold text-gray-900">94% / 95%</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
                     <div className="bg-orange-500 h-2 rounded-full" style={{width: '99%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">99% complete</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">94% / 95%</p>
                 </div>
                 
                 {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                    <p className="text-xl font-bold text-gray-900">96%</p>
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">96%</p>
                     <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
                   </div>
                 )}

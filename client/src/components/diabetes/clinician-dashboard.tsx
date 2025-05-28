@@ -79,7 +79,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-white">
           <CardContent className="p-6">
@@ -96,13 +96,11 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             </div>
             
             <div className="space-y-3">
-              <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                <p className="text-lg font-bold text-gray-900">{averageA1C}% / 7.1%</p>
-                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                  <div className="bg-blue-500 h-1.5 rounded-full" style={{width: '98%'}}></div>
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="bg-blue-500 h-2 rounded-full" style={{width: '98%'}}></div>
                 </div>
-                <p className="text-xs text-gray-600 mt-1">Near target</p>
+                <p className="text-lg font-bold text-gray-900 text-center">{averageA1C}% / 7.1%</p>
               </div>
               
               {showForecast && (
