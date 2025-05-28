@@ -179,23 +179,30 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               </div>
             </div>
             
-            <div className="space-y-3">
-              <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                <p className="text-lg font-bold text-gray-900">84% / 85%</p>
-                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                  <div className="bg-green-500 h-1.5 rounded-full" style={{width: '99%'}}></div>
+            <div className="space-y-4">
+              {/* Row 1: Progress bar with percentage */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-gray-200 rounded-full h-2 mb-2">
+                  <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
                 </div>
-                <p className="text-xs text-gray-600 mt-1">99% complete</p>
+                <p className="text-xs text-gray-600 text-center">99% complete</p>
               </div>
               
-              {showForecast && (
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">87%</p>
-                  <p className="text-xs text-gray-600 mt-1">+3.6% improvement projected</p>
+              {/* Row 2: Current values with forecast comparison */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xl font-bold text-gray-900">84% / 85%</p>
+                    <p className="text-xs text-gray-600">Current</p>
+                  </div>
+                  {showForecast && (
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-blue-600">87%</p>
+                      <p className="text-xs text-blue-600">+3.6% forecast</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
             
             <div className="mt-3 p-2 bg-orange-50 rounded">
@@ -220,23 +227,30 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               </div>
             </div>
             
-            <div className="space-y-3">
-              <div className="bg-gray-50 rounded-lg p-2.5">
-                <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                <p className="text-lg font-bold text-gray-900">3.2% / 4.0%</p>
-                <div className="mt-1.5 bg-gray-200 rounded-full h-1.5">
-                  <div className="bg-green-500 h-1.5 rounded-full" style={{width: '80%'}}></div>
+            <div className="space-y-4">
+              {/* Row 1: Progress bar with percentage */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="bg-gray-200 rounded-full h-2 mb-2">
+                  <div className="bg-green-500 h-2 rounded-full" style={{width: '80%'}}></div>
                 </div>
-                <p className="text-xs text-gray-600 mt-1">Below target (lower is better)</p>
+                <p className="text-xs text-gray-600 text-center">Below target</p>
               </div>
               
-              {showForecast && (
-                <div className="bg-blue-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                  <p className="text-lg font-bold text-gray-900">2.8%</p>
-                  <p className="text-xs text-gray-600 mt-1">-12.5% improvement projected</p>
+              {/* Row 2: Current values with forecast comparison */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xl font-bold text-gray-900">3.2% / 4.0%</p>
+                    <p className="text-xs text-gray-600">Current</p>
+                  </div>
+                  {showForecast && (
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-blue-600">2.8%</p>
+                      <p className="text-xs text-blue-600">-12.5% forecast</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </CardContent>
         </Card>
