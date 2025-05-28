@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, Calendar, Pill, BookOpen, Target, Apple, Dumbbell } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Activity, Calendar, Pill, BookOpen, Target, Apple, Dumbbell, TrendingUp, User } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { johnDoeHbA1cTrend } from "@/lib/mock-data";
 
 interface PatientDashboardProps {
   timeFilter: string;
@@ -68,7 +69,7 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
             <p className="text-gray-600 mt-1">Personal diabetes management</p>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:29 PM IST</p>
+            <p className="text-sm text-gray-500">Last Updated: May 28, 2025, 05:52 PM IST</p>
           </div>
         </div>
       </div>
@@ -180,6 +181,75 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
               />
             </LineChart>
           </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* HbA1c Trend with John Doe's Data */}
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+            <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
+            John Doe's HbA1c Trend
+          </CardTitle>
+          <p className="text-sm text-gray-600">Extended trend data: Jan 2025 - Oct 2025</p>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={johnDoeHbA1cTrend}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis domain={[5.5, 7]} tickFormatter={(value) => `${value}%`} />
+              <Tooltip 
+                formatter={(value) => [`${value}%`, "HbA1c"]} 
+                labelFormatter={(label) => `${label} - Extended View`}
+              />
+              <Legend />
+              <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
+              <Line
+                type="monotone"
+                dataKey="hba1c"
+                stroke="#1976d2"
+                strokeWidth={3}
+                name="HbA1c (%)"
+                dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Care Plan */}
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+            <User className="mr-2 h-5 w-5 text-green-600" />
+            John Doe's Current Care Plan
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <Pill className="h-5 w-5 text-blue-600 mt-1" />
+              <div>
+                <p className="font-medium text-gray-900">Current Medications</p>
+                <p className="text-gray-700">Metformin 500mg daily</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <Calendar className="h-5 w-5 text-green-600 mt-1" />
+              <div>
+                <p className="font-medium text-gray-900">Next Appointment</p>
+                <p className="text-gray-700">June 5, 2025 at 2:00 PM</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <Target className="h-5 w-5 text-purple-600 mt-1" />
+              <div>
+                <p className="font-medium text-gray-900">Current HbA1c Goal</p>
+                <p className="text-gray-700">Target: &lt;7.0%</p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

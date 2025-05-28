@@ -7,7 +7,7 @@ import SummaryDashboard from "@/components/diabetes/summary-dashboard";
 import FinanceDashboard from "@/components/diabetes/finance-dashboard";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
-
+import PatientDashboard from "@/components/diabetes/patient-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 
 export default function Dashboard() {
@@ -19,6 +19,7 @@ export default function Dashboard() {
     { id: "finance", label: "Finance", icon: DollarSign, description: "Financial Performance" },
     { id: "operation", label: "Operation", icon: Settings, description: "Operational Efficiency" },
     { id: "clinician", label: "Clinician", icon: Stethoscope, description: "Healthcare Provider" },
+    { id: "patient", label: "Patient", icon: User, description: "Individual Patient (John Doe)" },
     { id: "mockdata", label: "Mock Data", icon: Database, description: "Technical Team Data View" },
   ];
 
@@ -32,6 +33,8 @@ export default function Dashboard() {
         return <OperationDashboard timeFilter={timeFilter} />;
       case "clinician":
         return <ClinicianDashboard timeFilter={timeFilter} />;
+      case "patient":
+        return <PatientDashboard timeFilter={timeFilter} />;
       case "mockdata":
         return <MockDataDashboard timeFilter={timeFilter} />;
       default:
