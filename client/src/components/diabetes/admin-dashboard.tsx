@@ -296,7 +296,7 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
               <Card className="bg-white border-l-4 border-purple-500">
                 <CardContent className="p-6">
                   <div>
-                    <p className="text-sm font-medium text-gray-600 mb-4" title="Represents insurance distribution for diabetic patients">Payer Mix</p>
+                    <p className="text-sm font-medium text-gray-600 mb-4" title="Insurance distribution for diabetic patients">Payer Mix</p>
                     <ResponsiveContainer width="100%" height={120}>
                       <PieChart>
                         <Pie
@@ -306,15 +306,17 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
                           innerRadius={20}
                           outerRadius={40}
                           dataKey="value"
+                          label={({ name, value }) => `${name}: ${value}%`}
+                          labelLine={false}
                         >
                           {payerMixData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => `${value}%`} />
+                        <Tooltip formatter={(value, name) => [`${value}%`, name]} />
                       </PieChart>
                     </ResponsiveContainer>
-                    <p className="text-xs text-gray-500 mt-2">Represents insurance distribution for diabetic patients</p>
+                    <p className="text-xs text-gray-500 mt-2">Payer Mix for Diabetic Patients (as of May 2025)</p>
                   </div>
                 </CardContent>
               </Card>

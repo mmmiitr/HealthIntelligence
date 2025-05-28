@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Database, Table, TrendingUp, Users, DollarSign } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart, ReferenceLine } from "recharts";
 import { revenueData, hba1cData, visitsData, populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, getFilteredData, additionalDataConsiderations } from "@/lib/mock-data";
 
 interface MockDataDashboardProps {
@@ -99,27 +99,32 @@ export default function MockDataDashboard({ timeFilter }: MockDataDashboardProps
             <YAxis domain={[6, 8]} tickFormatter={(value) => `${value}%`} />
             <Tooltip formatter={(value, name) => [
               `${value}%`,
-              name === 'avgHbA1c' ? 'Average HbA1c' : 'Predicted HbA1c'
+              name === 'avgHbA1c' ? 'Historical HbA1c' : 'Predicted HbA1c'
             ]} />
             <Legend />
+            {/* Historical Data - Solid Line */}
             <Line
               type="monotone"
               dataKey="avgHbA1c"
               stroke="#1976d2"
               strokeWidth={3}
-              name="Average HbA1c"
-              dot={{ fill: "#1976d2" }}
+              name="Historical HbA1c"
+              dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
               connectNulls={false}
             />
+            {/* Predicted Data - Dashed Line */}
             <Line
               type="monotone"
               dataKey="predictedHbA1c"
-              stroke="#4caf50"
-              strokeWidth={2}
+              stroke="#64b5f6"
+              strokeWidth={3}
               strokeDasharray="5 5"
               name="Predicted HbA1c"
-              dot={{ fill: "#4caf50" }}
+              dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
+              connectNulls={false}
             />
+            {/* Reference Line at Current Date */}
+            <ReferenceLine x="May 2025" stroke="#dc2626" strokeWidth={2} label="Today" />
           </LineChart>
         </ResponsiveContainer>
       );

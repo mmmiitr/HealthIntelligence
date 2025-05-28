@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Heart, AlertTriangle, Users, Brain, Calendar, Shield, TrendingUp } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, Area, AreaChart } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, Area, AreaChart, ReferenceLine } from "recharts";
+import { hba1cData } from "@/lib/mock-data";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -334,29 +335,47 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
         <Card className="bg-white">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">HbA1c Trends & Predictions</CardTitle>
-            <p className="text-sm text-gray-600">Tracks population-level HbA1c trends to identify care gaps</p>
+            <p className="text-sm text-gray-600">Data Range: Jan 2025 - Oct 2025</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={a1cChartData}>
+              <LineChart data={hba1cData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis domain={[6, 9]} tickFormatter={(value) => `${value}%`} />
+                <YAxis domain={[6, 8]} tickFormatter={(value) => `${value}%`} />
                 <Tooltip formatter={(value, name) => [
-                  name === "a1c" ? `${value}%` : value,
-                  name === "a1c" ? "Average A1C" : "Patient Count"
+                  `${value}%`,
+                  name === "avgHbA1c" ? "Historical HbA1c" : "Predicted HbA1c"
                 ]} />
                 <Legend />
+                {/* Historical Data - Solid Line */}
                 <Line
                   type="monotone"
-                  dataKey="a1c"
-                  stroke="#0066CC"
+                  dataKey="avgHbA1c"
+                  stroke="#1976d2"
                   strokeWidth={3}
-                  name="Average A1C"
-                  dot={{ fill: "#0066CC", strokeWidth: 2, r: 4 }}
+                  name="Historical HbA1c"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                  connectNulls={false}
                 />
+                {/* Predicted Data - Dashed Line */}
+                <Line
+                  type="monotone"
+                  dataKey="predictedHbA1c"
+                  stroke="#64b5f6"
+                  strokeWidth={3}
+                  strokeDasharray="5 5"
+                  name="Predicted HbA1c"
+                  dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
+                  connectNulls={false}
+                />
+                {/* Reference Line at Current Date */}
+                <ReferenceLine x="May 2025" stroke="#dc2626" strokeWidth={2} label="Today" />
               </LineChart>
             </ResponsiveContainer>
+            <p className="text-xs text-gray-500 mt-2">
+              Historical data (solid line) shows actual HbA1c values. Predicted data (dashed line) shows AI/ML forecasts based on current trends.
+            </p>
           </CardContent>
         </Card>
 
