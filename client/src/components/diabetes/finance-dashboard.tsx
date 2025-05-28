@@ -65,19 +65,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-3">
-                {/* Progress bar - Row 2 for immediate visual feedback */}
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
                     <div className="bg-green-500 h-2 rounded-full" style={{width: '94%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 text-center">94% complete</p>
-                </div>
-                
-                {/* Current values - Row 3 to show what this progress means */}
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
-                  <p className="text-xs text-gray-600 mt-1">Progress towards target</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">$425K / $450K</p>
                 </div>
                 
                 {showForecast && (
@@ -95,7 +87,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Revenue ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Revenue (65%)</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-blue-600 font-medium text-sm">↑ +8.2%</span>
                   </div>
@@ -107,18 +99,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               
               <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
-                  <p className="text-xl font-bold text-gray-900">$1.2M / $1.85M</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
                     <div className="bg-blue-500 h-2 rounded-full" style={{width: '65%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">65% complete</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">$1.2M / $1.85M</p>
                 </div>
                 
                 {showForecast && (
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                    <p className="text-xl font-bold text-gray-900">$1.95M</p>
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">$1.95M</p>
                     <p className="text-xs text-gray-600 mt-1">+5.4% growth projected</p>
                   </div>
                 )}
@@ -130,7 +120,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Care Management Alignment ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
+                  <p className="text-sm font-medium text-gray-600">{viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2" : "2025"} Alignment (99%)</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
                     <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
@@ -141,21 +131,21 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-3">
                 <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.current}</p>
-                  <p className="text-xl font-bold text-gray-900">94% / 95%</p>
-                  <div className="mt-2 bg-gray-200 rounded-full h-2">
+                  <div className="bg-gray-200 rounded-full h-2 mb-3">
                     <div className="bg-purple-500 h-2 rounded-full" style={{width: '99%'}}></div>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">99% complete</p>
+                  <p className="text-lg font-bold text-gray-900 text-center">94% / 95%</p>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-2">{labels.forecast}</p>
-                  <p className="text-xl font-bold text-gray-900">96%</p>
-                  <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
-                </div>
+                {showForecast && (
+                  <div className="bg-blue-50 rounded-lg p-2.5">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">96%</p>
+                    <p className="text-xs text-gray-600 mt-1">+1.1% improvement projected</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
