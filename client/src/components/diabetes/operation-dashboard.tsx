@@ -51,8 +51,9 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600"># of Chronic Patients</p>
+                  <p className="text-sm font-medium text-gray-600"># of Chronic Patients (Q2 2025)</p>
                   <p className="text-2xl font-bold text-gray-900">1,247</p>
+                  <p className="text-xs text-gray-500 mt-1">Next Q3: 1,315 projected</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="text-blue-600" />
