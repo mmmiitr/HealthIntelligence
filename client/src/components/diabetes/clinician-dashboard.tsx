@@ -81,8 +81,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C</p>
+                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C (Q2 2025)</p>
                 <p className="text-2xl font-bold text-gray-900">{averageA1C}%</p>
+                <p className="text-xs text-gray-500 mt-1">Next Q3: 6.9% projected</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <Activity className="text-blue-600" />
@@ -90,7 +91,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
             </div>
             <div className="mt-4 flex items-center text-sm">
               <span className="text-green-600 font-medium">↓ -0.3%</span>
-              <span className="text-gray-500 ml-2">improving control</span>
+              <span className="text-gray-500 ml-2">vs Q1 2025</span>
             </div>
           </CardContent>
         </Card>
@@ -99,8 +100,9 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate</p>
+                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate (Q2 2025)</p>
                 <p className="text-2xl font-bold text-gray-900">{adherenceRate}%</p>
+                <p className="text-xs text-gray-500 mt-1">Next Q3: 88% projected</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <Heart className="text-green-600" />
