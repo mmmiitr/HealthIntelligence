@@ -445,32 +445,51 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
         {/* Revenue Trends with Predictions */}
         <Card className="bg-white">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Trends</CardTitle>
-            <p className="text-sm text-gray-600">Historical and predicted revenue with confidence intervals</p>
+            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Trends & Predictions</CardTitle>
+            <p className="text-sm text-gray-600">Data Range: Jan 2025 - Oct 2025</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={revenueTrendData}>
+              <LineChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `$${value}K`} />
-                <Tooltip formatter={(value, name) => {
-                  if (name === "upperCI" || name === "lowerCI") return [`$${value}K`, "Confidence Interval"];
-                  return [`$${value}K`, "Revenue"];
-                }} />
+                <YAxis tickFormatter={(value) => `$${value}`} />
+                <Tooltip formatter={(value, name) => [
+                  `$${value}`,
+                  name === "revenue" ? "Historical Revenue" : "Predicted Revenue"
+                ]} />
                 <Legend />
                 
-                {/* Revenue line with dashed prediction */}
+                {/* Historical Revenue - Solid Line */}
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#0066CC"
-                  strokeWidth={2}
-                  name="Revenue"
-                  dot={{ fill: "#0066CC" }}
+                  stroke="#1976d2"
+                  strokeWidth={3}
+                  name="Historical Revenue"
+                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+                  connectNulls={false}
                 />
+                
+                {/* Predicted Revenue - Dashed Line */}
+                <Line
+                  type="monotone"
+                  dataKey="predictedRevenue"
+                  stroke="#64b5f6"
+                  strokeWidth={3}
+                  strokeDasharray="5 5"
+                  name="Predicted Revenue"
+                  dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
+                  connectNulls={false}
+                />
+                
+                {/* Reference Line at Current Date */}
+                <ReferenceLine x="May 2025" stroke="#dc2626" strokeWidth={2} label="Today" />
               </LineChart>
             </ResponsiveContainer>
+            <p className="text-xs text-gray-500 mt-2">
+              Historical data (solid line) shows actual revenue. Predicted data (dashed line) shows AI/ML revenue forecasts.
+            </p>
           </CardContent>
         </Card>
 
