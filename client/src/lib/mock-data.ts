@@ -112,6 +112,76 @@ export const getFilteredData = (data: any[], timeFilter: string) => {
   return data.slice(-filterMonths);
 };
 
+// Hidden Trends in Patient Flow (Admin Dashboard)
+export const patientFlowData = [
+  { month: 'Jan 2025', visits: 200 },
+  { month: 'Feb 2025', visits: 250 },
+  { month: 'Mar 2025', visits: 180 },
+  { month: 'Apr 2025', visits: 220 },
+  { month: 'May 2025', visits: 280 },
+  { month: 'Jun 2025', visits: 300 },
+  { month: 'Jul 2025', visits: 320 },
+  { month: 'Aug 2025', visits: 290 },
+  { month: 'Sep 2025', visits: 310 },
+  { month: 'Oct 2025', visits: 340 },
+];
+
+// Predicted Revenue by Insurance Type and Demographics (Admin Dashboard)
+export const revenueByInsuranceData = [
+  { month: 'Jan 2025', medicare_18_40: 3000, medicare_41_65: 2000, private_18_40: 1500, private_41_65: 1000 },
+  { month: 'Feb 2025', medicare_18_40: 3200, medicare_41_65: 2100, private_18_40: 1600, private_41_65: 1100 },
+  { month: 'Mar 2025', medicare_18_40: 3100, medicare_41_65: 2050, private_18_40: 1550, private_41_65: 1050 },
+  { month: 'Apr 2025', medicare_18_40: 3300, medicare_41_65: 2200, private_18_40: 1650, private_41_65: 1150 },
+  { month: 'May 2025', medicare_18_40: 3400, medicare_41_65: 2300, private_18_40: 1700, private_41_65: 1200 },
+  { month: 'Jun 2025', medicare_18_40: 3500, medicare_41_65: 2400, private_18_40: 1750, private_41_65: 1250 },
+  { month: 'Jul 2025', medicare_18_40: 3600, medicare_41_65: 2450, private_18_40: 1800, private_41_65: 1300 },
+  { month: 'Aug 2025', medicare_18_40: 3550, medicare_41_65: 2420, private_18_40: 1780, private_41_65: 1280 },
+  { month: 'Sep 2025', medicare_18_40: 3650, medicare_41_65: 2500, private_18_40: 1850, private_41_65: 1350 },
+  { month: 'Oct 2025', medicare_18_40: 3700, medicare_41_65: 2550, private_18_40: 1900, private_41_65: 1400 },
+];
+
+// Predicted HbA1c Progression (Clinician Dashboard)
+export const hba1cProgressionData = [
+  { month: 'Jan 2025', stable: 7.0, improving: 6.8, declining: 7.5 },
+  { month: 'Feb 2025', stable: 7.0, improving: 6.7, declining: 7.6 },
+  { month: 'Mar 2025', stable: 6.9, improving: 6.6, declining: 7.7 },
+  { month: 'Apr 2025', stable: 6.9, improving: 6.5, declining: 7.8 },
+  { month: 'May 2025', stable: 6.8, improving: 6.4, declining: 7.9 },
+  { month: 'Jun 2025', stable: 6.8, improving: 6.3, declining: 8.0 },
+  { month: 'Jul 2025', stable: 6.7, improving: 6.2, declining: 8.1 },
+  { month: 'Aug 2025', stable: 6.7, improving: 6.1, declining: 8.2 },
+  { month: 'Sep 2025', stable: 6.6, improving: 6.0, declining: 8.3 },
+  { month: 'Oct 2025', stable: 6.6, improving: 5.9, declining: 8.4 },
+];
+
+// Predicted Visit Frequency (Clinician Dashboard)
+export const visitFrequencyData = [
+  { month: 'Jan 2025', visits: 2 },
+  { month: 'Feb 2025', visits: 3 },
+  { month: 'Mar 2025', visits: 2 },
+  { month: 'Apr 2025', visits: 3 },
+  { month: 'May 2025', visits: 4 },
+  { month: 'Jun 2025', visits: 3 },
+  { month: 'Jul 2025', visits: 4 },
+  { month: 'Aug 2025', visits: 3 },
+  { month: 'Sep 2025', visits: 4 },
+  { month: 'Oct 2025', visits: 5 },
+];
+
+// Resource Allocation (Clinician Dashboard)
+export const resourceAllocationData = [
+  { month: 'Jan 2025', needed: 500, available: 450 },
+  { month: 'Feb 2025', needed: 520, available: 480 },
+  { month: 'Mar 2025', needed: 480, available: 460 },
+  { month: 'Apr 2025', needed: 540, available: 500 },
+  { month: 'May 2025', needed: 560, available: 520 },
+  { month: 'Jun 2025', needed: 580, available: 540 },
+  { month: 'Jul 2025', needed: 600, available: 560 },
+  { month: 'Aug 2025', needed: 590, available: 550 },
+  { month: 'Sep 2025', needed: 610, available: 570 },
+  { month: 'Oct 2025', needed: 630, available: 590 },
+];
+
 // Additional considerations for future data integration (ADA 2024 Standards of Care)
 export const additionalDataConsiderations = [
   {
