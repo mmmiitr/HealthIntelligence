@@ -2,27 +2,35 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Shield, Stethoscope, User } from "lucide-react";
-import AdminDashboard from "@/components/diabetes/admin-dashboard";
+import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database } from "lucide-react";
+import SummaryDashboard from "@/components/diabetes/summary-dashboard";
+import FinanceDashboard from "@/components/diabetes/finance-dashboard";
+import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import PatientDashboard from "@/components/diabetes/patient-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("admin");
+  const [activeTab, setActiveTab] = useState("summary");
   const [timeFilter, setTimeFilter] = useState("1year");
 
   const tabs = [
-    { id: "admin", label: "Admin", icon: Shield, description: "Hospital Administration" },
+    { id: "summary", label: "Summary", icon: BarChart3, description: "Executive Overview" },
+    { id: "finance", label: "Finance", icon: DollarSign, description: "Financial Performance" },
+    { id: "operation", label: "Operation", icon: Settings, description: "Operational Efficiency" },
     { id: "clinician", label: "Clinician", icon: Stethoscope, description: "Healthcare Provider" },
     { id: "patient", label: "Patient", icon: User, description: "Individual Patient (John Doe)" },
-    { id: "mockdata", label: "Mock Data", icon: Shield, description: "Technical Team Data View" },
+    { id: "mockdata", label: "Mock Data", icon: Database, description: "Technical Team Data View" },
   ];
 
   const renderActiveTab = () => {
     switch (activeTab) {
-      case "admin":
-        return <AdminDashboard timeFilter={timeFilter} />;
+      case "summary":
+        return <SummaryDashboard timeFilter={timeFilter} />;
+      case "finance":
+        return <FinanceDashboard timeFilter={timeFilter} />;
+      case "operation":
+        return <OperationDashboard timeFilter={timeFilter} />;
       case "clinician":
         return <ClinicianDashboard timeFilter={timeFilter} />;
       case "patient":
@@ -30,7 +38,7 @@ export default function Dashboard() {
       case "mockdata":
         return <MockDataDashboard timeFilter={timeFilter} />;
       default:
-        return <AdminDashboard timeFilter={timeFilter} />;
+        return <SummaryDashboard timeFilter={timeFilter} />;
     }
   };
 
