@@ -223,6 +223,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 <Tooltip formatter={(value, name) => [value, name]} 
                          labelFormatter={() => "Resource allocation analysis"} />
                 <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Bar
                   dataKey="needed"
                   fill="#ef5350"
@@ -257,6 +258,7 @@ export default function OperationDashboard({ timeFilter }: OperationDashboardPro
                 <Tooltip formatter={(value, name) => [`${value} uses`, name]} 
                          labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Bar dataKey="labTests" fill="#1976d2" name="Lab Tests" />
                 <Bar dataKey="consultations" fill="#4caf50" name="Consultations" />
                 <Bar dataKey="telemedicine" fill="#64b5f6" name="Telemedicine" />

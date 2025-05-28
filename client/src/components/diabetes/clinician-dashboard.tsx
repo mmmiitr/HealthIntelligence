@@ -516,6 +516,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 <Tooltip formatter={(value, name) => [`${value}%`, name]} 
                          labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Line
                   type="monotone"
                   dataKey="stable"
@@ -563,6 +564,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
                 <Tooltip formatter={(value) => [`${value} visits`, 'Visits per Patient']} 
                          labelFormatter={() => "Mock data simulating trends as of May 2025."} />
                 <Legend />
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Bar
                   dataKey="visits"
                   fill="#1976d2"
@@ -620,6 +622,7 @@ export default function ClinicianDashboard({ timeFilter }: ClinicianDashboardPro
               <Tooltip formatter={(value, name) => [`${value}%`, name]} 
                        labelFormatter={() => "Mock data simulating trends as of May 2025."} />
               <Legend />
+              <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
               <Line
                 type="monotone"
                 dataKey="adherence"
