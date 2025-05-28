@@ -6,6 +6,7 @@ import { Heart, Shield, Stethoscope, User } from "lucide-react";
 import AdminDashboard from "@/components/diabetes/admin-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import PatientDashboard from "@/components/diabetes/patient-dashboard";
+import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("admin");
@@ -15,6 +16,7 @@ export default function Dashboard() {
     { id: "admin", label: "Admin", icon: Shield, description: "Hospital Administration" },
     { id: "clinician", label: "Clinician", icon: Stethoscope, description: "Healthcare Provider" },
     { id: "patient", label: "Patient", icon: User, description: "Individual Patient (John Doe)" },
+    { id: "mockdata", label: "Mock Data", icon: Shield, description: "Technical Team Data View" },
   ];
 
   const renderActiveTab = () => {
@@ -25,6 +27,8 @@ export default function Dashboard() {
         return <ClinicianDashboard timeFilter={timeFilter} />;
       case "patient":
         return <PatientDashboard timeFilter={timeFilter} />;
+      case "mockdata":
+        return <MockDataDashboard timeFilter={timeFilter} />;
       default:
         return <AdminDashboard timeFilter={timeFilter} />;
     }
