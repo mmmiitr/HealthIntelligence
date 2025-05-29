@@ -146,7 +146,21 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={revenueSourcesData}>
+                  <LineChart data={[
+                    ...revenueSourcesData,
+                    ...(showForecast ? [
+                      { month: 'Jun 2025', inPersonVisits: 95000, ccm: 25000, dsmt: 18000, telemedicine: 15000, labs: 12000,
+                        inPersonVisitsUpper: 105000, inPersonVisitsLower: 85000, ccmUpper: 28000, ccmLower: 22000 },
+                      { month: 'Jul 2025', inPersonVisits: 98000, ccm: 26000, dsmt: 19000, telemedicine: 16000, labs: 13000,
+                        inPersonVisitsUpper: 108000, inPersonVisitsLower: 88000, ccmUpper: 29000, ccmLower: 23000 },
+                      { month: 'Aug 2025', inPersonVisits: 101000, ccm: 27000, dsmt: 20000, telemedicine: 17000, labs: 14000,
+                        inPersonVisitsUpper: 111000, inPersonVisitsLower: 91000, ccmUpper: 30000, ccmLower: 24000 },
+                      { month: 'Sep 2025', inPersonVisits: 104000, ccm: 28000, dsmt: 21000, telemedicine: 18000, labs: 15000,
+                        inPersonVisitsUpper: 114000, inPersonVisitsLower: 94000, ccmUpper: 31000, ccmLower: 25000 },
+                      { month: 'Oct 2025', inPersonVisits: 107000, ccm: 29000, dsmt: 22000, telemedicine: 19000, labs: 16000,
+                        inPersonVisitsUpper: 117000, inPersonVisitsLower: 97000, ccmUpper: 32000, ccmLower: 26000 }
+                    ] : [])
+                  ]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
@@ -155,6 +169,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       labelFormatter={(label) => `Month: ${label}`}
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
+                          const data = payload[0].payload;
                           return (
                             <div className="bg-white p-3 border rounded shadow">
                               <p className="font-medium">{`Month: ${label}`}</p>
@@ -163,6 +178,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                                   {`${entry.name}: $${entry.value}`}
                                 </p>
                               ))}
+                              {showForecast && data.inPersonVisitsUpper && (
+                                <>
+                                  <p className="text-xs text-gray-500 mt-2">95% Confidence Intervals:</p>
+                                  <p className="text-xs text-gray-600">In-Person: ${data.inPersonVisitsLower} - ${data.inPersonVisitsUpper}</p>
+                                  <p className="text-xs text-gray-600">CCM: ${data.ccmLower} - ${data.ccmUpper}</p>
+                                </>
+                              )}
                             </div>
                           );
                         }
@@ -170,11 +192,25 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       }}
                     />
                     <Legend />
+                    
+                    {/* Confidence interval lines for predictions */}
+                    {showForecast && (
+                      <>
+                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="In-Person Upper CI" />
+                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="In-Person Lower CI" />
+                        <Line type="monotone" dataKey="ccmUpper" stroke="#c8e6c9" strokeWidth={1} strokeDasharray="4 4" dot={false} name="CCM Upper CI" />
+                        <Line type="monotone" dataKey="ccmLower" stroke="#c8e6c9" strokeWidth={1} strokeDasharray="4 4" dot={false} name="CCM Lower CI" />
+                      </>
+                    )}
+                    
                     <Line type="monotone" dataKey="inPersonVisits" stroke="#1976d2" name="In-Person Visits" strokeWidth={2} />
                     <Line type="monotone" dataKey="ccm" stroke="#4caf50" name="CCM" strokeWidth={2} />
                     <Line type="monotone" dataKey="dsmt" stroke="#64b5f6" name="DSMT" strokeWidth={2} />
                     <Line type="monotone" dataKey="telemedicine" stroke="#ef5350" name="Telemedicine" strokeWidth={2} />
                     <Line type="monotone" dataKey="labs" stroke="#ff9800" name="Labs" strokeWidth={2} />
+                    
+                    {/* Reference line to separate historical vs predicted */}
+                    {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -262,23 +298,48 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={[
-                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
-                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
-                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
-                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
-                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
-                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
-                    { month: 'Jul 2024', laborCost: 210000, otherCosts: 97000, totalCost: 307000 },
-                    { month: 'Aug 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
-                    { month: 'Sep 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
-                    { month: 'Oct 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
-                    { month: 'Nov 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
-                    { month: 'Dec 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
-                    { month: 'Jan 2025', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
-                    { month: 'Feb 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
-                    { month: 'Mar 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
-                    { month: 'Apr 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
-                    { month: 'May 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
+                    // Historical data
+                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000, isHistorical: true },
+                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000, isHistorical: true },
+                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000, isHistorical: true },
+                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000, isHistorical: true },
+                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000, isHistorical: true },
+                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000, isHistorical: true },
+                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000, isHistorical: true },
+                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000, isHistorical: true },
+                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000, isHistorical: true },
+                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000, isHistorical: true },
+                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000, isHistorical: true },
+                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000, isHistorical: true },
+                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000, isHistorical: true },
+                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000, isHistorical: true },
+                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000, isHistorical: true },
+                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000, isHistorical: true },
+                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000, isHistorical: true },
+                    // Future predictions with confidence intervals (shown only when forecast toggle is on)
+                    ...(showForecast ? [
+                      { month: 'Jun 2025', laborCost: 270000, otherCosts: 121000, totalCost: 391000, 
+                        laborCostUpper: 280000, laborCostLower: 260000, 
+                        totalCostUpper: 405000, totalCostLower: 377000, isHistorical: false },
+                      { month: 'Jul 2025', laborCost: 275000, otherCosts: 123000, totalCost: 398000, 
+                        laborCostUpper: 287000, laborCostLower: 263000, 
+                        totalCostUpper: 415000, totalCostLower: 381000, isHistorical: false },
+                      { month: 'Aug 2025', laborCost: 280000, otherCosts: 125000, totalCost: 405000, 
+                        laborCostUpper: 294000, laborCostLower: 266000, 
+                        totalCostUpper: 425000, totalCostLower: 385000, isHistorical: false },
+                      { month: 'Sep 2025', laborCost: 285000, otherCosts: 127000, totalCost: 412000, 
+                        laborCostUpper: 301000, laborCostLower: 269000, 
+                        totalCostUpper: 435000, totalCostLower: 389000, isHistorical: false },
+                      { month: 'Oct 2025', laborCost: 290000, otherCosts: 129000, totalCost: 419000, 
+                        laborCostUpper: 308000, laborCostLower: 272000, 
+                        totalCostUpper: 445000, totalCostLower: 393000, isHistorical: false },
+                      { month: 'Nov 2025', laborCost: 295000, otherCosts: 131000, totalCost: 426000, 
+                        laborCostUpper: 315000, laborCostLower: 275000, 
+                        totalCostUpper: 455000, totalCostLower: 397000, isHistorical: false },
+                      { month: 'Dec 2025', laborCost: 300000, otherCosts: 133000, totalCost: 433000, 
+                        laborCostUpper: 322000, laborCostLower: 278000, 
+                        totalCostUpper: 465000, totalCostLower: 401000, isHistorical: false }
+                    ] : [])
                   ]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
@@ -288,6 +349,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       labelFormatter={(label) => `Month: ${label}`}
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
+                          const data = payload[0].payload;
                           return (
                             <div className="bg-white p-3 border rounded shadow">
                               <p className="font-medium">{`Month: ${label}`}</p>
@@ -296,7 +358,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                                   {`${entry.name}: $${entry.value}`}
                                 </p>
                               ))}
-                              <p className="text-xs text-gray-500 mt-2">Mock data as of May 2025</p>
+                              {showForecast && data.totalCostUpper && data.totalCostLower && (
+                                <>
+                                  <p className="text-xs text-gray-500 mt-2">95% Confidence Interval:</p>
+                                  <p className="text-xs text-gray-600">Total Cost: ${data.totalCostLower} - ${data.totalCostUpper}</p>
+                                  <p className="text-xs text-gray-600">Labor Cost: ${data.laborCostLower} - ${data.laborCostUpper}</p>
+                                </>
+                              )}
+                              <p className="text-xs text-gray-500 mt-1">
+                                {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
+                              </p>
                             </div>
                           );
                         }
@@ -304,9 +375,23 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       }}
                     />
                     <Legend />
+                    
+                    {/* Confidence interval lines for predictions */}
+                    {showForecast && (
+                      <>
+                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={2} strokeDasharray="5 5" dot={false} name="Total Cost Upper CI" />
+                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={2} strokeDasharray="5 5" dot={false} name="Total Cost Lower CI" />
+                        <Line type="monotone" dataKey="laborCostUpper" stroke="#fed7aa" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Labor Cost Upper CI" />
+                        <Line type="monotone" dataKey="laborCostLower" stroke="#fed7aa" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Labor Cost Lower CI" />
+                      </>
+                    )}
+                    
                     <Line type="monotone" dataKey="totalCost" stroke="#dc2626" name="Total Cost" strokeWidth={3} />
                     <Line type="monotone" dataKey="laborCost" stroke="#f59e0b" name="Labor Cost" strokeWidth={2} />
                     <Line type="monotone" dataKey="otherCosts" stroke="#ef4444" name="Other Costs" strokeWidth={2} />
+                    
+                    {/* Reference line to separate historical vs predicted */}
+                    {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
