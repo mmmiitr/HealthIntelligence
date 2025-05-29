@@ -405,16 +405,66 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={payerRevenueTrends}>
+              <LineChart data={[
+                ...payerRevenueTrends,
+                ...(showForecast ? [
+                  { month: 'Jun 2025', medicare: 285000, medicaid: 165000, commercial: 145000, selfPay: 35000,
+                    medicareUpper: 305000, medicareLower: 265000 },
+                  { month: 'Jul 2025', medicare: 290000, medicaid: 168000, commercial: 148000, selfPay: 36000,
+                    medicareUpper: 312000, medicareLower: 268000 },
+                  { month: 'Aug 2025', medicare: 295000, medicaid: 171000, commercial: 151000, selfPay: 37000,
+                    medicareUpper: 318000, medicareLower: 272000 },
+                  { month: 'Sep 2025', medicare: 300000, medicaid: 174000, commercial: 154000, selfPay: 38000,
+                    medicareUpper: 325000, medicareLower: 275000 },
+                  { month: 'Oct 2025', medicare: 305000, medicaid: 177000, commercial: 157000, selfPay: 39000,
+                    medicareUpper: 332000, medicareLower: 278000 }
+                ] : [])
+              ]}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
-                <Tooltip formatter={(value, name) => [`$${value.toLocaleString()}`, name]} />
+                <Tooltip 
+                  formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white p-3 border rounded shadow">
+                          <p className="font-medium">{`Month: ${label}`}</p>
+                          {payload.map((entry, index) => (
+                            <p key={index} style={{ color: entry.color }}>
+                              {`${entry.name}: $${entry.value?.toLocaleString()}`}
+                            </p>
+                          ))}
+                          {showForecast && data.medicareUpper && (
+                            <>
+                              <p className="text-xs text-gray-500 mt-2">95% CI for Medicare:</p>
+                              <p className="text-xs text-gray-600">${data.medicareLower?.toLocaleString()} - ${data.medicareUpper?.toLocaleString()}</p>
+                            </>
+                          )}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
                 <Legend />
+                
+                {/* Confidence interval for Medicare (primary payer) */}
+                {showForecast && (
+                  <>
+                    <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
+                    <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
+                  </>
+                )}
+                
                 <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" />
                 <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" />
                 <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" />
                 <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" />
+                
+                {/* Reference line to separate historical vs predicted */}
+                {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
