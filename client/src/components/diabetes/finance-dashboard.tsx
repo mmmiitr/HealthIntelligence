@@ -257,212 +257,139 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
         </div>
-
-        {/* Revenue Source Split Chart */}
-        <Card className="bg-white shadow-md mb-6">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Source Distribution</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'In-Person Visits', value: 51, color: '#ff9800' },
-                      { name: 'CCM', value: 29, color: '#4caf50' },
-                      { name: 'Telemedicine', value: 20, color: '#9c27b0' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}%`}
-                  >
-                    {[
-                      { name: 'In-Person Visits', value: 51, color: '#ff9800' },
-                      { name: 'CCM', value: 29, color: '#4caf50' },
-                      { name: 'Telemedicine', value: 20, color: '#9c27b0' }
-                    ].map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={['#ff9800', '#4caf50', '#9c27b0'][index]} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value, name) => [`${value}%`, name]} />
-                </PieChart>
-              </ResponsiveContainer>
-              <p className="text-xs text-gray-500 mt-2">Revenue distribution by service type ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Top 5 CPT Codes Revenue Table */}
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Top 5 CPT Codes Revenue</CardTitle>
-            <p className="text-sm text-gray-600">{viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}</p>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full table-auto">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">CPT Code</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-900">Revenue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4 text-gray-900">99213 - Office Visit (Established)</td>
-                    <td className="py-3 px-4 text-right font-bold text-green-600">$125,450</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4 text-gray-900">99490 - CCM Services</td>
-                    <td className="py-3 px-4 text-right font-bold text-green-600">$89,320</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4 text-gray-900">99214 - Office Visit (Complex)</td>
-                    <td className="py-3 px-4 text-right font-bold text-green-600">$76,890</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-4 text-gray-900">95251 - CGM Setup</td>
-                    <td className="py-3 px-4 text-right font-bold text-green-600">$42,150</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-4 text-gray-900">99401 - DSMT Group</td>
-                    <td className="py-3 px-4 text-right font-bold text-green-600">$31,280</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Cost Section */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Cost</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Cost Detail Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-white border-l-4 border-red-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Avg Cost per Patient</p>
-                    <p className="text-2xl font-bold text-red-600">$184</p>
-                    <p className="text-xs text-gray-500 mt-1">Per panel patient</p>
-                  </div>
-                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                    <Calculator className="text-red-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-orange-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Cost per Visit</p>
-                    <p className="text-2xl font-bold text-orange-600">$145</p>
-                    <p className="text-xs text-gray-500 mt-1">Average per encounter</p>
-                  </div>
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                    <Building className="text-orange-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-purple-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Labor Cost</p>
-                    <p className="text-2xl font-bold text-purple-600">$165K</p>
-                    <p className="text-xs text-gray-500 mt-1">72% of total cost</p>
-                  </div>
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Users className="text-purple-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-gray-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Other Costs</p>
-                    <p className="text-2xl font-bold text-gray-600">$65K</p>
-                    <p className="text-xs text-gray-500 mt-1">Labs, supplies, etc.</p>
-                  </div>
-                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                    <Wrench className="text-gray-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Labor Cost Breakdown */}
-          <Card className="bg-white shadow-md">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Labor Cost Breakdown</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Physician', value: 45, amount: '$74K' },
-                        { name: 'Nurse', value: 28, amount: '$46K' },
-                        { name: 'Care Manager', value: 18, amount: '$30K' },
-                        { name: 'Technician', value: 9, amount: '$15K' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, value, amount }) => `${name}: ${value}%`}
-                    >
-                      {[
-                        { name: 'Physician', value: 45 },
-                        { name: 'Nurse', value: 28 },
-                        { name: 'Care Manager', value: 18 },
-                        { name: 'Technician', value: 9 }
-                      ].map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={['#1976d2', '#4caf50', '#ff9800', '#9c27b0'][index]} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value, name, props) => [`${value}% (${props.payload.amount})`, name]} />
-                  </PieChart>
-                </ResponsiveContainer>
-                <p className="text-xs text-gray-500 mt-2">Total labor cost: $165K ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
 
       {/* Payer Revenue Trends */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Payer Revenue Trends ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Payer Revenue Trends Over Time</CardTitle>
-            <p className="text-sm text-gray-600">Payer Revenue Trends Over Time (Mock Data)</p>
-            <p className="text-xs text-gray-500">Data Range: Jan 2025 - Oct 2025</p>
+            <CardTitle className="text-lg font-semibold text-gray-900">Payer Revenue Trends</CardTitle>
+            <p className="text-sm text-gray-600">Revenue trends by insurance payer over time</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={payerRevenueTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `$${(value/1000)}K`} />
-                <Tooltip formatter={(value, name) => [`$${value?.toLocaleString()}`, name]} 
-                         labelFormatter={() => "Mock data as of May 2025."} />
+                <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+                <Tooltip formatter={(value, name) => [`$${value.toLocaleString()}`, name]} />
+                <Legend />
+                <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" />
+                <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" />
+                <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" />
+                <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Revenue Predictions with Confidence Intervals */}
+      <div className="mb-8">
+        <Card className="bg-white shadow-md">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
+            <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={350}>
+              <AreaChart data={predictionsData}>
+                <defs>
+                  <linearGradient id="confidenceInterval" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#64b5f6" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#64b5f6" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month"
+                  tick={{ fontSize: 11 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                />
+                <YAxis 
+                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                />
+                <Tooltip 
+                  formatter={(value, name) => {
+                    if (value) return [`$${value.toLocaleString()}`, name];
+                    return [null, name];
+                  }}
+                  labelFormatter={(label) => `Month: ${label}`}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white p-3 border rounded shadow">
+                          <p className="font-medium">{`Month: ${label}`}</p>
+                          <p style={{ color: '#1976d2' }}>
+                            {`Revenue: $${data.revenue?.toLocaleString() || 'N/A'}`}
+                          </p>
+                          {data.upperBound && data.lowerBound && (
+                            <>
+                              <p style={{ color: '#64b5f6' }}>
+                                {`Upper CI: $${data.upperBound.toLocaleString()}`}
+                              </p>
+                              <p style={{ color: '#64b5f6' }}>
+                                {`Lower CI: $${data.lowerBound.toLocaleString()}`}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">95% Confidence Interval</p>
+                            </>
+                          )}
+                          <p className="text-xs text-gray-500 mt-1">
+                            {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend />
+                
+                {/* Shaded confidence interval area for future predictions */}
+                <Area
+                  type="monotone"
+                  dataKey="upperBound"
+                  stackId="1"
+                  stroke="none"
+                  fill="url(#confidenceInterval)"
+                  fillOpacity={0.3}
+                  name="95% Confidence Interval"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="lowerBound"
+                  stackId="1"
+                  stroke="none"
+                  fill="white"
+                  name=""
+                />
+                
+                {/* Main revenue line */}
+                <Line 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#1976d2" 
+                  strokeWidth={3}
+                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  name="Revenue"
+                />
+                
+                {/* Reference line to separate historical vs predicted */}
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
+              </AreaChart>
+            </ResponsiveContainer>
+            <p className="text-xs text-gray-500 mt-2">
+              Shaded area represents 95% confidence interval for future predictions. Historical data shows actual revenue.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
                 <Legend />
                 <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
                 <Line
