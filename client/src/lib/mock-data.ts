@@ -13,6 +13,26 @@ export const revenueData = [
   { month: 'Oct 2025', revenue: null, predictedRevenue: 1240000, lowerCI: 1190000, upperCI: 1290000, isHistorical: false },
 ];
 
+export const revenueSourcesData = [
+  { month: 'Jan 2024', inPersonVisits: 320000, ccm: 150000, dsmt: 80000, telemedicine: 45000, labs: 25000 },
+  { month: 'Feb 2024', inPersonVisits: 335000, ccm: 155000, dsmt: 82000, telemedicine: 48000, labs: 27000 },
+  { month: 'Mar 2024', inPersonVisits: 340000, ccm: 160000, dsmt: 85000, telemedicine: 50000, labs: 28000 },
+  { month: 'Apr 2024', inPersonVisits: 355000, ccm: 165000, dsmt: 88000, telemedicine: 52000, labs: 30000 },
+  { month: 'May 2024', inPersonVisits: 360000, ccm: 170000, dsmt: 90000, telemedicine: 55000, labs: 32000 },
+  { month: 'Jun 2024', inPersonVisits: 370000, ccm: 175000, dsmt: 92000, telemedicine: 57000, labs: 33000 },
+  { month: 'Jul 2024', inPersonVisits: 375000, ccm: 180000, dsmt: 95000, telemedicine: 60000, labs: 35000 },
+  { month: 'Aug 2024', inPersonVisits: 385000, ccm: 185000, dsmt: 97000, telemedicine: 62000, labs: 36000 },
+  { month: 'Sep 2024', inPersonVisits: 390000, ccm: 190000, dsmt: 100000, telemedicine: 65000, labs: 38000 },
+  { month: 'Oct 2024', inPersonVisits: 400000, ccm: 195000, dsmt: 102000, telemedicine: 67000, labs: 40000 },
+  { month: 'Nov 2024', inPersonVisits: 410000, ccm: 200000, dsmt: 105000, telemedicine: 70000, labs: 42000 },
+  { month: 'Dec 2024', inPersonVisits: 415000, ccm: 205000, dsmt: 107000, telemedicine: 72000, labs: 43000 },
+  { month: 'Jan 2025', inPersonVisits: 420000, ccm: 210000, dsmt: 110000, telemedicine: 75000, labs: 45000 },
+  { month: 'Feb 2025', inPersonVisits: 430000, ccm: 215000, dsmt: 112000, telemedicine: 77000, labs: 46000 },
+  { month: 'Mar 2025', inPersonVisits: 435000, ccm: 220000, dsmt: 115000, telemedicine: 80000, labs: 48000 },
+  { month: 'Apr 2025', inPersonVisits: 445000, ccm: 225000, dsmt: 117000, telemedicine: 82000, labs: 50000 },
+  { month: 'May 2025', inPersonVisits: 450000, ccm: 230000, dsmt: 120000, telemedicine: 85000, labs: 52000 },
+];
+
 export const hba1cData = [
   { month: 'Jan 2025', avgHbA1c: 7.8, predictedHbA1c: null, isHistorical: true },
   { month: 'Feb 2025', avgHbA1c: 7.6, predictedHbA1c: null, isHistorical: true },
