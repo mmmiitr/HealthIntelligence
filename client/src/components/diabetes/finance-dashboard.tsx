@@ -30,22 +30,31 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Financial Overview (for flex-based cards)
+  // Data-driven metric configs for Financial Overview with consistent styling
   const financialOverviewMetrics = [
     {
       icon: <TrendingUp className="h-5 w-5 text-green-600" />,
       label: "Profit",
-      value: <span className="text-2xl font-extrabold text-green-700">$842.6K</span>,
+      currentValue: "$842.6K",
+      forecastValue: showForecast ? "$895.2K" : null,
+      type: "profit",
+      change: showForecast ? "↑ 6.2%" : null
     },
     {
       icon: <DollarSign className="h-5 w-5 text-blue-600" />,
-      label: "Revenue",
-      value: <span className="text-2xl font-extrabold text-blue-700">$1.2M</span>,
+      label: "Revenue", 
+      currentValue: "$1.2M",
+      forecastValue: showForecast ? "$1.28M" : null,
+      type: "revenue",
+      change: showForecast ? "↑ 6.7%" : null
     },
     {
       icon: <Calculator className="h-5 w-5 text-red-600" />,
       label: "Expenses",
-      value: <span className="text-2xl font-extrabold text-red-700">$357.4K</span>,
+      currentValue: "$357.4K",
+      forecastValue: showForecast ? "$384.8K" : null,
+      type: "cost",
+      change: showForecast ? "↑ 7.7%" : null
     },
   ];
 
@@ -56,13 +65,45 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {financialOverviewMetrics.map((metric) => (
-            <Card key={metric.label} className="bg-white shadow-none rounded-xl">
-              <CardContent className="p-6 flex flex-col h-full justify-between">
-                <div className="flex items-center mb-2">
+            <Card key={metric.label} className={`bg-white shadow-none rounded-xl border-l-4 ${
+              metric.type === "profit" ? "border-green-500" : 
+              metric.type === "revenue" ? "border-blue-500" : 
+              "border-red-500"
+            }`}>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
                   {metric.icon}
-                  <span className="font-semibold text-gray-900 ml-2">{metric.label}</span>
+                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
                 </div>
-                <div>{metric.value}</div>
+                
+                <div className="space-y-3">
+                  {/* Current Value */}
+                  <div className={`bg-${metric.type === "profit" ? "green" : metric.type === "revenue" ? "blue" : "red"}-50 rounded-lg p-3`}>
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className={`text-2xl font-bold ${
+                      metric.type === "profit" ? "text-green-700" : 
+                      metric.type === "revenue" ? "text-blue-700" : 
+                      "text-red-700"
+                    }`}>
+                      {metric.currentValue}
+                    </p>
+                  </div>
+                  
+                  {/* Forecast Value */}
+                  {showForecast && metric.forecastValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">
+                        {metric.change} vs current
+                      </p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           ))}
