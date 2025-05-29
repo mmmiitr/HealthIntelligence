@@ -175,78 +175,69 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
 
-          {/* Revenue Sources Over Time */}
-          <div className="mb-6 col-span-1 lg:col-span-2">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Sources Over Time</h6>
+          {/* Payer Mix Distribution */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Mix Distribution</h6>
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Revenue Sources Over Time</CardTitle>
-                <p className="text-sm text-gray-600">Data Range: Jan 2024 - May 2025</p>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="p-4">
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={showForecast ? [
-                    ...revenueSourcesData,
-                    { month: 'Jun 2025', inPersonVisits: 95000, ccm: 25000, dsmt: 18000, telemedicine: 15000, labs: 12000,
-                      inPersonVisitsUpper: 105000, inPersonVisitsLower: 85000 },
-                    { month: 'Jul 2025', inPersonVisits: 98000, ccm: 26000, dsmt: 19000, telemedicine: 16000, labs: 13000,
-                      inPersonVisitsUpper: 108000, inPersonVisitsLower: 88000 },
-                    { month: 'Aug 2025', inPersonVisits: 101000, ccm: 27000, dsmt: 20000, telemedicine: 17000, labs: 14000,
-                      inPersonVisitsUpper: 111000, inPersonVisitsLower: 91000 },
-                    { month: 'Sep 2025', inPersonVisits: 104000, ccm: 28000, dsmt: 21000, telemedicine: 18000, labs: 15000,
-                      inPersonVisitsUpper: 114000, inPersonVisitsLower: 94000 },
-                    { month: 'Oct 2025', inPersonVisits: 107000, ccm: 29000, dsmt: 22000, telemedicine: 19000, labs: 16000,
-                      inPersonVisitsUpper: 117000, inPersonVisitsLower: 97000 }
-                  ] : revenueSourcesData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip 
-                      formatter={(value, name) => [`$${value}`, name]}
-                      labelFormatter={(label) => `Month: ${label}`}
-                      content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="bg-white p-3 border rounded shadow">
-                              <p className="font-medium">{`Month: ${label}`}</p>
-                              {payload.map((entry, index) => (
-                                <p key={index} style={{ color: entry.color }}>
-                                  {`${entry.name}: $${entry.value}`}
-                                </p>
-                              ))}
-                              {showForecast && data.inPersonVisitsUpper && (
-                                <>
-                                  <p className="text-xs text-gray-500 mt-2">95% Confidence Intervals:</p>
-                                  <p className="text-xs text-gray-600">In-Person: ${data.inPersonVisitsLower} - ${data.inPersonVisitsUpper}</p>
-                                  <p className="text-xs text-gray-600">CCM: ${data.ccmLower} - ${data.ccmUpper}</p>
-                                </>
-                              )}
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Medicare', value: 45, color: '#1976d2' },
+                        { name: 'Medicaid', value: 25, color: '#4caf50' },
+                        { name: 'Commercial', value: 22, color: '#ff9800' },
+                        { name: 'Self-Pay', value: 8, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: ${value}%`}
+                    >
+                      <Cell fill="#1976d2" />
+                      <Cell fill="#4caf50" />
+                      <Cell fill="#ff9800" />
+                      <Cell fill="#f44336" />
+                    </Pie>
+                    <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
                     <Legend />
-                    
-                    <Line type="monotone" dataKey="inPersonVisits" stroke="#1976d2" name="In-Person Visits" strokeWidth={2} />
-                    <Line type="monotone" dataKey="ccm" stroke="#4caf50" name="CCM" strokeWidth={2} />
-                    <Line type="monotone" dataKey="dsmt" stroke="#64b5f6" name="DSMT" strokeWidth={2} />
-                    <Line type="monotone" dataKey="telemedicine" stroke="#ef5350" name="Telemedicine" strokeWidth={2} />
-                    <Line type="monotone" dataKey="labs" stroke="#ff9800" name="Labs" strokeWidth={2} />
-                    
-                    {/* Confidence interval lines for predictions */}
-                    {showForecast && (
-                      <>
-                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
-                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
-                      </>
-                    )}
-                    
-                    {/* Reference line to separate historical vs predicted */}
-                    {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
-                  </LineChart>
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Revenue Source Split */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Source Split</h6>
+            <Card>
+              <CardContent className="p-4">
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'In-Person Visits', value: 620000, color: '#1976d2' },
+                        { name: 'CCM', value: 180000, color: '#4caf50' },
+                        { name: 'DSMT', value: 145000, color: '#64b5f6' },
+                        { name: 'Telemedicine', value: 95000, color: '#ef5350' },
+                        { name: 'Labs', value: 85000, color: '#ff9800' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${(value/1000).toFixed(0)}K`}
+                    >
+                      <Cell fill="#1976d2" />
+                      <Cell fill="#4caf50" />
+                      <Cell fill="#64b5f6" />
+                      <Cell fill="#ef5350" />
+                      <Cell fill="#ff9800" />
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']} />
+                    <Legend />
+                  </PieChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
