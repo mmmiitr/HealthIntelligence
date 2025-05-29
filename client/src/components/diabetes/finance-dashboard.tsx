@@ -191,7 +191,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <div>
           <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
             <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
-            Revenue Analysis
+            Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
           </h3>
           
           {/* Revenue Metrics */}
@@ -282,7 +282,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <div>
           <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
             <Calculator className="mr-2 h-5 w-5 text-red-600" />
-            Cost Analysis
+            Cost Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
           </h3>
           
           {/* Cost Metrics */}
