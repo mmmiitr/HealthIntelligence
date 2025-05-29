@@ -21,32 +21,17 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       case "quarterly":
         return { current: "Q2 PROGRESS", forecast: "Q3 FORECAST" };
       case "yearly":
-        return { current: "2024 PROGRESS", forecast: "2025 FORECAST" };
+        return { current: "2025 PROGRESS", forecast: "2026 FORECAST" };
       default:
-        return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
+        return { current: "CURRENT", forecast: "FORECAST" };
     }
   };
 
   const labels = getViewLabels();
-  const { data: adminMetrics } = useQuery({
-    queryKey: ["/api/admin/metrics", timeFilter],
-  });
-
-  const PAYER_COLORS = ['#1976d2', '#4caf50', '#ff9800', '#9c27b0', '#f44336'];
 
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Finance Dashboard</h2>
-            <p className="text-gray-600 mt-1">Financial performance and revenue management</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Financial Overview */}
+    <div className="p-6">
+      {/* Financial Overview - Keep as is (perfect) */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,8 +82,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </div>
             </CardContent>
           </Card>
-
-
         </div>
       </div>
 
@@ -158,36 +141,82 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
 
-          {/* CPT Code Revenue Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Top 5 CPT Code Revenue</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">99214</span>
-                  <span className="text-blue-600 font-semibold">$425,000</span>
+          {/* Revenue for Top 5 CPT Codes */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue for Top 5 CPT Codes</h6>
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center py-2 border-b font-semibold">
+                    <span>CPT Code</span>
+                    <span>Revenue</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b">
+                    <span className="font-medium">99214</span>
+                    <span className="text-blue-600 font-semibold">$256,300</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b">
+                    <span className="font-medium">99232</span>
+                    <span className="text-blue-600 font-semibold">$189,400</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b">
+                    <span className="font-medium">99396</span>
+                    <span className="text-blue-600 font-semibold">$145,200</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="font-medium">99490</span>
+                    <span className="text-blue-600 font-semibold">$125,800</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">99213</span>
-                  <span className="text-blue-600 font-semibold">$256,300</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">99232</span>
-                  <span className="text-blue-600 font-semibold">$189,400</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">99396</span>
-                  <span className="text-blue-600 font-semibold">$145,200</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">99490</span>
-                  <span className="text-blue-600 font-semibold">$125,800</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Revenue Sources Over Time */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Sources Over Time</h6>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Revenue Sources Over Time (Mock Data)</CardTitle>
+                <p className="text-sm text-gray-600">Data Range: Jan 2024 - May 2025</p>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={revenueSourcesData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip 
+                      formatter={(value, name) => [`$${value}`, name]}
+                      labelFormatter={(label) => `Month: ${label}`}
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-white p-3 border rounded shadow">
+                              <p className="font-medium">{`Month: ${label}`}</p>
+                              {payload.map((entry, index) => (
+                                <p key={index} style={{ color: entry.color }}>
+                                  {`${entry.name}: $${entry.value}`}
+                                </p>
+                              ))}
+                              <p className="text-xs text-gray-500 mt-2">Mock data as of May 2025</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="inPersonVisits" stroke="#1976d2" name="In-Person Visits" strokeWidth={2} />
+                    <Line type="monotone" dataKey="ccm" stroke="#4caf50" name="CCM" strokeWidth={2} />
+                    <Line type="monotone" dataKey="dsmt" stroke="#64b5f6" name="DSMT" strokeWidth={2} />
+                    <Line type="monotone" dataKey="telemedicine" stroke="#ef5350" name="Telemedicine" strokeWidth={2} />
+                    <Line type="monotone" dataKey="labs" stroke="#ff9800" name="Labs" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Cost Analysis Column */}
@@ -290,232 +319,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
             <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={350}>
-              <AreaChart data={predictionsData}>
-                <defs>
-                  <linearGradient id="confidenceInterval" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#64b5f6" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#64b5f6" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month"
-                  tick={{ fontSize: 11 }}
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                />
-                <YAxis 
-                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
-                />
-                <Tooltip 
-                  formatter={(value, name) => {
-                    if (value) return [`$${value.toLocaleString()}`, name];
-                    return [null, name];
-                  }}
-                  labelFormatter={(label) => `Month: ${label}`}
-                  content={({ active, payload, label }) => {
-                    if (active && payload && payload.length) {
-                      const data = payload[0].payload;
-                      return (
-                        <div className="bg-white p-3 border rounded shadow">
-                          <p className="font-medium">{`Month: ${label}`}</p>
-                          <p style={{ color: '#1976d2' }}>
-                            {`Revenue: $${data.revenue?.toLocaleString() || 'N/A'}`}
-                          </p>
-                          {data.upperBound && data.lowerBound && (
-                            <>
-                              <p style={{ color: '#64b5f6' }}>
-                                {`Upper CI: $${data.upperBound.toLocaleString()}`}
-                              </p>
-                              <p style={{ color: '#64b5f6' }}>
-                                {`Lower CI: $${data.lowerBound.toLocaleString()}`}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-1">95% Confidence Interval</p>
-                            </>
-                          )}
-                          <p className="text-xs text-gray-500 mt-1">
-                            {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
-                          </p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Legend />
-                
-                {/* Shaded confidence interval area for future predictions */}
-                <Area
-                  type="monotone"
-                  dataKey="upperBound"
-                  stackId="1"
-                  stroke="none"
-                  fill="url(#confidenceInterval)"
-                  fillOpacity={0.3}
-                  name="95% Confidence Interval"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="lowerBound"
-                  stackId="1"
-                  stroke="none"
-                  fill="white"
-                  name=""
-                />
-                
-                {/* Main revenue line */}
-                <Line 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#1976d2" 
-                  strokeWidth={3}
-                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
-                  name="Revenue"
-                />
-                
-                {/* Reference line to separate historical vs predicted */}
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
-              </AreaChart>
-            </ResponsiveContainer>
-            <p className="text-xs text-gray-500 mt-2">
-              Shaded area represents 95% confidence interval for future predictions. Historical data shows actual revenue.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-}
-                <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                <Line
-                  type="monotone"
-                  dataKey="medicare"
-                  stroke="#1976d2"
-                  strokeWidth={3}
-                  name="Medicare"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="medicaid"
-                  stroke="#4caf50"
-                  strokeWidth={3}
-                  name="Medicaid"
-                  dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="private"
-                  stroke="#64b5f6"
-                  strokeWidth={3}
-                  name="Private"
-                  dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="other"
-                  stroke="#ef5350"
-                  strokeWidth={3}
-                  name="Other"
-                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Revenue Split Trend Line */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Revenue Source Trends</h3>
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Split Trends Over Time</CardTitle>
-            <p className="text-sm text-gray-600">Monthly revenue breakdown by service type</p>
-            <p className="text-xs text-gray-500">Data Range: Jan 2025 - Dec 2025</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={[
-                { month: "Jan 2025", inPerson: 195, ccm: 115, telemedicine: 75, dsmt: 25, labs: 15 },
-                { month: "Feb 2025", inPerson: 205, ccm: 118, telemedicine: 78, dsmt: 28, labs: 16 },
-                { month: "Mar 2025", inPerson: 210, ccm: 120, telemedicine: 80, dsmt: 30, labs: 18 },
-                { month: "Apr 2025", inPerson: 212, ccm: 122, telemedicine: 82, dsmt: 28, labs: 19 },
-                { month: "May 2025", inPerson: 215, ccm: 125, telemedicine: 85, dsmt: 32, labs: 20 },
-                { month: "Jun 2025", inPerson: 218, ccm: 128, telemedicine: 88, dsmt: 35, labs: 22 },
-                { month: "Jul 2025", inPerson: 220, ccm: 130, telemedicine: 90, dsmt: 38, labs: 24 },
-                { month: "Aug 2025", inPerson: 225, ccm: 135, telemedicine: 95, dsmt: 40, labs: 25 },
-                { month: "Sep 2025", inPerson: 228, ccm: 138, telemedicine: 98, dsmt: 42, labs: 27 },
-                { month: "Oct 2025", inPerson: 230, ccm: 140, telemedicine: 100, dsmt: 45, labs: 28 },
-                { month: "Nov 2025", inPerson: 235, ccm: 145, telemedicine: 105, dsmt: 48, labs: 30 },
-                { month: "Dec 2025", inPerson: 240, ccm: 150, telemedicine: 110, dsmt: 50, labs: 32 }
-              ]}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `$${value}K`} />
-                <Tooltip formatter={(value, name) => [`$${value}K`, name]} 
-                         labelFormatter={() => "Revenue trends by service type"} />
-                <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                <Line
-                  type="monotone"
-                  dataKey="inPerson"
-                  stroke="#ff9800"
-                  strokeWidth={3}
-                  name="In-Person Visits"
-                  dot={{ fill: "#ff9800", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="ccm"
-                  stroke="#4caf50"
-                  strokeWidth={3}
-                  name="CCM"
-                  dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="telemedicine"
-                  stroke="#9c27b0"
-                  strokeWidth={3}
-                  name="Telemedicine"
-                  dot={{ fill: "#9c27b0", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="dsmt"
-                  stroke="#1976d2"
-                  strokeWidth={3}
-                  name="DSMT"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="labs"
-                  stroke="#f44336"
-                  strokeWidth={3}
-                  name="Labs"
-                  dot={{ fill: "#f44336", strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Revenue Predictions with Confidence Intervals */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Revenue Predictions</h3>
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Predicted Revenue with 95% Confidence Interval</CardTitle>
-            <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
-            <p className="text-xs text-gray-500">Data Range: Jan 2025 - Dec 2025</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
