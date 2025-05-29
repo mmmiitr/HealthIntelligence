@@ -13,7 +13,6 @@ import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { useRef } from "react";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("summary");
