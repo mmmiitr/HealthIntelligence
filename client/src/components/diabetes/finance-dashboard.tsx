@@ -405,16 +405,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={showForecast ? [
                 ...payerRevenueTrends,
-                { month: 'Jun 2025', medicare: 285000, medicaid: 165000, commercial: 145000, selfPay: 35000,
-                  medicareUpper: 305000, medicareLower: 265000 },
-                { month: 'Jul 2025', medicare: 290000, medicaid: 168000, commercial: 148000, selfPay: 36000,
-                  medicareUpper: 312000, medicareLower: 268000 },
-                { month: 'Aug 2025', medicare: 295000, medicaid: 171000, commercial: 151000, selfPay: 37000,
-                  medicareUpper: 318000, medicareLower: 272000 },
-                { month: 'Sep 2025', medicare: 300000, medicaid: 174000, commercial: 154000, selfPay: 38000,
-                  medicareUpper: 325000, medicareLower: 275000 },
-                { month: 'Oct 2025', medicare: 305000, medicaid: 177000, commercial: 157000, selfPay: 39000,
-                  medicareUpper: 332000, medicareLower: 278000 }
+                { month: 'Jun 2025', medicare: 5050, medicaid: 2080, commercial: 3450, selfPay: 1070,
+                  medicareUpper: 5300, medicareLower: 4800 },
+                { month: 'Jul 2025', medicare: 5150, medicaid: 2120, commercial: 3520, selfPay: 1090,
+                  medicareUpper: 5420, medicareLower: 4880 },
+                { month: 'Aug 2025', medicare: 5250, medicaid: 2160, commercial: 3590, selfPay: 1110,
+                  medicareUpper: 5540, medicareLower: 4960 },
+                { month: 'Sep 2025', medicare: 5350, medicaid: 2200, commercial: 3660, selfPay: 1130,
+                  medicareUpper: 5660, medicareLower: 5040 },
+                { month: 'Oct 2025', medicare: 5450, medicaid: 2240, commercial: 3730, selfPay: 1150,
+                  medicareUpper: 5780, medicareLower: 5120 }
               ] : payerRevenueTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
