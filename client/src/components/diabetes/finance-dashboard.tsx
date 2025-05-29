@@ -46,47 +46,52 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Profitability Overview */}
+      {/* Top Financial Metrics - Clean Layout */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Profitability Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-white border-l-4 border-green-500">
+          {/* Profit Card - Green */}
+          <Card className="bg-white shadow-lg border-l-4 border-green-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Profit</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">↑ +12.5%</span>
-                  </div>
+                  <p className="text-sm font-medium text-gray-600">Profit</p>
+                  <p className="text-3xl font-bold text-green-600">$842,591</p>
+                  <p className="text-sm text-green-600 mt-1">+15.3%</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-green-600" />
+                  <TrendingUp className="text-green-600" size={24} />
                 </div>
               </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{width: '94%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 text-center">94% complete</p>
+            </CardContent>
+          </Card>
+
+          {/* Revenue Card - Blue */}
+          <Card className="bg-white shadow-lg border-l-4 border-blue-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Revenue</p>
+                  <p className="text-3xl font-bold text-blue-600">$1,523,891</p>
+                  <p className="text-sm text-blue-600 mt-1">+6.2%</p>
                 </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">$425K / $450K</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">$465K</p>
-                        <p className="text-xs text-blue-600">+9.4% forecast</p>
-                      </div>
-                    )}
-                  </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <DollarSign className="text-blue-600" size={24} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cost Card - Red */}
+          <Card className="bg-white shadow-lg border-l-4 border-red-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Cost</p>
+                  <p className="text-3xl font-bold text-red-600">$681,300</p>
+                  <p className="text-sm text-red-600 mt-1">+3.1%</p>
+                </div>
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <Calculator className="text-red-600" size={24} />
                 </div>
               </div>
             </CardContent>
@@ -179,110 +184,186 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Revenue Section */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Revenue</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Revenue Detail Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-white border-l-4 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Avg Revenue per Patient</p>
-                    <p className="text-2xl font-bold text-blue-600">$341</p>
-                    <p className="text-xs text-gray-500 mt-1">Per panel patient</p>
-                  </div>
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <DollarSign className="text-blue-600 h-5 w-5" />
-                  </div>
-                </div>
+      {/* Side-by-Side Revenue & Cost Analysis */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        
+        {/* Revenue Analysis Column */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
+            Revenue Analysis
+          </h3>
+          
+          {/* Revenue Metrics */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-4">
+                <p className="text-sm text-blue-600 font-medium">Avg Revenue per Patient</p>
+                <p className="text-2xl font-bold text-blue-700">$1,250</p>
+                <p className="text-xs text-blue-600">+15.8%</p>
               </CardContent>
             </Card>
-
-            <Card className="bg-white border-l-4 border-green-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Revenue from CCM</p>
-                    <p className="text-2xl font-bold text-green-600">$125K</p>
-                    <p className="text-xs text-gray-500 mt-1">29% of total revenue</p>
-                  </div>
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <Heart className="text-green-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-purple-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Revenue from Telemedicine</p>
-                    <p className="text-2xl font-bold text-purple-600">$85K</p>
-                    <p className="text-xs text-gray-500 mt-1">20% of total revenue</p>
-                  </div>
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Building className="text-purple-600 h-5 w-5" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-orange-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Revenue from In-Person</p>
-                    <p className="text-2xl font-bold text-orange-600">$215K</p>
-                    <p className="text-xs text-gray-500 mt-1">51% of total revenue</p>
-                  </div>
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                    <Stethoscope className="text-orange-600 h-5 w-5" />
-                  </div>
-                </div>
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-4">
+                <p className="text-sm text-blue-600 font-medium">Monthly Growth</p>
+                <p className="text-2xl font-bold text-blue-700">+15.8%</p>
+                <p className="text-xs text-blue-600">vs target +12%</p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Payer Mix Chart */}
-          <Card className="bg-white shadow-md">
+          {/* Payer Mix Distribution */}
+          <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-900">Payer Mix Distribution</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Medicare', value: 45, color: '#1976d2' },
-                        { name: 'Medicaid', value: 25, color: '#4caf50' },
-                        { name: 'Commercial', value: 20, color: '#ff9800' },
-                        { name: 'Self-Pay', value: 7, color: '#9c27b0' },
-                        { name: 'Other', value: 3, color: '#f44336' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: ${value}%`}
-                    >
-                      {[
-                        { name: 'Medicare', value: 45, color: '#1976d2' },
-                        { name: 'Medicaid', value: 25, color: '#4caf50' },
-                        { name: 'Commercial', value: 20, color: '#ff9800' },
-                        { name: 'Self-Pay', value: 7, color: '#9c27b0' },
-                        { name: 'Other', value: 3, color: '#f44336' }
-                      ].map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={PAYER_COLORS[index]} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value, name) => [`${value}%`, name]} />
-                  </PieChart>
-                </ResponsiveContainer>
-                <p className="text-xs text-gray-500 mt-2">Payer Mix for Diabetic Patients (Total: 1,247 patients)</p>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Medicare', value: 45, fill: '#2563eb' },
+                      { name: 'Private Insurance', value: 35, fill: '#16a34a' },
+                      { name: 'Medicaid', value: 15, fill: '#f59e0b' },
+                      { name: 'Self-Pay', value: 5, fill: '#ef4444' }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={100}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    <Cell fill="#2563eb" />
+                    <Cell fill="#16a34a" />
+                    <Cell fill="#f59e0b" />
+                    <Cell fill="#ef4444" />
+                  </Pie>
+                  <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* CPT Code Revenue Table */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">Top 5 CPT Code Revenue</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">99214</span>
+                  <span className="text-blue-600 font-semibold">$425,000</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">99213</span>
+                  <span className="text-blue-600 font-semibold">$256,300</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">99232</span>
+                  <span className="text-blue-600 font-semibold">$189,400</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">99396</span>
+                  <span className="text-blue-600 font-semibold">$145,200</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">99490</span>
+                  <span className="text-blue-600 font-semibold">$125,800</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Cost Analysis Column */}
+        <div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <Calculator className="mr-2 h-5 w-5 text-red-600" />
+            Cost Analysis
+          </h3>
+          
+          {/* Cost Metrics */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <Card className="bg-red-50 border-red-200">
+              <CardContent className="p-4">
+                <p className="text-sm text-red-600 font-medium">Avg Cost per Patient</p>
+                <p className="text-2xl font-bold text-red-700">$485</p>
+                <p className="text-xs text-red-600">+3.2%</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-red-50 border-red-200">
+              <CardContent className="p-4">
+                <p className="text-sm text-red-600 font-medium">Cost per Visit</p>
+                <p className="text-2xl font-bold text-red-700">$125</p>
+                <p className="text-xs text-red-600">-2.1%</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Labor Cost Distribution */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">Labor Cost Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Physicians', value: 45, fill: '#dc2626' },
+                      { name: 'Nurses', value: 25, fill: '#ea580c' },
+                      { name: 'Care Managers', value: 20, fill: '#f59e0b' },
+                      { name: 'Admin Staff', value: 10, fill: '#ef4444' }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={100}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    <Cell fill="#dc2626" />
+                    <Cell fill="#ea580c" />
+                    <Cell fill="#f59e0b" />
+                    <Cell fill="#ef4444" />
+                  </Pie>
+                  <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Cost Breakdown */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">Cost Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">Labor Cost</span>
+                  <span className="text-red-600 font-semibold">$425,000</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">Other Costs</span>
+                  <span className="text-red-600 font-semibold">$256,300</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">Equipment</span>
+                  <span className="text-red-600 font-semibold">$89,400</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b">
+                  <span className="font-medium">Supplies</span>
+                  <span className="text-red-600 font-semibold">$45,200</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">Technology</span>
+                  <span className="text-red-600 font-semibold">$35,800</span>
+                </div>
               </div>
             </CardContent>
           </Card>
