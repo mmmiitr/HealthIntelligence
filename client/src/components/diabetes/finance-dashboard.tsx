@@ -105,40 +105,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
 
-          {/* Payer Mix Distribution */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Mix Distribution</h6>
-            <Card>
-              <CardContent className="p-4">
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Medicare', value: 45, fill: '#1976d2' },
-                        { name: 'Medicaid', value: 25, fill: '#2196f3' },
-                        { name: 'Commercial', value: 20, fill: '#64b5f6' },
-                        { name: 'Self-Pay', value: 10, fill: '#bbdefb' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      <Cell fill="#1976d2" />
-                      <Cell fill="#2196f3" />
-                      <Cell fill="#64b5f6" />
-                      <Cell fill="#bbdefb" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-
           {/* Revenue for Top 5 CPT Codes */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue for Top 5 CPT Codes</h6>
@@ -171,11 +137,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </div>
 
           {/* Revenue Sources Over Time */}
-          <div className="mb-6">
+          <div className="mb-6 col-span-1 lg:col-span-2">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Sources Over Time</h6>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Revenue Sources Over Time (Mock Data)</CardTitle>
+                <CardTitle className="text-lg">Revenue Sources Over Time</CardTitle>
                 <p className="text-sm text-gray-600">Data Range: Jan 2024 - May 2025</p>
               </CardHeader>
               <CardContent>
@@ -197,7 +163,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                                   {`${entry.name}: $${entry.value}`}
                                 </p>
                               ))}
-                              <p className="text-xs text-gray-500 mt-2">Mock data as of May 2025</p>
                             </div>
                           );
                         }
