@@ -193,13 +193,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions */}
+                    {/* Confidence interval lines for predictions - only for main revenue streams */}
                     {showForecast && (
                       <>
-                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="In-Person Upper CI" />
-                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="In-Person Lower CI" />
-                        <Line type="monotone" dataKey="ccmUpper" stroke="#c8e6c9" strokeWidth={1} strokeDasharray="4 4" dot={false} name="CCM Upper CI" />
-                        <Line type="monotone" dataKey="ccmLower" stroke="#c8e6c9" strokeWidth={1} strokeDasharray="4 4" dot={false} name="CCM Lower CI" />
+                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="" />
+                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="" />
                       </>
                     )}
                     
@@ -376,13 +374,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions */}
+                    {/* Confidence interval lines for predictions - simplified */}
                     {showForecast && (
                       <>
-                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={2} strokeDasharray="5 5" dot={false} name="Total Cost Upper CI" />
-                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={2} strokeDasharray="5 5" dot={false} name="Total Cost Lower CI" />
-                        <Line type="monotone" dataKey="laborCostUpper" stroke="#fed7aa" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Labor Cost Upper CI" />
-                        <Line type="monotone" dataKey="laborCostLower" stroke="#fed7aa" strokeWidth={1} strokeDasharray="3 3" dot={false} name="Labor Cost Lower CI" />
+                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="5 5" dot={false} name="" />
+                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="5 5" dot={false} name="" />
                       </>
                     )}
                     
