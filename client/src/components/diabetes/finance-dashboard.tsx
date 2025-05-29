@@ -35,50 +35,89 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Profit Card - Green */}
-          <Card className="bg-white shadow-lg border-l-4 border-green-500">
+          {/* Profit Card */}
+          <Card className="bg-white shadow-md border-l-4 border-green-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Profit</p>
-                  <p className="text-3xl font-bold text-green-600">$842,591</p>
-                  <p className="text-sm text-green-600 mt-1">+15.3%</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <TrendingUp className="text-green-600" size={24} />
+                  <TrendingUp className="text-green-600" size={20} />
                 </div>
+              </div>
+              
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
+                  <p className="text-2xl font-bold text-green-600">$842.6K</p>
+                  <p className="text-xs text-green-600">+15.3% vs Apr</p>
+                </div>
+                {showForecast && (
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
+                    <p className="text-2xl font-bold text-green-700">$865.2K</p>
+                    <p className="text-xs text-green-600">+2.7% vs May</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
 
-          {/* Revenue Card - Blue */}
-          <Card className="bg-white shadow-lg border-l-4 border-blue-500">
+          {/* Revenue Card */}
+          <Card className="bg-white shadow-md border-l-4 border-blue-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Revenue</p>
-                  <p className="text-3xl font-bold text-blue-600">$1,523,891</p>
-                  <p className="text-sm text-blue-600 mt-1">+6.2%</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-blue-600" size={24} />
+                  <DollarSign className="text-blue-600" size={20} />
                 </div>
+              </div>
+              
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
+                  <p className="text-2xl font-bold text-blue-600">$1.52M</p>
+                  <p className="text-xs text-blue-600">+6.2% vs Apr</p>
+                </div>
+                {showForecast && (
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
+                    <p className="text-2xl font-bold text-blue-700">$1.58M</p>
+                    <p className="text-xs text-blue-600">+3.9% vs May</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
 
-          {/* Cost Card - Red */}
-          <Card className="bg-white shadow-lg border-l-4 border-red-500">
+          {/* Cost Card */}
+          <Card className="bg-white shadow-md border-l-4 border-red-500">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Cost</p>
-                  <p className="text-3xl font-bold text-red-600">$681,300</p>
-                  <p className="text-sm text-red-600 mt-1">+3.1%</p>
                 </div>
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <Calculator className="text-red-600" size={24} />
+                  <Calculator className="text-red-600" size={20} />
                 </div>
+              </div>
+              
+              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
+                  <p className="text-2xl font-bold text-red-600">$681.3K</p>
+                  <p className="text-xs text-red-600">+3.1% vs Apr</p>
+                </div>
+                {showForecast && (
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
+                    <p className="text-2xl font-bold text-red-700">$715.0K</p>
+                    <p className="text-xs text-red-600">+4.9% vs May</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -231,8 +270,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
                 <p className="text-sm text-red-600 font-medium">Average cost per patient in panel</p>
-                <p className="text-2xl font-bold text-red-700">$2,380</p>
-                <p className="text-xs text-red-600">+3.2%</p>
+                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
+                  <div>
+                    <p className="text-xs text-gray-500">Current</p>
+                    <p className="text-xl font-bold text-red-700">$2,380</p>
+                    <p className="text-xs text-red-600">+3.2%</p>
+                  </div>
+                  {showForecast && (
+                    <div>
+                      <p className="text-xs text-gray-500">Forecast</p>
+                      <p className="text-xl font-bold text-red-800">$2,456</p>
+                      <p className="text-xs text-red-600">+3.2%</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -243,8 +294,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
                 <p className="text-sm text-red-600 font-medium">Cost per visit</p>
-                <p className="text-2xl font-bold text-red-700">$120</p>
-                <p className="text-xs text-red-600">-2.1%</p>
+                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
+                  <div>
+                    <p className="text-xs text-gray-500">Current</p>
+                    <p className="text-xl font-bold text-red-700">$120</p>
+                    <p className="text-xs text-red-600">-2.1%</p>
+                  </div>
+                  {showForecast && (
+                    <div>
+                      <p className="text-xs text-gray-500">Forecast</p>
+                      <p className="text-xl font-bold text-red-800">$118</p>
+                      <p className="text-xs text-green-600">-1.7%</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -254,12 +317,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost</h6>
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-red-600 font-medium">Labor Cost</p>
-                    <p className="text-2xl font-bold text-red-700">$800K</p>
-                    <p className="text-xs text-red-600">+5.2%</p>
-                  </div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm text-red-600 font-medium">Labor Cost</p>
                   <div className="relative group">
                     <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center cursor-help">
                       <Calculator className="text-red-600" size={20} />
@@ -268,6 +327,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       Physician: 40%, Nurse: 30%, Technician: 20%, Care Manager: 10%
                     </div>
                   </div>
+                </div>
+                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
+                  <div>
+                    <p className="text-xs text-gray-500">Current</p>
+                    <p className="text-xl font-bold text-red-700">$800K</p>
+                    <p className="text-xs text-red-600">+5.2%</p>
+                  </div>
+                  {showForecast && (
+                    <div>
+                      <p className="text-xs text-gray-500">Forecast</p>
+                      <p className="text-xl font-bold text-red-800">$832K</p>
+                      <p className="text-xs text-red-600">+4.0%</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -279,8 +352,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
                 <p className="text-sm text-red-600 font-medium">Other Costs</p>
-                <p className="text-2xl font-bold text-red-700">$390K</p>
-                <p className="text-xs text-red-600">(e.g., lab tests, supplies)</p>
+                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
+                  <div>
+                    <p className="text-xs text-gray-500">Current</p>
+                    <p className="text-xl font-bold text-red-700">$390K</p>
+                    <p className="text-xs text-red-600">(lab tests, supplies)</p>
+                  </div>
+                  {showForecast && (
+                    <div>
+                      <p className="text-xs text-gray-500">Forecast</p>
+                      <p className="text-xl font-bold text-red-800">$402K</p>
+                      <p className="text-xs text-red-600">+3.1%</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
