@@ -1,32 +1,49 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Shield, Stethoscope, User } from "lucide-react";
-import AdminDashboard from "@/components/diabetes/admin-dashboard";
+import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database, Brain } from "lucide-react";
+import { getCurrentTimestamp } from "@/lib/utils";
+import SummaryDashboard from "@/components/diabetes/summary-dashboard";
+import FinanceDashboard from "@/components/diabetes/finance-dashboard";
+import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import PatientDashboard from "@/components/diabetes/patient-dashboard";
+import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("admin");
+  const [activeTab, setActiveTab] = useState("summary");
   const [timeFilter, setTimeFilter] = useState("1year");
+  const [viewMode, setViewMode] = useState("monthly");
+  const [showForecast, setShowForecast] = useState(false);
 
   const tabs = [
-    { id: "admin", label: "Admin", icon: Shield, description: "Hospital Administration" },
-    { id: "clinician", label: "Clinician", icon: Stethoscope, description: "Healthcare Provider" },
-    { id: "patient", label: "Patient", icon: User, description: "Individual Patient (John Doe)" },
+    { id: "summary", label: "Summary", icon: BarChart3, description: "" },
+    { id: "finance", label: "Finance", icon: DollarSign, description: "" },
+    { id: "operation", label: "Operations", icon: Settings, description: "" },
+    { id: "clinician", label: "Clinical", icon: Stethoscope, description: "" },
+    { id: "patient", label: "Patient", icon: User, description: "" },
+    { id: "mockdata", label: "Technical", icon: Database, description: "" },
   ];
 
   const renderActiveTab = () => {
     switch (activeTab) {
-      case "admin":
-        return <AdminDashboard timeFilter={timeFilter} />;
+      case "summary":
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
+      case "finance":
+        return <FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
+      case "operation":
+        return <OperationDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "clinician":
-        return <ClinicianDashboard timeFilter={timeFilter} />;
+        return <ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "patient":
-        return <PatientDashboard timeFilter={timeFilter} />;
+        return <PatientDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
+      case "mockdata":
+        return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       default:
-        return <AdminDashboard timeFilter={timeFilter} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
     }
   };
 
@@ -39,18 +56,40 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
                 <Heart className="text-primary text-2xl" />
-                <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
+                <div>
+                  <div className="flex items-center space-x-4">
+                    <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
+                    <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-2 py-1">
+                      <Shield className="h-2.5 w-2.5 mr-1" />
+                      HIPAA Compliant
+                    </Badge>
+                    <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-2 py-1">
+                      <Brain className="h-2.5 w-2.5 mr-1" />
+                      AI-Enhanced Analytics
+                    </Badge>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Select value={timeFilter} onValueChange={setTimeFilter}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Select time period" />
+              <div className="flex items-center space-x-2">
+                <label htmlFor="global-forecast-toggle" className="text-sm font-medium text-gray-700">
+                  Forecast
+                </label>
+                <Switch
+                  id="global-forecast-toggle"
+                  checked={showForecast}
+                  onCheckedChange={setShowForecast}
+                />
+              </div>
+              <Select value={viewMode} onValueChange={setViewMode}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="View Mode" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="3months">Last 3 Months</SelectItem>
-                  <SelectItem value="6months">Last 6 Months</SelectItem>
-                  <SelectItem value="1year">Last Year</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="quarterly">Quarterly</SelectItem>
+                  <SelectItem value="yearly">Yearly</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -91,6 +130,13 @@ export default function Dashboard() {
         {/* Active Tab Content */}
         <div>
           {renderActiveTab()}
+        </div>
+
+        {/* Global Footer with Timestamp */}
+        <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
+          <div className="text-center">
+            <p className="text-sm text-gray-500">Last Updated: {getCurrentTimestamp()}</p>
+          </div>
         </div>
       </div>
     </div>

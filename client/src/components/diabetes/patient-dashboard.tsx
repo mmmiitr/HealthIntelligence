@@ -1,14 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, Calendar, Pill, BookOpen, Target, Apple, Dumbbell } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Activity, Calendar, Pill, BookOpen, Target, Apple, Dumbbell, TrendingUp, User } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { johnDoeHbA1cTrend } from "@/lib/mock-data";
+import { getCurrentTimestamp } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface PatientDashboardProps {
   timeFilter: string;
+  viewMode: string;
+  showForecast: boolean;
 }
 
-export default function PatientDashboard({ timeFilter }: PatientDashboardProps) {
+export default function PatientDashboard({ timeFilter, viewMode, showForecast }: PatientDashboardProps) {
+  // Dynamic labels based on view mode
+  const getViewLabels = () => {
+    switch(viewMode) {
+      case "monthly":
+        return { current: "MAY CURRENT", forecast: "JUN TARGET" };
+      case "quarterly":
+        return { current: "Q2 CURRENT", forecast: "Q3 TARGET" };
+      case "yearly":
+        return { current: "2024 CURRENT", forecast: "2025 TARGET" };
+      default:
+        return { current: "MAY CURRENT", forecast: "JUN TARGET" };
+    }
+  };
+
+  const labels = getViewLabels();
   const { data: patientProfile } = useQuery({
     queryKey: ["/api/patient/profile"],
   });
@@ -61,73 +81,79 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Patient Dashboard</h2>
-        <p className="text-gray-600 mt-1">Personal diabetes management for John Doe</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Patient Dashboard</h2>
+            <h5 className="text-lg font-medium text-gray-700 mt-2">Patient Overview - John Doe</h5>
+            <p className="text-gray-600 mt-1">Personal diabetes management</p>
+          </div>
+          <div className="flex flex-col items-end space-y-2">
+            <p className="text-sm text-gray-500">{getCurrentTimestamp()}</p>
+          </div>
+        </div>
       </div>
 
       {/* Personal Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-blue-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Activity className="h-5 w-5 text-blue-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Personal A1C Level</p>
-                <p className="text-2xl font-bold text-gray-900">{currentA1C}%</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Activity className="text-blue-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <Badge className={`${
-                parseFloat(currentA1C) <= 7 ? "bg-green-100 text-green-800" : 
-                parseFloat(currentA1C) <= 8 ? "bg-yellow-100 text-yellow-800" : 
-                "bg-red-100 text-red-800"
-              }`}>
-                {parseFloat(currentA1C) <= 7 ? "Good Control" : 
-                 parseFloat(currentA1C) <= 8 ? "Fair Control" : "Needs Improvement"}
-              </Badge>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">MAY CURRENT</p>
+                <p className="text-lg font-bold text-gray-900">{currentA1C}%</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">JUN TARGET</p>
+                <p className="text-lg font-bold text-green-600">&lt;7.0%</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-green-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Calendar className="h-5 w-5 text-green-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Next Appointment</p>
-                <p className="text-lg font-bold text-gray-900">{nextAppointment}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Calendar className="text-green-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-blue-600 font-medium">📅 Dr. Sarah Johnson</span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">MAY SCHEDULED</p>
+                <p className="text-sm font-bold text-gray-900">{nextAppointment}</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">JUN PROVIDER</p>
+                <p className="text-sm font-bold text-green-600">Dr. Johnson</p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
+        <Card className="bg-white shadow-md border-l-4 border-purple-500" style={{height: '140px'}}>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Pill className="h-5 w-5 text-purple-600 mr-2" />
                 <p className="text-sm font-medium text-gray-600">Medication Adherence</p>
-                <p className="text-2xl font-bold text-gray-900">{medicationAdherence}%</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <Pill className="text-purple-600" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm">
-              <Badge className={`${
-                parseFloat(medicationAdherence) >= 90 ? "bg-green-100 text-green-800" : 
-                parseFloat(medicationAdherence) >= 80 ? "bg-yellow-100 text-yellow-800" : 
-                "bg-red-100 text-red-800"
-              }`}>
-                {parseFloat(medicationAdherence) >= 90 ? "Excellent" : 
-                 parseFloat(medicationAdherence) >= 80 ? "Good" : "Needs Improvement"}
-              </Badge>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">MAY CURRENT</p>
+                <p className="text-lg font-bold text-gray-900">{medicationAdherence}%</p>
+              </div>
+              <div className="text-center bg-gray-50 p-2 rounded">
+                <p className="text-xs font-medium text-gray-500">JUN TARGET</p>
+                <p className="text-lg font-bold text-purple-600">95%</p>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -172,6 +198,85 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
               />
             </LineChart>
           </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* HbA1c Trend with John Doe's Data */}
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+            <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
+            John Doe's HbA1c Trend
+          </CardTitle>
+          <p className="text-sm text-gray-600">Extended trend data: Jan 2025 - Oct 2025</p>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={johnDoeHbA1cTrend}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis domain={[5.5, 7]} tickFormatter={(value) => `${value}%`} />
+              <Tooltip 
+                formatter={(value) => [`${value}%`, "HbA1c"]} 
+                labelFormatter={(label) => `${label} - Extended View`}
+              />
+              <Legend />
+              <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
+              <Line
+                type="monotone"
+                dataKey="hba1c"
+                stroke="#1976d2"
+                strokeWidth={3}
+                name="HbA1c (%)"
+                dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Care Plan */}
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+            <User className="mr-2 h-5 w-5 text-green-600" />
+            John Doe's Current Care Plan
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <Pill className="h-5 w-5 text-blue-600 mt-1" />
+              <div>
+                <p className="font-medium text-gray-900">Current Medications</p>
+                <p className="text-gray-700">Metformin 500mg daily</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <Calendar className="h-5 w-5 text-green-600 mt-1" />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">Next Appointment</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-700">June 5, 2025 at 2:00 PM</p>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.alert("Rescheduling appointment for John Doe (Mock Action)")}
+                    className="ml-4"
+                  >
+                    Reschedule Appointment
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <Target className="h-5 w-5 text-purple-600 mt-1" />
+              <div>
+                <p className="font-medium text-gray-900">Current HbA1c Goal</p>
+                <p className="text-gray-700">Target: &lt;7.0%</p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -238,6 +343,30 @@ export default function PatientDashboard({ timeFilter }: PatientDashboardProps) 
               <BookOpen className="h-8 w-8 text-orange-600 mx-auto mb-2" />
               <h4 className="font-medium text-gray-900">Learning Resources</h4>
               <p className="text-xs text-gray-600 mt-1">Educational materials</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Next Steps Section */}
+      <Card className="bg-blue-50 shadow-lg border-l-4 border-blue-500 mt-6">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-gray-900">Next Steps</CardTitle>
+          <p className="text-sm text-gray-600">Recommended actions to improve your diabetes management</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <p className="text-gray-800">
+                <span className="font-medium">Increase CCM Enrollment:</span> Current 75%, Target 85% to improve outcomes.
+              </p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <p className="text-gray-800">
+                <span className="font-medium">Reduce No-Show Appointments:</span> Current 12%, Target &lt;10% with reminders.
+              </p>
             </div>
           </div>
         </CardContent>
