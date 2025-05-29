@@ -85,8 +85,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Side-by-Side Revenue & Cost Analysis */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      {/* Horizontal Revenue & Cost Analysis */}
+      <div className="grid grid-cols-2 gap-8 mb-8">
         
         {/* Revenue Analysis Column */}
         <div>
@@ -282,6 +282,68 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 <p className="text-sm text-red-600 font-medium">Other Costs</p>
                 <p className="text-2xl font-bold text-red-700">$390K</p>
                 <p className="text-xs text-red-600">(e.g., lab tests, supplies)</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Cost Trends Over Time */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Cost Trends Over Time</h6>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Cost Analysis Trends (Mock Data)</CardTitle>
+                <p className="text-sm text-gray-600">Data Range: Jan 2024 - May 2025</p>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={[
+                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
+                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
+                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
+                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
+                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
+                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
+                    { month: 'Jul 2024', laborCost: 210000, otherCosts: 97000, totalCost: 307000 },
+                    { month: 'Aug 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
+                    { month: 'Sep 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
+                    { month: 'Oct 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
+                    { month: 'Nov 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
+                    { month: 'Dec 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
+                    { month: 'Jan 2025', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
+                    { month: 'Feb 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
+                    { month: 'Mar 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
+                    { month: 'Apr 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
+                    { month: 'May 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip 
+                      formatter={(value, name) => [`$${value}`, name]}
+                      labelFormatter={(label) => `Month: ${label}`}
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-white p-3 border rounded shadow">
+                              <p className="font-medium">{`Month: ${label}`}</p>
+                              {payload.map((entry, index) => (
+                                <p key={index} style={{ color: entry.color }}>
+                                  {`${entry.name}: $${entry.value}`}
+                                </p>
+                              ))}
+                              <p className="text-xs text-gray-500 mt-2">Mock data as of May 2025</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="totalCost" stroke="#dc2626" name="Total Cost" strokeWidth={3} />
+                    <Line type="monotone" dataKey="laborCost" stroke="#f59e0b" name="Labor Cost" strokeWidth={2} />
+                    <Line type="monotone" dataKey="otherCosts" stroke="#ef4444" name="Other Costs" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </div>
