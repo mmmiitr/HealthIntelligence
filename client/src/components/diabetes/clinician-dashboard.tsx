@@ -1,9 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Activity, Heart, AlertTriangle, Users, Brain, Calendar, Shield, TrendingUp } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, Area, AreaChart, ReferenceLine, BarChart, Bar } from "recharts";
-import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocationData, patientEngagementData } from "@/lib/mock-data";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -67,66 +63,117 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   return (
     <div>
-      {/* Key Clinical Metrics */}
+      {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Clinical Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">% Controlled HbA1c (&lt;7%) <span className="text-xs text-blue-600">(Prediction)</span></span>
-                <span className="text-2xl font-bold text-blue-900">68%</span>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-blue-600">(Prediction)</span></h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-blue-900">68%</span>
               </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">% Recent HbA1c Test (6mo)</span>
-                <span className="text-2xl font-bold text-green-900">91%</span>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-blue-900">62%</span>
               </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">% Hypertension Control (&lt;140/90)</span>
-                <span className="text-2xl font-bold text-green-900">77%</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">% &gt;2 Co-morbidities</span>
-                <span className="text-2xl font-bold text-orange-900">34%</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">% Enrolled in DSME</span>
-                <span className="text-2xl font-bold text-purple-900">41%</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white">
-            <CardContent className="p-4">
-              <div className="flex flex-col space-y-2">
-                <span className="text-sm text-gray-600">30-Day ED Visit or Hospitalization <span className="text-xs text-blue-600">(Prediction)</span></span>
-                <span className="text-2xl font-bold text-red-900">8%</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Top 5 Patients with Highest ED Visits */}
+      {/* 2. % of patients with recent HbA1c test (last 6 months) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 Patients: ED Visits (Past Quarter)</h3>
-        <Card className="bg-white">
-          <CardContent className="p-4">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with recent HbA1c test (last 6 months)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">91%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">85%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 3. % of patients with hypertension control (<140/90) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with hypertension control (&lt;140/90)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">77%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">70%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 4. % of patients with >2 co-morbidities */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with &gt;2 co-morbidities</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-orange-900">34%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-orange-900">28%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 5. % enrolled in DSME */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% enrolled in DSME (Diabetes Self-Management Education)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">All Patients</span>
+                <span className="text-2xl font-extrabold text-purple-900">41%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization <span className="text-xs text-blue-600">(Prediction)</span></h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">All Patients</span>
+                <span className="text-2xl font-extrabold text-red-900">8%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 7. Top 5 patients with highest ED visits past quarter */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with highest ED visits (past quarter)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
             <table className="w-full table-auto">
               <thead>
                 <tr className="border-b border-gray-200">
@@ -146,11 +193,11 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Top 5 Patients with Most Inpatient LOS */}
+      {/* 8. Top 5 patients with most inpatient LOS (length of stay) past quarter */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 Patients: Inpatient LOS (Past Quarter)</h3>
-        <Card className="bg-white">
-          <CardContent className="p-4">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with most inpatient LOS (length of stay) (past quarter)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
             <table className="w-full table-auto">
               <thead>
                 <tr className="border-b border-gray-200">
