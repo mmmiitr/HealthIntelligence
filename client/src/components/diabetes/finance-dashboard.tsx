@@ -85,15 +85,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Horizontal Revenue & Cost Analysis */}
-      <div className="grid grid-cols-2 gap-8 mb-8">
-        
-        {/* Revenue Analysis Column */}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-            <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
-            Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
-          </h3>
+      {/* Revenue Analysis Section (Row 2) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+          <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
+          Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
+        </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Average Revenue per Patient */}
           <div className="mb-6">
@@ -218,13 +216,15 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
         </div>
+      </div>
 
-        {/* Cost Analysis Column */}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-            <Calculator className="mr-2 h-5 w-5 text-red-600" />
-            Cost Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
-          </h3>
+      {/* Cost Analysis Section (Row 3) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+          <Calculator className="mr-2 h-5 w-5 text-red-600" />
+          Cost Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
+        </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Average Cost per Patient */}
           <div className="mb-6">
