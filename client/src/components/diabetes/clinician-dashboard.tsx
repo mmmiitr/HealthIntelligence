@@ -81,208 +81,122 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Refactored Average A1C Card */}
         <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Activity className="text-blue-600" />
-              </div>
+          <CardContent className="p-4">
+            <div className="flex items-center mb-2">
+              <Activity className="h-5 w-5 text-blue-600 mr-2" />
+              <span className="font-semibold text-gray-900">Average A1C</span>
             </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{width: '98%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">98% at target</p>
+            <div className="grid grid-cols-2 gap-2 items-end">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Current</div>
+                <div className="text-xl font-bold text-blue-900">{averageA1C}%</div>
+                <div className="text-xs text-blue-600">↓ -0.3% vs last</div>
               </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">{averageA1C}% / 7.1%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">6.9%</p>
-                      <p className="text-xs text-blue-600">-4.2% forecast</p>
-                    </div>
-                  )}
+              {showForecast && (
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 mb-1">Forecast</div>
+                  <div className="text-xl font-bold text-blue-600">6.9%</div>
+                  <div className="text-xs text-blue-600">-4.2% forecast</div>
                 </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <div className="bg-gray-200 rounded-full h-1 mb-1">
+                <div className="bg-blue-500 h-1 rounded-full" style={{width: '98%'}}></div>
               </div>
+              <div className="text-xs text-gray-600 text-center">98% at target</div>
             </div>
           </CardContent>
         </Card>
-
+        {/* Refactored Patient Adherence Rate Card */}
         <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↗ +5.2%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Heart className="text-green-600" />
-              </div>
+          <CardContent className="p-4">
+            <div className="flex items-center mb-2">
+              <Heart className="h-5 w-5 text-green-600 mr-2" />
+              <span className="font-semibold text-gray-900">Patient Adherence</span>
             </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '96%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">96% complete</p>
+            <div className="grid grid-cols-2 gap-2 items-end">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Current</div>
+                <div className="text-xl font-bold text-green-900">{adherenceRate}%</div>
+                <div className="text-xs text-green-600">↗ +5.2% vs last</div>
               </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">{adherenceRate}% / 85%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">88%</p>
-                      <p className="text-xs text-blue-600">+7.3% forecast</p>
-                    </div>
-                  )}
+              {showForecast && (
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 mb-1">Forecast</div>
+                  <div className="text-xl font-bold text-blue-600">88%</div>
+                  <div className="text-xs text-blue-600">+7.3% forecast</div>
                 </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <div className="bg-gray-200 rounded-full h-1 mb-1">
+                <div className="bg-green-500 h-1 rounded-full" style={{width: '96%'}}></div>
               </div>
+              <div className="text-xs text-gray-600 text-center">96% complete</div>
             </div>
           </CardContent>
         </Card>
-
-        <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Medication Compliance</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↑ +5.2%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Heart className="text-green-600" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">99% complete</p>
-              </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">84% / 85%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">87%</p>
-                      <p className="text-xs text-blue-600">+3.6% forecast</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-3 p-2 bg-orange-50 rounded">
-              <p className="text-xs text-orange-700" title="2024 update to address cannabis use in diabetes care">
-                Ask about tobacco/cannabis use (Section 5)
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
+        {/* Refactored Medication Compliance Card */}
         <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Complication Rate</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↓ -1.8%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="text-red-600" />
-              </div>
+          <CardContent className="p-4">
+            <div className="flex items-center mb-2">
+              <Heart className="h-5 w-5 text-green-600 mr-2" />
+              <span className="font-semibold text-gray-900">Medication Compliance</span>
             </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '80%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">Below target</p>
+            <div className="grid grid-cols-2 gap-2 items-end">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Current</div>
+                <div className="text-xl font-bold text-green-900">84%</div>
+                <div className="text-xs text-green-600">↑ +5.2% vs last</div>
               </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">3.2% / 4.0%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">2.8%</p>
-                      <p className="text-xs text-blue-600">-12.5% forecast</p>
-                    </div>
-                  )}
+              {showForecast && (
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 mb-1">Forecast</div>
+                  <div className="text-xl font-bold text-blue-600">87%</div>
+                  <div className="text-xs text-blue-600">+3.6% forecast</div>
                 </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <div className="bg-gray-200 rounded-full h-1 mb-1">
+                <div className="bg-green-500 h-1 rounded-full" style={{width: '99%'}}></div>
               </div>
+              <div className="text-xs text-gray-600 text-center">99% complete</div>
             </div>
           </CardContent>
         </Card>
-          <Card className="bg-white" title="Compares average HbA1c for CCM-enrolled vs. non-enrolled patients (May 2025).">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">CCM Impact on HbA1c</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">Significant improvement</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <Heart className="text-green-600" />
-                </div>
+        {/* Refactored Complication Rate Card */}
+        <Card className="bg-white">
+          <CardContent className="p-4">
+            <div className="flex items-center mb-2">
+              <AlertTriangle className="h-5 w-5 text-red-600 mr-2" />
+              <span className="font-semibold text-gray-900">Complication Rate</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2 items-end">
+              <div>
+                <div className="text-xs text-gray-500 mb-1">Current</div>
+                <div className="text-xl font-bold text-red-900">3.2%</div>
+                <div className="text-xs text-red-600">↓ -1.8% vs last</div>
               </div>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">CCM ENROLLED</p>
-                  <p className="text-lg font-bold text-gray-900">6.5%</p>
-                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
+              {showForecast && (
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 mb-1">Forecast</div>
+                  <div className="text-xl font-bold text-blue-600">2.8%</div>
+                  <div className="text-xs text-blue-600">-12.5% forecast</div>
                 </div>
-                
-                <div className="bg-orange-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">NON-ENROLLED</p>
-                  <p className="text-lg font-bold text-gray-900">7.2%</p>
-                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
-                </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <div className="bg-gray-200 rounded-full h-1 mb-1">
+                <div className="bg-green-500 h-1 rounded-full" style={{width: '80%'}}></div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="text-xs text-gray-600 text-center">Below target</div>
+            </div>
+          </CardContent>
+        </Card>
         </div>
       </div>
 
