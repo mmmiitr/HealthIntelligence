@@ -63,26 +63,49 @@ export default function Dashboard() {
 
   // PDF download handler for all tabs
   const handleDownloadPDF = async () => {
-    const tabOrder = [
-      { id: "summary", label: "Summary", ref: summaryRef },
-      { id: "finance", label: "Finance", ref: financeRef },
-      { id: "operation", label: "Operations", ref: operationRef },
-      { id: "clinician", label: "Clinical", ref: clinicianRef },
-      { id: "mockdata", label: "Technical", ref: technicalRef },
-    ];
-    const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
-    for (let i = 0; i < tabOrder.length; i++) {
-      const { ref } = tabOrder[i];
-      const el = ref.current;
-      if (!el) continue;
-      const canvas = await html2canvas(el, { scale: 3, useCORS: true });
+    try {
+      // Capture only the currently active tab instead of hidden elements
+      const activeElement = document.getElementById('dashboard-content');
+      if (!activeElement) {
+        console.error('Dashboard content not found');
+        return;
+      }
+
+      const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+      
+      // Capture the current tab content
+      const canvas = await html2canvas(activeElement, { 
+        scale: 2, 
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        width: activeElement.scrollWidth,
+        height: activeElement.scrollHeight
+      });
+      
       const imgData = canvas.toDataURL("image/png");
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      if (i > 0) pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+      
+      // Calculate aspect ratio to fit content properly
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const ratio = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+      
+      const imgWidth = canvasWidth * ratio;
+      const imgHeight = canvasHeight * ratio;
+      
+      // Center the image on the page
+      const x = (pageWidth - imgWidth) / 2;
+      const y = (pageHeight - imgHeight) / 2;
+      
+      pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+      pdf.save(`diabetes-dashboard-${activeTab}-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      alert('Failed to generate PDF. Please try again.');
     }
-    pdf.save("dashboard-report.pdf");
   };
 
   return (
@@ -133,14 +156,6 @@ export default function Dashboard() {
       </header>
       
       <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Hidden containers for all tabs for PDF export */}
-        <div style={{ display: "none" }}>
-          <div ref={summaryRef}><SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
-          <div ref={financeRef}><FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
-          <div ref={operationRef}><OperationDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
-          <div ref={clinicianRef}><ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
-          <div ref={technicalRef}><MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
-        </div>
         {/* Tab Navigation */}
         <Card className="mb-6 bg-white">
           <CardContent className="p-6">
