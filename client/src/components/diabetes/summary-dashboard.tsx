@@ -37,6 +37,30 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
+  // Data-driven metric configs for Key Metrics (for flex-based cards)
+  const keyMetrics = [
+    {
+      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
+      label: "Avg Revenue/Patient/Month",
+      value: <span className="text-2xl font-extrabold text-blue-600">$120</span>,
+    },
+    {
+      icon: <Users className="h-5 w-5 text-blue-600" />,
+      label: "% Under CCM",
+      value: <span className="text-2xl font-extrabold text-blue-700">30%</span>,
+    },
+    {
+      icon: <Monitor className="h-5 w-5 text-purple-600" />,
+      label: "% Telemedicine Visits",
+      value: <span className="text-2xl font-extrabold text-purple-700">30%</span>,
+    },
+    {
+      icon: <DollarSign className="h-5 w-5 text-red-600" />,
+      label: "Avg Cost/Patient/Month",
+      value: <span className="text-2xl font-extrabold text-red-700">$85</span>,
+    },
+  ];
+
   return (
     <div>
       {/* Header */}
@@ -47,13 +71,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <p className="text-gray-600 mt-1">Executive overview of diabetes care management</p>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <Button 
-              onClick={handleDownloadReport}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download Report (CSV)</span>
-            </Button>
+            {/* Download button moved to global header */}
           </div>
         </div>
       </div>
@@ -62,243 +80,17 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-white border-l-4 border-green-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">↑ +8.2%</span>
-                  </div>
+          {keyMetrics.map((metric, idx) => (
+            <Card key={metric.label} className="bg-white shadow-none rounded-xl">
+              <CardContent className="p-6 flex flex-col h-full justify-between">
+                <div className="flex items-center mb-2">
+                  {metric.icon}
+                  <span className={`font-semibold ml-2 ${metric.label === "Avg Revenue/Patient/Month" ? "text-blue-600" : "text-gray-900"}`}>{metric.label}</span>
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-green-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{width: '65%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 text-center">65% complete</p>
-                </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">$1.2M / $1.85M</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">$1.95M</p>
-                        <p className="text-xs text-blue-600">+5.4% forecast</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-l-4 border-blue-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Active Panel Size</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-blue-600 font-medium text-sm">↑ +5.1%</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Users className="text-blue-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-blue-500 h-2 rounded-full" style={{width: '97%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 text-center">97% complete</p>
-                </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">1,247 / 1,290</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">1,310</p>
-                        <p className="text-xs text-blue-600">+1.6% forecast</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-l-4 border-purple-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">% In-Control HbA1c (&lt;7%)</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">↑ +4.2%</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Heart className="text-purple-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Circular Progress with percentage in center */}
-                <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center">
-                  <div className="relative w-24 h-24">
-                    {/* Background circle */}
-                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="40"
-                        stroke="#e5e7eb"
-                        strokeWidth="8"
-                        fill="none"
-                      />
-                      {/* Progress circle */}
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="40"
-                        stroke="#f97316"
-                        strokeWidth="8"
-                        fill="none"
-                        strokeDasharray={`${72 * 2.51} 251.2`}
-                        strokeLinecap="round"
-                        className="transition-all duration-300"
-                      />
-                    </svg>
-                    {/* Center text */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-lg font-bold text-gray-900">72%</span>
-                      <span className="text-xs text-gray-600">in control</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">72%</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">75%</p>
-                        <p className="text-xs text-blue-600">+3% forecast</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-l-4 border-orange-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">% Under CCM</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">↑ +2.1%</span>
-                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2023"}</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                  <UserCheck className="text-orange-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '99%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 text-center">99% complete</p>
-                </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">94%</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">96%</p>
-                        <p className="text-xs text-blue-600">+1.1% forecast</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white border-l-4 border-purple-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Telemedicine Patients</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-purple-600 font-medium text-sm">↑ +15.3%</span>
-                    <span className="text-gray-500 text-sm">vs {viewMode === "monthly" ? "Apr" : viewMode === "quarterly" ? "Q1" : "2024"}</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Monitor className="text-purple-600" />
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-purple-500 h-2 rounded-full" style={{width: '68%'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-600 text-center">68% of panel</p>
-                </div>
-                
-                {/* Row 2: Current values with forecast comparison */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-gray-900">847</p>
-                      <p className="text-xs text-gray-600">Current</p>
-                    </div>
-                    {showForecast && (
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">895</p>
-                        <p className="text-xs text-blue-600">+5.7% forecast</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                <div>{metric.value}</div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
@@ -320,12 +112,6 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           </CardContent>
         </Card>
       </div>
-
-
-
-
-
-
     </div>
   );
 }
