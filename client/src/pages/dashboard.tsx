@@ -88,6 +88,13 @@ export default function Dashboard() {
                   <SelectItem value="yearly">Yearly</SelectItem>
                 </SelectContent>
               </Select>
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2"
+                onClick={() => window.alert('Downloading PDF: Full Dashboard Report (based on current toggle and filters)')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
+                <span>Download Report (PDF)</span>
+              </Button>
             </div>
           </div>
         </div>

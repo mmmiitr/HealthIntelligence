@@ -8,7 +8,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-import { MetricCard } from "@/components/ui/metric-card";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -38,51 +37,27 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric card configs for Key Metrics
+  // Data-driven metric configs for Key Metrics (for flex-based cards)
   const keyMetrics = [
     {
-      icon: <DollarSign className="h-5 w-5 text-green-600" />,
-      borderColor: "border-green-500",
-      title: "Avg Revenue/Patient/Month",
-      currentLabel: "",
-      currentValue: <span className="text-2xl font-extrabold text-green-700">$120</span>,
-      currentSub: null,
-      forecastLabel: showForecast ? "Forecast" : undefined,
-      forecastValue: showForecast ? <span className="text-xl font-bold text-green-600">$130</span> : undefined,
-      forecastSub: showForecast ? <span className="text-xs text-green-600">+8% forecast</span> : undefined,
+      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
+      label: "Avg Revenue/Patient/Month",
+      value: <span className="text-2xl font-extrabold text-blue-600">$120</span>,
     },
     {
       icon: <Users className="h-5 w-5 text-blue-600" />,
-      borderColor: "border-blue-500",
-      title: "% Under CCM",
-      currentLabel: "",
-      currentValue: <span className="text-2xl font-extrabold text-blue-700">30%</span>,
-      currentSub: null,
-      forecastLabel: showForecast ? "Forecast" : undefined,
-      forecastValue: showForecast ? <span className="text-xl font-bold text-blue-600">32%</span> : undefined,
-      forecastSub: showForecast ? <span className="text-xs text-blue-600">+2% forecast</span> : undefined,
+      label: "% Under CCM",
+      value: <span className="text-2xl font-extrabold text-blue-700">30%</span>,
     },
     {
       icon: <Monitor className="h-5 w-5 text-purple-600" />,
-      borderColor: "border-purple-500",
-      title: "% Telemedicine Visits",
-      currentLabel: "",
-      currentValue: <span className="text-2xl font-extrabold text-purple-700">30%</span>,
-      currentSub: null,
-      forecastLabel: showForecast ? "Forecast" : undefined,
-      forecastValue: showForecast ? <span className="text-xl font-bold text-purple-600">31%</span> : undefined,
-      forecastSub: showForecast ? <span className="text-xs text-purple-600">+1% forecast</span> : undefined,
+      label: "% Telemedicine Visits",
+      value: <span className="text-2xl font-extrabold text-purple-700">30%</span>,
     },
     {
       icon: <DollarSign className="h-5 w-5 text-red-600" />,
-      borderColor: "border-red-500",
-      title: "Avg Cost/Patient/Month",
-      currentLabel: "",
-      currentValue: <span className="text-2xl font-extrabold text-red-700">$85</span>,
-      currentSub: null,
-      forecastLabel: showForecast ? "Forecast" : undefined,
-      forecastValue: showForecast ? <span className="text-xl font-bold text-red-600">$90</span> : undefined,
-      forecastSub: showForecast ? <span className="text-xs text-red-600">+6% forecast</span> : undefined,
+      label: "Avg Cost/Patient/Month",
+      value: <span className="text-2xl font-extrabold text-red-700">$85</span>,
     },
   ];
 
@@ -96,13 +71,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <p className="text-gray-600 mt-1">Executive overview of diabetes care management</p>
           </div>
           <div className="flex flex-col items-end space-y-2">
-            <Button 
-              onClick={handleDownloadReport}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download Report (CSV)</span>
-            </Button>
+            {/* Download button moved to global header */}
           </div>
         </div>
       </div>
@@ -111,8 +80,16 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {keyMetrics.map((metric) => (
-            <MetricCard key={metric.title} {...metric} />
+          {keyMetrics.map((metric, idx) => (
+            <Card key={metric.label} className="bg-white shadow-none rounded-xl">
+              <CardContent className="p-6 flex flex-col h-full justify-between">
+                <div className="flex items-center mb-2">
+                  {metric.icon}
+                  <span className={`font-semibold ml-2 ${metric.label === "Avg Revenue/Patient/Month" ? "text-blue-600" : "text-gray-900"}`}>{metric.label}</span>
+                </div>
+                <div>{metric.value}</div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

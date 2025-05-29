@@ -30,60 +30,41 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric card configs for Financial Overview
+  // Data-driven metric configs for Financial Overview (for flex-based cards)
   const financialOverviewMetrics = [
     {
       icon: <TrendingUp className="h-5 w-5 text-green-600" />,
-      borderColor: "border-green-500",
-      title: "Profit",
-      currentLabel: "Current (May 2025)",
-      currentValue: "$842.6K",
-      currentSub: <span>+15.3% vs Apr</span>,
-      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
-      forecastValue: showForecast ? "$865.2K" : undefined,
-      forecastSub: showForecast ? "+2.7% vs May" : undefined,
-      progressBarColor: "bg-green-500",
-      progressBarValue: 90,
-      progressText: "90% complete",
+      label: "Profit",
+      value: <span className="text-2xl font-extrabold text-green-700">$842.6K</span>,
     },
     {
       icon: <DollarSign className="h-5 w-5 text-blue-600" />,
-      borderColor: "border-blue-500",
-      title: "Revenue",
-      currentLabel: "Current (May 2025)",
-      currentValue: "$1.2M",
-      currentSub: <span>+8.2% vs Apr</span>,
-      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
-      forecastValue: showForecast ? "$1.3M" : undefined,
-      forecastSub: showForecast ? "+2.1% vs May" : undefined,
-      progressBarColor: "bg-blue-500",
-      progressBarValue: 92,
-      progressText: "92% complete",
+      label: "Revenue",
+      value: <span className="text-2xl font-extrabold text-blue-700">$1.2M</span>,
     },
     {
       icon: <Calculator className="h-5 w-5 text-red-600" />,
-      borderColor: "border-red-500",
-      title: "Expenses",
-      currentLabel: "Current (May 2025)",
-      currentValue: "$357.4K",
-      currentSub: <span>+3.1% vs Apr</span>,
-      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
-      forecastValue: showForecast ? "$370.0K" : undefined,
-      forecastSub: showForecast ? "+3.5% vs May" : undefined,
-      progressBarColor: "bg-red-500",
-      progressBarValue: 85,
-      progressText: "85% complete",
+      label: "Expenses",
+      value: <span className="text-2xl font-extrabold text-red-700">$357.4K</span>,
     },
   ];
 
   return (
     <div className="p-6">
-      {/* Financial Overview - Keep as is (perfect) */}
+      {/* Financial Overview */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {financialOverviewMetrics.map((metric) => (
-            <MetricCard key={metric.title} {...metric} />
+            <Card key={metric.label} className="bg-white shadow-none rounded-xl">
+              <CardContent className="p-6 flex flex-col h-full justify-between">
+                <div className="flex items-center mb-2">
+                  {metric.icon}
+                  <span className="font-semibold text-gray-900 ml-2">{metric.label}</span>
+                </div>
+                <div>{metric.value}</div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
@@ -102,7 +83,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <Card className="bg-blue-50 border-blue-200">
               <CardContent className="p-4">
                 <p className="text-sm text-blue-600 font-medium">Average Revenue per patient in panel</p>
-                <p className="text-2xl font-bold text-blue-700">$2,400</p>
+                <p className="text-2xl font-extrabold text-blue-700">$2,400</p>
                 <p className="text-xs text-blue-600">+8.5%</p>
               </CardContent>
             </Card>
@@ -353,191 +334,29 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       
                       {/* Confidence interval bounds */}
                       <Line 
-                        type="monotone" 
-                        dataKey="upperBound" 
-                        stroke="#90caf9" 
-                        strokeWidth={1}
-                        strokeDasharray="3 3"
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#64b5f6"
+                        strokeWidth={2}
                         dot={false}
-                        name="95% CI"
-                        connectNulls={false}
+                        name="Upper Bound"
                       />
-                      
                       <Line 
-                        type="monotone" 
-                        dataKey="lowerBound" 
-                        stroke="#90caf9" 
-                        strokeWidth={1}
-                        strokeDasharray="3 3"
+                        type="monotone"
+                        dataKey="lowerBound"
+                        stroke="#64b5f6"
+                        strokeWidth={2}
                         dot={false}
-                        name=""
-                        connectNulls={false}
+                        name="Lower Bound"
                       />
-                      
-                      {/* Reference line to separate historical vs predicted */}
-                      <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
                     </LineChart>
                   </ResponsiveContainer>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Dashed lines represent 95% confidence interval boundaries for future predictions. Historical data shows actual revenue.
-                  </p>
                 </CardContent>
               </Card>
             </div>
           )}
         </div>
       </div>
-
-      {/* Cost Analysis Section (Row 3) */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
-          <Calculator className="mr-2 h-5 w-5 text-red-600" />
-          Cost Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
-        </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          {/* Average Cost per Patient */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Average Cost Per Patient</h6>
-            <Card className="bg-red-50 border-red-200">
-              <CardContent className="p-4">
-                <p className="text-sm text-red-600 font-medium">Average cost per patient in panel</p>
-                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
-                  <div>
-                    <p className="text-xs text-gray-500">Current</p>
-                    <p className="text-xl font-bold text-red-700">$2,380</p>
-                    <p className="text-xs text-red-600">+3.2%</p>
-                  </div>
-                  {showForecast && (
-                    <div>
-                      <p className="text-xs text-gray-500">Forecast</p>
-                      <p className="text-xl font-bold text-red-800">$2,456</p>
-                      <p className="text-xs text-red-600">+3.2%</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Cost per Visit */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Cost per Visit</h6>
-            <Card className="bg-red-50 border-red-200">
-              <CardContent className="p-4">
-                <p className="text-sm text-red-600 font-medium">Cost per visit</p>
-                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
-                  <div>
-                    <p className="text-xs text-gray-500">Current</p>
-                    <p className="text-xl font-bold text-red-700">$120</p>
-                    <p className="text-xs text-red-600">-2.1%</p>
-                  </div>
-                  {showForecast && (
-                    <div>
-                      <p className="text-xs text-gray-500">Forecast</p>
-                      <p className="text-xl font-bold text-red-800">$118</p>
-                      <p className="text-xs text-green-600">-1.7%</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Labor Cost */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost</h6>
-            <Card className="bg-red-50 border-red-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-sm text-red-600 font-medium">Labor Cost</p>
-                  <div className="relative group">
-                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center cursor-help">
-                      <Calculator className="text-red-600" size={20} />
-                    </div>
-                    <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-2 px-3 whitespace-nowrap z-10">
-                      Physician: 40%, Nurse: 30%, Technician: 20%, Care Manager: 10%
-                    </div>
-                  </div>
-                </div>
-                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
-                  <div>
-                    <p className="text-xs text-gray-500">Current</p>
-                    <p className="text-xl font-bold text-red-700">$800K</p>
-                    <p className="text-xs text-red-600">+5.2%</p>
-                  </div>
-                  {showForecast && (
-                    <div>
-                      <p className="text-xs text-gray-500">Forecast</p>
-                      <p className="text-xl font-bold text-red-800">$832K</p>
-                      <p className="text-xs text-red-600">+4.0%</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Other Costs */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Other Costs</h6>
-            <Card className="bg-red-50 border-red-200">
-              <CardContent className="p-4">
-                <p className="text-sm text-red-600 font-medium">Other Costs</p>
-                <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-3 mt-2`}>
-                  <div>
-                    <p className="text-xs text-gray-500">Current</p>
-                    <p className="text-xl font-bold text-red-700">$390K</p>
-                    <p className="text-xs text-red-600">(lab tests, supplies)</p>
-                  </div>
-                  {showForecast && (
-                    <div>
-                      <p className="text-xs text-gray-500">Forecast</p>
-                      <p className="text-xl font-bold text-red-800">$402K</p>
-                      <p className="text-xs text-red-600">+3.1%</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Labor Cost Distribution */}
-          <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost Distribution</h6>
-            <Card>
-              <CardContent className="p-4">
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Physician', value: 320000, percentage: 40, color: '#dc2626' },
-                        { name: 'Nurse', value: 240000, percentage: 30, color: '#f59e0b' },
-                        { name: 'Technician', value: 160000, percentage: 20, color: '#ef4444' },
-                        { name: 'Care Manager', value: 80000, percentage: 10, color: '#fca5a5' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, percentage }) => `${name}: ${percentage}%`}
-                    >
-                      <Cell fill="#dc2626" />
-                      <Cell fill="#f59e0b" />
-                      <Cell fill="#ef4444" />
-                      <Cell fill="#fca5a5" />
-                    </Pie>
-                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Cost']} />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-
-
     </div>
   );
 }
