@@ -106,14 +106,14 @@ export const predictionsData = [
   { month: 'Mar 2025', revenue: 880000, upperBound: null, lowerBound: null, isHistorical: true },
   { month: 'Apr 2025', revenue: 950000, upperBound: null, lowerBound: null, isHistorical: true },
   { month: 'May 2025', revenue: 1000000, upperBound: null, lowerBound: null, isHistorical: true },
-  // Future predictions with confidence intervals
-  { month: 'Jun 2025', revenue: 1120000, upperBound: 1170000, lowerBound: 1070000, isHistorical: false },
-  { month: 'Jul 2025', revenue: 1150000, upperBound: 1200000, lowerBound: 1100000, isHistorical: false },
-  { month: 'Aug 2025', revenue: 1180000, upperBound: 1230000, lowerBound: 1130000, isHistorical: false },
-  { month: 'Sep 2025', revenue: 1210000, upperBound: 1260000, lowerBound: 1160000, isHistorical: false },
-  { month: 'Oct 2025', revenue: 1240000, upperBound: 1290000, lowerBound: 1190000, isHistorical: false },
-  { month: 'Nov 2025', revenue: 1270000, upperBound: 1320000, lowerBound: 1220000, isHistorical: false },
-  { month: 'Dec 2025', revenue: 1300000, upperBound: 1350000, lowerBound: 1250000, isHistorical: false },
+  // Future predictions with confidence intervals (more realistic growth)
+  { month: 'Jun 2025', revenue: 1025000, upperBound: 1065000, lowerBound: 985000, isHistorical: false },
+  { month: 'Jul 2025', revenue: 1050000, upperBound: 1095000, lowerBound: 1005000, isHistorical: false },
+  { month: 'Aug 2025', revenue: 1070000, upperBound: 1120000, lowerBound: 1020000, isHistorical: false },
+  { month: 'Sep 2025', revenue: 1085000, upperBound: 1140000, lowerBound: 1030000, isHistorical: false },
+  { month: 'Oct 2025', revenue: 1105000, upperBound: 1165000, lowerBound: 1045000, isHistorical: false },
+  { month: 'Nov 2025', revenue: 1125000, upperBound: 1190000, lowerBound: 1060000, isHistorical: false },
+  { month: 'Dec 2025', revenue: 1145000, upperBound: 1215000, lowerBound: 1075000, isHistorical: false },
 ];
 
 export const getFilteredData = (data: any[], timeFilter: string) => {
