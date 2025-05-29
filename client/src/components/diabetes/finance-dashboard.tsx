@@ -193,11 +193,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions - only for main revenue streams */}
+                    {/* Confidence interval lines for predictions */}
                     {showForecast && (
                       <>
-                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="" />
-                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="4 4" dot={false} name="" />
+                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
+                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
                       </>
                     )}
                     
@@ -374,11 +374,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions - simplified */}
+                    {/* Confidence interval lines for predictions */}
                     {showForecast && (
                       <>
-                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="5 5" dot={false} name="" />
-                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="5 5" dot={false} name="" />
+                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
+                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
                       </>
                     )}
                     
@@ -480,26 +480,25 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 />
                 <Legend />
                 
-                {/* Upper confidence bound line */}
+                {/* Confidence interval bounds */}
                 <Line 
                   type="monotone" 
                   dataKey="upperBound" 
                   stroke="#90caf9" 
-                  strokeWidth={2}
-                  strokeDasharray="5 5"
+                  strokeWidth={1}
+                  strokeDasharray="3 3"
                   dot={false}
-                  name="Upper 95% CI"
+                  name="95% CI"
                 />
                 
-                {/* Lower confidence bound line */}
                 <Line 
                   type="monotone" 
                   dataKey="lowerBound" 
                   stroke="#90caf9" 
-                  strokeWidth={2}
-                  strokeDasharray="5 5"
+                  strokeWidth={1}
+                  strokeDasharray="3 3"
                   dot={false}
-                  name="Lower 95% CI"
+                  name=""
                 />
                 
                 {/* Main revenue line */}
