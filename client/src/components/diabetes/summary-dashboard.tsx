@@ -161,12 +161,38 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '72%'}}></div>
+                {/* Row 1: Circular Progress with percentage in center */}
+                <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center">
+                  <div className="relative w-24 h-24">
+                    {/* Background circle */}
+                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="#e5e7eb"
+                        strokeWidth="8"
+                        fill="none"
+                      />
+                      {/* Progress circle */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="#f97316"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeDasharray={`${72 * 2.51} 251.2`}
+                        strokeLinecap="round"
+                        className="transition-all duration-300"
+                      />
+                    </svg>
+                    {/* Center text */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-lg font-bold text-gray-900">72%</span>
+                      <span className="text-xs text-gray-600">in control</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-gray-600 text-center">72% in control</p>
                 </div>
                 
                 {/* Row 2: Current values with forecast comparison */}
