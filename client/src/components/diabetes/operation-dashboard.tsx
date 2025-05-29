@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck } from "lucide-react";
+import { Users, Bed, UserCheck, Heart, Clock } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { populationMetricsData, providerWorkloadData, patientFlowData, resourceAllocationData, serviceUtilizationData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
@@ -37,6 +37,66 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
     queryKey: ["/api/admin/resource-utilization", timeFilter],
   });
 
+  // Data-driven metric card configs for Population Metrics
+  const populationMetrics = [
+    {
+      icon: <Users className="h-5 w-5 text-blue-600" />,
+      borderColor: "border-blue-500",
+      title: "# of Chronic Patients",
+      currentLabel: "Current",
+      currentValue: "1,247",
+      currentSub: <span>↑ +5.1%</span>,
+      forecastLabel: showForecast ? "Forecast" : undefined,
+      forecastValue: showForecast ? "1,315" : undefined,
+      forecastSub: showForecast ? "+1.9% forecast" : undefined,
+      progressBarColor: "bg-blue-500",
+      progressBarValue: 97,
+      progressText: "97% complete",
+    },
+    {
+      icon: <Bed className="h-5 w-5 text-red-600" />,
+      borderColor: "border-red-500",
+      title: "Readmission Rate",
+      currentLabel: "Current",
+      currentValue: "8%",
+      currentSub: <span>↑ +0.8%</span>,
+      forecastLabel: showForecast ? "Forecast" : undefined,
+      forecastValue: showForecast ? "6.5%" : undefined,
+      forecastSub: showForecast ? "-18.8% forecast" : undefined,
+      progressBarColor: "bg-red-500",
+      progressBarValue: 100,
+      progressText: "Exceeds target",
+    },
+    {
+      icon: <UserCheck className="h-5 w-5 text-green-600" />,
+      borderColor: "border-green-500",
+      title: "Care Coordination",
+      currentLabel: "Current",
+      currentValue: "94%",
+      currentSub: <span>↑ +2.1%</span>,
+      forecastLabel: showForecast ? "Forecast" : undefined,
+      forecastValue: showForecast ? "96%" : undefined,
+      forecastSub: showForecast ? "+1.1% forecast" : undefined,
+      progressBarColor: "bg-green-500",
+      progressBarValue: 99,
+      progressText: "99% complete",
+    },
+    {
+      icon: <Heart className="h-5 w-5 text-purple-600" />,
+      borderColor: "border-purple-500",
+      title: "Patient Satisfaction",
+      currentLabel: "Current",
+      currentValue: "4.6",
+      currentSub: <span className="text-green-600">Above national avg</span>,
+      forecastLabel: showForecast ? "Forecast" : undefined,
+      forecastValue: showForecast ? "4.7" : undefined,
+      forecastSub: showForecast ? "+2.2% forecast" : undefined,
+      progressBarColor: "bg-purple-500",
+      progressBarValue: 95,
+      progressText: "Exceeds target",
+    },
+  ];
+
   return (
     <div>
       {/* Header */}
@@ -53,62 +113,9 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Population Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <MetricCard
-            icon={<Users className="h-5 w-5 text-blue-600" />}
-            borderColor="border-blue-500"
-            title="# of Chronic Patients"
-            currentLabel="Current"
-            currentValue="1,247"
-            currentSub={<span>↑ +5.1%</span>}
-            forecastLabel={showForecast ? "Forecast" : undefined}
-            forecastValue={showForecast ? "1,315" : undefined}
-            forecastSub={showForecast ? "+1.9% forecast" : undefined}
-            progressBarColor="bg-blue-500"
-            progressBarValue={97}
-            progressText="97% complete"
-          />
-          <MetricCard
-            icon={<Bed className="h-5 w-5 text-red-600" />}
-            borderColor="border-red-500"
-            title="Readmission Rate"
-            currentLabel="Current"
-            currentValue="8%"
-            currentSub={<span>↑ +0.8%</span>}
-            forecastLabel={showForecast ? "Forecast" : undefined}
-            forecastValue={showForecast ? "6.5%" : undefined}
-            forecastSub={showForecast ? "-18.8% forecast" : undefined}
-            progressBarColor="bg-red-500"
-            progressBarValue={100}
-            progressText="Exceeds target"
-          />
-          <MetricCard
-            icon={<UserCheck className="h-5 w-5 text-green-600" />}
-            borderColor="border-green-500"
-            title="Care Coordination"
-            currentLabel="Current"
-            currentValue="94%"
-            currentSub={<span>↑ +2.1%</span>}
-            forecastLabel={showForecast ? "Forecast" : undefined}
-            forecastValue={showForecast ? "96%" : undefined}
-            forecastSub={showForecast ? "+1.1% forecast" : undefined}
-            progressBarColor="bg-green-500"
-            progressBarValue={99}
-            progressText="99% complete"
-          />
-          <MetricCard
-            icon={<Heart className="h-5 w-5 text-purple-600" />}
-            borderColor="border-purple-500"
-            title="Patient Satisfaction"
-            currentLabel="Current"
-            currentValue="4.6"
-            currentSub={<span className="text-green-600">Above national avg</span>}
-            forecastLabel={showForecast ? "Forecast" : undefined}
-            forecastValue={showForecast ? "4.7" : undefined}
-            forecastSub={showForecast ? "+2.2% forecast" : undefined}
-            progressBarColor="bg-purple-500"
-            progressBarValue={95}
-            progressText="Exceeds target"
-          />
+          {populationMetrics.map((metric) => (
+            <MetricCard key={metric.title} {...metric} />
+          ))}
         </div>
       </div>
 

@@ -30,54 +30,61 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
+  // Data-driven metric card configs for Financial Overview
+  const financialOverviewMetrics = [
+    {
+      icon: <TrendingUp className="h-5 w-5 text-green-600" />,
+      borderColor: "border-green-500",
+      title: "Profit",
+      currentLabel: "Current (May 2025)",
+      currentValue: "$842.6K",
+      currentSub: <span>+15.3% vs Apr</span>,
+      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
+      forecastValue: showForecast ? "$865.2K" : undefined,
+      forecastSub: showForecast ? "+2.7% vs May" : undefined,
+      progressBarColor: "bg-green-500",
+      progressBarValue: 90,
+      progressText: "90% complete",
+    },
+    {
+      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
+      borderColor: "border-blue-500",
+      title: "Revenue",
+      currentLabel: "Current (May 2025)",
+      currentValue: "$1.2M",
+      currentSub: <span>+8.2% vs Apr</span>,
+      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
+      forecastValue: showForecast ? "$1.3M" : undefined,
+      forecastSub: showForecast ? "+2.1% vs May" : undefined,
+      progressBarColor: "bg-blue-500",
+      progressBarValue: 92,
+      progressText: "92% complete",
+    },
+    {
+      icon: <Calculator className="h-5 w-5 text-red-600" />,
+      borderColor: "border-red-500",
+      title: "Expenses",
+      currentLabel: "Current (May 2025)",
+      currentValue: "$357.4K",
+      currentSub: <span>+3.1% vs Apr</span>,
+      forecastLabel: showForecast ? "Forecast (Jun 2025)" : undefined,
+      forecastValue: showForecast ? "$370.0K" : undefined,
+      forecastSub: showForecast ? "+3.5% vs May" : undefined,
+      progressBarColor: "bg-red-500",
+      progressBarValue: 85,
+      progressText: "85% complete",
+    },
+  ];
+
   return (
     <div className="p-6">
       {/* Financial Overview - Keep as is (perfect) */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <MetricCard
-            icon={<TrendingUp className="h-5 w-5 text-green-600" />}
-            borderColor="border-green-500"
-            title="Profit"
-            currentLabel="Current (May 2025)"
-            currentValue="$842.6K"
-            currentSub={<span>+15.3% vs Apr</span>}
-            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
-            forecastValue={showForecast ? "$865.2K" : undefined}
-            forecastSub={showForecast ? "+2.7% vs May" : undefined}
-            progressBarColor="bg-green-500"
-            progressBarValue={90}
-            progressText="90% complete"
-          />
-          <MetricCard
-            icon={<DollarSign className="h-5 w-5 text-blue-600" />}
-            borderColor="border-blue-500"
-            title="Revenue"
-            currentLabel="Current (May 2025)"
-            currentValue="$1.2M"
-            currentSub={<span>+8.2% vs Apr</span>}
-            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
-            forecastValue={showForecast ? "$1.3M" : undefined}
-            forecastSub={showForecast ? "+2.1% vs May" : undefined}
-            progressBarColor="bg-blue-500"
-            progressBarValue={92}
-            progressText="92% complete"
-          />
-          <MetricCard
-            icon={<Calculator className="h-5 w-5 text-red-600" />}
-            borderColor="border-red-500"
-            title="Expenses"
-            currentLabel="Current (May 2025)"
-            currentValue="$357.4K"
-            currentSub={<span>+3.1% vs Apr</span>}
-            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
-            forecastValue={showForecast ? "$370.0K" : undefined}
-            forecastSub={showForecast ? "+3.5% vs May" : undefined}
-            progressBarColor="bg-red-500"
-            progressBarValue={85}
-            progressText="85% complete"
-          />
+          {financialOverviewMetrics.map((metric) => (
+            <MetricCard key={metric.title} {...metric} />
+          ))}
         </div>
       </div>
 
