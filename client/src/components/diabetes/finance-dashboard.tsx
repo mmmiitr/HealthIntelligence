@@ -376,12 +376,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       </div>
 
       {/* Revenue Predictions with Confidence Intervals */}
-      <div className="mb-8">
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
-            <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
-          </CardHeader>
+      {showForecast && (
+        <div className="mb-8">
+          <Card className="bg-white shadow-md">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
+              <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
+            </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
               <AreaChart data={predictionsData}>
@@ -477,7 +478,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </p>
           </CardContent>
         </Card>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
