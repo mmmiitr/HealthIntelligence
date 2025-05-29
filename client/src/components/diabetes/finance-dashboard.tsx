@@ -112,57 +112,51 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
           </h3>
           
-          {/* Revenue Metrics */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Average Revenue per Patient */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Average Revenue Per Patient</h6>
             <Card className="bg-blue-50 border-blue-200">
               <CardContent className="p-4">
-                <p className="text-sm text-blue-600 font-medium">Avg Revenue per Patient</p>
-                <p className="text-2xl font-bold text-blue-700">$1,250</p>
-                <p className="text-xs text-blue-600">+15.8%</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-blue-50 border-blue-200">
-              <CardContent className="p-4">
-                <p className="text-sm text-blue-600 font-medium">Monthly Growth</p>
-                <p className="text-2xl font-bold text-blue-700">+15.8%</p>
-                <p className="text-xs text-blue-600">vs target +12%</p>
+                <p className="text-sm text-blue-600 font-medium">Average Revenue per patient in panel</p>
+                <p className="text-2xl font-bold text-blue-700">$2,400</p>
+                <p className="text-xs text-blue-600">+8.5%</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Payer Mix Distribution */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Payer Mix Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Medicare', value: 45, fill: '#2563eb' },
-                      { name: 'Private Insurance', value: 35, fill: '#16a34a' },
-                      { name: 'Medicaid', value: 15, fill: '#f59e0b' },
-                      { name: 'Self-Pay', value: 5, fill: '#ef4444' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    <Cell fill="#2563eb" />
-                    <Cell fill="#16a34a" />
-                    <Cell fill="#f59e0b" />
-                    <Cell fill="#ef4444" />
-                  </Pie>
-                  <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Mix Distribution</h6>
+            <Card>
+              <CardContent className="p-4">
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Medicare', value: 45, fill: '#1976d2' },
+                        { name: 'Medicaid', value: 25, fill: '#2196f3' },
+                        { name: 'Commercial', value: 20, fill: '#64b5f6' },
+                        { name: 'Self-Pay', value: 10, fill: '#bbdefb' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      <Cell fill="#1976d2" />
+                      <Cell fill="#2196f3" />
+                      <Cell fill="#64b5f6" />
+                      <Cell fill="#bbdefb" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* CPT Code Revenue Table */}
           <Card>
@@ -203,88 +197,65 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             Cost Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
           </h3>
           
-          {/* Cost Metrics */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Average Cost per Patient */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Average Cost Per Patient</h6>
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
-                <p className="text-sm text-red-600 font-medium">Avg Cost per Patient</p>
-                <p className="text-2xl font-bold text-red-700">$485</p>
+                <p className="text-sm text-red-600 font-medium">Average cost per patient in panel</p>
+                <p className="text-2xl font-bold text-red-700">$2,380</p>
                 <p className="text-xs text-red-600">+3.2%</p>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Cost per Visit */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Cost per Visit</h6>
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
-                <p className="text-sm text-red-600 font-medium">Cost per Visit</p>
-                <p className="text-2xl font-bold text-red-700">$125</p>
+                <p className="text-sm text-red-600 font-medium">Cost per visit</p>
+                <p className="text-2xl font-bold text-red-700">$120</p>
                 <p className="text-xs text-red-600">-2.1%</p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Labor Cost Distribution */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Labor Cost Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Physicians', value: 45, fill: '#dc2626' },
-                      { name: 'Nurses', value: 25, fill: '#ea580c' },
-                      { name: 'Care Managers', value: 20, fill: '#f59e0b' },
-                      { name: 'Admin Staff', value: 10, fill: '#ef4444' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    <Cell fill="#dc2626" />
-                    <Cell fill="#ea580c" />
-                    <Cell fill="#f59e0b" />
-                    <Cell fill="#ef4444" />
-                  </Pie>
-                  <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          {/* Labor Cost */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost</h6>
+            <Card className="bg-red-50 border-red-200">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-red-600 font-medium">Labor Cost</p>
+                    <p className="text-2xl font-bold text-red-700">$800K</p>
+                    <p className="text-xs text-red-600">+5.2%</p>
+                  </div>
+                  <div className="relative group">
+                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center cursor-help">
+                      <Calculator className="text-red-600" size={20} />
+                    </div>
+                    <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-2 px-3 whitespace-nowrap z-10">
+                      Physician: 40%, Nurse: 30%, Technician: 20%, Care Manager: 10%
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Cost Breakdown */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Cost Breakdown</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">Labor Cost</span>
-                  <span className="text-red-600 font-semibold">$425,000</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">Other Costs</span>
-                  <span className="text-red-600 font-semibold">$256,300</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">Equipment</span>
-                  <span className="text-red-600 font-semibold">$89,400</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b">
-                  <span className="font-medium">Supplies</span>
-                  <span className="text-red-600 font-semibold">$45,200</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">Technology</span>
-                  <span className="text-red-600 font-semibold">$35,800</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Other Costs */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Other Costs</h6>
+            <Card className="bg-red-50 border-red-200">
+              <CardContent className="p-4">
+                <p className="text-sm text-red-600 font-medium">Other Costs</p>
+                <p className="text-2xl font-bold text-red-700">$390K</p>
+                <p className="text-xs text-red-600">(e.g., lab tests, supplies)</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Revenue Source Split Chart */}
