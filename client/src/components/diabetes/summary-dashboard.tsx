@@ -368,32 +368,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
         </Card>
       </div>
 
-      {/* Next Steps Section */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Next Steps</h3>
-        <Card className="bg-blue-50 shadow-lg border-l-4 border-blue-500">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Recommended Actions</CardTitle>
-            <p className="text-sm text-gray-600">Strategic initiatives to improve diabetes care outcomes</p>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                <p className="text-gray-800">
-                  <span className="font-medium">Increase CCM Enrollment:</span> Current 75%, Target 85% to improve outcomes.
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                <p className="text-gray-800">
-                  <span className="font-medium">Reduce No-Show Appointments:</span> Current 12%, Target &lt;10% with reminders.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+
     </div>
   );
 }
