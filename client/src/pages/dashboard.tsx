@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,16 @@ export default function Dashboard() {
   const [timeFilter, setTimeFilter] = useState("1year");
   const [viewMode, setViewMode] = useState("monthly");
   const [showForecast, setShowForecast] = useState(false);
+  const [currentTime, setCurrentTime] = useState(getCurrentTimestamp());
+
+  // Update timestamp every 30 seconds to show fresh data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(getCurrentTimestamp());
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const tabs = [
     { id: "summary", label: "Summary", icon: BarChart3, description: "" },
@@ -57,17 +67,7 @@ export default function Dashboard() {
               <div className="flex items-center space-x-3">
                 <Heart className="text-primary text-2xl" />
                 <div>
-                  <div className="flex items-center space-x-4">
-                    <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
-                    <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-2 py-1">
-                      <Shield className="h-2.5 w-2.5 mr-1" />
-                      HIPAA Compliant
-                    </Badge>
-                    <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-2 py-1">
-                      <Brain className="h-2.5 w-2.5 mr-1" />
-                      AI-Enhanced Analytics
-                    </Badge>
-                  </div>
+                  <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
                 </div>
               </div>
             </div>
@@ -132,10 +132,20 @@ export default function Dashboard() {
           {renderActiveTab()}
         </div>
 
-        {/* Global Footer with Timestamp */}
+        {/* Global Footer with Badges and Timestamp */}
         <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
-          <div className="text-center">
-            <p className="text-sm text-gray-500">Last Updated: {getCurrentTimestamp()}</p>
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
+            <div className="flex items-center space-x-3">
+              <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
+                <Shield className="h-3 w-3 mr-1" />
+                HIPAA Compliant
+              </Badge>
+              <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-3 py-1">
+                <Brain className="h-3 w-3 mr-1" />
+                AI-Enhanced Analytics
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
           </div>
         </div>
       </div>

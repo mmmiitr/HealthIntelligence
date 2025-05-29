@@ -79,7 +79,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-white">
           <CardContent className="p-6">

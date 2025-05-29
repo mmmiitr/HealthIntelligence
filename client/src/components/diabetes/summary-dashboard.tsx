@@ -60,7 +60,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="bg-white border-l-4 border-green-500">
             <CardContent className="p-6">
@@ -161,12 +161,38 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               </div>
               
               <div className="space-y-4">
-                {/* Row 1: Progress bar with percentage */}
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
-                    <div className="bg-orange-500 h-2 rounded-full" style={{width: '72%'}}></div>
+                {/* Row 1: Circular Progress with percentage in center */}
+                <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center">
+                  <div className="relative w-24 h-24">
+                    {/* Background circle */}
+                    <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="#e5e7eb"
+                        strokeWidth="8"
+                        fill="none"
+                      />
+                      {/* Progress circle */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="#f97316"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeDasharray={`${72 * 2.51} 251.2`}
+                        strokeLinecap="round"
+                        className="transition-all duration-300"
+                      />
+                    </svg>
+                    {/* Center text */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-lg font-bold text-gray-900">72%</span>
+                      <span className="text-xs text-gray-600">in control</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-gray-600 text-center">72% in control</p>
                 </div>
                 
                 {/* Row 2: Current values with forecast comparison */}
@@ -297,77 +323,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
 
 
-      {/* Key Metrics Trends Section */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics Trends</h3>
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Key Metrics Trends Over Time (Mock Data)</CardTitle>
-            <p className="text-sm text-gray-600">Data Range: Jan 2025 - Oct 2025</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={keyMetricsTrendsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `${value}%`} />
-                <Tooltip 
-                  formatter={(value, name) => [
-                    `${value}%`, 
-                    name === "inControlHbA1c" ? "% In-Control HbA1c" : "30-Day Readmission Rate"
-                  ]} 
-                  labelFormatter={() => "Mock data simulating trends as of May 2025."}
-                />
-                <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                <Line
-                  type="monotone"
-                  dataKey="inControlHbA1c"
-                  stroke="#1976d2"
-                  strokeWidth={3}
-                  name="% In-Control HbA1c"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="readmissionRate"
-                  stroke="#ef5350"
-                  strokeWidth={3}
-                  name="30-Day Readmission Rate"
-                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
 
-      {/* Next Steps Section */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Next Steps</h3>
-        <Card className="bg-blue-50 shadow-lg border-l-4 border-blue-500">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Recommended Actions</CardTitle>
-            <p className="text-sm text-gray-600">Strategic initiatives to improve diabetes care outcomes</p>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                <p className="text-gray-800">
-                  <span className="font-medium">Increase CCM Enrollment:</span> Current 75%, Target 85% to improve outcomes.
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                <p className="text-gray-800">
-                  <span className="font-medium">Reduce No-Show Appointments:</span> Current 12%, Target &lt;10% with reminders.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+
+
     </div>
   );
 }
