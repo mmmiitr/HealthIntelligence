@@ -63,6 +63,14 @@ npm run dev
 
 The application will be available at: `http://localhost:5000`
 
+### 5. Running on Windows
+
+If you are on Windows, please note:
+
+- You must have [Node.js LTS](https://nodejs.org/en/download/) installed (the Windows installer will add `node` and `npm` to your PATH).
+- The project uses [`cross-env`](https://www.npmjs.com/package/cross-env) for setting environment variables in scripts, so you do **not** need to change any npm scripts for Windows compatibility.
+- The server is configured to listen on `127.0.0.1` and does **not** use the `reusePort` option, which is unsupported on Windows.
+
 ## 📁 Project Structure
 
 ```
