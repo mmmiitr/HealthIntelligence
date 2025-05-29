@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, TrendingUp, Shield, Brain, AlertTriangle, Calculator, Building, Users, Heart, Stethoscope, Wrench } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, Area, AreaChart } from "recharts";
 import { revenueData, revenueByInsuranceData, payerRevenueTrends, revenueSourcesData, predictionsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 
@@ -587,67 +587,101 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <Card className="bg-white shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">Predicted Revenue with 95% Confidence Interval</CardTitle>
-            <p className="text-sm text-gray-600">AI-driven revenue forecasting extending through 2026</p>
-            <p className="text-xs text-gray-500">Future Data Range: Jun 2025 - Dec 2026</p>
+            <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
+            <p className="text-xs text-gray-500">Data Range: Jan 2025 - Dec 2025</p>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={[
-                { month: "Jun 2025", predicted: 465, lower: 440, upper: 490 },
-                { month: "Jul 2025", predicted: 475, lower: 445, upper: 505 },
-                { month: "Aug 2025", predicted: 485, lower: 450, upper: 520 },
-                { month: "Sep 2025", predicted: 495, lower: 455, upper: 535 },
-                { month: "Oct 2025", predicted: 505, lower: 460, upper: 550 },
-                { month: "Nov 2025", predicted: 515, lower: 465, upper: 565 },
-                { month: "Dec 2025", predicted: 525, lower: 470, upper: 580 },
-                { month: "Jan 2026", predicted: 535, lower: 475, upper: 595 },
-                { month: "Feb 2026", predicted: 545, lower: 480, upper: 610 },
-                { month: "Mar 2026", predicted: 555, lower: 485, upper: 625 },
-                { month: "Apr 2026", predicted: 565, lower: 490, upper: 640 },
-                { month: "May 2026", predicted: 575, lower: 495, upper: 655 },
-                { month: "Jun 2026", predicted: 585, lower: 500, upper: 670 }
-              ]}>
+            <ResponsiveContainer width="100%" height={350}>
+              <AreaChart data={predictionsData}>
+                <defs>
+                  <linearGradient id="confidenceInterval" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#64b5f6" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#64b5f6" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `$${value}K`} />
-                <Tooltip formatter={(value, name) => [`$${value}K`, name]} 
-                         labelFormatter={() => "Revenue prediction with confidence bands"} />
+                <XAxis 
+                  dataKey="month"
+                  tick={{ fontSize: 11 }}
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                />
+                <YAxis 
+                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                />
+                <Tooltip 
+                  formatter={(value, name) => {
+                    if (value) return [`$${value.toLocaleString()}`, name];
+                    return [null, name];
+                  }}
+                  labelFormatter={(label) => `Month: ${label}`}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white p-3 border rounded shadow">
+                          <p className="font-medium">{`Month: ${label}`}</p>
+                          <p style={{ color: '#1976d2' }}>
+                            {`Revenue: $${data.revenue?.toLocaleString() || 'N/A'}`}
+                          </p>
+                          {data.upperBound && data.lowerBound && (
+                            <>
+                              <p style={{ color: '#64b5f6' }}>
+                                {`Upper CI: $${data.upperBound.toLocaleString()}`}
+                              </p>
+                              <p style={{ color: '#64b5f6' }}>
+                                {`Lower CI: $${data.lowerBound.toLocaleString()}`}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">95% Confidence Interval</p>
+                            </>
+                          )}
+                          <p className="text-xs text-gray-500 mt-1">
+                            {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
                 <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                {/* Confidence Interval Area */}
-                <Line
+                
+                {/* Shaded confidence interval area for future predictions */}
+                <Area
                   type="monotone"
-                  dataKey="upper"
-                  stroke="#e3f2fd"
-                  strokeWidth={0}
-                  fill="#e3f2fd"
+                  dataKey="upperBound"
+                  stackId="1"
+                  stroke="none"
+                  fill="url(#confidenceInterval)"
                   fillOpacity={0.3}
-                  name="95% Upper Bound"
-                  dot={false}
+                  name="95% Confidence Interval"
                 />
-                <Line
+                <Area
                   type="monotone"
-                  dataKey="lower"
-                  stroke="#e3f2fd"
-                  strokeWidth={0}
-                  fill="#e3f2fd"
-                  fillOpacity={0.3}
-                  name="95% Lower Bound"
-                  dot={false}
+                  dataKey="lowerBound"
+                  stackId="1"
+                  stroke="none"
+                  fill="white"
+                  name=""
                 />
-                {/* Main Prediction Line */}
-                <Line
-                  type="monotone"
-                  dataKey="predicted"
-                  stroke="#1976d2"
-                  strokeWidth={4}
-                  name="Predicted Revenue"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 5 }}
+                
+                {/* Main revenue line */}
+                <Line 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#1976d2" 
+                  strokeWidth={3}
+                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  name="Revenue"
                 />
-              </LineChart>
+                
+                {/* Reference line to separate historical vs predicted */}
+                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
+              </AreaChart>
             </ResponsiveContainer>
             <p className="text-xs text-gray-500 mt-2">
-              Shaded area represents 95% confidence interval. Prediction accuracy: 92%
+              Shaded area represents 95% confidence interval for future predictions. Historical data shows actual revenue.
             </p>
           </CardContent>
         </Card>
