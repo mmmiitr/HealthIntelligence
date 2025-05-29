@@ -46,8 +46,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Top Financial Metrics - Clean Layout */}
+      {/* Financial Overview */}
       <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Profit Card - Green */}
           <Card className="bg-white shadow-lg border-l-4 border-green-500">
