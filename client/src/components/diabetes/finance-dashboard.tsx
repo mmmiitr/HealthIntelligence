@@ -185,21 +185,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={[
+                  <LineChart data={showForecast ? [
                     ...revenueSourcesData,
-                    ...(showForecast ? [
-                      { month: 'Jun 2025', inPersonVisits: 95000, ccm: 25000, dsmt: 18000, telemedicine: 15000, labs: 12000,
-                        inPersonVisitsUpper: 105000, inPersonVisitsLower: 85000, ccmUpper: 28000, ccmLower: 22000 },
-                      { month: 'Jul 2025', inPersonVisits: 98000, ccm: 26000, dsmt: 19000, telemedicine: 16000, labs: 13000,
-                        inPersonVisitsUpper: 108000, inPersonVisitsLower: 88000, ccmUpper: 29000, ccmLower: 23000 },
-                      { month: 'Aug 2025', inPersonVisits: 101000, ccm: 27000, dsmt: 20000, telemedicine: 17000, labs: 14000,
-                        inPersonVisitsUpper: 111000, inPersonVisitsLower: 91000, ccmUpper: 30000, ccmLower: 24000 },
-                      { month: 'Sep 2025', inPersonVisits: 104000, ccm: 28000, dsmt: 21000, telemedicine: 18000, labs: 15000,
-                        inPersonVisitsUpper: 114000, inPersonVisitsLower: 94000, ccmUpper: 31000, ccmLower: 25000 },
-                      { month: 'Oct 2025', inPersonVisits: 107000, ccm: 29000, dsmt: 22000, telemedicine: 19000, labs: 16000,
-                        inPersonVisitsUpper: 117000, inPersonVisitsLower: 97000, ccmUpper: 32000, ccmLower: 26000 }
-                    ] : [])
-                  ]}>
+                    { month: 'Jun 2025', inPersonVisits: 95000, ccm: 25000, dsmt: 18000, telemedicine: 15000, labs: 12000,
+                      inPersonVisitsUpper: 105000, inPersonVisitsLower: 85000 },
+                    { month: 'Jul 2025', inPersonVisits: 98000, ccm: 26000, dsmt: 19000, telemedicine: 16000, labs: 13000,
+                      inPersonVisitsUpper: 108000, inPersonVisitsLower: 88000 },
+                    { month: 'Aug 2025', inPersonVisits: 101000, ccm: 27000, dsmt: 20000, telemedicine: 17000, labs: 14000,
+                      inPersonVisitsUpper: 111000, inPersonVisitsLower: 91000 },
+                    { month: 'Sep 2025', inPersonVisits: 104000, ccm: 28000, dsmt: 21000, telemedicine: 18000, labs: 15000,
+                      inPersonVisitsUpper: 114000, inPersonVisitsLower: 94000 },
+                    { month: 'Oct 2025', inPersonVisits: 107000, ccm: 29000, dsmt: 22000, telemedicine: 19000, labs: 16000,
+                      inPersonVisitsUpper: 117000, inPersonVisitsLower: 97000 }
+                  ] : revenueSourcesData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
@@ -380,49 +378,52 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={[
-                    // Historical data
-                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000, isHistorical: true },
-                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000, isHistorical: true },
-                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000, isHistorical: true },
-                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000, isHistorical: true },
-                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000, isHistorical: true },
-                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000, isHistorical: true },
-                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000, isHistorical: true },
-                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000, isHistorical: true },
-                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000, isHistorical: true },
-                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000, isHistorical: true },
-                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000, isHistorical: true },
-                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000, isHistorical: true },
-                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000, isHistorical: true },
-                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000, isHistorical: true },
-                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000, isHistorical: true },
-                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000, isHistorical: true },
-                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000, isHistorical: true },
-                    // Future predictions with confidence intervals (shown only when forecast toggle is on)
-                    ...(showForecast ? [
-                      { month: 'Jun 2025', laborCost: 270000, otherCosts: 121000, totalCost: 391000, 
-                        laborCostUpper: 280000, laborCostLower: 260000, 
-                        totalCostUpper: 405000, totalCostLower: 377000, isHistorical: false },
-                      { month: 'Jul 2025', laborCost: 275000, otherCosts: 123000, totalCost: 398000, 
-                        laborCostUpper: 287000, laborCostLower: 263000, 
-                        totalCostUpper: 415000, totalCostLower: 381000, isHistorical: false },
-                      { month: 'Aug 2025', laborCost: 280000, otherCosts: 125000, totalCost: 405000, 
-                        laborCostUpper: 294000, laborCostLower: 266000, 
-                        totalCostUpper: 425000, totalCostLower: 385000, isHistorical: false },
-                      { month: 'Sep 2025', laborCost: 285000, otherCosts: 127000, totalCost: 412000, 
-                        laborCostUpper: 301000, laborCostLower: 269000, 
-                        totalCostUpper: 435000, totalCostLower: 389000, isHistorical: false },
-                      { month: 'Oct 2025', laborCost: 290000, otherCosts: 129000, totalCost: 419000, 
-                        laborCostUpper: 308000, laborCostLower: 272000, 
-                        totalCostUpper: 445000, totalCostLower: 393000, isHistorical: false },
-                      { month: 'Nov 2025', laborCost: 295000, otherCosts: 131000, totalCost: 426000, 
-                        laborCostUpper: 315000, laborCostLower: 275000, 
-                        totalCostUpper: 455000, totalCostLower: 397000, isHistorical: false },
-                      { month: 'Dec 2025', laborCost: 300000, otherCosts: 133000, totalCost: 433000, 
-                        laborCostUpper: 322000, laborCostLower: 278000, 
-                        totalCostUpper: 465000, totalCostLower: 401000, isHistorical: false }
-                    ] : [])
+                  <LineChart data={showForecast ? [
+                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
+                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
+                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
+                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
+                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
+                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
+                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
+                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
+                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
+                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
+                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
+                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
+                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
+                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
+                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
+                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
+                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000 },
+                    { month: 'Jun 2025', laborCost: 270000, otherCosts: 121000, totalCost: 391000, 
+                      totalCostUpper: 405000, totalCostLower: 377000 },
+                    { month: 'Jul 2025', laborCost: 275000, otherCosts: 123000, totalCost: 398000, 
+                      totalCostUpper: 415000, totalCostLower: 381000 },
+                    { month: 'Aug 2025', laborCost: 280000, otherCosts: 125000, totalCost: 405000, 
+                      totalCostUpper: 425000, totalCostLower: 385000 },
+                    { month: 'Sep 2025', laborCost: 285000, otherCosts: 127000, totalCost: 412000, 
+                      totalCostUpper: 435000, totalCostLower: 389000 },
+                    { month: 'Oct 2025', laborCost: 290000, otherCosts: 129000, totalCost: 419000, 
+                      totalCostUpper: 445000, totalCostLower: 393000 }
+                  ] : [
+                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
+                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
+                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
+                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
+                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
+                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
+                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
+                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
+                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
+                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
+                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
+                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
+                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
+                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
+                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
+                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
+                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000 }
                   ]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
@@ -490,21 +491,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={[
+              <LineChart data={showForecast ? [
                 ...payerRevenueTrends,
-                ...(showForecast ? [
-                  { month: 'Jun 2025', medicare: 285000, medicaid: 165000, commercial: 145000, selfPay: 35000,
-                    medicareUpper: 305000, medicareLower: 265000 },
-                  { month: 'Jul 2025', medicare: 290000, medicaid: 168000, commercial: 148000, selfPay: 36000,
-                    medicareUpper: 312000, medicareLower: 268000 },
-                  { month: 'Aug 2025', medicare: 295000, medicaid: 171000, commercial: 151000, selfPay: 37000,
-                    medicareUpper: 318000, medicareLower: 272000 },
-                  { month: 'Sep 2025', medicare: 300000, medicaid: 174000, commercial: 154000, selfPay: 38000,
-                    medicareUpper: 325000, medicareLower: 275000 },
-                  { month: 'Oct 2025', medicare: 305000, medicaid: 177000, commercial: 157000, selfPay: 39000,
-                    medicareUpper: 332000, medicareLower: 278000 }
-                ] : [])
-              ]}>
+                { month: 'Jun 2025', medicare: 285000, medicaid: 165000, commercial: 145000, selfPay: 35000,
+                  medicareUpper: 305000, medicareLower: 265000 },
+                { month: 'Jul 2025', medicare: 290000, medicaid: 168000, commercial: 148000, selfPay: 36000,
+                  medicareUpper: 312000, medicareLower: 268000 },
+                { month: 'Aug 2025', medicare: 295000, medicaid: 171000, commercial: 151000, selfPay: 37000,
+                  medicareUpper: 318000, medicareLower: 272000 },
+                { month: 'Sep 2025', medicare: 300000, medicaid: 174000, commercial: 154000, selfPay: 38000,
+                  medicareUpper: 325000, medicareLower: 275000 },
+                { month: 'Oct 2025', medicare: 305000, medicaid: 177000, commercial: 157000, selfPay: 39000,
+                  medicareUpper: 332000, medicareLower: 278000 }
+              ] : payerRevenueTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
