@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,9 @@ import FinanceDashboard from "@/components/diabetes/finance-dashboard";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("summary");
@@ -18,6 +21,12 @@ export default function Dashboard() {
   const [viewMode, setViewMode] = useState("monthly");
   const [showForecast, setShowForecast] = useState(false);
   const [currentTime, setCurrentTime] = useState(getCurrentTimestamp());
+
+  const summaryRef = useRef(null);
+  const financeRef = useRef(null);
+  const operationRef = useRef(null);
+  const clinicianRef = useRef(null);
+  const technicalRef = useRef(null);
 
   // Update timestamp every 30 seconds to show fresh data
   useEffect(() => {
@@ -51,6 +60,30 @@ export default function Dashboard() {
       default:
         return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
     }
+  };
+
+  // PDF download handler for all tabs
+  const handleDownloadPDF = async () => {
+    const tabOrder = [
+      { id: "summary", label: "Summary", ref: summaryRef },
+      { id: "finance", label: "Finance", ref: financeRef },
+      { id: "operation", label: "Operations", ref: operationRef },
+      { id: "clinician", label: "Clinical", ref: clinicianRef },
+      { id: "mockdata", label: "Technical", ref: technicalRef },
+    ];
+    const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    for (let i = 0; i < tabOrder.length; i++) {
+      const { ref } = tabOrder[i];
+      const el = ref.current;
+      if (!el) continue;
+      const canvas = await html2canvas(el, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      if (i > 0) pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+    }
+    pdf.save("dashboard-report.pdf");
   };
 
   return (
@@ -90,7 +123,7 @@ export default function Dashboard() {
               </Select>
               <Button
                 className="bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2"
-                onClick={() => window.alert('Downloading PDF: Full Dashboard Report (based on current toggle and filters)')}
+                onClick={handleDownloadPDF}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
                 <span>Download Report (PDF)</span>
@@ -100,7 +133,15 @@ export default function Dashboard() {
         </div>
       </header>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Hidden containers for all tabs for PDF export */}
+        <div style={{ display: "none" }}>
+          <div ref={summaryRef}><SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
+          <div ref={financeRef}><FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
+          <div ref={operationRef}><OperationDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
+          <div ref={clinicianRef}><ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
+          <div ref={technicalRef}><MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} /></div>
+        </div>
         {/* Tab Navigation */}
         <Card className="mb-6 bg-white">
           <CardContent className="p-6">
