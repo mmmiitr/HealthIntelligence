@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,16 @@ export default function Dashboard() {
   const [timeFilter, setTimeFilter] = useState("1year");
   const [viewMode, setViewMode] = useState("monthly");
   const [showForecast, setShowForecast] = useState(false);
+  const [currentTime, setCurrentTime] = useState(getCurrentTimestamp());
+
+  // Update timestamp every 30 seconds to show fresh data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(getCurrentTimestamp());
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const tabs = [
     { id: "summary", label: "Summary", icon: BarChart3, description: "" },
@@ -135,7 +145,7 @@ export default function Dashboard() {
                 AI-Enhanced Analytics
               </Badge>
             </div>
-            <p className="text-sm text-gray-500">Last Updated: {getCurrentTimestamp()}</p>
+            <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
           </div>
         </div>
       </div>
