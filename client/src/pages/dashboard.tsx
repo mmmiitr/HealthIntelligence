@@ -61,46 +61,64 @@ export default function Dashboard() {
     }
   };
 
-  // PDF download handler for all tabs
+  // PDF download handler for all tabs (except technical)
   const handleDownloadPDF = async () => {
     try {
-      // Capture only the currently active tab instead of hidden elements
-      const activeElement = document.getElementById('dashboard-content');
-      if (!activeElement) {
-        console.error('Dashboard content not found');
-        return;
-      }
-
       const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+      const tabsToInclude = ['summary', 'finance', 'operation', 'clinician'];
+      const currentTab = activeTab;
       
-      // Capture the current tab content
-      const canvas = await html2canvas(activeElement, { 
-        scale: 2, 
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        width: activeElement.scrollWidth,
-        height: activeElement.scrollHeight
-      });
+      for (let i = 0; i < tabsToInclude.length; i++) {
+        const tabId = tabsToInclude[i];
+        
+        // Switch to the tab to render its content
+        setActiveTab(tabId);
+        
+        // Wait for the tab to render
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const activeElement = document.getElementById('dashboard-content');
+        if (!activeElement) {
+          console.error('Dashboard content not found');
+          continue;
+        }
+
+        // Capture the tab content
+        const canvas = await html2canvas(activeElement, { 
+          scale: 2, 
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          width: activeElement.scrollWidth,
+          height: activeElement.scrollHeight
+        });
+        
+        const imgData = canvas.toDataURL("image/png");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        
+        // Calculate aspect ratio to fit content properly
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+        
+        const imgWidth = canvasWidth * ratio;
+        const imgHeight = canvasHeight * ratio;
+        
+        // Center the image on the page
+        const x = (pageWidth - imgWidth) / 2;
+        const y = (pageHeight - imgHeight) / 2;
+        
+        // Add new page for subsequent tabs
+        if (i > 0) pdf.addPage();
+        
+        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+      }
       
-      const imgData = canvas.toDataURL("image/png");
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
+      // Restore original tab
+      setActiveTab(currentTab);
       
-      // Calculate aspect ratio to fit content properly
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const ratio = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
-      
-      const imgWidth = canvasWidth * ratio;
-      const imgHeight = canvasHeight * ratio;
-      
-      // Center the image on the page
-      const x = (pageWidth - imgWidth) / 2;
-      const y = (pageHeight - imgHeight) / 2;
-      
-      pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-      pdf.save(`diabetes-dashboard-${activeTab}-${new Date().toISOString().split('T')[0]}.pdf`);
+      pdf.save(`diabetes-dashboard-complete-${new Date().toISOString().split('T')[0]}.pdf`);
       
     } catch (error) {
       console.error('PDF generation failed:', error);
