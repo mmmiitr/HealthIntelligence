@@ -232,19 +232,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions */}
-                    {showForecast && (
-                      <>
-                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
-                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
-                      </>
-                    )}
-                    
                     <Line type="monotone" dataKey="inPersonVisits" stroke="#1976d2" name="In-Person Visits" strokeWidth={2} />
                     <Line type="monotone" dataKey="ccm" stroke="#4caf50" name="CCM" strokeWidth={2} />
                     <Line type="monotone" dataKey="dsmt" stroke="#64b5f6" name="DSMT" strokeWidth={2} />
                     <Line type="monotone" dataKey="telemedicine" stroke="#ef5350" name="Telemedicine" strokeWidth={2} />
                     <Line type="monotone" dataKey="labs" stroke="#ff9800" name="Labs" strokeWidth={2} />
+                    
+                    {/* Confidence interval lines for predictions */}
+                    {showForecast && (
+                      <>
+                        <Line type="monotone" dataKey="inPersonVisitsUpper" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
+                        <Line type="monotone" dataKey="inPersonVisitsLower" stroke="#bbdefb" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
+                      </>
+                    )}
                     
                     {/* Reference line to separate historical vs predicted */}
                     {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
@@ -459,17 +459,17 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend />
                     
-                    {/* Confidence interval lines for predictions */}
-                    {showForecast && (
-                      <>
-                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
-                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
-                      </>
-                    )}
-                    
                     <Line type="monotone" dataKey="totalCost" stroke="#dc2626" name="Total Cost" strokeWidth={3} />
                     <Line type="monotone" dataKey="laborCost" stroke="#f59e0b" name="Labor Cost" strokeWidth={2} />
                     <Line type="monotone" dataKey="otherCosts" stroke="#ef4444" name="Other Costs" strokeWidth={2} />
+                    
+                    {/* Confidence interval lines for predictions */}
+                    {showForecast && (
+                      <>
+                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
+                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
+                      </>
+                    )}
                     
                     {/* Reference line to separate historical vs predicted */}
                     {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
@@ -535,18 +535,18 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 />
                 <Legend />
                 
-                {/* Confidence interval for Medicare (primary payer) */}
-                {showForecast && (
-                  <>
-                    <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" />
-                    <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" />
-                  </>
-                )}
-                
                 <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" />
                 <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" />
                 <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" />
                 <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" />
+                
+                {/* Confidence interval for Medicare (primary payer) */}
+                {showForecast && (
+                  <>
+                    <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
+                    <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
+                  </>
+                )}
                 
                 {/* Reference line to separate historical vs predicted */}
                 {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
@@ -615,6 +615,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 />
                 <Legend />
                 
+                {/* Main revenue line */}
+                <Line 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#1976d2" 
+                  strokeWidth={3}
+                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  name="Revenue"
+                />
+                
                 {/* Confidence interval bounds */}
                 <Line 
                   type="monotone" 
@@ -624,6 +634,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   strokeDasharray="3 3"
                   dot={false}
                   name="95% CI"
+                  connectNulls={false}
                 />
                 
                 <Line 
@@ -634,16 +645,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   strokeDasharray="3 3"
                   dot={false}
                   name=""
-                />
-                
-                {/* Main revenue line */}
-                <Line 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#1976d2" 
-                  strokeWidth={3}
-                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
-                  name="Revenue"
+                  connectNulls={false}
                 />
                 
                 {/* Reference line to separate historical vs predicted */}
