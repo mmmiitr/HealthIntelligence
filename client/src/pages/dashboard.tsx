@@ -10,7 +10,6 @@ import SummaryDashboard from "@/components/diabetes/summary-dashboard";
 import FinanceDashboard from "@/components/diabetes/finance-dashboard";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
-import PatientDashboard from "@/components/diabetes/patient-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
 
 export default function Dashboard() {
@@ -34,7 +33,6 @@ export default function Dashboard() {
     { id: "finance", label: "Finance", icon: DollarSign, description: "" },
     { id: "operation", label: "Operations", icon: Settings, description: "" },
     { id: "clinician", label: "Clinical", icon: Stethoscope, description: "" },
-    { id: "patient", label: "Patient", icon: User, description: "" },
     { id: "mockdata", label: "Technical", icon: Database, description: "" },
   ];
 
@@ -48,8 +46,6 @@ export default function Dashboard() {
         return <OperationDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "clinician":
         return <ClinicianDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
-      case "patient":
-        return <PatientDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "mockdata":
         return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       default:
