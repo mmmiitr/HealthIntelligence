@@ -100,16 +100,20 @@ export const providerWorkloadData = [
 ];
 
 export const predictionsData = [
-  { month: 'Jan 2025', predictedHbA1c: 7.0, predictedVisits: 3, predictedRevenueMedicare: 5000, predictedRevenuePrivate: 3000 },
-  { month: 'Feb 2025', predictedHbA1c: 6.9, predictedVisits: 3.1, predictedRevenueMedicare: 5200, predictedRevenuePrivate: 3100 },
-  { month: 'Mar 2025', predictedHbA1c: 6.8, predictedVisits: 3.2, predictedRevenueMedicare: 5400, predictedRevenuePrivate: 3200 },
-  { month: 'Apr 2025', predictedHbA1c: 6.7, predictedVisits: 3.3, predictedRevenueMedicare: 5600, predictedRevenuePrivate: 3300 },
-  { month: 'May 2025', predictedHbA1c: 6.6, predictedVisits: 3.4, predictedRevenueMedicare: 5800, predictedRevenuePrivate: 3400 },
-  { month: 'Jun 2025', predictedHbA1c: 6.5, predictedVisits: 3.5, predictedRevenueMedicare: 6000, predictedRevenuePrivate: 3500 },
-  { month: 'Jul 2025', predictedHbA1c: 6.4, predictedVisits: 3.6, predictedRevenueMedicare: 6200, predictedRevenuePrivate: 3600 },
-  { month: 'Aug 2025', predictedHbA1c: 6.3, predictedVisits: 3.7, predictedRevenueMedicare: 6400, predictedRevenuePrivate: 3700 },
-  { month: 'Sep 2025', predictedHbA1c: 6.2, predictedVisits: 3.8, predictedRevenueMedicare: 6600, predictedRevenuePrivate: 3800 },
-  { month: 'Oct 2025', predictedHbA1c: 6.1, predictedVisits: 3.9, predictedRevenueMedicare: 6800, predictedRevenuePrivate: 3900 }
+  // Historical data (past months)
+  { month: 'Jan 2025', revenue: 850000, upperBound: null, lowerBound: null, isHistorical: true },
+  { month: 'Feb 2025', revenue: 920000, upperBound: null, lowerBound: null, isHistorical: true },
+  { month: 'Mar 2025', revenue: 880000, upperBound: null, lowerBound: null, isHistorical: true },
+  { month: 'Apr 2025', revenue: 950000, upperBound: null, lowerBound: null, isHistorical: true },
+  { month: 'May 2025', revenue: 1000000, upperBound: null, lowerBound: null, isHistorical: true },
+  // Future predictions with confidence intervals
+  { month: 'Jun 2025', revenue: 1120000, upperBound: 1170000, lowerBound: 1070000, isHistorical: false },
+  { month: 'Jul 2025', revenue: 1150000, upperBound: 1200000, lowerBound: 1100000, isHistorical: false },
+  { month: 'Aug 2025', revenue: 1180000, upperBound: 1230000, lowerBound: 1130000, isHistorical: false },
+  { month: 'Sep 2025', revenue: 1210000, upperBound: 1260000, lowerBound: 1160000, isHistorical: false },
+  { month: 'Oct 2025', revenue: 1240000, upperBound: 1290000, lowerBound: 1190000, isHistorical: false },
+  { month: 'Nov 2025', revenue: 1270000, upperBound: 1320000, lowerBound: 1220000, isHistorical: false },
+  { month: 'Dec 2025', revenue: 1300000, upperBound: 1350000, lowerBound: 1250000, isHistorical: false },
 ];
 
 export const getFilteredData = (data: any[], timeFilter: string) => {
