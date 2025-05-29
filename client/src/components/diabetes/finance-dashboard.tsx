@@ -385,13 +385,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
-              <AreaChart data={predictionsData}>
-                <defs>
-                  <linearGradient id="confidenceInterval" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#64b5f6" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#64b5f6" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
+              <LineChart data={predictionsData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="month"
@@ -440,23 +434,26 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 />
                 <Legend />
                 
-                {/* Shaded confidence interval area for future predictions */}
-                <Area
-                  type="monotone"
-                  dataKey="upperBound"
-                  stackId="1"
-                  stroke="none"
-                  fill="url(#confidenceInterval)"
-                  fillOpacity={0.3}
-                  name="95% Confidence Interval"
+                {/* Upper confidence bound line */}
+                <Line 
+                  type="monotone" 
+                  dataKey="upperBound" 
+                  stroke="#90caf9" 
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={false}
+                  name="Upper 95% CI"
                 />
-                <Area
-                  type="monotone"
-                  dataKey="lowerBound"
-                  stackId="1"
-                  stroke="none"
-                  fill="white"
-                  name=""
+                
+                {/* Lower confidence bound line */}
+                <Line 
+                  type="monotone" 
+                  dataKey="lowerBound" 
+                  stroke="#90caf9" 
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={false}
+                  name="Lower 95% CI"
                 />
                 
                 {/* Main revenue line */}
@@ -471,10 +468,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 
                 {/* Reference line to separate historical vs predicted */}
                 <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
-              </AreaChart>
+              </LineChart>
             </ResponsiveContainer>
             <p className="text-xs text-gray-500 mt-2">
-              Shaded area represents 95% confidence interval for future predictions. Historical data shows actual revenue.
+              Dashed lines represent 95% confidence interval boundaries for future predictions. Historical data shows actual revenue.
             </p>
           </CardContent>
         </Card>
