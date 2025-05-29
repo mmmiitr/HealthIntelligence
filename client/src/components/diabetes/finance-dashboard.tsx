@@ -359,113 +359,34 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </Card>
           </div>
 
-          {/* Cost Trends Over Time */}
+          {/* Labor Cost Distribution */}
           <div className="mb-6">
-            <h6 className="text-lg font-medium text-gray-800 mb-3">Cost Trends Over Time</h6>
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost Distribution</h6>
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Cost Analysis Trends (Mock Data)</CardTitle>
-                <p className="text-sm text-gray-600">Data Range: Jan 2024 - May 2025</p>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="p-4">
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={showForecast ? [
-                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
-                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
-                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
-                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
-                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
-                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
-                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
-                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
-                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
-                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
-                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
-                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
-                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
-                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
-                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
-                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
-                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000 },
-                    { month: 'Jun 2025', laborCost: 270000, otherCosts: 121000, totalCost: 391000, 
-                      totalCostUpper: 405000, totalCostLower: 377000 },
-                    { month: 'Jul 2025', laborCost: 275000, otherCosts: 123000, totalCost: 398000, 
-                      totalCostUpper: 415000, totalCostLower: 381000 },
-                    { month: 'Aug 2025', laborCost: 280000, otherCosts: 125000, totalCost: 405000, 
-                      totalCostUpper: 425000, totalCostLower: 385000 },
-                    { month: 'Sep 2025', laborCost: 285000, otherCosts: 127000, totalCost: 412000, 
-                      totalCostUpper: 435000, totalCostLower: 389000 },
-                    { month: 'Oct 2025', laborCost: 290000, otherCosts: 129000, totalCost: 419000, 
-                      totalCostUpper: 445000, totalCostLower: 393000 }
-                  ] : [
-                    { month: 'Jan 2024', laborCost: 180000, otherCosts: 85000, totalCost: 265000 },
-                    { month: 'Feb 2024', laborCost: 185000, otherCosts: 87000, totalCost: 272000 },
-                    { month: 'Mar 2024', laborCost: 190000, otherCosts: 89000, totalCost: 279000 },
-                    { month: 'Apr 2024', laborCost: 195000, otherCosts: 91000, totalCost: 286000 },
-                    { month: 'May 2024', laborCost: 200000, otherCosts: 93000, totalCost: 293000 },
-                    { month: 'Jun 2024', laborCost: 205000, otherCosts: 95000, totalCost: 300000 },
-                    { month: 'Jul 2024', laborCost: 215000, otherCosts: 99000, totalCost: 314000 },
-                    { month: 'Aug 2024', laborCost: 220000, otherCosts: 101000, totalCost: 321000 },
-                    { month: 'Sep 2024', laborCost: 225000, otherCosts: 103000, totalCost: 328000 },
-                    { month: 'Oct 2024', laborCost: 230000, otherCosts: 105000, totalCost: 335000 },
-                    { month: 'Nov 2024', laborCost: 235000, otherCosts: 107000, totalCost: 342000 },
-                    { month: 'Dec 2024', laborCost: 240000, otherCosts: 109000, totalCost: 349000 },
-                    { month: 'Jan 2025', laborCost: 245000, otherCosts: 111000, totalCost: 356000 },
-                    { month: 'Feb 2025', laborCost: 250000, otherCosts: 113000, totalCost: 363000 },
-                    { month: 'Mar 2025', laborCost: 255000, otherCosts: 115000, totalCost: 370000 },
-                    { month: 'Apr 2025', laborCost: 260000, otherCosts: 117000, totalCost: 377000 },
-                    { month: 'May 2025', laborCost: 265000, otherCosts: 119000, totalCost: 384000 }
-                  ]}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip 
-                      formatter={(value, name) => [`$${value}`, name]}
-                      labelFormatter={(label) => `Month: ${label}`}
-                      content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="bg-white p-3 border rounded shadow">
-                              <p className="font-medium">{`Month: ${label}`}</p>
-                              {payload.map((entry, index) => (
-                                <p key={index} style={{ color: entry.color }}>
-                                  {`${entry.name}: $${entry.value}`}
-                                </p>
-                              ))}
-                              {showForecast && data.totalCostUpper && data.totalCostLower && (
-                                <>
-                                  <p className="text-xs text-gray-500 mt-2">95% Confidence Interval:</p>
-                                  <p className="text-xs text-gray-600">Total Cost: ${data.totalCostLower} - ${data.totalCostUpper}</p>
-                                  <p className="text-xs text-gray-600">Labor Cost: ${data.laborCostLower} - ${data.laborCostUpper}</p>
-                                </>
-                              )}
-                              <p className="text-xs text-gray-500 mt-1">
-                                {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
-                              </p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Physician', value: 320000, percentage: 40, color: '#dc2626' },
+                        { name: 'Nurse', value: 240000, percentage: 30, color: '#f59e0b' },
+                        { name: 'Technician', value: 160000, percentage: 20, color: '#ef4444' },
+                        { name: 'Care Manager', value: 80000, percentage: 10, color: '#fca5a5' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, percentage }) => `${name}: ${percentage}%`}
+                    >
+                      <Cell fill="#dc2626" />
+                      <Cell fill="#f59e0b" />
+                      <Cell fill="#ef4444" />
+                      <Cell fill="#fca5a5" />
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Cost']} />
                     <Legend />
-                    
-                    <Line type="monotone" dataKey="totalCost" stroke="#dc2626" name="Total Cost" strokeWidth={3} />
-                    <Line type="monotone" dataKey="laborCost" stroke="#f59e0b" name="Labor Cost" strokeWidth={2} />
-                    <Line type="monotone" dataKey="otherCosts" stroke="#ef4444" name="Other Costs" strokeWidth={2} />
-                    
-                    {/* Confidence interval lines for predictions */}
-                    {showForecast && (
-                      <>
-                        <Line type="monotone" dataKey="totalCostUpper" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
-                        <Line type="monotone" dataKey="totalCostLower" stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
-                      </>
-                    )}
-                    
-                    {/* Reference line to separate historical vs predicted */}
-                    {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
-                  </LineChart>
+                  </PieChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
