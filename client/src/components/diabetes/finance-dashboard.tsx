@@ -5,6 +5,7 @@ import { DollarSign, TrendingUp, Shield, Brain, AlertTriangle, Calculator, Build
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, Area, AreaChart } from "recharts";
 import { revenueData, revenueByInsuranceData, payerRevenueTrends, revenueSourcesData, predictionsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
+import { MetricCard } from "@/components/ui/metric-card";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -35,92 +36,48 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Profit Card */}
-          <Card className="bg-white shadow-md border-l-4 border-green-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Profit</p>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <TrendingUp className="text-green-600" size={20} />
-                </div>
-              </div>
-              
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
-                  <p className="text-2xl font-bold text-green-600">$842.6K</p>
-                  <p className="text-xs text-green-600">+15.3% vs Apr</p>
-                </div>
-                {showForecast && (
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
-                    <p className="text-2xl font-bold text-green-700">$865.2K</p>
-                    <p className="text-xs text-green-600">+2.7% vs May</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Revenue Card */}
-          <Card className="bg-white shadow-md border-l-4 border-blue-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Revenue</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <DollarSign className="text-blue-600" size={20} />
-                </div>
-              </div>
-              
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
-                  <p className="text-2xl font-bold text-blue-600">$1.52M</p>
-                  <p className="text-xs text-blue-600">+6.2% vs Apr</p>
-                </div>
-                {showForecast && (
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
-                    <p className="text-2xl font-bold text-blue-700">$1.58M</p>
-                    <p className="text-xs text-blue-600">+3.9% vs May</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Cost Card */}
-          <Card className="bg-white shadow-md border-l-4 border-red-500">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Cost</p>
-                </div>
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <Calculator className="text-red-600" size={20} />
-                </div>
-              </div>
-              
-              <div className={`grid ${showForecast ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Current (May 2025)</p>
-                  <p className="text-2xl font-bold text-red-600">$681.3K</p>
-                  <p className="text-xs text-red-600">+3.1% vs Apr</p>
-                </div>
-                {showForecast && (
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Forecast (Jun 2025)</p>
-                    <p className="text-2xl font-bold text-red-700">$715.0K</p>
-                    <p className="text-xs text-red-600">+4.9% vs May</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          <MetricCard
+            icon={<TrendingUp className="h-5 w-5 text-green-600" />}
+            borderColor="border-green-500"
+            title="Profit"
+            currentLabel="Current (May 2025)"
+            currentValue="$842.6K"
+            currentSub={<span>+15.3% vs Apr</span>}
+            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
+            forecastValue={showForecast ? "$865.2K" : undefined}
+            forecastSub={showForecast ? "+2.7% vs May" : undefined}
+            progressBarColor="bg-green-500"
+            progressBarValue={90}
+            progressText="90% complete"
+          />
+          <MetricCard
+            icon={<DollarSign className="h-5 w-5 text-blue-600" />}
+            borderColor="border-blue-500"
+            title="Revenue"
+            currentLabel="Current (May 2025)"
+            currentValue="$1.2M"
+            currentSub={<span>+8.2% vs Apr</span>}
+            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
+            forecastValue={showForecast ? "$1.3M" : undefined}
+            forecastSub={showForecast ? "+2.1% vs May" : undefined}
+            progressBarColor="bg-blue-500"
+            progressBarValue={92}
+            progressText="92% complete"
+          />
+          <MetricCard
+            icon={<Calculator className="h-5 w-5 text-red-600" />}
+            borderColor="border-red-500"
+            title="Expenses"
+            currentLabel="Current (May 2025)"
+            currentValue="$357.4K"
+            currentSub={<span>+3.1% vs Apr</span>}
+            forecastLabel={showForecast ? "Forecast (Jun 2025)" : undefined}
+            forecastValue={showForecast ? "$370.0K" : undefined}
+            forecastSub={showForecast ? "+3.5% vs May" : undefined}
+            progressBarColor="bg-red-500"
+            progressBarValue={85}
+            progressText="85% complete"
+          />
         </div>
       </div>
 
