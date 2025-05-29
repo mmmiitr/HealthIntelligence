@@ -242,6 +242,185 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
           </div>
+
+          {/* Payer Revenue Trends */}
+          <div className="mb-6 col-span-1 lg:col-span-2">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Revenue Trends</h6>
+            <Card className="bg-white shadow-md">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-gray-900">Payer Revenue Trends</CardTitle>
+                <p className="text-sm text-gray-600">Revenue trends by insurance payer over time</p>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={showForecast ? [
+                    ...payerRevenueTrends,
+                    { month: 'Jun 2025', medicare: 5050, medicaid: 2080, commercial: 3450, selfPay: 1070,
+                      medicareUpper: 5300, medicareLower: 4800 },
+                    { month: 'Jul 2025', medicare: 5150, medicaid: 2120, commercial: 3520, selfPay: 1090,
+                      medicareUpper: 5420, medicareLower: 4880 },
+                    { month: 'Aug 2025', medicare: 5250, medicaid: 2160, commercial: 3590, selfPay: 1110,
+                      medicareUpper: 5540, medicareLower: 4960 },
+                    { month: 'Sep 2025', medicare: 5350, medicaid: 2200, commercial: 3660, selfPay: 1130,
+                      medicareUpper: 5660, medicareLower: 5040 },
+                    { month: 'Oct 2025', medicare: 5450, medicaid: 2240, commercial: 3730, selfPay: 1150,
+                      medicareUpper: 5780, medicareLower: 5120 }
+                  ] : payerRevenueTrends}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+                    <Tooltip 
+                      formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          const data = payload[0].payload;
+                          return (
+                            <div className="bg-white p-3 border rounded shadow">
+                              <p className="font-medium">{`Month: ${label}`}</p>
+                              {payload.map((entry, index) => (
+                                <p key={index} style={{ color: entry.color }}>
+                                  {`${entry.name}: $${entry.value?.toLocaleString()}`}
+                                </p>
+                              ))}
+                              {showForecast && data.medicareUpper && (
+                                <>
+                                  <p className="text-xs text-gray-500 mt-2">95% CI for Medicare:</p>
+                                  <p className="text-xs text-gray-600">${data.medicareLower?.toLocaleString()} - ${data.medicareUpper?.toLocaleString()}</p>
+                                </>
+                              )}
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Legend />
+                    
+                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" />
+                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" />
+                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" />
+                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" />
+                    
+                    {/* Confidence interval for Medicare (primary payer) */}
+                    {showForecast && (
+                      <>
+                        <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
+                        <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
+                      </>
+                    )}
+                    
+                    {/* Reference line to separate historical vs predicted */}
+                    {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Revenue Predictions with Confidence Intervals */}
+          {showForecast && (
+            <div className="mb-6 col-span-1 lg:col-span-2">
+              <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Predictions</h6>
+              <Card className="bg-white shadow-md">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
+                  <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={350}>
+                    <LineChart data={predictionsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis 
+                        dataKey="month"
+                        tick={{ fontSize: 11 }}
+                        angle={-45}
+                        textAnchor="end"
+                        height={80}
+                      />
+                      <YAxis 
+                        tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                      />
+                      <Tooltip 
+                        formatter={(value, name) => {
+                          if (value) return [`$${value.toLocaleString()}`, name];
+                          return [null, name];
+                        }}
+                        labelFormatter={(label) => `Month: ${label}`}
+                        content={({ active, payload, label }) => {
+                          if (active && payload && payload.length) {
+                            const data = payload[0].payload;
+                            return (
+                              <div className="bg-white p-3 border rounded shadow">
+                                <p className="font-medium">{`Month: ${label}`}</p>
+                                <p style={{ color: '#1976d2' }}>
+                                  {`Revenue: $${data.revenue?.toLocaleString() || 'N/A'}`}
+                                </p>
+                                {data.upperBound && data.lowerBound && (
+                                  <>
+                                    <p style={{ color: '#64b5f6' }}>
+                                      {`Upper CI: $${data.upperBound.toLocaleString()}`}
+                                    </p>
+                                    <p style={{ color: '#64b5f6' }}>
+                                      {`Lower CI: $${data.lowerBound.toLocaleString()}`}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-1">95% Confidence Interval</p>
+                                  </>
+                                )}
+                                <p className="text-xs text-gray-500 mt-1">
+                                  {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
+                                </p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Legend />
+                      
+                      {/* Main revenue line */}
+                      <Line 
+                        type="monotone" 
+                        dataKey="revenue" 
+                        stroke="#1976d2" 
+                        strokeWidth={3}
+                        dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                        name="Revenue"
+                      />
+                      
+                      {/* Confidence interval bounds */}
+                      <Line 
+                        type="monotone" 
+                        dataKey="upperBound" 
+                        stroke="#90caf9" 
+                        strokeWidth={1}
+                        strokeDasharray="3 3"
+                        dot={false}
+                        name="95% CI"
+                        connectNulls={false}
+                      />
+                      
+                      <Line 
+                        type="monotone" 
+                        dataKey="lowerBound" 
+                        stroke="#90caf9" 
+                        strokeWidth={1}
+                        strokeDasharray="3 3"
+                        dot={false}
+                        name=""
+                        connectNulls={false}
+                      />
+                      
+                      {/* Reference line to separate historical vs predicted */}
+                      <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Dashed lines represent 95% confidence interval boundaries for future predictions. Historical data shows actual revenue.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
 
@@ -394,182 +573,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Payer Revenue Trends */}
-      <div className="mb-8">
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Payer Revenue Trends</CardTitle>
-            <p className="text-sm text-gray-600">Revenue trends by insurance payer over time</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={showForecast ? [
-                ...payerRevenueTrends,
-                { month: 'Jun 2025', medicare: 5050, medicaid: 2080, commercial: 3450, selfPay: 1070,
-                  medicareUpper: 5300, medicareLower: 4800 },
-                { month: 'Jul 2025', medicare: 5150, medicaid: 2120, commercial: 3520, selfPay: 1090,
-                  medicareUpper: 5420, medicareLower: 4880 },
-                { month: 'Aug 2025', medicare: 5250, medicaid: 2160, commercial: 3590, selfPay: 1110,
-                  medicareUpper: 5540, medicareLower: 4960 },
-                { month: 'Sep 2025', medicare: 5350, medicaid: 2200, commercial: 3660, selfPay: 1130,
-                  medicareUpper: 5660, medicareLower: 5040 },
-                { month: 'Oct 2025', medicare: 5450, medicaid: 2240, commercial: 3730, selfPay: 1150,
-                  medicareUpper: 5780, medicareLower: 5120 }
-              ] : payerRevenueTrends}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
-                <Tooltip 
-                  formatter={(value, name) => [`$${value.toLocaleString()}`, name]}
-                  content={({ active, payload, label }) => {
-                    if (active && payload && payload.length) {
-                      const data = payload[0].payload;
-                      return (
-                        <div className="bg-white p-3 border rounded shadow">
-                          <p className="font-medium">{`Month: ${label}`}</p>
-                          {payload.map((entry, index) => (
-                            <p key={index} style={{ color: entry.color }}>
-                              {`${entry.name}: $${entry.value?.toLocaleString()}`}
-                            </p>
-                          ))}
-                          {showForecast && data.medicareUpper && (
-                            <>
-                              <p className="text-xs text-gray-500 mt-2">95% CI for Medicare:</p>
-                              <p className="text-xs text-gray-600">${data.medicareLower?.toLocaleString()} - ${data.medicareUpper?.toLocaleString()}</p>
-                            </>
-                          )}
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Legend />
-                
-                <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" />
-                <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" />
-                <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" />
-                <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" />
-                
-                {/* Confidence interval for Medicare (primary payer) */}
-                {showForecast && (
-                  <>
-                    <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="95% CI" connectNulls={false} />
-                    <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="3 3" dot={false} name="" connectNulls={false} />
-                  </>
-                )}
-                
-                {/* Reference line to separate historical vs predicted */}
-                {showForecast && <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />}
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
 
-      {/* Revenue Predictions with Confidence Intervals */}
-      {showForecast && (
-        <div className="mb-8">
-          <Card className="bg-white shadow-md">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">Revenue Predictions with 95% Confidence Interval</CardTitle>
-              <p className="text-sm text-gray-600">Historical data (Jan-May) and future predictions (Jun-Dec 2025)</p>
-            </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={350}>
-              <LineChart data={predictionsData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month"
-                  tick={{ fontSize: 11 }}
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                />
-                <YAxis 
-                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
-                />
-                <Tooltip 
-                  formatter={(value, name) => {
-                    if (value) return [`$${value.toLocaleString()}`, name];
-                    return [null, name];
-                  }}
-                  labelFormatter={(label) => `Month: ${label}`}
-                  content={({ active, payload, label }) => {
-                    if (active && payload && payload.length) {
-                      const data = payload[0].payload;
-                      return (
-                        <div className="bg-white p-3 border rounded shadow">
-                          <p className="font-medium">{`Month: ${label}`}</p>
-                          <p style={{ color: '#1976d2' }}>
-                            {`Revenue: $${data.revenue?.toLocaleString() || 'N/A'}`}
-                          </p>
-                          {data.upperBound && data.lowerBound && (
-                            <>
-                              <p style={{ color: '#64b5f6' }}>
-                                {`Upper CI: $${data.upperBound.toLocaleString()}`}
-                              </p>
-                              <p style={{ color: '#64b5f6' }}>
-                                {`Lower CI: $${data.lowerBound.toLocaleString()}`}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-1">95% Confidence Interval</p>
-                            </>
-                          )}
-                          <p className="text-xs text-gray-500 mt-1">
-                            {data.isHistorical ? 'Historical Data' : 'Predicted Data'}
-                          </p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Legend />
-                
-                {/* Main revenue line */}
-                <Line 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#1976d2" 
-                  strokeWidth={3}
-                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
-                  name="Revenue"
-                />
-                
-                {/* Confidence interval bounds */}
-                <Line 
-                  type="monotone" 
-                  dataKey="upperBound" 
-                  stroke="#90caf9" 
-                  strokeWidth={1}
-                  strokeDasharray="3 3"
-                  dot={false}
-                  name="95% CI"
-                  connectNulls={false}
-                />
-                
-                <Line 
-                  type="monotone" 
-                  dataKey="lowerBound" 
-                  stroke="#90caf9" 
-                  strokeWidth={1}
-                  strokeDasharray="3 3"
-                  dot={false}
-                  name=""
-                  connectNulls={false}
-                />
-                
-                {/* Reference line to separate historical vs predicted */}
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
-              </LineChart>
-            </ResponsiveContainer>
-            <p className="text-xs text-gray-500 mt-2">
-              Dashed lines represent 95% confidence interval boundaries for future predictions. Historical data shows actual revenue.
-            </p>
-          </CardContent>
-        </Card>
-        </div>
-      )}
     </div>
   );
 }
