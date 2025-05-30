@@ -64,32 +64,10 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   const COLORS = ['#00A86B', '#F59E0B', '#EF4444'];
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("clinician-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("ClinicianDashboard.pdf");
-  };
+
 
   return (
-    <div id="clinician-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
-      </div>
+    <div>
       {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
         <h3 className="dashboard-section-title">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-gray-500">(Prediction)</span></h3>
