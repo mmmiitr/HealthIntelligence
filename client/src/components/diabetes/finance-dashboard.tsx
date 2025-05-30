@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, TrendingUp, TrendingDown, Shield, Brain, AlertTriangle, Calculator, Building, Users, Heart, Stethoscope, Wrench } from "lucide-react";
+import DashboardMetricCard from "@/components/common/DashboardMetricCard";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, Area, AreaChart } from "recharts";
 import { revenueData, revenueByInsuranceData, payerRevenueTrends, revenueSourcesData, predictionsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
@@ -39,7 +40,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentValue: "$842.6K",
       forecastValue: showForecast ? "$895.2K" : undefined,
       change: showForecast ? "+6.2%" : undefined,
-      type: "profit",
+      type: "profit" as const,
       icon: <DollarSign className="h-4 w-4 text-green-600" />
     },
     {
@@ -47,7 +48,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentValue: "$1.2M",
       forecastValue: showForecast ? "$1.28M" : undefined,
       change: showForecast ? "+6.7%" : undefined,
-      type: "revenue",
+      type: "revenue" as const,
       icon: <TrendingUp className="h-4 w-4 text-blue-600" />
     },
     {
@@ -55,7 +56,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentValue: "$357.4K",
       forecastValue: showForecast ? "$384.8K" : undefined,
       change: showForecast ? "+7.7%" : undefined,
-      type: "cost",
+      type: "cost" as const,
       icon: <TrendingDown className="h-4 w-4 text-red-600" />
     },
   ];
@@ -83,45 +84,18 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {financialOverviewMetrics.map((metric) => (
-            <Card key={metric.label} className={`bg-white shadow-sm rounded-lg border-l-4 ${
-              metric.type === "profit" ? "border-green-500" : 
-              metric.type === "revenue" ? "border-blue-500" : 
-              "border-red-500"
-            }`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  {metric.icon}
-                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className={`bg-${metric.type === "profit" ? "green" : metric.type === "revenue" ? "blue" : "red"}-50 rounded-lg p-3`}>
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className={`text-2xl font-bold ${
-                      metric.type === "profit" ? "text-green-700" : 
-                      metric.type === "revenue" ? "text-blue-700" : 
-                      "text-red-700"
-                    }`}>
-                      {metric.currentValue}
-                    </p>
-                  </div>
-                  
-                  {showForecast && metric.forecastValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.change} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <DashboardMetricCard
+              key={metric.label}
+              label={metric.label}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              percentChange={metric.change}
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
@@ -137,32 +111,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Average Revenue per Patient */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Average Revenue Per Patient</h6>
-            <Card className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">Average Revenue per patient in panel</span>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className="text-2xl font-bold text-blue-700">$2,400</p>
-                  </div>
-                  
-                  {showForecast && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">$2,600</p>
-                      <p className="text-xs text-gray-600 mt-1">+8.5% vs current</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <DashboardMetricCard
+              label="Average Revenue per patient in panel"
+              currentValue="$2,400"
+              forecastValue={showForecast ? "$2,600" : undefined}
+              percentChange={showForecast ? "+8.5%" : undefined}
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type="revenue" as const
+            />
           </div>
 
           {/* Revenue for Top 5 CPT Codes */}
