@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
-import { MetricCard } from "@/components/ui/metric-card";
+
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
