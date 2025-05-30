@@ -106,13 +106,13 @@ export default function Dashboard() {
                 />
               </div>
               <Select value={viewMode} onValueChange={setViewMode}>
-                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-300 hover:border-blue-500 focus:border-blue-600 shadow-sm">
+                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-400 hover:border-blue-500 focus:border-blue-600 shadow-lg">
                   <SelectValue placeholder="View Mode" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="monthly">Monthly</SelectItem>
-                  <SelectItem value="quarterly">Quarterly</SelectItem>
-                  <SelectItem value="yearly">Yearly</SelectItem>
+                <SelectContent className="z-50 bg-white border-2 border-gray-300 shadow-xl">
+                  <SelectItem value="monthly" className="hover:bg-blue-50">Monthly</SelectItem>
+                  <SelectItem value="quarterly" className="hover:bg-blue-50">Quarterly</SelectItem>
+                  <SelectItem value="yearly" className="hover:bg-blue-50">Yearly</SelectItem>
                 </SelectContent>
               </Select>
               <Button
