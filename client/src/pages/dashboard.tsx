@@ -95,7 +95,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 bg-gray-100 px-4 py-2 rounded-lg">
                 <label htmlFor="global-forecast-toggle" className="text-sm font-semibold text-gray-700">
                   Forecast
                 </label>
@@ -103,11 +103,11 @@ export default function Dashboard() {
                   id="global-forecast-toggle"
                   checked={showForecast}
                   onCheckedChange={setShowForecast}
-                  className="data-[state=checked]:bg-blue-600"
+                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 border-2 border-gray-300"
                 />
               </div>
               <Select value={viewMode} onValueChange={setViewMode}>
-                <SelectTrigger className="w-36 h-10 text-sm font-medium">
+                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-300 hover:border-blue-500 focus:border-blue-600 shadow-sm">
                   <SelectValue placeholder="View Mode" />
                 </SelectTrigger>
                 <SelectContent>
