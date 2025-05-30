@@ -121,16 +121,21 @@ export const exportMultipleTabsToPDF = async (
     // Additional wait for layout stabilization
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Use fixed dimensions for consistent capture
-    const CAPTURE_WIDTH = 1200;
+    // Force consistent centering for the content
+    element.style.textAlign = 'center';
+    element.style.margin = '0 auto';
+    element.style.display = 'block';
+    
+    // Use standardized dimensions for all tabs
+    const STANDARD_WIDTH = 1200;
     const actualHeight = Math.max(element.scrollHeight, element.offsetHeight, 600);
 
     const canvas = await html2canvas(element, {
-      scale: 1.5,
+      scale: 1.4, // Consistent scale for all tabs
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
-      width: CAPTURE_WIDTH,
+      width: STANDARD_WIDTH,
       height: actualHeight,
       windowWidth: 1400,
       windowHeight: Math.max(actualHeight + 200, 800),
@@ -138,6 +143,11 @@ export const exportMultipleTabsToPDF = async (
       scrollY: 0,
       logging: false
     });
+
+    // Reset element styles
+    element.style.textAlign = '';
+    element.style.margin = '';
+    element.style.display = '';
 
     // Add new page for subsequent tabs
     if (i > 0) pdf.addPage();
@@ -151,17 +161,30 @@ export const exportMultipleTabsToPDF = async (
     const availableWidth = pageWidth - (MARGIN * 2);
     const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
     
-    // Calculate scaling to fit content
-    const scaleX = availableWidth / canvas.width;
-    const scaleY = availableHeight / canvas.height;
-    const scale = Math.min(scaleX, scaleY, 1); // Don't scale up
+    // Calculate scaling to fit content with consistent ratio
+    const contentRatio = canvas.width / canvas.height;
+    const availableRatio = availableWidth / availableHeight;
     
-    const scaledWidth = canvas.width * scale;
-    const scaledHeight = canvas.height * scale;
+    let scaledWidth, scaledHeight;
+    if (contentRatio > availableRatio) {
+      // Content is wider, scale based on width
+      scaledWidth = availableWidth;
+      scaledHeight = availableWidth / contentRatio;
+    } else {
+      // Content is taller, scale based on height
+      scaledHeight = availableHeight;
+      scaledWidth = availableHeight * contentRatio;
+    }
     
-    // Always center horizontally and vertically within available space
+    // Ensure we don't scale up
+    if (scaledWidth > canvas.width || scaledHeight > canvas.height) {
+      scaledWidth = canvas.width;
+      scaledHeight = canvas.height;
+    }
+    
+    // Always center content on the page
     const x = (pageWidth - scaledWidth) / 2;
-    const y = CONTENT_START_Y + ((availableHeight - scaledHeight) / 2);
+    const y = CONTENT_START_Y;
 
     const imgData = canvas.toDataURL("image/png", 0.95);
     pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
