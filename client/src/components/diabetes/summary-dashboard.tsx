@@ -229,7 +229,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === 'value') return [`${value}%`, 'HbA1c Control'];
-                      if (name === 'range') return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
+                      if (name === 'range' && Array.isArray(value)) return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
                       return [value, name];
                     }}
                   />

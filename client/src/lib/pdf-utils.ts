@@ -89,15 +89,12 @@ export const exportMultipleTabsToPDF = async (
   currentTab: string,
   filename: string = "dashboard-export.pdf"
 ): Promise<void> => {
-  // Prevent multiple simultaneous downloads with improved checking
-  const exportKey = 'pdfExportInProgress_' + Date.now();
+  // Prevent multiple simultaneous downloads
   if ((window as any).pdfExportInProgress) {
-    console.log('PDF export already in progress');
     return;
   }
   
   (window as any).pdfExportInProgress = true;
-  (window as any).currentExportKey = exportKey;
   
   try {
     const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
@@ -246,10 +243,7 @@ export const exportMultipleTabsToPDF = async (
     pdf.save(filename);
     
   } finally {
-    // Reset the flags with delay to prevent rapid re-triggering
-    setTimeout(() => {
-      (window as any).pdfExportInProgress = false;
-      (window as any).currentExportKey = null;
-    }, 2000);
+    // Reset the progress flag immediately
+    (window as any).pdfExportInProgress = false;
   }
 };
