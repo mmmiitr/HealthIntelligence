@@ -64,7 +64,7 @@ export default function Dashboard() {
   // PDF download handler for all tabs (except technical)
   const handleDownloadPDF = async () => {
     try {
-      const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const tabsToInclude = ['summary', 'finance', 'operation', 'clinician'];
       const currentTab = activeTab;
       
@@ -83,14 +83,20 @@ export default function Dashboard() {
           continue;
         }
 
-        // Capture the tab content
+        // Ensure proper width calculation for dashboard content
+        const elementWidth = Math.max(activeElement.scrollWidth, activeElement.offsetWidth, 1200);
+        const elementHeight = Math.max(activeElement.scrollHeight, activeElement.offsetHeight);
+        
+        // Capture the tab content with better width handling
         const canvas = await html2canvas(activeElement, { 
-          scale: 2, 
+          scale: 1.5, 
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
-          width: activeElement.scrollWidth,
-          height: activeElement.scrollHeight
+          width: elementWidth,
+          height: elementHeight,
+          windowWidth: 1400,
+          windowHeight: 800
         });
         
         const imgData = canvas.toDataURL("image/png");
