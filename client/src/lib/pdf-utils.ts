@@ -155,25 +155,33 @@ export const exportMultipleTabsToPDF = async (
           if (clonedElement) {
             clonedElement.style.width = '1200px';
             clonedElement.style.maxWidth = '1200px';
-            clonedElement.style.padding = '24px';
-            clonedElement.style.margin = '0 auto';
+            clonedElement.style.padding = '8px';
+            clonedElement.style.margin = '0';
             clonedElement.style.boxSizing = 'border-box';
             
-            // Force all grids to show as desktop layout regardless of screen size
+            // Force all grids to show as desktop layout with optimized spacing
             const grids = clonedElement.querySelectorAll('.grid');
             grids.forEach((grid: any) => {
               if (grid.className.includes('grid-cols-1') && grid.className.includes('md:grid-cols-2')) {
                 grid.style.display = 'grid';
                 grid.style.gridTemplateColumns = '1fr 1fr';
-                grid.style.gap = '1rem';
+                grid.style.gap = '0.75rem';
                 grid.style.width = '100%';
+                grid.style.margin = '0';
               }
               if (grid.className.includes('grid-cols-1') && grid.className.includes('lg:grid-cols-4')) {
                 grid.style.display = 'grid';
                 grid.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
-                grid.style.gap = '1rem';
+                grid.style.gap = '0.75rem';
                 grid.style.width = '100%';
+                grid.style.margin = '0';
               }
+            });
+            
+            // Reduce spacing between sections
+            const sections = clonedElement.querySelectorAll('.space-y-6, .space-y-8');
+            sections.forEach((section: any) => {
+              section.style.gap = '1rem';
             });
           }
         }
@@ -216,8 +224,8 @@ export const exportMultipleTabsToPDF = async (
       pdf.setFont('helvetica', 'bold');
       pdf.text(`${tab.label} Dashboard`, pageWidth / 2, 35, { align: 'center' });
 
-      // Calculate scaling to fit within PDF page with reduced margins
-      const PDF_MARGIN = 15; // Further reduced margin for maximum width utilization
+      // Calculate scaling to fit within PDF page with minimal margins
+      const PDF_MARGIN = 8; // Minimal margin for maximum content utilization
       const availableWidth = pageWidth - (PDF_MARGIN * 2);
       const availableHeight = pageHeight - CONTENT_START_Y - PDF_MARGIN;
       
