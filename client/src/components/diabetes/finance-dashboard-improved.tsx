@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, TrendingUp, TrendingDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
-import { TYPOGRAPHY, COLORS, SPACING, LAYOUT, SHADOWS, getGridClasses, getSectionClasses } from "@/lib/design-system";
+// Removed design-system import during cleanup
 
 interface FinanceDashboardProps {
   timeFilter: string;

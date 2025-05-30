@@ -8,7 +8,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-import { TYPOGRAPHY, COLORS, SPACING, LAYOUT, SHADOWS, getGridClasses, getSectionClasses } from "@/lib/design-system";
+// Removed design-system import during cleanup
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 
 interface SummaryDashboardProps {
