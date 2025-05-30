@@ -82,7 +82,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
             { 
               title: "No-show rate", 
               currentValue: "12%", 
-              forecastValue: showForecast ? "13%" : undefined,
+              forecastValue: showForecast ? "11%" : undefined,
               currentLabel: labels.current,
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'cost' as const,
@@ -98,22 +98,22 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <UserCheck className="h-4 w-4" />
             },
             { 
-              title: "% with assigned PCP/endocrinologist", 
-              currentValue: "92%", 
-              forecastValue: showForecast ? "94%" : undefined,
-              currentLabel: labels.current,
-              forecastLabel: showForecast ? labels.forecast : undefined,
-              type: 'profit' as const,
-              icon: <Users className="h-4 w-4" />
+              title: "Current bed utilization", 
+              currentValue: "87%", 
+              forecastValue: undefined, // Real-time metric, no forecast
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Bed className="h-4 w-4" />
             },
             { 
-              title: "Avg care manager time/patient", 
-              currentValue: "35 min", 
-              forecastValue: showForecast ? "36 min" : undefined,
-              currentLabel: labels.current,
-              forecastLabel: showForecast ? labels.forecast : undefined,
+              title: "Staff on duty today", 
+              currentValue: "24", 
+              forecastValue: undefined, // Real-time operational metric
+              currentLabel: "TODAY",
+              forecastLabel: undefined,
               type: 'neutral' as const,
-              icon: <Heart className="h-4 w-4" />
+              icon: <Users className="h-4 w-4" />
             }
           ].map((metric) => (
             <StandardMetricCard
