@@ -84,21 +84,18 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   return (
     <div>
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
+      <div className={getSectionClasses().container}>
+        <div className={LAYOUT.flexBetween}>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Summary Dashboard</h2>
-            <p className="text-gray-600 mt-1">Executive overview of diabetes care management</p>
-          </div>
-          <div className="flex flex-col items-end space-y-2">
-            {/* Download button moved to global header */}
+            <h2 className={TYPOGRAPHY.h2}>Summary Dashboard</h2>
+            <p className={`${TYPOGRAPHY.body} mt-2`}>Executive overview of diabetes care management</p>
           </div>
         </div>
       </div>
 
       {/* Key Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+      <div className={getSectionClasses().container}>
+        <h3 className={`${getSectionClasses().title} mb-6`}>Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className={getGridClasses(4)}>
           {keyMetrics.map((metric) => (
             <StandardMetricCard
@@ -117,18 +114,22 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       </div>
 
       {/* Critical Alerts */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Critical Alerts</h3>
-        <Card className="bg-red-500 shadow-lg">
-          <CardContent className="p-6">
+      <div className={getSectionClasses().container}>
+        <h3 className={`${getSectionClasses().title} mb-6`}>Critical Alerts</h3>
+        <Card className="bg-red-500 border-red-600 shadow-lg">
+          <CardContent className={SPACING.card}>
             <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">30-Day ED Visit or Hospitalization (8%) exceeds target of 5%.</p>
+              <div className="flex items-start space-x-4">
+                <AlertTriangle className="h-6 w-6 text-white mt-1 flex-shrink-0" />
+                <p className={`${TYPOGRAPHY.bodyLarge} text-white font-semibold leading-relaxed`}>
+                  30-Day ED Visit or Hospitalization (8%) exceeds target of 5%
+                </p>
               </div>
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">No-Show Appointments (12%) exceeds target of 10%.</p>
+              <div className="flex items-start space-x-4">
+                <AlertTriangle className="h-6 w-6 text-white mt-1 flex-shrink-0" />
+                <p className={`${TYPOGRAPHY.bodyLarge} text-white font-semibold leading-relaxed`}>
+                  No-Show Appointments (12%) exceeds target of 10%
+                </p>
               </div>
             </div>
           </CardContent>
