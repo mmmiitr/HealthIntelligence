@@ -191,7 +191,7 @@ export const exportMultipleTabsToPDF = async (
       const standardCanvas = document.createElement('canvas');
       const ctx = standardCanvas.getContext('2d')!;
       
-      // Set consistent dimensions for all pages
+      // Set consistent dimensions for all pages with better scaling
       const TARGET_WIDTH = 1200;
       const TARGET_HEIGHT = Math.max(canvas.height, 800);
       
@@ -202,17 +202,17 @@ export const exportMultipleTabsToPDF = async (
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, standardCanvas.width, standardCanvas.height);
       
-      // Scale and center the content to fit consistently
-      const scale = Math.min(TARGET_WIDTH / canvas.width, 1);
+      // Scale to use full width while maintaining aspect ratio
+      const scale = TARGET_WIDTH / canvas.width;
       const scaledWidth = canvas.width * scale;
       const scaledHeight = canvas.height * scale;
       
-      // Center horizontally
-      const x = (TARGET_WIDTH - scaledWidth) / 2;
+      // Center horizontally, align to top
+      const x = 0; // Use full width
       const y = 0;
       
       // Draw the original canvas onto the standardized canvas
-      ctx.drawImage(canvas, x, y, scaledWidth, scaledHeight);
+      ctx.drawImage(canvas, x, y, scaledWidth, Math.min(scaledHeight, TARGET_HEIGHT));
       
       const finalCanvas = standardCanvas;
 
