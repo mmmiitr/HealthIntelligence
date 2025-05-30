@@ -39,15 +39,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       forecastLabel: "JUN FORECAST", 
       type: "profit" as const,
       icon: <TrendingUp className="h-5 w-5" />
-    },
-    {
-      title: "Cost per Patient",
-      currentValue: "$285",
-      forecastValue: "$275",
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST",
-      type: "neutral" as const,
-      icon: <DollarSign className="h-5 w-5" />
     }
   ];
 
