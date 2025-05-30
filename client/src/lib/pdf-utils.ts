@@ -89,13 +89,15 @@ export const exportMultipleTabsToPDF = async (
   currentTab: string,
   filename: string = "dashboard-export.pdf"
 ): Promise<void> => {
-  // Prevent multiple simultaneous downloads
+  // Prevent multiple simultaneous downloads with improved checking
+  const exportKey = 'pdfExportInProgress_' + Date.now();
   if ((window as any).pdfExportInProgress) {
     console.log('PDF export already in progress');
     return;
   }
   
   (window as any).pdfExportInProgress = true;
+  (window as any).currentExportKey = exportKey;
   
   try {
     const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
@@ -158,34 +160,35 @@ export const exportMultipleTabsToPDF = async (
         }
       });
 
-      // Create a properly sized and centered canvas
-      const targetWidth = 1200;
-      const targetHeight = Math.max(canvas.height, 900);
+      // Create a standardized canvas with consistent dimensions for all tabs
+      const STANDARD_WIDTH = 1200;
+      const STANDARD_CONTENT_WIDTH = 1180; // Consistent content width for all dashboards
+      const STANDARD_MARGIN = 10;
       
       const centeredCanvas = document.createElement('canvas');
       const ctx = centeredCanvas.getContext('2d')!;
       
-      centeredCanvas.width = targetWidth;
-      centeredCanvas.height = targetHeight;
+      centeredCanvas.width = STANDARD_WIDTH;
+      centeredCanvas.height = Math.max(canvas.height + 40, 900); // Add padding for consistency
       
       // Fill with white background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
       
-      // Calculate optimal scaling and centering with minimal margins
-      const contentMaxWidth = 1180; // Further reduced margins for maximum width consistency
-      const scaleToFit = Math.min(contentMaxWidth / canvas.width, 1);
-      const canvasScaledWidth = canvas.width * scaleToFit;
-      const canvasScaledHeight = canvas.height * scaleToFit;
+      // Force consistent scaling for all dashboards
+      const uniformScale = STANDARD_CONTENT_WIDTH / Math.max(canvas.width, 1100);
+      const scaledWidth = canvas.width * uniformScale;
+      const scaledHeight = canvas.height * uniformScale;
       
-      const xOffset = Math.max((centeredCanvas.width - canvasScaledWidth) / 2, 10); // Minimum 10px margin
-      const yOffset = 10; // Further reduced top margin
+      // Center horizontally with consistent positioning
+      const xOffset = (centeredCanvas.width - scaledWidth) / 2;
+      const yOffset = STANDARD_MARGIN;
       
-      // Draw the scaled and centered content
+      // Draw the uniformly scaled and centered content
       ctx.drawImage(
         canvas,
         0, 0, canvas.width, canvas.height,
-        xOffset, yOffset, canvasScaledWidth, canvasScaledHeight
+        xOffset, yOffset, scaledWidth, scaledHeight
       );
 
       // Use the centered canvas for PDF
@@ -222,11 +225,17 @@ export const exportMultipleTabsToPDF = async (
     // Restore original tab
     setActiveTab(currentTab);
     
+    // Add final delay before saving
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     // Save the PDF
     pdf.save(filename);
     
   } finally {
-    // Reset the flag
-    (window as any).pdfExportInProgress = false;
+    // Reset the flags with delay to prevent rapid re-triggering
+    setTimeout(() => {
+      (window as any).pdfExportInProgress = false;
+      (window as any).currentExportKey = null;
+    }, 2000);
   }
 };
