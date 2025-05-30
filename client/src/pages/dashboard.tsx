@@ -70,8 +70,8 @@ export default function Dashboard() {
       const tabsToExport = [
         { id: 'summary', label: 'Summary', captureScale: 1.5, waitTime: 1500 },
         { id: 'finance', label: 'Finance', captureScale: 1.5, waitTime: 1500 },
-        { id: 'operation', label: 'Operations', captureScale: 1.2, waitTime: 2000 },
-        { id: 'clinician', label: 'Clinical', captureScale: 1.2, waitTime: 2000 }
+        { id: 'operation', label: 'Operations', captureScale: 2.0, waitTime: 2000 },
+        { id: 'clinician', label: 'Clinical', captureScale: 2.0, waitTime: 2000 }
       ];
 
       await exportMultipleTabsToPDF(
