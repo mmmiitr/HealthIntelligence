@@ -71,20 +71,49 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Patient Metrics (now immediately after Patient Wait Time) */}
+      {/* Patient Metrics */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <MetricCard className="metric-card" title="No-show rate" value="12%" futureValue={showForecast ? "13%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" futureValue={showForecast ? "35%" : undefined} percentChange={showForecast ? "+5%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% with assigned PCP/endocrinologist" value="92%" futureValue={showForecast ? "94%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Avg care manager time/patient" value="35 min" futureValue={showForecast ? "36 min" : undefined} percentChange={showForecast ? "+1 min" : undefined} borderColor="border-blue-500" />
+          {[
+            { label: "No-show rate", value: "12%", futureValue: showForecast ? "13%" : undefined, percentChange: showForecast ? "+1%" : undefined },
+            { label: "% of telemedicine visits", value: "30%", futureValue: showForecast ? "35%" : undefined, percentChange: showForecast ? "+5%" : undefined },
+            { label: "% with assigned PCP/endocrinologist", value: "92%", futureValue: showForecast ? "94%" : undefined, percentChange: showForecast ? "+2%" : undefined },
+            { label: "Avg care manager time/patient", value: "35 min", futureValue: showForecast ? "36 min" : undefined, percentChange: showForecast ? "+1 min" : undefined }
+          ].map((metric) => (
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {viewMode === "monthly" ? "MAY PROGRESS" : viewMode === "quarterly" ? "Q2 PROGRESS" : "2025 PROGRESS"}
+                    </p>
+                    <p className="text-2xl font-bold text-blue-700">{metric.value}</p>
+                  </div>
+                  
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {viewMode === "monthly" ? "JUN FORECAST" : viewMode === "quarterly" ? "Q3 FORECAST" : "2026 FORECAST"}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
-      {/* Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
+      {/* Appointment Metrics */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
@@ -97,9 +126,9 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
+      {/* Utilization of providers */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
