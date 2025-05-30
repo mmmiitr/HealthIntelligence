@@ -176,25 +176,38 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
                 <AreaChart data={[
-                  { month: 'Jan', value: 65, upperCI: null, lowerCI: null },
-                  { month: 'Feb', value: 67, upperCI: null, lowerCI: null },
-                  { month: 'Mar', value: 69, upperCI: null, lowerCI: null },
-                  { month: 'Apr', value: 68, upperCI: null, lowerCI: null },
-                  { month: 'May', value: 70, upperCI: null, lowerCI: null },
-                  { month: 'Jun', value: showForecast ? 72 : null, upperCI: showForecast ? 75 : null, lowerCI: showForecast ? 69 : null },
-                  { month: 'Jul', value: showForecast ? 74 : null, upperCI: showForecast ? 77 : null, lowerCI: showForecast ? 71 : null }
+                  { month: 'Jan', value: 65, upperCI: 65, lowerCI: 65 },
+                  { month: 'Feb', value: 67, upperCI: 67, lowerCI: 67 },
+                  { month: 'Mar', value: 69, upperCI: 69, lowerCI: 69 },
+                  { month: 'Apr', value: 68, upperCI: 68, lowerCI: 68 },
+                  { month: 'May', value: 70, upperCI: 70, lowerCI: 70 },
+                  { month: 'Jun', value: showForecast ? 72 : null, upperCI: showForecast ? 75 : 70, lowerCI: showForecast ? 69 : 70 },
+                  { month: 'Jul', value: showForecast ? 74 : null, upperCI: showForecast ? 77 : 70, lowerCI: showForecast ? 71 : 70 }
                 ]}>
+                  <defs>
+                    <linearGradient id="confidenceArea" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#1976d2" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="#1976d2" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
-                  <Tooltip formatter={(value) => [`${value}%`, 'HbA1c Control']} />
+                  <Tooltip 
+                    formatter={(value, name) => {
+                      if (name === 'value') return [`${value}%`, 'HbA1c Control'];
+                      if (name === 'upperCI') return [`${value}%`, 'Upper 95% CI'];
+                      if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
+                      return [value, name];
+                    }}
+                  />
                   {showForecast && (
                     <Area
                       type="monotone"
                       dataKey="upperCI"
+                      stackId="1"
                       stroke="none"
-                      fill="#1976d2"
-                      fillOpacity={0.1}
+                      fill="url(#confidenceArea)"
                       connectNulls={false}
                     />
                   )}
@@ -202,9 +215,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     <Area
                       type="monotone"
                       dataKey="lowerCI"
+                      stackId="1"
                       stroke="none"
                       fill="#ffffff"
-                      fillOpacity={1}
                       connectNulls={false}
                     />
                   )}
@@ -215,6 +228,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     strokeWidth={3}
                     connectNulls={false}
                     strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                    dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
                   />
                   {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
                 </AreaChart>
