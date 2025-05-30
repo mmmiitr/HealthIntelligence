@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart, Shield, Stethoscope, User, DollarSign, Settings, BarChart3, Database, Brain } from "lucide-react";
 import { getCurrentTimestamp } from "@/lib/utils";
 import SummaryDashboard from "@/components/diabetes/summary-dashboard";
-import FinanceDashboard from "@/components/diabetes/finance-dashboard";
+import FinanceDashboard from "@/components/diabetes/finance-dashboard-fixed";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
