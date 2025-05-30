@@ -175,13 +175,13 @@ export const exportMultipleTabsToPDF = async (
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
       
-      // Force consistent scaling for all dashboards
-      const uniformScale = STANDARD_CONTENT_WIDTH / Math.max(canvas.width, 1100);
-      const scaledWidth = canvas.width * uniformScale;
-      const scaledHeight = canvas.height * uniformScale;
+      // Force identical scaling for perfect width consistency
+      const FIXED_SCALE = 0.98; // Fixed scale ratio for all dashboards
+      const scaledWidth = STANDARD_CONTENT_WIDTH; // Force exact same width
+      const scaledHeight = canvas.height * FIXED_SCALE;
       
-      // Center horizontally with consistent positioning
-      const xOffset = (centeredCanvas.width - scaledWidth) / 2;
+      // Force identical positioning for all tabs
+      const xOffset = (centeredCanvas.width - scaledWidth) / 2; // Perfect centering
       const yOffset = STANDARD_MARGIN;
       
       // Draw the uniformly scaled and centered content
