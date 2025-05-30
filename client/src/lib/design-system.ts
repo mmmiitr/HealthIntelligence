@@ -1,38 +1,23 @@
-// Design System for Healthcare Dashboard
-// Consistent styling, typography, colors, and spacing
-
-export const TYPOGRAPHY = {
-  // Headers - More professional with better contrast
-  h1: "text-4xl font-bold text-gray-900 leading-tight tracking-tight",
-  h2: "text-3xl font-bold text-gray-900 leading-tight tracking-tight", 
-  h3: "text-2xl font-bold text-gray-900 leading-tight tracking-tight",
-  h4: "text-xl font-semibold text-gray-900 leading-tight",
-  h5: "text-lg font-semibold text-gray-900 leading-tight",
+// Simplified Design System
+export const CARD_STYLES = {
+  base: "bg-white rounded-lg shadow-lg border border-gray-200 p-6 transition-all duration-300",
+  hover: "hover:shadow-xl",
   
-  // Body text - Better readability
-  body: "text-sm text-gray-700 leading-6",
-  bodyLarge: "text-base text-gray-700 leading-6",
-  bodySmall: "text-xs text-gray-600 leading-5",
+  // Border colors for different metric types
+  borders: {
+    profit: "border-l-4 border-l-green-500",
+    revenue: "border-l-4 border-l-blue-500", 
+    cost: "border-l-4 border-l-red-500",
+    neutral: "border-l-4 border-l-gray-400"
+  },
   
-  // Labels and captions - More professional
-  label: "text-sm font-semibold text-gray-700 tracking-wide",
-  caption: "text-xs text-gray-500 leading-4",
-  overline: "text-xs font-bold text-gray-500 uppercase tracking-widest",
-  
-  // Values and metrics - More impact
-  metricLarge: "text-4xl font-bold text-gray-900 tracking-tight",
-  metricMedium: "text-3xl font-bold text-gray-900 tracking-tight",
-  metricSmall: "text-2xl font-bold text-gray-900 tracking-tight",
-  
-  // Emphasis
-  emphasis: "font-bold text-gray-900",
-  muted: "text-gray-500",
-  
-  // New professional variants
-  cardTitle: "text-lg font-bold text-gray-900 tracking-tight",
-  cardSubtitle: "text-sm text-gray-600 leading-5",
-  sectionTitle: "text-2xl font-bold text-gray-900 tracking-tight mb-2",
-  sectionSubtitle: "text-base text-gray-600 leading-6",
+  // Text colors for values
+  textColors: {
+    profit: "text-green-700",
+    revenue: "text-blue-700",
+    cost: "text-red-700", 
+    neutral: "text-gray-900"
+  }
 };
 
 export const COLORS = {
