@@ -106,7 +106,40 @@ export const getChartConfig = () => ({
   }
 });
 
-// Metric card border colors
+// Metric card border colors and consistent color scheme
+export const METRIC_COLORS = {
+  profit: { 
+    value: '#4caf50', // green for profit/positive metrics
+    border: 'border-green-500',
+    background: 'bg-green-50',
+    text: 'text-green-700'
+  },
+  revenue: { 
+    value: '#1976d2', // blue for revenue
+    border: 'border-blue-500',
+    background: 'bg-blue-50',
+    text: 'text-blue-700'
+  },
+  cost: { 
+    value: '#ef5350', // red for costs/expenses
+    border: 'border-red-500',
+    background: 'bg-red-50',
+    text: 'text-red-700'
+  },
+  neutral: { 
+    value: '#64b5f6', // light blue for neutral metrics
+    border: 'border-blue-300',
+    background: 'bg-blue-25',
+    text: 'text-blue-600'
+  },
+  clinical: { 
+    value: '#9c27b0', // purple for clinical metrics
+    border: 'border-purple-500',
+    background: 'bg-purple-50',
+    text: 'text-purple-700'
+  }
+};
+
 export const BORDER_COLORS = {
   green: 'border-green-500',
   blue: 'border-blue-500',
