@@ -156,65 +156,85 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       </div>
 
       {/* 3. % of patients with hypertension control (<140/90) */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with hypertension control (&lt;140/90)</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className={styles.heading.sectionTitle}>% of patients with hypertension control (&lt;140/90)</h3>
+          <p className={styles.heading.sectionSubtitle}>Blood pressure management by care status</p>
+        </div>
+        <div className={styles.grid.cols2}>
           {[
-            { label: "CCM", value: "77%", futureValue: showForecast ? "80%" : undefined, percentChange: showForecast ? "+3%" : undefined },
-            { label: "Non CCM", value: "70%", futureValue: showForecast ? "72%" : undefined, percentChange: showForecast ? "+2%" : undefined }
+            { 
+              title: "CCM", 
+              currentValue: "77%", 
+              forecastValue: showForecast ? "80%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'profit' as const,
+              icon: <Heart className="h-4 w-4" />
+            },
+            { 
+              title: "Non CCM", 
+              currentValue: "70%", 
+              forecastValue: showForecast ? "72%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
           ].map((metric) => (
-            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-purple-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
-                  </div>
-                  {showForecast && metric.futureValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
 
       {/* 4. % of patients with >2 co-morbidities */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with &gt;2 co-morbidities</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className={styles.heading.sectionTitle}>% of patients with &gt;2 co-morbidities</h3>
+          <p className={styles.heading.sectionSubtitle}>Complex care management tracking</p>
+        </div>
+        <div className={styles.grid.cols2}>
           {[
-            { label: "CCM", value: "34%", futureValue: showForecast ? "36%" : undefined, percentChange: showForecast ? "+2%" : undefined },
-            { label: "Non CCM", value: "28%", futureValue: showForecast ? "29%" : undefined, percentChange: showForecast ? "+1%" : undefined }
+            { 
+              title: "CCM", 
+              currentValue: "34%", 
+              forecastValue: showForecast ? "36%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'cost' as const,
+              icon: <Activity className="h-4 w-4" />
+            },
+            { 
+              title: "Non CCM", 
+              currentValue: "28%", 
+              forecastValue: showForecast ? "29%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
           ].map((metric) => (
-            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-purple-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
-                  </div>
-                  {showForecast && metric.futureValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
