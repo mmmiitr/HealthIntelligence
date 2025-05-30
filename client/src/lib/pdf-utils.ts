@@ -130,43 +130,62 @@ export const exportMultipleTabsToPDF = async (
       // Additional wait for layout stabilization
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Direct capture with forced centering using canvas manipulation
+      // Get actual content dimensions and ensure consistent capture
+      const actualWidth = Math.max(element.scrollWidth, element.offsetWidth, 1200);
+      const actualHeight = Math.max(element.scrollHeight, element.offsetHeight);
+      
+      // Direct capture with improved settings for all tabs
       const canvas = await html2canvas(element, {
-        scale: 1.3,
+        scale: 1.2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        width: Math.max(element.scrollWidth, 1200),
-        height: element.scrollHeight,
+        width: actualWidth,
+        height: actualHeight,
         windowWidth: 1400,
-        windowHeight: element.scrollHeight + 200,
+        windowHeight: Math.max(actualHeight + 200, 1000),
         scrollX: 0,
         scrollY: 0,
-        logging: false
+        logging: false,
+        onclone: (clonedDoc) => {
+          // Ensure consistent styling in cloned document
+          const clonedElement = clonedDoc.getElementById('dashboard-content');
+          if (clonedElement) {
+            clonedElement.style.maxWidth = '1200px';
+            clonedElement.style.margin = '0 auto';
+            clonedElement.style.padding = '24px';
+          }
+        }
       });
 
-      // Create a new centered canvas with consistent dimensions
+      // Create a properly sized and centered canvas
+      const targetWidth = 1200;
+      const targetHeight = Math.max(canvas.height, 900);
+      
       const centeredCanvas = document.createElement('canvas');
       const ctx = centeredCanvas.getContext('2d')!;
       
-      // Set standard dimensions for all tabs
-      centeredCanvas.width = 1200;
-      centeredCanvas.height = Math.max(canvas.height, 800);
+      centeredCanvas.width = targetWidth;
+      centeredCanvas.height = targetHeight;
       
       // Fill with white background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
       
-      // Calculate centering position
-      const sourceWidth = Math.min(canvas.width, 1120); // Max content width
-      const xOffset = (centeredCanvas.width - sourceWidth) / 2;
-      const yOffset = 40; // Top margin
+      // Calculate optimal scaling and centering
+      const contentMaxWidth = 1120; // Leave margins
+      const scaleToFit = Math.min(contentMaxWidth / canvas.width, 1);
+      const canvasScaledWidth = canvas.width * scaleToFit;
+      const canvasScaledHeight = canvas.height * scaleToFit;
       
-      // Draw the original canvas content centered on the new canvas
+      const xOffset = (centeredCanvas.width - canvasScaledWidth) / 2;
+      const yOffset = 20; // Consistent top margin
+      
+      // Draw the scaled and centered content
       ctx.drawImage(
         canvas,
-        0, 0, sourceWidth, canvas.height, // Source dimensions
-        xOffset, yOffset, sourceWidth, canvas.height // Destination dimensions
+        0, 0, canvas.width, canvas.height,
+        xOffset, yOffset, canvasScaledWidth, canvasScaledHeight
       );
 
       // Use the centered canvas for PDF
@@ -188,15 +207,15 @@ export const exportMultipleTabsToPDF = async (
       const scaleY = availableHeight / finalCanvas.height;
       const scale = Math.min(scaleX, scaleY, 1);
       
-      const scaledWidth = finalCanvas.width * scale;
-      const scaledHeight = finalCanvas.height * scale;
+      const pdfScaledWidth = finalCanvas.width * scale;
+      const pdfScaledHeight = finalCanvas.height * scale;
       
       // Always center horizontally
-      const x = (pageWidth - scaledWidth) / 2;
+      const x = (pageWidth - pdfScaledWidth) / 2;
       const y = CONTENT_START_Y;
 
       const imgData = finalCanvas.toDataURL("image/png", 0.95);
-      pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
+      pdf.addImage(imgData, "PNG", x, y, pdfScaledWidth, pdfScaledHeight);
     }
 
     // Restore original tab
