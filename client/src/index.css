@@ -1,86 +1,206 @@
-/* Removed @tailwind and @apply directives as per the change request */
+/* Removed all Tailwind-specific directives and @layer base. Replaced with standard CSS for base styles and utility classes. */
 
-/* Color and background variables for light and dark mode */
 :root {
-  --background: 210 11% 98%; /* #F8FAFB */
-  --foreground: 214 32% 9%; /* #111827 */
-  --muted: 210 40% 96%; /* #F3F4F6 */
-  --muted-foreground: 215 16% 47%; /* #6B7280 */
-  --popover: 0 0% 100%; /* #FFFFFF */
-  --popover-foreground: 214 32% 9%; /* #111827 */
-  --card: 0 0% 100%; /* #FFFFFF */
-  --card-foreground: 214 32% 9%; /* #111827 */
-  --border: 214 32% 91%; /* #E5E7EB */
-  --input: 214 32% 91%; /* #E5E7EB */
-  --primary: 207 90% 54%; /* #0066CC */
-  --primary-foreground: 210 40% 98%; /* #F9FAFB */
-  --secondary: 142 71% 45%; /* #00A86B */
-  --secondary-foreground: 355 25% 95%; /* #F5F5F5 */
-  --accent: 14 91% 60%; /* #FF6B35 */
-  --accent-foreground: 355 25% 95%; /* #F5F5F5 */
-  --destructive: 0 84% 60%; /* #EF4444 */
-  --destructive-foreground: 210 40% 98%; /* #F9FAFB */
-  --ring: 207 90% 54%; /* #0066CC */
-  --radius: 0.5rem;
-  
-  /* Chart colors */
-  --chart-1: 207 90% 54%; /* #0066CC */
-  --chart-2: 142 71% 45%; /* #00A86B */
-  --chart-3: 14 91% 60%; /* #FF6B35 */
-  --chart-4: 38 92% 50%; /* #F59E0B */
-  --chart-5: 258 90% 66%; /* #8B5CF6 */
-  
-  /* Sidebar colors */
-  --sidebar-background: 0 0% 100%; /* #FFFFFF */
-  --sidebar-foreground: 214 32% 9%; /* #111827 */
-  --sidebar-primary: 207 90% 54%; /* #0066CC */
-  --sidebar-primary-foreground: 210 40% 98%; /* #F9FAFB */
-  --sidebar-accent: 210 40% 96%; /* #F3F4F6 */
-  --sidebar-accent-foreground: 214 32% 9%; /* #111827 */
-  --sidebar-border: 214 32% 91%; /* #E5E7EB */
-  --sidebar-ring: 207 90% 54%; /* #0066CC */
+  --primary: #1976d2;
+  --secondary: #4caf50;
+  --accent: #ff9800;
+  --danger: #ef5350;
+  --info: #64b5f6;
+  --purple: #9c27b0;
+  --border: #e5e7eb;
+  --background: #fff;
+  --foreground: #111827;
 }
 
-.dark {
-  --background: 224 71% 4%; /* #0F172A */
-  --foreground: 213 31% 91%; /* #E2E8F0 */
-  --muted: 223 47% 11%; /* #1E293B */
-  --muted-foreground: 215 20% 65%; /* #94A3B8 */
-  --popover: 224 71% 4%; /* #0F172A */
-  --popover-foreground: 213 31% 91%; /* #E2E8F0 */
-  --card: 224 71% 4%; /* #0F172A */
-  --card-foreground: 213 31% 91%; /* #E2E8F0 */
-  --border: 216 34% 17%; /* #334155 */
-  --input: 216 34% 17%; /* #334155 */
-  --primary: 207 90% 54%; /* #0066CC */
-  --primary-foreground: 210 40% 98%; /* #F9FAFB */
-  --secondary: 142 71% 45%; /* #00A86B */
-  --secondary-foreground: 355 25% 95%; /* #F5F5F5 */
-  --accent: 14 91% 60%; /* #FF6B35 */
-  --accent-foreground: 355 25% 95%; /* #F5F5F5 */
-  --destructive: 0 63% 31%; /* #991B1B */
-  --destructive-foreground: 210 40% 98%; /* #F9FAFB */
-  --ring: 207 90% 54%; /* #0066CC */
-  
-  /* Chart colors for dark mode */
-  --chart-1: 207 90% 54%; /* #0066CC */
-  --chart-2: 142 71% 45%; /* #00A86B */
-  --chart-3: 14 91% 60%; /* #FF6B35 */
-  --chart-4: 38 92% 50%; /* #F59E0B */
-  --chart-5: 258 90% 66%; /* #8B5CF6 */
-  
-  /* Sidebar colors for dark mode */
-  --sidebar-background: 224 71% 4%; /* #0F172A */
-  --sidebar-foreground: 213 31% 91%; /* #E2E8F0 */
-  --sidebar-primary: 207 90% 54%; /* #0066CC */
-  --sidebar-primary-foreground: 210 40% 98%; /* #F9FAFB */
-  --sidebar-accent: 223 47% 11%; /* #1E293B */
-  --sidebar-accent-foreground: 213 31% 91%; /* #E2E8F0 */
-  --sidebar-border: 216 34% 17%; /* #334155 */
-  --sidebar-ring: 207 90% 54%; /* #0066CC */
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  margin: 0;
+  padding: 0;
 }
 
-/* Removed @layer base block to fix Tailwind/PostCSS error. All base styles should be defined using standard CSS only. */
+.max-w-6xl {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- HEADER --- */
+.dashboard-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2.5rem;
+}
+.dashboard-header-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.dashboard-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+/* --- NAVIGATION TABS --- */
+.tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2.5rem auto 2.5rem auto;
+  justify-content: center;
+  max-width: 72rem;
+  width: 100%;
+}
+.tab {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.25rem 2.5rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 120px;
+  justify-content: center;
+}
+.tab.active, .tab:focus, .tab:hover {
+  background: #1565c0;
+  color: #fff;
+}
+
+/* --- MAIN DASHBOARD CONTENT: Centered --- */
+.dashboard-content {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 2rem 0 2rem;
+}
+
+/* --- METRIC CARDS --- */
+.metric-card {
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  font-weight: 700;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.metric-card .title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+.metric-card .value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+.metric-card .subtext, .metric-card .percent-change {
+  font-size: 0.95rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* --- TABLE STYLES --- */
+.table th, .table td {
+  font-size: 1rem;
+  color: #1a202c;
+  font-weight: 500;
+}
+.table th {
+  font-weight: 700;
+  background: #f9fafb;
+}
+
+/* --- CHART CONTAINER --- */
+.chart-container {
+  font-size: 1rem;
+  color: #1a202c;
+}
+
+/* --- SECTION TITLES --- */
+.dashboard-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 0.5rem;
+}
+
+/* --- BUTTONS --- */
+button, .button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover, .button:hover {
+  background: #1565c0;
+}
+
+/* --- SELECT ELEMENTS --- */
+select, .select {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  background: #fff;
+  color: var(--foreground);
+}
+
+/* --- CHECKBOXES AND RADIO BUTTONS --- */
+input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+/* --- UTILITY CLASSES FOR SPACING --- */
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.grid { display: grid; gap: 1.5rem; }
+.grid-cols-1 { grid-template-columns: 1fr; }
+.md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.gap-6 { gap: 1.5rem; }
+.flex { display: flex; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.space-x-2 > * + * { margin-left: 0.5rem; }
+.space-x-3 > * + * { margin-left: 0.75rem; }
+.space-x-4 > * + * { margin-left: 1rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
 
 /* Custom scrollbar for better UX */
 ::-webkit-scrollbar {
