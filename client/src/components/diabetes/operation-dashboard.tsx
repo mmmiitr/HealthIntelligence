@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Bed, UserCheck, Heart, Clock, Calendar as CalendarIcon } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles } from "@/lib/styles";
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -43,13 +45,9 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
   return (
     <div>
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Operation Dashboard</h2>
-            <p className="text-gray-600 mt-1">Operational efficiency and resource management</p>
-          </div>
-        </div>
+      <div className={styles.section}>
+        <h2 className={styles.heading.h2}>Operation Dashboard</h2>
+        <p className={styles.heading.subtitle}>Operational efficiency and resource management</p>
       </div>
 
       {/* Patient Wait Time (first section, styled like Patient Metrics) */}
@@ -72,41 +70,63 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
       </div>
 
       {/* Patient Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className={styles.heading.sectionTitle}>Patient Metrics</h3>
+          <p className={styles.heading.sectionSubtitle}>
+            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
+          </p>
+        </div>
+        <div className={styles.grid.cols4}>
           {[
-            { label: "No-show rate", value: "12%", futureValue: showForecast ? "13%" : undefined, percentChange: showForecast ? "+1%" : undefined },
-            { label: "% of telemedicine visits", value: "30%", futureValue: showForecast ? "35%" : undefined, percentChange: showForecast ? "+5%" : undefined },
-            { label: "% with assigned PCP/endocrinologist", value: "92%", futureValue: showForecast ? "94%" : undefined, percentChange: showForecast ? "+2%" : undefined },
-            { label: "Avg care manager time/patient", value: "35 min", futureValue: showForecast ? "36 min" : undefined, percentChange: showForecast ? "+1 min" : undefined }
+            { 
+              title: "No-show rate", 
+              currentValue: "12%", 
+              forecastValue: showForecast ? "13%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'cost' as const,
+              icon: <Clock className="h-4 w-4" />
+            },
+            { 
+              title: "% of telemedicine visits", 
+              currentValue: "30%", 
+              forecastValue: showForecast ? "35%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'neutral' as const,
+              icon: <UserCheck className="h-4 w-4" />
+            },
+            { 
+              title: "% with assigned PCP/endocrinologist", 
+              currentValue: "92%", 
+              forecastValue: showForecast ? "94%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'profit' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            { 
+              title: "Avg care manager time/patient", 
+              currentValue: "35 min", 
+              forecastValue: showForecast ? "36 min" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'neutral' as const,
+              icon: <Heart className="h-4 w-4" />
+            }
           ].map((metric) => (
-            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {viewMode === "monthly" ? "MAY PROGRESS" : viewMode === "quarterly" ? "Q2 PROGRESS" : "2025 PROGRESS"}
-                    </p>
-                    <p className="text-2xl font-bold text-blue-700">{metric.value}</p>
-                  </div>
-                  
-                  {showForecast && metric.futureValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {viewMode === "monthly" ? "JUN FORECAST" : viewMode === "quarterly" ? "Q3 FORECAST" : "2026 FORECAST"}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
