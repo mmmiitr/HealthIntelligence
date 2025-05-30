@@ -9,6 +9,8 @@ import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
 import { MetricCard } from "@/components/ui/metric-card";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -20,6 +22,22 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   
   const handleDownloadReport = () => {
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
+  };
+
+  // PDF Export Handler
+  const handleExportPDF = async () => {
+    const input = document.getElementById("summary-dashboard-root");
+    if (!input) return;
+    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pageWidth;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("SummaryDashboard.pdf");
   };
 
   // Dynamic labels based on view mode
@@ -52,26 +70,26 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       value: "30%",
       futureValue: showForecast ? "32%" : undefined,
       percentChange: showForecast ? "+2%" : undefined,
-      borderColor: "border-blue-300"
+      borderColor: "border-blue-500"
     },
     {
       label: "% Telemedicine Visits",
       value: "30%",
       futureValue: showForecast ? "35%" : undefined,
       percentChange: showForecast ? "+5%" : undefined,
-      borderColor: "border-blue-300"
+      borderColor: "border-blue-500"
     },
     {
       label: "Avg Cost/Patient/Month",
       value: "$85",
       futureValue: showForecast ? "$87" : undefined,
       percentChange: showForecast ? "+2.4%" : undefined,
-      borderColor: "border-red-500"
+      borderColor: "border-blue-500"
     },
   ];
 
   return (
-    <div>
+    <div id="summary-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-start">
@@ -87,7 +105,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="dashboard-section-title">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {keyMetrics.map((metric) => (
             <MetricCard
@@ -120,6 +138,15 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleExportPDF}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
+        >
+          Download PDF
+        </button>
       </div>
     </div>
   );

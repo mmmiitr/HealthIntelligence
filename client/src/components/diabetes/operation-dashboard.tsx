@@ -5,6 +5,8 @@ import { Users, Bed, UserCheck, Heart, Clock, Calendar as CalendarIcon } from "l
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { MetricCard } from "@/components/ui/metric-card";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface OperationDashboardProps {
   timeFilter: string;
@@ -36,8 +38,32 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
     queryKey: ["/api/admin/resource-utilization", timeFilter],
   });
 
+  // PDF Export Handler
+  const handleExportPDF = async () => {
+    const input = document.getElementById("operation-dashboard-root");
+    if (!input) return;
+    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pageWidth;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("OperationDashboard.pdf");
+  };
+
   return (
-    <div>
+    <div id="operation-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleExportPDF}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
+        >
+          Download PDF
+        </button>
+      </div>
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-start">
@@ -50,7 +76,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Patient Wait Time (first section, styled like Patient Metrics) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Wait Time</h3>
+        <h3 className="dashboard-section-title">Patient Wait Time</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
@@ -69,18 +95,18 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Patient Metrics (now immediately after Patient Wait Time) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="dashboard-section-title">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <MetricCard className="metric-card" title="No-show rate" value="12%" futureValue={showForecast ? "13%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-red-500" />
+          <MetricCard className="metric-card" title="No-show rate" value="12%" futureValue={showForecast ? "13%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" futureValue={showForecast ? "35%" : undefined} percentChange={showForecast ? "+5%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% with assigned PCP/endocrinologist" value="92%" futureValue={showForecast ? "94%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="% with assigned PCP/endocrinologist" value="92%" futureValue={showForecast ? "94%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Avg care manager time/patient" value="35 min" futureValue={showForecast ? "36 min" : undefined} percentChange={showForecast ? "+1 min" : undefined} borderColor="border-blue-500" />
         </div>
       </div>
 
       {/* Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="dashboard-section-title">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
@@ -95,17 +121,17 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+        <h3 className="dashboard-section-title">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Care managers</span>
-                <span className="text-2xl font-extrabold text-blue-600">85%</span>
+                <span className="text-2xl font-extrabold text-gray-900">85%</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Physicians</span>
-                <span className="text-2xl font-extrabold text-blue-600">90%</span>
+                <span className="text-2xl font-extrabold text-gray-900">90%</span>
               </div>
             </div>
           </CardContent>
@@ -114,17 +140,17 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Workforce Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workforce Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+        <h3 className="dashboard-section-title">Workforce Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Number of Care Managers</span>
-                <span className="text-2xl font-extrabold text-green-600">6</span>
+                <span className="text-2xl font-extrabold text-gray-900">6</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Number of Physicians with active panel</span>
-                <span className="text-2xl font-extrabold text-blue-600">8</span>
+                <span className="text-2xl font-extrabold text-gray-900">8</span>
               </div>
             </div>
           </CardContent>
@@ -133,8 +159,8 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Workload Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workload Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+        <h3 className="dashboard-section-title">Workload Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
               <div className="flex justify-between items-center">
@@ -160,13 +186,13 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* CCM ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">CCM ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+        <h3 className="dashboard-section-title">CCM ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Average care manager time per patient</span>
-                <span className="text-2xl font-extrabold text-blue-600">35 min</span>
+                <span className="text-2xl font-extrabold text-gray-900">35 min</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Number discharged in month</span>
@@ -174,7 +200,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-base text-gray-600">Number enrolled in month</span>
-                <span className="text-2xl font-extrabold text-green-600">22</span>
+                <span className="text-2xl font-extrabold text-gray-900">22</span>
               </div>
             </div>
           </CardContent>
@@ -183,17 +209,17 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Key Trends (all 11 trends, in required order, after all metrics, consistent style) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
+        <h3 className="dashboard-section-title">Key Trends</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <MetricCard className="metric-card" title="Wait time for new appointment" value="7 days" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Time to third next available appointment" value="12 days" borderColor="border-green-500" />
-          <MetricCard className="metric-card" title="No show rate" value="12%" borderColor="border-red-500" />
+          <MetricCard className="metric-card" title="Time to third next available appointment" value="12 days" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="No show rate" value="12%" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of patients with assigned PCP/endocrinologist" value="92%" borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="% of patients with assigned PCP/endocrinologist" value="92%" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Time per visit (new vs. follow-up)" value="40 min / 25 min" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Care manager utilization" value="85%" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Physician utilization" value="90%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Number of Care Managers" value="6" borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="Number of Care Managers" value="6" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Number of Physicians with active panel" value="8" borderColor="border-blue-500" />
           <MetricCard className="metric-card" title="Average care manager time per patient" value="35 min" borderColor="border-blue-500" />
         </div>

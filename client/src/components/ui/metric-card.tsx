@@ -30,14 +30,14 @@ export function MetricCard({
           </div>
           <div className="flex flex-col items-center flex-1">
             <div className="text-2xl font-extrabold text-gray-900">{futureValue}</div>
-            <div className="text-xs text-blue-600">Future</div>
+            <div className="text-xs text-gray-500">Future</div>
           </div>
         </div>
       ) : (
-        <div className="text-3xl font-extrabold text-gray-900 mb-1 text-center">{value}</div>
+        <div className="text-2xl font-extrabold text-gray-900 mb-1 text-center">{value}</div>
       )}
       {percentChange && (
-        <div className="text-xs text-green-600 text-center mb-1">{percentChange}</div>
+        <div className="text-xs text-gray-500 text-center mb-1">{percentChange}</div>
       )}
       {subtext && (
         <div className="text-xs text-gray-500 text-center">{subtext}</div>
