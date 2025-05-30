@@ -121,33 +121,46 @@ export const exportMultipleTabsToPDF = async (
     // Additional wait for layout stabilization
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Force consistent centering for the content
-    element.style.textAlign = 'center';
-    element.style.margin = '0 auto';
-    element.style.display = 'block';
+    // Handle longer content differently for Operations and Clinical tabs
+    const isLongTab = tab.id === 'operation' || tab.id === 'clinician';
     
-    // Use standardized dimensions for all tabs
-    const STANDARD_WIDTH = 1200;
-    const actualHeight = Math.max(element.scrollHeight, element.offsetHeight, 600);
+    // Create a wrapper div to ensure consistent capture dimensions
+    const wrapper = document.createElement('div');
+    wrapper.style.width = '1200px';
+    wrapper.style.margin = '0 auto';
+    wrapper.style.padding = '20px';
+    wrapper.style.backgroundColor = '#ffffff';
+    wrapper.style.position = 'relative';
+    wrapper.style.overflow = 'visible';
+    
+    // Clone the element to avoid modifying the original
+    const clonedElement = element.cloneNode(true) as HTMLElement;
+    clonedElement.style.width = '100%';
+    clonedElement.style.maxWidth = '1160px';
+    clonedElement.style.margin = '0 auto';
+    
+    wrapper.appendChild(clonedElement);
+    document.body.appendChild(wrapper);
+    
+    // Wait for DOM to update
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-    const canvas = await html2canvas(element, {
-      scale: 1.4, // Consistent scale for all tabs
+    const canvas = await html2canvas(wrapper, {
+      scale: isLongTab ? 1.0 : 1.4,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
-      width: STANDARD_WIDTH,
-      height: actualHeight,
+      width: 1200,
+      height: wrapper.scrollHeight,
       windowWidth: 1400,
-      windowHeight: Math.max(actualHeight + 200, 800),
+      windowHeight: wrapper.scrollHeight + 200,
       scrollX: 0,
       scrollY: 0,
       logging: false
     });
 
-    // Reset element styles
-    element.style.textAlign = '';
-    element.style.margin = '';
-    element.style.display = '';
+    // Clean up
+    document.body.removeChild(wrapper);
 
     // Add new page for subsequent tabs
     if (i > 0) pdf.addPage();
@@ -157,32 +170,18 @@ export const exportMultipleTabsToPDF = async (
     pdf.setFont('helvetica', 'bold');
     pdf.text(`${tab.label} Dashboard`, pageWidth / 2, 35, { align: 'center' });
 
-    // Calculate available space for content
+    // Calculate scaling to fit within PDF page
     const availableWidth = pageWidth - (MARGIN * 2);
     const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
     
-    // Calculate scaling to fit content with consistent ratio
-    const contentRatio = canvas.width / canvas.height;
-    const availableRatio = availableWidth / availableHeight;
+    const scaleX = availableWidth / canvas.width;
+    const scaleY = availableHeight / canvas.height;
+    const scale = Math.min(scaleX, scaleY, 1);
     
-    let scaledWidth, scaledHeight;
-    if (contentRatio > availableRatio) {
-      // Content is wider, scale based on width
-      scaledWidth = availableWidth;
-      scaledHeight = availableWidth / contentRatio;
-    } else {
-      // Content is taller, scale based on height
-      scaledHeight = availableHeight;
-      scaledWidth = availableHeight * contentRatio;
-    }
+    const scaledWidth = canvas.width * scale;
+    const scaledHeight = canvas.height * scale;
     
-    // Ensure we don't scale up
-    if (scaledWidth > canvas.width || scaledHeight > canvas.height) {
-      scaledWidth = canvas.width;
-      scaledHeight = canvas.height;
-    }
-    
-    // Always center content on the page
+    // Always center horizontally
     const x = (pageWidth - scaledWidth) / 2;
     const y = CONTENT_START_Y;
 
