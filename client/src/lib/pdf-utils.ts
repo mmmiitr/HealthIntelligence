@@ -160,49 +160,27 @@ export const exportMultipleTabsToPDF = async (
             clonedElement.style.padding = '24px';
             clonedElement.style.boxSizing = 'border-box';
             
-            // Force consistent grid layouts
-            const grids = clonedElement.querySelectorAll('[class*="grid"], [class*="cols"]');
-            grids.forEach((grid: any) => {
-              grid.style.width = '100%';
-              grid.style.maxWidth = '1152px'; // 1200 - 48px padding
+            // Force all content to use full width
+            const allDivs = clonedElement.querySelectorAll('div');
+            allDivs.forEach((div: any) => {
+              if (div.className && (div.className.includes('grid') || div.className.includes('cols') || div.className.includes('section'))) {
+                div.style.width = '100%';
+                div.style.maxWidth = '1152px';
+                div.style.minWidth = '1152px';
+              }
+            });
+            
+            // Specifically target cards and containers
+            const cards = clonedElement.querySelectorAll('[class*="card"], [class*="container"]');
+            cards.forEach((card: any) => {
+              card.style.width = '100%';
             });
           }
         }
       });
 
-      // Create a standardized canvas with consistent dimensions for all tabs
-      const STANDARD_WIDTH = 1200;
-      const STANDARD_CONTENT_WIDTH = 1180; // Consistent content width for all dashboards
-      const STANDARD_MARGIN = 10;
-      
-      const centeredCanvas = document.createElement('canvas');
-      const ctx = centeredCanvas.getContext('2d')!;
-      
-      centeredCanvas.width = STANDARD_WIDTH;
-      centeredCanvas.height = Math.max(canvas.height + 40, 900); // Add padding for consistency
-      
-      // Fill with white background
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
-      
-      // Force identical scaling for perfect width consistency
-      const FIXED_SCALE = 0.98; // Fixed scale ratio for all dashboards
-      const scaledWidth = STANDARD_CONTENT_WIDTH; // Force exact same width
-      const scaledHeight = canvas.height * FIXED_SCALE;
-      
-      // Force identical positioning for all tabs
-      const xOffset = (centeredCanvas.width - scaledWidth) / 2; // Perfect centering
-      const yOffset = STANDARD_MARGIN;
-      
-      // Draw content with forced consistent width (stretch to fit if needed)
-      ctx.drawImage(
-        canvas,
-        0, 0, canvas.width, canvas.height,
-        xOffset, yOffset, scaledWidth, scaledHeight
-      );
-
-      // Use the centered canvas for PDF
-      const finalCanvas = centeredCanvas;
+      // Simply use the original canvas without modification to preserve quality
+      const finalCanvas = canvas;
 
       // Add new page for subsequent tabs
       if (i > 0) pdf.addPage();
