@@ -27,24 +27,26 @@ export default function StandardMetricCard({
   const cardStyles = getMetricCardClasses(type);
   
   return (
-    <div className={`${cardStyles.container} ${cardStyles.border} border-l-4 ${className}`}>
-      <div className="flex items-start justify-between mb-4">
-        <h3 className={cardStyles.title}>{title}</h3>
-        {icon && <div className="text-gray-400 opacity-60">{icon}</div>}
+    <div className={`${SHADOWS.card} rounded-xl ${cardStyles.border} border-l-4 ${SPACING.card} ${className} hover:${SHADOWS.cardHover} transition-all duration-300`}>
+      <div className="flex items-start justify-between mb-6">
+        <h3 className={TYPOGRAPHY.cardTitle}>{title}</h3>
+        {icon && <div className="text-gray-400 opacity-70 p-2 bg-gray-50 rounded-lg">{icon}</div>}
       </div>
       
-      <div className="space-y-4">
+      <div className={SPACING.metricSpacing}>
         {/* Current Value Row */}
-        <div className="space-y-1">
-          <div className={cardStyles.value}>{currentValue}</div>
-          <div className={`${cardStyles.subtitle} uppercase tracking-wide`}>{currentLabel}</div>
+        <div className="space-y-2">
+          <div className={TYPOGRAPHY.metricMedium}>{currentValue}</div>
+          <div className={TYPOGRAPHY.overline}>{currentLabel}</div>
         </div>
         
         {/* Forecast Value Row */}
         {showForecast && forecastValue && forecastLabel && (
-          <div className="pt-3 border-t border-gray-100 space-y-1">
-            <div className={TYPOGRAPHY.metricSmall}>{forecastValue}</div>
-            <div className={`${cardStyles.subtitle} uppercase tracking-wide`}>{forecastLabel}</div>
+          <div className="pt-4 border-t border-gray-100 space-y-2">
+            <div className={TYPOGRAPHY.metricSmall} style={{ color: type === 'profit' ? '#4caf50' : type === 'revenue' ? '#1976d2' : type === 'cost' ? '#f44336' : '#6b7280' }}>
+              {forecastValue}
+            </div>
+            <div className={TYPOGRAPHY.overline}>{forecastLabel}</div>
           </div>
         )}
       </div>
