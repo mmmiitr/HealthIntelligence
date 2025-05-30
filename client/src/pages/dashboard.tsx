@@ -11,8 +11,7 @@ import FinanceDashboard from "@/components/diabetes/finance-dashboard-fixed";
 import OperationDashboard from "@/components/diabetes/operation-dashboard";
 import ClinicianDashboard from "@/components/diabetes/clinician-dashboard";
 import MockDataDashboard from "@/components/diabetes/mock-data-dashboard";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import { exportMultipleTabsToPDF } from "@/lib/pdf-utils";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("summary");
@@ -64,89 +63,19 @@ export default function Dashboard() {
   // PDF download handler for all tabs (except technical)
   const handleDownloadPDF = async () => {
     try {
-      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-      const tabsToInclude = ['summary', 'finance', 'operation', 'clinician'];
-      const currentTab = activeTab;
-      
-      for (let i = 0; i < tabsToInclude.length; i++) {
-        const tabId = tabsToInclude[i];
-        
-        // Switch to the tab to render its content
-        setActiveTab(tabId);
-        
-        // Wait for the tab to render and ensure all content is loaded
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        const activeElement = document.getElementById('dashboard-content');
-        if (!activeElement) {
-          console.error('Dashboard content not found');
-          continue;
-        }
+      const tabsToExport = [
+        { id: 'summary', label: 'Summary', captureScale: 1.5, waitTime: 1500 },
+        { id: 'finance', label: 'Finance', captureScale: 1.5, waitTime: 1500 },
+        { id: 'operation', label: 'Operations', captureScale: 1.2, waitTime: 2000 },
+        { id: 'clinician', label: 'Clinical', captureScale: 1.2, waitTime: 2000 }
+      ];
 
-        // Force layout calculation and ensure all content is visible
-        activeElement.style.minHeight = 'auto';
-        activeElement.style.height = 'auto';
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        // Calculate proper dimensions based on actual content
-        const elementWidth = Math.max(activeElement.scrollWidth, activeElement.offsetWidth, 1200);
-        const elementHeight = Math.max(activeElement.scrollHeight, activeElement.offsetHeight, 800);
-        
-        // Use different capture settings for longer tabs (Operation and Clinician)
-        const isLongTab = tabId === 'operation' || tabId === 'clinician';
-        const captureOptions = {
-          scale: isLongTab ? 1.2 : 1.5,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          width: elementWidth,
-          height: elementHeight,
-          windowWidth: 1400,
-          windowHeight: isLongTab ? elementHeight + 200 : 800,
-          scrollX: 0,
-          scrollY: 0
-        };
-        
-        const canvas = await html2canvas(activeElement, captureOptions);
-        
-        const imgData = canvas.toDataURL("image/png");
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        
-        // Add new page for subsequent tabs
-        if (i > 0) pdf.addPage();
-        
-        // Add page title
-        pdf.setFontSize(16);
-        pdf.setFont('helvetica', 'bold');
-        const tabName = tabs.find(tab => tab.id === tabId)?.label || tabId;
-        pdf.text(`${tabName} Dashboard`, pageWidth / 2, 30, { align: 'center' });
-        
-        // Calculate dimensions with space for title
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const margin = 30;
-        const titleSpace = 50;
-        const availableWidth = pageWidth - (margin * 2);
-        const availableHeight = pageHeight - (margin * 2) - titleSpace;
-        
-        // Consistent scaling and centering for all tabs
-        const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
-        const imgWidth = canvasWidth * ratio;
-        const imgHeight = canvasHeight * ratio;
-        
-        // Always center the content horizontally
-        const x = (pageWidth - imgWidth) / 2;
-        const y = titleSpace + margin;
-        
-        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-      }
-      
-      // Restore original tab
-      setActiveTab(currentTab);
-      
-      pdf.save(`diabetes-dashboard-complete-${new Date().toISOString().split('T')[0]}.pdf`);
-      
+      await exportMultipleTabsToPDF(
+        tabsToExport,
+        setActiveTab,
+        activeTab,
+        `diabetes-dashboard-complete-${new Date().toISOString().split('T')[0]}.pdf`
+      );
     } catch (error) {
       console.error('PDF generation failed:', error);
       alert('Failed to generate PDF. Please try again.');
