@@ -1,15 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart, ComposedChart } from "recharts";
-import { keyMetricsTrendsData } from "@/lib/mock-data";
+import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
+import SectionHeader from "@/components/common/SectionHeader";
+import { summaryKeyMetrics, summaryTrends } from "@/lib/summary-metrics-data";
+import { summarySectionData } from "@/lib/summary-section-data";
+import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Monitor, Shield } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles } from "@/lib/styles";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -18,12 +17,8 @@ interface SummaryDashboardProps {
 }
 
 export default function SummaryDashboard({ timeFilter, viewMode, showForecast }: SummaryDashboardProps) {
-  
-  const handleDownloadReport = () => {
-    window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
-  };
-
-
+  // Icon mapping for modular data
+  const iconMap = { DollarSign: <DollarSign className="h-4 w-4" />, UserCheck: <UserCheck className="h-4 w-4" />, Monitor: <Monitor className="h-4 w-4" />, Heart: <Heart className="h-4 w-4" /> };
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
@@ -41,64 +36,39 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Key Metrics with semantic colors
-  const keyMetrics = [
-    {
-      title: "Avg Revenue/Patient/Month",
-      currentValue: "$120",
-      forecastValue: showForecast ? "$128" : undefined,
-      currentLabel: labels.current,
-      forecastLabel: showForecast ? labels.forecast : undefined,
-      type: 'revenue' as const,
-      icon: <DollarSign className="h-4 w-4" />
-    },
-    {
-      title: "% Under CCM",
-      currentValue: "30%",
-      forecastValue: showForecast ? "32%" : undefined,
-      currentLabel: labels.current,
-      forecastLabel: showForecast ? labels.forecast : undefined,
-      type: 'neutral' as const,
-      icon: <UserCheck className="h-4 w-4" />
-    },
-    {
-      title: "% Telemedicine Visits",
-      currentValue: "30%",
-      forecastValue: showForecast ? "35%" : undefined,
-      currentLabel: labels.current,
-      forecastLabel: showForecast ? labels.forecast : undefined,
-      type: 'neutral' as const,
-      icon: <Monitor className="h-4 w-4" />
-    },
-    {
-      title: "Avg Cost/Patient/Month",
-      currentValue: "$85",
-      forecastValue: showForecast ? "$87" : undefined,
-      currentLabel: labels.current,
-      forecastLabel: showForecast ? labels.forecast : undefined,
-      type: 'cost' as const,
-      icon: <Heart className="h-4 w-4" />
-    },
-  ];
+  // Use modularized key metrics
+  // Fix type for StandardMetricCard: ensure type is correct
+  const keyMetrics = summaryKeyMetrics.map(metric => ({
+    ...metric,
+    icon: iconMap[metric.icon as keyof typeof iconMap],
+    type: metric.type as 'revenue' | 'neutral' | 'cost' | 'profit',
+    currentLabel: labels.current,
+    forecastLabel: showForecast ? labels.forecast : undefined,
+    forecastValue: showForecast ? metric.forecastValue : undefined,
+  }));
 
   return (
-    <div>
+    <DashboardContainer>
       {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Executive Summary</h2>
-        <p className="text-gray-600">
-          {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
-        </p>
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Executive Summary</h2>
+          <p className="text-gray-600">
+            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
+          </p>
+        </div>
+        {/* HIPAA sticker moved to header */}
+        {summarySectionData.hipaaCompliant && (
+          <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+            <Shield className="h-5 w-5 text-green-600" />
+            <span className="text-green-700 font-semibold text-sm">HIPAA Compliant</span>
+          </div>
+        )}
       </div>
 
       {/* Key Metrics */}
-      <div className="mb-8">
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Key Performance Indicators</h3>
-          <p className="text-gray-600">
-            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
-          </p>
-        </div>
+      <DashboardSection>
+        <SectionHeader title="Key Performance Indicators" timePeriod={viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} />
         <div className={styles.grid.cols4}>
           {keyMetrics.map((metric) => (
             <StandardMetricCard
@@ -114,16 +84,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
       {/* Critical Alerts */}
-      <div className="mb-8">
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Critical Alerts</h3>
-          <p className="text-gray-600">
-            Immediate attention required for these performance indicators
-          </p>
-        </div>
+      <DashboardSection>
+        <SectionHeader title="Critical Alerts" />
         <Card className="bg-gradient-to-r from-red-500 to-red-600 border-red-700 shadow-xl rounded-xl">
           <CardContent className="p-8">
             <div className="space-y-6">
@@ -156,15 +121,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </div>
           </CardContent>
         </Card>
-      </div>
+      </DashboardSection>
 
       {/* Trends Section */}
-      <div className="mb-8">
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Key Trends</h3>
-          <p className="text-gray-600">Historical performance and predictions</p>
-        </div>
-        
+      <DashboardSection>
+        <SectionHeader title="Key Trends" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* % In Control HbA1c Chart */}
           <Card className="bg-white rounded-lg shadow-md border border-gray-200">
@@ -173,56 +134,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={(() => {
-                  const getChartData = () => {
-                    if (viewMode === "monthly") {
-                      return showForecast ? [
-                        { month: 'Feb', value: 67, range: [67, 67] },
-                        { month: 'Mar', value: 69, range: [69, 69] },
-                        { month: 'Apr', value: 68, range: [68, 68] },
-                        { month: 'May', value: 70, range: [70, 70] },
-                        { month: 'Jun', value: 72, range: [69, 75] },
-                        { month: 'Jul', value: 74, range: [71, 77] },
-                        { month: 'Aug', value: 76, range: [73, 79] }
-                      ] : [
-                        { month: 'Jan', value: 65, range: [65, 65] },
-                        { month: 'Feb', value: 67, range: [67, 67] },
-                        { month: 'Mar', value: 69, range: [69, 69] },
-                        { month: 'Apr', value: 68, range: [68, 68] },
-                        { month: 'May', value: 70, range: [70, 70] }
-                      ];
-                    } else if (viewMode === "quarterly") {
-                      return showForecast ? [
-                        { month: 'Q4 2024', value: 66, range: [66, 66] },
-                        { month: 'Q1 2025', value: 68, range: [68, 68] },
-                        { month: 'Q2 2025', value: 70, range: [70, 70] },
-                        { month: 'Q3 2025', value: 73, range: [70, 76] },
-                        { month: 'Q4 2025', value: 75, range: [72, 78] }
-                      ] : [
-                        { month: 'Q2 2024', value: 64, range: [64, 64] },
-                        { month: 'Q3 2024', value: 65, range: [65, 65] },
-                        { month: 'Q4 2024', value: 66, range: [66, 66] },
-                        { month: 'Q1 2025', value: 68, range: [68, 68] },
-                        { month: 'Q2 2025', value: 70, range: [70, 70] }
-                      ];
-                    } else {
-                      return showForecast ? [
-                        { month: '2022', value: 62, range: [62, 62] },
-                        { month: '2023', value: 65, range: [65, 65] },
-                        { month: '2024', value: 68, range: [68, 68] },
-                        { month: '2025', value: 72, range: [69, 75] },
-                        { month: '2026', value: 75, range: [72, 78] }
-                      ] : [
-                        { month: '2020', value: 58, range: [58, 58] },
-                        { month: '2021', value: 60, range: [60, 60] },
-                        { month: '2022', value: 62, range: [62, 62] },
-                        { month: '2023', value: 65, range: [65, 65] },
-                        { month: '2024', value: 68, range: [68, 68] }
-                      ];
-                    }
-                  };
-                  return getChartData();
-                })()}>
+                <AreaChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
@@ -233,19 +145,15 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       return [value, name];
                     }}
                   />
-                  
                   {/* Confidence Band */}
-                  {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="range"
-                      stroke="none"
-                      fill="#1976d2"
-                      fillOpacity={0.2}
-                      connectNulls={false}
-                    />
-                  )}
-                  
+                  <Area
+                    type="monotone"
+                    dataKey="range"
+                    stroke="none"
+                    fill="#1976d2"
+                    fillOpacity={0.2}
+                    connectNulls={false}
+                  />
                   {/* Main trend line */}
                   <Line 
                     type="monotone" 
@@ -254,10 +162,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     strokeWidth={3}
                     connectNulls={false}
                     dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
-                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                   />
-                  
-                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>
@@ -270,15 +175,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={[
-                  { month: 'Jan', value: 25 },
-                  { month: 'Feb', value: 27 },
-                  { month: 'Mar', value: 28 },
-                  { month: 'Apr', value: 29 },
-                  { month: 'May', value: 30 },
-                  { month: 'Jun', value: showForecast ? 32 : null },
-                  { month: 'Jul', value: showForecast ? 34 : null }
-                ]}>
+                <LineChart data={summaryTrends.underCCM}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
@@ -289,9 +186,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     stroke="#4caf50" 
                     strokeWidth={3}
                     connectNulls={false}
-                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                   />
-                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -305,15 +200,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={[
-                { month: 'Jan', value: 9.2 },
-                { month: 'Feb', value: 8.8 },
-                { month: 'Mar', value: 8.5 },
-                { month: 'Apr', value: 8.1 },
-                { month: 'May', value: 8.0 },
-                { month: 'Jun', value: showForecast ? 7.5 : null },
-                { month: 'Jul', value: showForecast ? 7.2 : null }
-              ]}>
+              <LineChart data={summaryTrends.edVisit}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
@@ -324,15 +211,12 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                   stroke="#f44336" 
                   strokeWidth={3}
                   connectNulls={false}
-                  strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                 />
-                {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-      </div>
-
-    </div>
+      </DashboardSection>
+    </DashboardContainer>
   );
 }
