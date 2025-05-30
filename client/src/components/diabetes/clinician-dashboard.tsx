@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
+import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
+import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { styles } from "@/lib/styles";
-import { Activity, Heart, Users, TrendingUp, AlertTriangle } from "lucide-react";
-
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -70,22 +67,17 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
 
   return (
-    <div className="space-y-8">
+    <DashboardContainer>
       {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Clinical Overview</h2>
-        <p className="text-gray-600">
-          {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Clinical Performance Metrics
-        </p>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Clinical Dashboard</h2>
+        <p className="text-gray-600">Clinical performance and patient outcomes</p>
       </div>
 
-      {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with controlled HbA1c (&lt;7%) (Prediction)</h3>
-          <p className="text-gray-600">Clinical outcomes by care management status</p>
-        </div>
-        <div className={styles.grid.cols4}>
+      {/* Clinical Metrics (4-col grid) */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Clinical Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
             { 
               title: "CCM", 
@@ -130,22 +122,19 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               currentValue={metric.currentValue}
               forecastValue={metric.forecastValue}
               currentLabel={metric.currentLabel}
-              forecastLabel={metric.forecastLabel}
+              forecastLabel={showForecast ? metric.forecastLabel : undefined}
               showForecast={showForecast}
               type={metric.type}
               icon={metric.icon}
             />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
-      {/* 2. % of patients with recent HbA1c test (last 6 months) */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with recent HbA1c test (last 6 months)</h3>
-          <p className="text-gray-600">Testing compliance tracking by care management status</p>
-        </div>
-        <div className={styles.grid.cols4}>
+      {/* Compliance/Testing (2-col grid) */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Testing & Compliance</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             { 
               title: "CCM", 
@@ -190,22 +179,19 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               currentValue={metric.currentValue}
               forecastValue={metric.forecastValue}
               currentLabel={metric.currentLabel}
-              forecastLabel={metric.forecastLabel}
+              forecastLabel={showForecast ? metric.forecastLabel : undefined}
               showForecast={showForecast}
               type={metric.type}
               icon={metric.icon}
             />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
-      {/* 3. % of patients with hypertension control (<140/90) */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className={styles.heading.sectionTitle}>% of patients with hypertension control (&lt;140/90)</h3>
-          <p className={styles.heading.sectionSubtitle}>Blood pressure management by care status</p>
-        </div>
-        <div className={styles.grid.cols4}>
+      {/* Risk/Readmission (2-col grid) */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Risk & Readmission</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             { 
               title: "CCM", 
@@ -250,162 +236,22 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               currentValue={metric.currentValue}
               forecastValue={metric.forecastValue}
               currentLabel={metric.currentLabel}
-              forecastLabel={metric.forecastLabel}
+              forecastLabel={showForecast ? metric.forecastLabel : undefined}
               showForecast={showForecast}
               type={metric.type}
               icon={metric.icon}
             />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
-      {/* 4. % of patients with >2 co-morbidities */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className={styles.heading.sectionTitle}>% of patients with &gt;2 co-morbidities</h3>
-          <p className={styles.heading.sectionSubtitle}>Complex care management tracking</p>
+      {/* Key Trends (charts/tables) */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* ...charts/tables here... */}
         </div>
-        <div className={styles.grid.cols4}>
-          {[
-            { 
-              title: "CCM", 
-              currentValue: "34%", 
-              forecastValue: showForecast ? "36%" : undefined,
-              currentLabel: labels.current,
-              forecastLabel: showForecast ? labels.forecast : undefined,
-              type: 'cost' as const,
-              icon: <Activity className="h-4 w-4" />
-            },
-            { 
-              title: "Non CCM", 
-              currentValue: "28%", 
-              forecastValue: showForecast ? "29%" : undefined,
-              currentLabel: labels.current,
-              forecastLabel: showForecast ? labels.forecast : undefined,
-              type: 'neutral' as const,
-              icon: <Users className="h-4 w-4" />
-            },
-            { 
-              title: "Overall Rate", 
-              currentValue: "31%", 
-              forecastValue: showForecast ? "32%" : undefined,
-              currentLabel: labels.current,
-              forecastLabel: showForecast ? labels.forecast : undefined,
-              type: 'revenue' as const,
-              icon: <Heart className="h-4 w-4" />
-            },
-            { 
-              title: "Risk Threshold", 
-              currentValue: "25%", 
-              forecastValue: undefined,
-              currentLabel: "THRESHOLD",
-              forecastLabel: undefined,
-              type: 'neutral' as const,
-              icon: <AlertTriangle className="h-4 w-4" />
-            }
-          ].map((metric) => (
-            <StandardMetricCard
-              key={metric.title}
-              title={metric.title}
-              currentValue={metric.currentValue}
-              forecastValue={metric.forecastValue}
-              currentLabel={metric.currentLabel}
-              forecastLabel={metric.forecastLabel}
-              showForecast={showForecast}
-              type={metric.type}
-              icon={metric.icon}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* 5. % enrolled in DSME */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">% enrolled in DSME (Diabetes Self-Management Education)</h3>
-          <p className="text-gray-600">All patients diabetes education enrollment tracking</p>
-        </div>
-        <div className="grid grid-cols-1 gap-6">
-          <StandardMetricCard
-            title="All Patients"
-            currentValue="41%"
-            forecastValue={showForecast ? "43%" : undefined}
-            currentLabel={labels.current}
-            forecastLabel={showForecast ? labels.forecast : undefined}
-            showForecast={showForecast}
-            type="neutral"
-            icon={<Users className="h-4 w-4" />}
-          />
-        </div>
-      </div>
-
-      {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">30-Day ED Visit or Hospitalization</h3>
-          <p className="text-gray-600">Emergency department and hospitalization tracking (Prediction)</p>
-        </div>
-        <div className="grid grid-cols-1 gap-6">
-          <StandardMetricCard
-            title="All Patients"
-            currentValue="8%"
-            forecastValue={showForecast ? "7.5%" : undefined}
-            currentLabel={labels.current}
-            forecastLabel={showForecast ? labels.forecast : undefined}
-            showForecast={showForecast}
-            type="cost"
-            icon={<AlertTriangle className="h-4 w-4" />}
-          />
-        </div>
-      </div>
-
-      {/* 7. Top 5 patients with highest ED visits past quarter */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with highest ED visits (past quarter)</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <table className="table w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-right py-3 px-4 font-semibold text-gray-900"># ED Visits</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4 text-right">4</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4 text-right">3</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4 text-right">3</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4 text-right">2</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4 text-right">2</td></tr>
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 8. Top 5 patients with most inpatient LOS (length of stay) past quarter */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">Top 5 patients with most inpatient LOS (length of stay) (past quarter)</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <table className="table w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-right py-3 px-4 font-semibold text-gray-900">LOS (days)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4 text-right">12</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4 text-right">10</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4 text-right">9</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4 text-right">8</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4 text-right">7</td></tr>
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+      </DashboardSection>
+    </DashboardContainer>
   );
 }
