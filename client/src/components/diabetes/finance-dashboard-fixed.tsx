@@ -2,6 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, TrendingUp, TrendingDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
+import { TYPOGRAPHY, COLORS, SPACING, LAYOUT, SHADOWS, getGridClasses, getSectionClasses } from "@/lib/design-system";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -26,37 +28,34 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Financial Overview with consistent styling
+  // Financial Overview metrics using standardized design system
   const financialOverviewMetrics = [
     {
-      label: "Total Profit",
-      value: "$842.6K",
-      futureValue: showForecast ? "$895.2K" : undefined,
-      percentChange: showForecast ? "+6.2%" : undefined,
-      borderColor: "border-green-500",
-      bgColor: "bg-green-50",
-      textColor: "text-green-700",
-      icon: <DollarSign className="h-4 w-4 text-green-600" />
+      title: "Total Profit",
+      currentValue: "$842.6K",
+      forecastValue: showForecast ? "$895.2K" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'profit' as const,
+      icon: <DollarSign className="h-5 w-5" />
     },
     {
-      label: "Total Revenue",
-      value: "$1.2M",
-      futureValue: showForecast ? "$1.28M" : undefined,
-      percentChange: showForecast ? "+6.7%" : undefined,
-      borderColor: "border-blue-500",
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-700",
-      icon: <TrendingUp className="h-4 w-4 text-blue-600" />
+      title: "Total Revenue", 
+      currentValue: "$1.2M",
+      forecastValue: showForecast ? "$1.28M" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'revenue' as const,
+      icon: <TrendingUp className="h-5 w-5" />
     },
     {
-      label: "Total Expenses",
-      value: "$357.4K",
-      futureValue: showForecast ? "$384.8K" : undefined,
-      percentChange: showForecast ? "+7.7%" : undefined,
-      borderColor: "border-red-500",
-      bgColor: "bg-red-50",
-      textColor: "text-red-700",
-      icon: <TrendingDown className="h-4 w-4 text-red-600" />
+      title: "Total Expenses",
+      currentValue: "$357.4K", 
+      forecastValue: showForecast ? "$384.8K" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'cost' as const,
+      icon: <TrendingDown className="h-5 w-5" />
     },
   ];
 
