@@ -175,52 +175,35 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <ComposedChart data={[
-                  { month: 'Jan', value: 65, upper: null, lower: null },
-                  { month: 'Feb', value: 67, upper: null, lower: null },
-                  { month: 'Mar', value: 69, upper: null, lower: null },
-                  { month: 'Apr', value: 68, upper: null, lower: null },
-                  { month: 'May', value: 70, upper: null, lower: null },
-                  { month: 'Jun', value: showForecast ? 72 : null, upper: showForecast ? 75 : null, lower: showForecast ? 69 : null },
-                  { month: 'Jul', value: showForecast ? 74 : null, upper: showForecast ? 77 : null, lower: showForecast ? 71 : null }
+                <AreaChart data={[
+                  { month: 'Jan', value: 65, range: [65, 65] },
+                  { month: 'Feb', value: 67, range: [67, 67] },
+                  { month: 'Mar', value: 69, range: [69, 69] },
+                  { month: 'Apr', value: 68, range: [68, 68] },
+                  { month: 'May', value: 70, range: [70, 70] },
+                  { month: 'Jun', value: showForecast ? 72 : null, range: showForecast ? [69, 75] : [70, 70] },
+                  { month: 'Jul', value: showForecast ? 74 : null, range: showForecast ? [71, 77] : [70, 70] }
                 ]}>
-                  <defs>
-                    <linearGradient id="confidenceBand" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#1976d2" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#1976d2" stopOpacity={0.1}/>
-                    </linearGradient>
-                  </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === 'value') return [`${value}%`, 'HbA1c Control'];
-                      if (name === 'upper') return [`${value}%`, 'Upper 95% CI'];
-                      if (name === 'lower') return [`${value}%`, 'Lower 95% CI'];
+                      if (name === 'range') return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
                       return [value, name];
                     }}
                   />
                   
-                  {/* Confidence Band - Only show when forecast is enabled */}
+                  {/* Confidence Band */}
                   {showForecast && (
                     <Area
                       type="monotone"
-                      dataKey="upper"
+                      dataKey="range"
                       stroke="none"
-                      fill="url(#confidenceBand)"
+                      fill="#1976d2"
+                      fillOpacity={0.2}
                       connectNulls={false}
-                      name="Upper CI"
-                    />
-                  )}
-                  {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="lower"
-                      stroke="none"
-                      fill="#ffffff"
-                      connectNulls={false}
-                      name="Lower CI"
                     />
                   )}
                   
@@ -232,12 +215,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     strokeWidth={3}
                     connectNulls={false}
                     dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
-                    strokeDasharray={showForecast ? "0" : "0"}
-                    name="HbA1c Control"
+                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                   />
                   
                   {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
-                </ComposedChart>
+                </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
