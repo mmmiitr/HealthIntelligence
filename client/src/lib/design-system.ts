@@ -2,31 +2,37 @@
 // Consistent styling, typography, colors, and spacing
 
 export const TYPOGRAPHY = {
-  // Headers
-  h1: "text-3xl font-bold text-gray-900 leading-tight",
-  h2: "text-2xl font-bold text-gray-900 leading-tight", 
-  h3: "text-xl font-semibold text-gray-900 leading-tight",
-  h4: "text-lg font-semibold text-gray-900 leading-tight",
-  h5: "text-base font-semibold text-gray-900 leading-tight",
+  // Headers - More professional with better contrast
+  h1: "text-4xl font-bold text-gray-900 leading-tight tracking-tight",
+  h2: "text-3xl font-bold text-gray-900 leading-tight tracking-tight", 
+  h3: "text-2xl font-bold text-gray-900 leading-tight tracking-tight",
+  h4: "text-xl font-semibold text-gray-900 leading-tight",
+  h5: "text-lg font-semibold text-gray-900 leading-tight",
   
-  // Body text
-  body: "text-sm text-gray-700 leading-relaxed",
-  bodyLarge: "text-base text-gray-700 leading-relaxed",
-  bodySmall: "text-xs text-gray-600 leading-relaxed",
+  // Body text - Better readability
+  body: "text-sm text-gray-700 leading-6",
+  bodyLarge: "text-base text-gray-700 leading-6",
+  bodySmall: "text-xs text-gray-600 leading-5",
   
-  // Labels and captions
-  label: "text-sm font-medium text-gray-600",
-  caption: "text-xs text-gray-500",
-  overline: "text-xs font-medium text-gray-500 uppercase tracking-wide",
+  // Labels and captions - More professional
+  label: "text-sm font-semibold text-gray-700 tracking-wide",
+  caption: "text-xs text-gray-500 leading-4",
+  overline: "text-xs font-bold text-gray-500 uppercase tracking-widest",
   
-  // Values and metrics
-  metricLarge: "text-3xl font-bold text-gray-900",
-  metricMedium: "text-2xl font-bold text-gray-900",
-  metricSmall: "text-lg font-semibold text-gray-900",
+  // Values and metrics - More impact
+  metricLarge: "text-4xl font-bold text-gray-900 tracking-tight",
+  metricMedium: "text-3xl font-bold text-gray-900 tracking-tight",
+  metricSmall: "text-2xl font-bold text-gray-900 tracking-tight",
   
   // Emphasis
-  emphasis: "font-semibold text-gray-900",
+  emphasis: "font-bold text-gray-900",
   muted: "text-gray-500",
+  
+  // New professional variants
+  cardTitle: "text-lg font-bold text-gray-900 tracking-tight",
+  cardSubtitle: "text-sm text-gray-600 leading-5",
+  sectionTitle: "text-2xl font-bold text-gray-900 tracking-tight mb-2",
+  sectionSubtitle: "text-base text-gray-600 leading-6",
 };
 
 export const COLORS = {
@@ -70,21 +76,28 @@ export const COLORS = {
 };
 
 export const SPACING = {
-  // Card padding
-  card: "p-6",
-  cardSmall: "p-4",
-  cardLarge: "p-8",
+  // Card padding - More generous for professional look
+  card: "p-8",
+  cardSmall: "p-6",
+  cardLarge: "p-10",
+  cardContent: "p-6",
   
-  // Margins and gaps
-  section: "mb-8",
-  subsection: "mb-6", 
-  item: "mb-4",
-  small: "mb-2",
+  // Margins and gaps - Better visual separation
+  section: "mb-12",
+  subsection: "mb-8", 
+  item: "mb-6",
+  small: "mb-4",
+  tiny: "mb-2",
   
-  // Grid gaps
-  gridGap: "gap-6",
-  gridGapSmall: "gap-4",
-  gridGapLarge: "gap-8",
+  // Grid gaps - More breathing room
+  gridGap: "gap-8",
+  gridGapSmall: "gap-6",
+  gridGapLarge: "gap-10",
+  
+  // Internal spacing
+  cardHeader: "mb-6",
+  cardBody: "space-y-4",
+  metricSpacing: "space-y-6",
 };
 
 export const LAYOUT = {
@@ -106,9 +119,11 @@ export const LAYOUT = {
 };
 
 export const SHADOWS = {
-  card: "shadow-sm border border-gray-200",
-  cardHover: "shadow-md border border-gray-300",
+  card: "shadow-lg border border-gray-200 bg-white",
+  cardHover: "shadow-xl border border-gray-300 bg-white transform transition-all duration-200",
+  cardSubtle: "shadow-sm border border-gray-100 bg-white",
   none: "shadow-none",
+  elevated: "shadow-2xl border border-gray-200 bg-white",
 };
 
 export const CHARTS = {
