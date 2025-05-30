@@ -158,8 +158,10 @@ export default function Dashboard() {
         </Card>
         
         {/* Active Tab Content */}
-        <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {renderActiveTab()}
+        <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+          <div className="inline-block text-left w-full">
+            {renderActiveTab()}
+          </div>
         </div>
       </div>
 
