@@ -84,15 +84,30 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <Card className={styles.card.base}>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={revenueData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
+              <LineChart data={revenueData.slice(0, 8)} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="month" 
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => value.split(' ')[0]}
+                />
+                <YAxis 
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => `$${(value/1000000).toFixed(1)}M`}
+                />
+                <Tooltip 
+                  formatter={(value: any) => [`$${(value/1000000).toFixed(2)}M`, '']}
+                  labelFormatter={(label: string) => `Month: ${label}`}
+                />
                 <Legend />
-                <Line type="monotone" dataKey="revenue" stroke={chartColors.primary} strokeWidth={3} />
-                <Line type="monotone" dataKey="costs" stroke={chartColors.danger} strokeWidth={3} />
-                <Line type="monotone" dataKey="profit" stroke={chartColors.success} strokeWidth={3} />
+                <Line 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#1976d2" 
+                  strokeWidth={3}
+                  name="Revenue"
+                  connectNulls={false}
+                />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -105,21 +120,30 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <Card className={styles.card.base}>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <Pie
-                  data={revenueSourcesData}
+                  data={[
+                    { name: 'Medicare', value: 420, color: '#1976d2' },
+                    { name: 'Medicaid', value: 180, color: '#4caf50' },
+                    { name: 'Commercial', value: 290, color: '#ff9800' },
+                    { name: 'Cash Pay', value: 85, color: '#f44336' }
+                  ]}
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
-                  fill="#8884d8"
+                  outerRadius={80}
                   dataKey="value"
                   label={({ name, value }) => `${name}: $${value}K`}
                 >
-                  {revenueSourcesData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                  {[
+                    { name: 'Medicare', value: 420, color: '#1976d2' },
+                    { name: 'Medicaid', value: 180, color: '#4caf50' },
+                    { name: 'Commercial', value: 290, color: '#ff9800' },
+                    { name: 'Cash Pay', value: 85, color: '#f44336' }
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip formatter={(value) => [`$${value}K`, '']} />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
