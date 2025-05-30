@@ -130,64 +130,47 @@ export const exportMultipleTabsToPDF = async (
       // Additional wait for layout stabilization
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Create a centered container for consistent PDF capture
-      const pdfContainer = document.createElement('div');
-      pdfContainer.style.cssText = `
-        width: 1200px;
-        min-height: 800px;
-        margin: 0 auto;
-        padding: 40px;
-        background-color: #ffffff;
-        position: fixed;
-        top: -20000px;
-        left: 50%;
-        transform: translateX(-50%);
-        overflow: visible;
-        box-sizing: border-box;
-        z-index: 9999;
-      `;
-      
-      // Create inner content wrapper
-      const contentWrapper = document.createElement('div');
-      contentWrapper.style.cssText = `
-        width: 100%;
-        max-width: 1120px;
-        margin: 0 auto;
-        text-align: center;
-      `;
-      
-      // Clone and prepare content
-      const clonedContent = element.cloneNode(true) as HTMLElement;
-      clonedContent.style.cssText = `
-        width: 100%;
-        display: inline-block;
-        text-align: left;
-        vertical-align: top;
-      `;
-      
-      contentWrapper.appendChild(clonedContent);
-      pdfContainer.appendChild(contentWrapper);
-      document.body.appendChild(pdfContainer);
-      
-      // Wait for layout stabilization
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      const canvas = await html2canvas(pdfContainer, {
+      // Direct capture with forced centering using canvas manipulation
+      const canvas = await html2canvas(element, {
         scale: 1.3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        width: 1200,
-        height: pdfContainer.scrollHeight,
+        width: Math.max(element.scrollWidth, 1200),
+        height: element.scrollHeight,
         windowWidth: 1400,
-        windowHeight: pdfContainer.scrollHeight + 100,
+        windowHeight: element.scrollHeight + 200,
         scrollX: 0,
         scrollY: 0,
         logging: false
       });
 
-      // Clean up
-      document.body.removeChild(pdfContainer);
+      // Create a new centered canvas with consistent dimensions
+      const centeredCanvas = document.createElement('canvas');
+      const ctx = centeredCanvas.getContext('2d')!;
+      
+      // Set standard dimensions for all tabs
+      centeredCanvas.width = 1200;
+      centeredCanvas.height = Math.max(canvas.height, 800);
+      
+      // Fill with white background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
+      
+      // Calculate centering position
+      const sourceWidth = Math.min(canvas.width, 1120); // Max content width
+      const xOffset = (centeredCanvas.width - sourceWidth) / 2;
+      const yOffset = 40; // Top margin
+      
+      // Draw the original canvas content centered on the new canvas
+      ctx.drawImage(
+        canvas,
+        0, 0, sourceWidth, canvas.height, // Source dimensions
+        xOffset, yOffset, sourceWidth, canvas.height // Destination dimensions
+      );
+
+      // Use the centered canvas for PDF
+      const finalCanvas = centeredCanvas;
 
       // Add new page for subsequent tabs
       if (i > 0) pdf.addPage();
@@ -201,18 +184,18 @@ export const exportMultipleTabsToPDF = async (
       const availableWidth = pageWidth - (MARGIN * 2);
       const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
       
-      const scaleX = availableWidth / canvas.width;
-      const scaleY = availableHeight / canvas.height;
+      const scaleX = availableWidth / finalCanvas.width;
+      const scaleY = availableHeight / finalCanvas.height;
       const scale = Math.min(scaleX, scaleY, 1);
       
-      const scaledWidth = canvas.width * scale;
-      const scaledHeight = canvas.height * scale;
+      const scaledWidth = finalCanvas.width * scale;
+      const scaledHeight = finalCanvas.height * scale;
       
       // Always center horizontally
       const x = (pageWidth - scaledWidth) / 2;
       const y = CONTENT_START_Y;
 
-      const imgData = canvas.toDataURL("image/png", 0.95);
+      const imgData = finalCanvas.toDataURL("image/png", 0.95);
       pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
     }
 
