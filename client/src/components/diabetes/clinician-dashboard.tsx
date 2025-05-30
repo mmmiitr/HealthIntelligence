@@ -237,15 +237,27 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
       {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">30-Day ED Visit or Hospitalization <span className="text-xs text-gray-500">(Prediction)</span></h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization <span className="text-xs text-gray-500">(Prediction)</span></h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="All Patients" value="8%" borderColor="border-purple-500" />
+          <Card className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+            <CardContent className="p-6">
+              <div className="flex items-center mb-3">
+                <span className="font-medium text-gray-700 text-sm">All Patients</span>
+              </div>
+              <div className="space-y-3">
+                <div className="bg-purple-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
+                  <p className="text-2xl font-bold text-purple-700">8%</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
       {/* 7. Top 5 patients with highest ED visits past quarter */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Top 5 patients with highest ED visits (past quarter)</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with highest ED visits (past quarter)</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
             <table className="table w-full">
