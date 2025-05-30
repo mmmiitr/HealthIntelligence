@@ -103,17 +103,21 @@ export default function Dashboard() {
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
         
-        // Calculate aspect ratio to fit content properly
+        // Calculate aspect ratio to fit content properly with margins
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
-        const ratio = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+        const margin = 40; // Add margins for better readability
+        const availableWidth = pageWidth - (margin * 2);
+        const availableHeight = pageHeight - (margin * 2);
+        
+        const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
         
         const imgWidth = canvasWidth * ratio;
         const imgHeight = canvasHeight * ratio;
         
-        // Center the image on the page
+        // Center the image on the page with margins
         const x = (pageWidth - imgWidth) / 2;
-        const y = (pageHeight - imgHeight) / 2;
+        const y = margin;
         
         // Add new page for subsequent tabs
         if (i > 0) pdf.addPage();
