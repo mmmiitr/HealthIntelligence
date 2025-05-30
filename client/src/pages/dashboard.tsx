@@ -85,9 +85,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-4">
                 <Heart className="h-8 w-8 text-blue-600" />
@@ -130,20 +130,20 @@ export default function Dashboard() {
       </header>
       
       {/* Tabs Navigation */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        <Card className="mb-8 bg-white shadow-lg border border-gray-200">
-          <CardContent className="p-8">
-            <div className="flex space-x-2 rounded-xl bg-gray-100 p-2">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+        <Card className="mb-6 bg-white shadow-md border border-gray-200">
+          <CardContent className="p-4">
+            <div className="flex space-x-1 rounded-lg bg-gray-100 p-1">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
                   <Button
                     key={tab.id}
-                    size="lg"
+                    size="sm"
                     variant={activeTab === tab.id ? "default" : "ghost"}
-                    className={`flex-1 justify-center space-x-3 py-4 px-6 rounded-lg transition-all duration-200 ${
+                    className={`flex-1 justify-center space-x-2 py-3 px-4 rounded-md transition-all duration-200 ${
                       activeTab === tab.id
-                        ? "bg-blue-600 shadow-lg text-white hover:bg-blue-700"
+                        ? "bg-blue-600 shadow-md text-white hover:bg-blue-700"
                         : "text-gray-700 hover:text-gray-900 hover:bg-white"
                     }`}
                     onClick={() => setActiveTab(tab.id)}
@@ -158,7 +158,7 @@ export default function Dashboard() {
         </Card>
         
         {/* Active Tab Content */}
-        <div id="dashboard-content" className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+        <div id="dashboard-content" className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
           <div className="w-full">
             {renderActiveTab()}
           </div>
