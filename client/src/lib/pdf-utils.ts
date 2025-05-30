@@ -183,6 +183,26 @@ export const exportMultipleTabsToPDF = async (
             sections.forEach((section: any) => {
               section.style.gap = '1rem';
             });
+            
+            // Optimize card layouts for better space utilization
+            const cards = clonedElement.querySelectorAll('.bg-white, .border');
+            cards.forEach((card: any) => {
+              card.style.padding = '12px';
+              card.style.margin = '4px 0';
+            });
+            
+            // Optimize table layouts
+            const tables = clonedElement.querySelectorAll('table');
+            tables.forEach((table: any) => {
+              table.style.fontSize = '11px';
+              table.style.lineHeight = '1.3';
+            });
+            
+            // Compress content containers
+            const containers = clonedElement.querySelectorAll('.p-6, .p-8');
+            containers.forEach((container: any) => {
+              container.style.padding = '8px';
+            });
           }
         }
       });
