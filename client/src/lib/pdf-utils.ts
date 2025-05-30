@@ -158,6 +158,23 @@ export const exportMultipleTabsToPDF = async (
             clonedElement.style.padding = '24px';
             clonedElement.style.margin = '0 auto';
             clonedElement.style.boxSizing = 'border-box';
+            
+            // Force all grids to show as desktop layout regardless of screen size
+            const grids = clonedElement.querySelectorAll('.grid');
+            grids.forEach((grid: any) => {
+              if (grid.className.includes('grid-cols-1') && grid.className.includes('md:grid-cols-2')) {
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = '1fr 1fr';
+                grid.style.gap = '1rem';
+                grid.style.width = '100%';
+              }
+              if (grid.className.includes('grid-cols-1') && grid.className.includes('lg:grid-cols-4')) {
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
+                grid.style.gap = '1rem';
+                grid.style.width = '100%';
+              }
+            });
           }
         }
       });
