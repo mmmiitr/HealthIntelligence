@@ -67,7 +67,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
       {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
         <h3 className="dashboard-section-title">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-gray-500">(Prediction)</span></h3>
