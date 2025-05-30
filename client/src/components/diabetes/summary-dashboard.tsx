@@ -84,13 +84,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   return (
     <div>
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Executive Summary</h2>
-            <p className="text-gray-600 text-lg">Comprehensive diabetes care management overview</p>
-          </div>
-        </div>
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Executive Summary</h2>
+        <p className="text-gray-600">
+          {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
+        </p>
       </div>
 
       {/* Key Metrics */}
