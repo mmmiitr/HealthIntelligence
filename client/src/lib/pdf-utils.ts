@@ -136,13 +136,13 @@ export const exportMultipleTabsToPDF = async (
       const actualWidth = Math.max(element.scrollWidth, element.offsetWidth, 1200);
       const actualHeight = Math.max(element.scrollHeight, element.offsetHeight);
       
-      // Direct capture with improved settings for all tabs
+      // Direct capture with forced standardization for all tabs
       const canvas = await html2canvas(element, {
-        scale: 1.2,
+        scale: 1.0,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        width: actualWidth,
+        width: 1200,
         height: actualHeight,
         windowWidth: 1400,
         windowHeight: Math.max(actualHeight + 200, 1000),
@@ -150,12 +150,22 @@ export const exportMultipleTabsToPDF = async (
         scrollY: 0,
         logging: false,
         onclone: (clonedDoc) => {
-          // Ensure consistent styling in cloned document
+          // Force identical layout for all dashboard types
           const clonedElement = clonedDoc.getElementById('dashboard-content');
           if (clonedElement) {
+            clonedElement.style.width = '1200px';
             clonedElement.style.maxWidth = '1200px';
+            clonedElement.style.minWidth = '1200px';
             clonedElement.style.margin = '0 auto';
             clonedElement.style.padding = '24px';
+            clonedElement.style.boxSizing = 'border-box';
+            
+            // Force consistent grid layouts
+            const grids = clonedElement.querySelectorAll('[class*="grid"], [class*="cols"]');
+            grids.forEach((grid: any) => {
+              grid.style.width = '100%';
+              grid.style.maxWidth = '1152px'; // 1200 - 48px padding
+            });
           }
         }
       });
@@ -184,7 +194,7 @@ export const exportMultipleTabsToPDF = async (
       const xOffset = (centeredCanvas.width - scaledWidth) / 2; // Perfect centering
       const yOffset = STANDARD_MARGIN;
       
-      // Draw the uniformly scaled and centered content
+      // Draw content with forced consistent width (stretch to fit if needed)
       ctx.drawImage(
         canvas,
         0, 0, canvas.width, canvas.height,
