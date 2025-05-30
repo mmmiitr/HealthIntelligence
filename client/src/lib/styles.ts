@@ -1,22 +1,22 @@
 // Professional Design System - DRY and reusable
 export const styles = {
-  // Layout sections with proper spacing
-  section: "mb-12",
-  sectionTight: "mb-8", 
+  // Layout sections with optimized spacing
+  section: "mb-6",
+  sectionTight: "mb-4", 
   grid: {
-    cols2: "grid grid-cols-1 md:grid-cols-2 gap-8",
-    cols3: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8", 
-    cols4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+    cols2: "grid grid-cols-1 md:grid-cols-2 gap-4",
+    cols3: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", 
+    cols4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
   },
   
   // Professional Typography
   heading: {
-    h1: "text-4xl font-bold text-gray-900 tracking-tight mb-4",
-    h2: "text-3xl font-bold text-gray-900 mb-3 tracking-tight",
-    h3: "text-2xl font-bold text-gray-900 mb-6 tracking-tight",
-    subtitle: "text-lg text-gray-600 leading-relaxed",
-    sectionTitle: "text-2xl font-bold text-gray-900 mb-2",
-    sectionSubtitle: "text-base text-gray-600 mb-6"
+    h1: "text-3xl font-bold text-gray-900 tracking-tight mb-3",
+    h2: "text-2xl font-bold text-gray-900 mb-2 tracking-tight",
+    h3: "text-xl font-bold text-gray-900 mb-4 tracking-tight",
+    subtitle: "text-base text-gray-600 leading-relaxed",
+    sectionTitle: "text-xl font-bold text-gray-900 mb-1",
+    sectionSubtitle: "text-sm text-gray-600 mb-4"
   },
   
   // Professional Cards with proper spacing
