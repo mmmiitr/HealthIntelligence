@@ -86,50 +86,28 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 lg:px-6">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* First Row: Title and Controls */}
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Heart className="h-6 w-6 text-blue-600" />
-              <h1 className="text-lg font-bold text-gray-900">Diabetes Care Dashboard</h1>
-              
-              {/* Navigation Tabs in Header */}
-              <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg ml-4">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <Button
-                      key={tab.id}
-                      size="sm"
-                      variant={activeTab === tab.id ? "default" : "ghost"}
-                      className={`justify-center space-x-1 py-1 px-2 rounded-md transition-all duration-200 ${
-                        activeTab === tab.id
-                          ? "bg-blue-600 shadow-md text-white hover:bg-blue-700"
-                          : "text-gray-700 hover:text-gray-900 hover:bg-white"
-                      }`}
-                      onClick={() => setActiveTab(tab.id)}
-                    >
-                      <Icon className="h-3 w-3" />
-                      <span className="font-medium text-xs">{tab.label}</span>
-                    </Button>
-                  );
-                })}
-              </div>
+            <div className="flex items-center space-x-4">
+              <Heart className="h-8 w-8 text-blue-600" />
+              <h1 className="text-2xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center space-x-2 bg-gray-100 px-3 py-1 rounded-lg">
-                <label htmlFor="global-forecast-toggle" className="text-xs font-semibold text-gray-700">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 bg-gray-100 px-4 py-2 rounded-lg">
+                <label htmlFor="global-forecast-toggle" className="text-sm font-semibold text-gray-700">
                   Forecast
                 </label>
                 <Switch
                   id="global-forecast-toggle"
                   checked={showForecast}
                   onCheckedChange={setShowForecast}
-                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300"
+                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 border-2 border-gray-300"
                 />
               </div>
               <Select value={viewMode} onValueChange={setViewMode}>
-                <SelectTrigger className="w-28 h-8 text-xs font-medium bg-white border-2 border-gray-300 hover:border-blue-500 focus:border-blue-600 shadow-sm">
-                  <SelectValue placeholder="View" />
+                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-300 hover:border-blue-500 focus:border-blue-600 shadow-sm">
+                  <SelectValue placeholder="View Mode" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="monthly">Monthly</SelectItem>
@@ -138,13 +116,38 @@ export default function Dashboard() {
                 </SelectContent>
               </Select>
               <Button
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 text-xs font-semibold flex items-center space-x-2 shadow-lg whitespace-nowrap"
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-semibold flex items-center space-x-3 shadow-lg"
                 onClick={handleDownloadPDF}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
-                <span>Download PDF</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
+                <span>Download Report (PDF)</span>
               </Button>
+            </div>
+          </div>
+          
+          {/* Second Row: Navigation Tabs */}
+          <div className="flex justify-center py-3 border-t border-gray-100">
+            <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <Button
+                    key={tab.id}
+                    size="sm"
+                    variant={activeTab === tab.id ? "default" : "ghost"}
+                    className={`justify-center space-x-2 py-3 px-6 rounded-md transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? "bg-blue-600 shadow-md text-white hover:bg-blue-700"
+                        : "text-gray-700 hover:text-gray-900 hover:bg-white"
+                    }`}
+                    onClick={() => setActiveTab(tab.id)}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="font-semibold text-sm">{tab.label}</span>
+                  </Button>
+                );
+              })}
             </div>
           </div>
         </div>
