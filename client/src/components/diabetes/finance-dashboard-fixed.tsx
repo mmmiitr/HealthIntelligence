@@ -66,39 +66,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       {/* Financial Overview */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={getGridClasses(3)}>
           {financialOverviewMetrics.map((metric) => (
-            <Card key={metric.label} className={`bg-white shadow-sm rounded-lg border-l-4 ${metric.borderColor}`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  {metric.icon}
-                  <span className="font-medium text-gray-700 text-sm ml-2">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className={`${metric.bgColor} rounded-lg p-3`}>
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className={`text-2xl font-bold ${metric.textColor}`}>
-                      {metric.value}
-                    </p>
-                  </div>
-                  
-                  {showForecast && metric.futureValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.percentChange} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
