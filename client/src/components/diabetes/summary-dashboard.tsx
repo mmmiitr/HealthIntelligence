@@ -8,9 +8,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import { TYPOGRAPHY, COLORS, SPACING, LAYOUT, SHADOWS, getGridClasses, getSectionClasses } from "@/lib/design-system";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -42,35 +41,43 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Key Metrics with consistent colors
+  // Data-driven metric configs for Key Metrics with semantic colors
   const keyMetrics = [
     {
-      label: "Avg Revenue/Patient/Month",
-      value: "$120",
-      futureValue: showForecast ? "$128" : undefined,
-      percentChange: showForecast ? "+6.7%" : undefined,
-      borderColor: "border-blue-500"
+      title: "Avg Revenue/Patient/Month",
+      currentValue: "$120",
+      forecastValue: showForecast ? "$128" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'revenue' as const,
+      icon: <DollarSign className="h-4 w-4" />
     },
     {
-      label: "% Under CCM",
-      value: "30%",
-      futureValue: showForecast ? "32%" : undefined,
-      percentChange: showForecast ? "+2%" : undefined,
-      borderColor: "border-blue-500"
+      title: "% Under CCM",
+      currentValue: "30%",
+      forecastValue: showForecast ? "32%" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'neutral' as const,
+      icon: <UserCheck className="h-4 w-4" />
     },
     {
-      label: "% Telemedicine Visits",
-      value: "30%",
-      futureValue: showForecast ? "35%" : undefined,
-      percentChange: showForecast ? "+5%" : undefined,
-      borderColor: "border-blue-500"
+      title: "% Telemedicine Visits",
+      currentValue: "30%",
+      forecastValue: showForecast ? "35%" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'neutral' as const,
+      icon: <Monitor className="h-4 w-4" />
     },
     {
-      label: "Avg Cost/Patient/Month",
-      value: "$85",
-      futureValue: showForecast ? "$87" : undefined,
-      percentChange: showForecast ? "+2.4%" : undefined,
-      borderColor: "border-blue-500"
+      title: "Avg Cost/Patient/Month",
+      currentValue: "$85",
+      forecastValue: showForecast ? "$87" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'cost' as const,
+      icon: <Heart className="h-4 w-4" />
     },
   ];
 
@@ -92,40 +99,19 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       {/* Key Metrics */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className={getGridClasses(4)}>
           {keyMetrics.map((metric) => (
-            <Card key={metric.label} className="bg-white shadow-sm rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  {/* Current Value */}
-                  <div className="bg-blue-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className="text-2xl font-bold text-blue-700">
-                      {metric.value}
-                    </p>
-                  </div>
-                  
-                  {/* Forecast Value */}
-                  {showForecast && metric.futureValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.percentChange} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
       </div>
