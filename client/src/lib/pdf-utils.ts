@@ -130,64 +130,64 @@ export const exportMultipleTabsToPDF = async (
       // Additional wait for layout stabilization
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Create a standardized wrapper for consistent capture
-      const wrapper = document.createElement('div');
-      wrapper.style.cssText = `
+      // Create a centered container for consistent PDF capture
+      const pdfContainer = document.createElement('div');
+      pdfContainer.style.cssText = `
         width: 1200px;
+        min-height: 800px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 40px;
         background-color: #ffffff;
-        position: absolute;
-        top: -10000px;
-        left: 0;
+        position: fixed;
+        top: -20000px;
+        left: 50%;
+        transform: translateX(-50%);
         overflow: visible;
         box-sizing: border-box;
+        z-index: 9999;
       `;
       
-      // Clone the element content with all styles preserved
-      const clonedElement = element.cloneNode(true) as HTMLElement;
-      clonedElement.style.cssText = `
+      // Create inner content wrapper
+      const contentWrapper = document.createElement('div');
+      contentWrapper.style.cssText = `
         width: 100%;
-        max-width: 1160px;
+        max-width: 1120px;
         margin: 0 auto;
-        display: block;
-        box-sizing: border-box;
+        text-align: center;
       `;
       
-      wrapper.appendChild(clonedElement);
-      document.body.appendChild(wrapper);
+      // Clone and prepare content
+      const clonedContent = element.cloneNode(true) as HTMLElement;
+      clonedContent.style.cssText = `
+        width: 100%;
+        display: inline-block;
+        text-align: left;
+        vertical-align: top;
+      `;
       
-      // Force layout calculation
-      await new Promise(resolve => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(resolve);
-        });
-      });
+      contentWrapper.appendChild(clonedContent);
+      pdfContainer.appendChild(contentWrapper);
+      document.body.appendChild(pdfContainer);
+      
+      // Wait for layout stabilization
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      const canvas = await html2canvas(wrapper, {
-        scale: 1.2,
+      const canvas = await html2canvas(pdfContainer, {
+        scale: 1.3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         width: 1200,
-        height: wrapper.scrollHeight,
+        height: pdfContainer.scrollHeight,
         windowWidth: 1400,
-        windowHeight: wrapper.scrollHeight + 200,
+        windowHeight: pdfContainer.scrollHeight + 100,
         scrollX: 0,
         scrollY: 0,
-        logging: false,
-        onclone: (clonedDoc) => {
-          // Ensure all styles are properly applied in the cloned document
-          const clonedWrapper = clonedDoc.querySelector('[data-html2canvas-ignore]') as HTMLElement;
-          if (clonedWrapper) {
-            clonedWrapper.style.position = 'static';
-            clonedWrapper.style.top = 'auto';
-          }
-        }
+        logging: false
       });
 
       // Clean up
-      document.body.removeChild(wrapper);
+      document.body.removeChild(pdfContainer);
 
       // Add new page for subsequent tabs
       if (i > 0) pdf.addPage();
