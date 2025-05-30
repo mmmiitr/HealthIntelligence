@@ -89,7 +89,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   ];
 
   return (
-    <div id="summary-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-start">
@@ -105,18 +105,41 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {keyMetrics.map((metric) => (
-            <MetricCard
-              key={metric.label}
-              className="metric-card"
-              title={metric.label}
-              value={metric.value}
-              futureValue={metric.futureValue}
-              percentChange={metric.percentChange}
-              borderColor={metric.borderColor}
-            />
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                
+                <div className="space-y-3">
+                  {/* Current Value */}
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className="text-2xl font-bold text-blue-700">
+                      {metric.value}
+                    </p>
+                  </div>
+                  
+                  {/* Forecast Value */}
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">
+                        {metric.percentChange} vs current
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

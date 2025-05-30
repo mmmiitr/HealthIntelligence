@@ -74,7 +74,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   };
 
   return (
-    <div id="finance-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
       <div className="flex justify-end mb-4">
         <button
           onClick={handleExportPDF}
@@ -85,18 +85,48 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       </div>
       {/* Financial Overview */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {financialOverviewMetrics.map((metric) => (
-            <MetricCard
-              key={metric.label}
-              className="metric-card"
-              title={metric.label}
-              value={metric.value}
-              futureValue={metric.futureValue}
-              percentChange={metric.percentChange}
-              borderColor={metric.borderColor}
-            />
+            <Card key={metric.label} className={`bg-white shadow-sm rounded-lg border-l-4 ${
+              metric.type === "profit" ? "border-green-500" : 
+              metric.type === "revenue" ? "border-blue-500" : 
+              "border-red-500"
+            }`}>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  {metric.icon}
+                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className={`bg-${metric.type === "profit" ? "green" : metric.type === "revenue" ? "blue" : "red"}-50 rounded-lg p-3`}>
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className={`text-2xl font-bold ${
+                      metric.type === "profit" ? "text-green-700" : 
+                      metric.type === "revenue" ? "text-blue-700" : 
+                      "text-red-700"
+                    }`}>
+                      {metric.currentValue}
+                    </p>
+                  </div>
+                  
+                  {showForecast && metric.forecastValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">
+                        {metric.change} vs current
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
