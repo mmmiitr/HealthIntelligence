@@ -70,24 +70,12 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
       {/* Patient Metrics (now immediately after Patient Wait Time) */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">No-show rate</span>
-                <span className="text-2xl font-extrabold text-red-600">12%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">% of telemedicine visits</span>
-                <span className="text-2xl font-extrabold text-blue-600">30%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">% of patients with assigned PCP/endocrinologist</span>
-                <span className="text-2xl font-extrabold text-green-600">92%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <MetricCard className="metric-card" title="No-show rate" value="12%" futureValue={showForecast ? "13%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-red-500" />
+          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" futureValue={showForecast ? "35%" : undefined} percentChange={showForecast ? "+5%" : undefined} borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="% with assigned PCP/endocrinologist" value="92%" futureValue={showForecast ? "94%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="Avg care manager time/patient" value="35 min" futureValue={showForecast ? "36 min" : undefined} percentChange={showForecast ? "+1 min" : undefined} borderColor="border-blue-500" />
+        </div>
       </div>
 
       {/* Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
@@ -197,17 +185,17 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Wait time for new appointment</span><span className="text-2xl font-extrabold text-blue-600">7 days</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Time to third next available appointment</span><span className="text-2xl font-extrabold text_green-600">12 days</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">No show rate</span><span className="text-2xl font-extrabold text-red-600">12%</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">% of telemedicine visits</span><span className="text-2xl font-extrabold text-blue-600">30%</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">% of patients with assigned PCP/endocrinologist</span><span className="text-2xl font-extrabold text-green-600">92%</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Time per visit (new vs. follow-up)</span><span className="text-2xl font-extrabold text-gray-900">40 min / 25 min</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Care manager utilization</span><span className="text-2xl font-extrabold text-blue-600">85%</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Physician utilization</span><span className="text-2xl font-extrabold text-blue-600">90%</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Number of Care Managers</span><span className="text-2xl font-extrabold text-green-600">6</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Number of Physicians with active panel</span><span className="text-2xl font-extrabold text-blue-600">8</span></CardContent></Card>
-          <Card className="bg-white border border-gray-200 shadow-none rounded-xl"><CardContent className="p-8 flex flex-col items-end"><span className="text-base text-gray-600 self-start mb-2">Average care manager time per patient</span><span className="text-2xl font-extrabold text-blue-600">35 min</span></CardContent></Card>
+          <MetricCard className="metric-card" title="Wait time for new appointment" value="7 days" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="Time to third next available appointment" value="12 days" borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="No show rate" value="12%" borderColor="border-red-500" />
+          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="% of patients with assigned PCP/endocrinologist" value="92%" borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="Time per visit (new vs. follow-up)" value="40 min / 25 min" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="Care manager utilization" value="85%" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="Physician utilization" value="90%" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="Number of Care Managers" value="6" borderColor="border-green-500" />
+          <MetricCard className="metric-card" title="Number of Physicians with active panel" value="8" borderColor="border-blue-500" />
+          <MetricCard className="metric-card" title="Average care manager time per patient" value="35 min" borderColor="border-blue-500" />
         </div>
       </div>
     </div>

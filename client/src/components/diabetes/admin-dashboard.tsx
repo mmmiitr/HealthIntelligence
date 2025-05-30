@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DollarSign, Users, Bed, TrendingUp, Shield, Brain, Calendar, Heart, Clock, UserCheck, AlertTriangle } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Area, AreaChart, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { populationMetricsData, financialMetricsData, providerWorkloadData, predictionsData, revenueData, patientFlowData, revenueByInsuranceData, serviceUtilizationData } from "@/lib/mock-data";
+import { MetricCard } from "@/components/ui/metric-card";
 
 interface AdminDashboardProps {
   timeFilter: string;
@@ -86,155 +87,32 @@ export default function AdminDashboard({ timeFilter }: AdminDashboardProps) {
       </div>
 
       {/* Key Metrics Banner */}
-      <Card className="bg-blue-50 border-blue-200 shadow-md">
-        <CardContent className="p-6">
-          <h3 className="text-xl font-semibold text-blue-900 mb-4">Key Metrics</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-green-700">${totalProfit.toLocaleString()}</p>
-              <p className="text-sm text-gray-600">Total Profit</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-blue-700">{latestPopulationData?.inControlHbA1c}%</p>
-              <p className="text-sm text-gray-600">In-Control HbA1c</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-purple-700">{latestPopulationData?.ccmEnrolled}%</p>
-              <p className="text-sm text-gray-600">CCM Enrollment</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-orange-700">{latestPopulationData?.readmissionRate}%</p>
-              <p className="text-sm text-gray-600">30-Day Readmission</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <MetricCard className="metric-card" title="Total Profit" value={`$${totalProfit.toLocaleString()}`} subtext="Revenue - Costs" borderColor="border-green-500" />
+        <MetricCard className="metric-card" title="In-Control HbA1c" value={`${latestPopulationData?.inControlHbA1c}%`} futureValue={showForecast ? `${Number(latestPopulationData?.inControlHbA1c) + 2}%` : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-blue-500" />
+        <MetricCard className="metric-card" title="CCM Enrollment" value={`${latestPopulationData?.ccmEnrolled}%`} futureValue={showForecast ? `${Number(latestPopulationData?.ccmEnrolled) + 2}%` : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+        <MetricCard className="metric-card" title="30-Day Readmission" value={`${latestPopulationData?.readmissionRate}%`} futureValue={showForecast ? `${Number(latestPopulationData?.readmissionRate) - 1}%` : undefined} percentChange={showForecast ? "-1%" : undefined} borderColor="border-orange-500" />
+      </div>
 
       {/* Profitability Overview */}
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">Profitability Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-white border-l-4 border-green-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600" title="Reflects revenue minus costs for diabetic patients">Total Profit</p>
-                    <p className="text-2xl font-bold text-green-900">${totalProfit.toLocaleString()}</p>
-                    <p className="text-xs text-gray-500">Revenue - Costs</p>
-                  </div>
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <TrendingUp className="text-green-600" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                    <p className="text-2xl font-bold text-blue-900">${currentTotalRevenue.toLocaleString()}</p>
-                  </div>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <DollarSign className="text-blue-600" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-purple-500">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600" title="Supports Chronic Care Management (CCM), the most common program for chronic care. Other programs can be supported.">% Enrolled in CCM</p>
-                    <p className="text-2xl font-bold text-purple-900">{latestPopulationData?.ccmEnrolled}%</p>
-                  </div>
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Heart className="text-purple-600" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <MetricCard className="metric-card" title="Total Profit" value={`$${totalProfit.toLocaleString()}`} borderColor="border-green-500" />
+        <MetricCard className="metric-card" title="Total Revenue" value={`$${currentTotalRevenue.toLocaleString()}`} borderColor="border-blue-500" />
+        <MetricCard className="metric-card" title="% Enrolled in CCM" value={`${latestPopulationData?.ccmEnrolled}%`} borderColor="border-purple-500" />
+      </div>
 
       {/* Population Metrics */}
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">Population Metrics</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            <Card className="bg-white border-l-4 border-blue-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600"># Chronic Patients</p>
-                <p className="text-xl font-bold text-blue-900">{latestPopulationData?.chronicPatients}</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-white border-l-4 border-green-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600"># New Patients</p>
-                <p className="text-xl font-bold text-green-900">{latestPopulationData?.newPatients}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-green-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600" title="Patients with HbA1c less than 7%">% HbA1c (&lt;7%)</p>
-                <p className="text-xl font-bold text-green-900">{latestPopulationData?.inControlHbA1c}%</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-red-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600" title="High readmission rates may indicate care gaps">30-Day Readmission</p>
-                <p className="text-xl font-bold text-red-900">{latestPopulationData?.readmissionRate}%</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-red-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600" title="Missed appointments impact care continuity">% No-Show Appts</p>
-                <p className="text-xl font-bold text-orange-900">{latestPopulationData?.noShowRate}%</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-blue-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600">Avg Visits/Month</p>
-                <p className="text-xl font-bold text-blue-900">{latestPopulationData?.avgVisits}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-green-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600" title="Virtual care adoption rate">% Telemedicine</p>
-                <p className="text-xl font-bold text-green-900">{latestPopulationData?.telemedicineVisits}%</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-red-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600" title="Patients requiring intensive monitoring">% High-Risk</p>
-                <p className="text-xl font-bold text-red-900">{latestPopulationData?.highRisk}%</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-l-4 border-purple-500">
-              <CardContent className="p-4">
-                <p className="text-sm font-medium text-gray-600">CCM Revenue/Patient</p>
-                <p className="text-xl font-bold text-purple-900">${latestPopulationData?.ccmRevenue}</p>
-              </CardContent>
-            </Card>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+        <MetricCard className="metric-card" title="# Chronic Patients" value={`${latestPopulationData?.chronicPatients}`} borderColor="border-blue-500" />
+        <MetricCard className="metric-card" title="# New Patients" value={`${latestPopulationData?.newPatients}`} borderColor="border-green-500" />
+        <MetricCard className="metric-card" title="% HbA1c (<7%)" value={`${latestPopulationData?.inControlHbA1c}%`} borderColor="border-green-500" />
+        <MetricCard className="metric-card" title="30-Day Readmission" value={`${latestPopulationData?.readmissionRate}%`} borderColor="border-red-500" />
+        <MetricCard className="metric-card" title="% No-Show Appts" value={`${latestPopulationData?.noShowRate}%`} borderColor="border-orange-500" />
+        <MetricCard className="metric-card" title="Avg Visits/Month" value={`${latestPopulationData?.avgVisits}`} borderColor="border-blue-500" />
+        <MetricCard className="metric-card" title="% Telemedicine" value={`${latestPopulationData?.telemedicineVisits}%`} borderColor="border-green-500" />
+        <MetricCard className="metric-card" title="% High-Risk" value={`${latestPopulationData?.highRisk}%`} borderColor="border-red-500" />
+        <MetricCard className="metric-card" title="CCM Revenue/Patient" value={`$${latestPopulationData?.ccmRevenue}`} borderColor="border-purple-500" />
+      </div>
 
       {/* Financial Metrics */}
       <Card className="shadow-md">

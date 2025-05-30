@@ -8,6 +8,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
+import { MetricCard } from "@/components/ui/metric-card";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -40,36 +41,32 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   // Data-driven metric configs for Key Metrics with consistent colors
   const keyMetrics = [
     {
-      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
       label: "Avg Revenue/Patient/Month",
-      currentValue: "$120",
-      forecastValue: showForecast ? "$128" : null,
-      color: "blue", // revenue = blue
-      type: "revenue"
+      value: "$120",
+      futureValue: showForecast ? "$128" : undefined,
+      percentChange: showForecast ? "+6.7%" : undefined,
+      borderColor: "border-blue-500"
     },
     {
-      icon: <Users className="h-5 w-5 text-blue-600" />,
       label: "% Under CCM",
-      currentValue: "30%",
-      forecastValue: showForecast ? "32%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
+      value: "30%",
+      futureValue: showForecast ? "32%" : undefined,
+      percentChange: showForecast ? "+2%" : undefined,
+      borderColor: "border-blue-300"
     },
     {
-      icon: <Monitor className="h-5 w-5 text-blue-600" />,
       label: "% Telemedicine Visits",
-      currentValue: "30%",
-      forecastValue: showForecast ? "35%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
+      value: "30%",
+      futureValue: showForecast ? "35%" : undefined,
+      percentChange: showForecast ? "+5%" : undefined,
+      borderColor: "border-blue-300"
     },
     {
-      icon: <DollarSign className="h-5 w-5 text-red-600" />,
       label: "Avg Cost/Patient/Month",
-      currentValue: "$85",
-      forecastValue: showForecast ? "$87" : null,
-      color: "red", // cost = red
-      type: "cost"
+      value: "$85",
+      futureValue: showForecast ? "$87" : undefined,
+      percentChange: showForecast ? "+2.4%" : undefined,
+      borderColor: "border-red-500"
     },
   ];
 
@@ -92,48 +89,16 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {keyMetrics.map((metric, idx) => (
-            <Card key={metric.label} className={`bg-white shadow-none rounded-xl border-l-4 ${
-              metric.type === "revenue" ? "border-blue-500" : 
-              metric.type === "cost" ? "border-red-500" : 
-              "border-blue-300"
-            }`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  {metric.icon}
-                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  {/* Current Value */}
-                  <div className={`bg-${metric.type === "revenue" ? "blue" : metric.type === "cost" ? "red" : "blue"}-50 rounded-lg p-3`}>
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className={`text-2xl font-bold ${
-                      metric.type === "revenue" ? "text-blue-700" : 
-                      metric.type === "cost" ? "text-red-700" : 
-                      "text-blue-700"
-                    }`}>
-                      {metric.currentValue}
-                    </p>
-                  </div>
-                  
-                  {/* Forecast Value */}
-                  {showForecast && metric.forecastValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.type === "cost" ? "↑ 2.4%" : "↑ 6.7%"} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+          {keyMetrics.map((metric) => (
+            <MetricCard
+              key={metric.label}
+              className="metric-card"
+              title={metric.label}
+              value={metric.value}
+              futureValue={metric.futureValue}
+              percentChange={metric.percentChange}
+              borderColor={metric.borderColor}
+            />
           ))}
         </div>
       </div>
