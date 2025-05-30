@@ -7,8 +7,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { revenueData, revenueByInsuranceData, payerRevenueTrends, revenueSourcesData, predictionsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -61,21 +60,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
     },
   ];
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("finance-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("FinanceDashboard.pdf");
-  };
+
 
   return (
     <div>
@@ -119,7 +104,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               currentLabel={labels.current}
               forecastLabel={labels.forecast}
               showForecast={showForecast}
-              type="revenue" as const
+              type="revenue"
             />
           </div>
 
