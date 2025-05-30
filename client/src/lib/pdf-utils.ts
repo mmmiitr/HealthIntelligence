@@ -162,8 +162,34 @@ export const exportMultipleTabsToPDF = async (
         }
       });
 
-      // Simply use the original canvas without modification to preserve quality
-      const finalCanvas = canvas;
+      // Create a standardized canvas to ensure consistent width for all dashboards
+      const standardCanvas = document.createElement('canvas');
+      const ctx = standardCanvas.getContext('2d')!;
+      
+      // Set consistent dimensions for all pages
+      const TARGET_WIDTH = 1200;
+      const TARGET_HEIGHT = Math.max(canvas.height, 800);
+      
+      standardCanvas.width = TARGET_WIDTH;
+      standardCanvas.height = TARGET_HEIGHT;
+      
+      // Fill with white background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, standardCanvas.width, standardCanvas.height);
+      
+      // Scale and center the content to fit consistently
+      const scale = Math.min(TARGET_WIDTH / canvas.width, 1);
+      const scaledWidth = canvas.width * scale;
+      const scaledHeight = canvas.height * scale;
+      
+      // Center horizontally
+      const x = (TARGET_WIDTH - scaledWidth) / 2;
+      const y = 0;
+      
+      // Draw the original canvas onto the standardized canvas
+      ctx.drawImage(canvas, x, y, scaledWidth, scaledHeight);
+      
+      const finalCanvas = standardCanvas;
 
       // Add new page for subsequent tabs
       if (i > 0) pdf.addPage();
@@ -178,19 +204,19 @@ export const exportMultipleTabsToPDF = async (
       const availableWidth = pageWidth - (PDF_MARGIN * 2);
       const availableHeight = pageHeight - CONTENT_START_Y - PDF_MARGIN;
       
-      const scaleX = availableWidth / finalCanvas.width;
-      const scaleY = availableHeight / finalCanvas.height;
-      const scale = Math.min(scaleX, scaleY, 1);
+      const pdfScaleX = availableWidth / finalCanvas.width;
+      const pdfScaleY = availableHeight / finalCanvas.height;
+      const pdfScale = Math.min(pdfScaleX, pdfScaleY, 1);
       
-      const pdfScaledWidth = finalCanvas.width * scale;
-      const pdfScaledHeight = finalCanvas.height * scale;
+      const pdfScaledWidth = finalCanvas.width * pdfScale;
+      const pdfScaledHeight = finalCanvas.height * pdfScale;
       
       // Always center horizontally
-      const x = (pageWidth - pdfScaledWidth) / 2;
-      const y = CONTENT_START_Y;
+      const pdfX = (pageWidth - pdfScaledWidth) / 2;
+      const pdfY = CONTENT_START_Y;
 
       const imgData = finalCanvas.toDataURL("image/png", 0.95);
-      pdf.addImage(imgData, "PNG", x, y, pdfScaledWidth, pdfScaledHeight);
+      pdf.addImage(imgData, "PNG", pdfX, pdfY, pdfScaledWidth, pdfScaledHeight);
     }
 
     // Restore original tab
