@@ -26,27 +26,45 @@ export default function StandardMetricCard({
 }: StandardMetricCardProps) {
   const cardStyles = getMetricCardClasses(type);
   
+  const getBorderColor = (type: string) => {
+    switch(type) {
+      case 'profit': return 'border-l-green-500';
+      case 'revenue': return 'border-l-blue-500';
+      case 'cost': return 'border-l-red-500';
+      default: return 'border-l-gray-400';
+    }
+  };
+
+  const getValueColor = (type: string) => {
+    switch(type) {
+      case 'profit': return 'text-green-700';
+      case 'revenue': return 'text-blue-700';
+      case 'cost': return 'text-red-700';
+      default: return 'text-gray-900';
+    }
+  };
+
   return (
-    <div className={`${SHADOWS.card} rounded-xl ${cardStyles.border} border-l-4 ${SPACING.card} ${className} hover:${SHADOWS.cardHover} transition-all duration-300`}>
-      <div className="flex items-start justify-between mb-6">
-        <h3 className={TYPOGRAPHY.cardTitle}>{title}</h3>
-        {icon && <div className="text-gray-400 opacity-70 p-2 bg-gray-50 rounded-lg">{icon}</div>}
+    <div className={`bg-white rounded-lg shadow-lg border border-gray-200 ${getBorderColor(type)} border-l-4 p-6 hover:shadow-xl transition-all duration-300 ${className}`}>
+      <div className="flex items-start justify-between mb-4">
+        <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+        {icon && <div className="text-gray-400 p-2 bg-gray-50 rounded-lg">{icon}</div>}
       </div>
       
-      <div className={SPACING.metricSpacing}>
+      <div className="space-y-4">
         {/* Current Value Row */}
         <div className="space-y-2">
-          <div className={TYPOGRAPHY.metricMedium}>{currentValue}</div>
-          <div className={TYPOGRAPHY.overline}>{currentLabel}</div>
+          <div className={`text-3xl font-bold ${getValueColor(type)}`}>{currentValue}</div>
+          <div className="text-xs font-bold text-gray-500 uppercase tracking-widest">{currentLabel}</div>
         </div>
         
         {/* Forecast Value Row */}
         {showForecast && forecastValue && forecastLabel && (
-          <div className="pt-4 border-t border-gray-100 space-y-2">
-            <div className={TYPOGRAPHY.metricSmall} style={{ color: type === 'profit' ? '#4caf50' : type === 'revenue' ? '#1976d2' : type === 'cost' ? '#f44336' : '#6b7280' }}>
+          <div className="pt-3 border-t border-gray-200 space-y-2">
+            <div className={`text-xl font-bold ${getValueColor(type)}`}>
               {forecastValue}
             </div>
-            <div className={TYPOGRAPHY.overline}>{forecastLabel}</div>
+            <div className="text-xs font-bold text-gray-500 uppercase tracking-widest">{forecastLabel}</div>
           </div>
         )}
       </div>
