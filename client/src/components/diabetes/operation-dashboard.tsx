@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Bed, UserCheck, Heart, Clock, Calendar as CalendarIcon } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
-import { MetricCard } from "@/components/ui/metric-card";
+
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
