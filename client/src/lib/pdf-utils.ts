@@ -172,14 +172,14 @@ export const exportMultipleTabsToPDF = async (
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, centeredCanvas.width, centeredCanvas.height);
       
-      // Calculate optimal scaling and centering
-      const contentMaxWidth = 1120; // Leave margins
+      // Calculate optimal scaling and centering with minimal margins
+      const contentMaxWidth = 1160; // Reduce margins for better width consistency
       const scaleToFit = Math.min(contentMaxWidth / canvas.width, 1);
       const canvasScaledWidth = canvas.width * scaleToFit;
       const canvasScaledHeight = canvas.height * scaleToFit;
       
-      const xOffset = (centeredCanvas.width - canvasScaledWidth) / 2;
-      const yOffset = 20; // Consistent top margin
+      const xOffset = Math.max((centeredCanvas.width - canvasScaledWidth) / 2, 20); // Minimum 20px margin
+      const yOffset = 15; // Reduced top margin
       
       // Draw the scaled and centered content
       ctx.drawImage(
@@ -199,9 +199,10 @@ export const exportMultipleTabsToPDF = async (
       pdf.setFont('helvetica', 'bold');
       pdf.text(`${tab.label} Dashboard`, pageWidth / 2, 35, { align: 'center' });
 
-      // Calculate scaling to fit within PDF page
-      const availableWidth = pageWidth - (MARGIN * 2);
-      const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
+      // Calculate scaling to fit within PDF page with reduced margins
+      const PDF_MARGIN = 25; // Reduced margin for better width utilization
+      const availableWidth = pageWidth - (PDF_MARGIN * 2);
+      const availableHeight = pageHeight - CONTENT_START_Y - PDF_MARGIN;
       
       const scaleX = availableWidth / finalCanvas.width;
       const scaleY = availableHeight / finalCanvas.height;
