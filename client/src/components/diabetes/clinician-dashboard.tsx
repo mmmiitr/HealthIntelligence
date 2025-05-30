@@ -70,45 +70,168 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
     <div>
       {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-gray-500">(Prediction)</span></h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-gray-500">(Prediction)</span></h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="CCM" value="68%" futureValue={showForecast ? "70%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
-          <MetricCard className="metric-card" title="Non CCM" value="62%" futureValue={showForecast ? "64%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+          {[
+            { label: "CCM", value: "68%", futureValue: showForecast ? "70%" : undefined, percentChange: showForecast ? "+2%" : undefined },
+            { label: "Non CCM", value: "62%", futureValue: showForecast ? "64%" : undefined, percentChange: showForecast ? "+2%" : undefined }
+          ].map((metric) => (
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
+                  </div>
+                  
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
       {/* 2. % of patients with recent HbA1c test (last 6 months) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">% of patients with recent HbA1c test (last 6 months)</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with recent HbA1c test (last 6 months)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="CCM" value="91%" futureValue={showForecast ? "92%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
-          <MetricCard className="metric-card" title="Non CCM" value="85%" futureValue={showForecast ? "86%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
+          {[
+            { label: "CCM", value: "91%", futureValue: showForecast ? "92%" : undefined, percentChange: showForecast ? "+1%" : undefined },
+            { label: "Non CCM", value: "85%", futureValue: showForecast ? "86%" : undefined, percentChange: showForecast ? "+1%" : undefined }
+          ].map((metric) => (
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
+                  </div>
+                  
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
       {/* 3. % of patients with hypertension control (<140/90) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">% of patients with hypertension control (&lt;140/90)</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with hypertension control (&lt;140/90)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="CCM" value="77%" futureValue={showForecast ? "80%" : undefined} percentChange={showForecast ? "+3%" : undefined} borderColor="border-purple-500" />
-          <MetricCard className="metric-card" title="Non CCM" value="70%" futureValue={showForecast ? "72%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+          {[
+            { label: "CCM", value: "77%", futureValue: showForecast ? "80%" : undefined, percentChange: showForecast ? "+3%" : undefined },
+            { label: "Non CCM", value: "70%", futureValue: showForecast ? "72%" : undefined, percentChange: showForecast ? "+2%" : undefined }
+          ].map((metric) => (
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
+                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
+                  </div>
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
       {/* 4. % of patients with >2 co-morbidities */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">% of patients with &gt;2 co-morbidities</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with &gt;2 co-morbidities</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="CCM" value="34%" futureValue={showForecast ? "36%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
-          <MetricCard className="metric-card" title="Non CCM" value="28%" futureValue={showForecast ? "29%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
+          {[
+            { label: "CCM", value: "34%", futureValue: showForecast ? "36%" : undefined, percentChange: showForecast ? "+2%" : undefined },
+            { label: "Non CCM", value: "28%", futureValue: showForecast ? "29%" : undefined, percentChange: showForecast ? "+1%" : undefined }
+          ].map((metric) => (
+            <Card key={metric.label} className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.label}</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
+                    <p className="text-2xl font-bold text-purple-700">{metric.value}</p>
+                  </div>
+                  {showForecast && metric.futureValue && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                      <p className="text-lg font-bold text-gray-900">{metric.futureValue}</p>
+                      <p className="text-xs text-gray-600 mt-1">{metric.percentChange} vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 
       {/* 5. % enrolled in DSME */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">% enrolled in DSME (Diabetes Self-Management Education)</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% enrolled in DSME (Diabetes Self-Management Education)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <MetricCard className="metric-card" title="All Patients" value="41%" futureValue={showForecast ? "43%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+          <Card className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
+            <CardContent className="p-6">
+              <div className="flex items-center mb-3">
+                <span className="font-medium text-gray-700 text-sm">All Patients</span>
+              </div>
+              <div className="space-y-3">
+                <div className="bg-purple-50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
+                  <p className="text-2xl font-bold text-purple-700">41%</p>
+                </div>
+                {showForecast && (
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
+                    <p className="text-lg font-bold text-gray-900">43%</p>
+                    <p className="text-xs text-gray-600 mt-1">+2% vs current</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
