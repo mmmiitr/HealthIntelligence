@@ -160,21 +160,35 @@ export const exportMultipleTabsToPDF = async (
             clonedElement.style.padding = '24px';
             clonedElement.style.boxSizing = 'border-box';
             
-            // Force all content to use full width
-            const allDivs = clonedElement.querySelectorAll('div');
-            allDivs.forEach((div: any) => {
-              if (div.className && (div.className.includes('grid') || div.className.includes('cols') || div.className.includes('section'))) {
-                div.style.width = '100%';
-                div.style.maxWidth = '1152px';
-                div.style.minWidth = '1152px';
+            // Force all content to use full width with more aggressive targeting
+            const allElements = clonedElement.querySelectorAll('*');
+            allElements.forEach((el: any) => {
+              const className = el.className || '';
+              if (className.includes('grid') || className.includes('cols') || className.includes('section') || 
+                  className.includes('space-y') || className.includes('mb-') || className.includes('container')) {
+                el.style.width = '100%';
+                el.style.maxWidth = '1152px';
+                el.style.minWidth = '1152px';
+                el.style.margin = '0 auto';
+              }
+              
+              // Specifically fix cols2 grids which are used in Clinician dashboard
+              if (className.includes('cols-2') || className.includes('grid-cols-2')) {
+                el.style.display = 'grid';
+                el.style.gridTemplateColumns = '1fr 1fr';
+                el.style.gap = '1.5rem';
+                el.style.width = '100%';
+                el.style.maxWidth = '1152px';
               }
             });
             
-            // Specifically target cards and containers
-            const cards = clonedElement.querySelectorAll('[class*="card"], [class*="container"]');
-            cards.forEach((card: any) => {
-              card.style.width = '100%';
-            });
+            // Force the main content wrapper to be consistent
+            const mainDiv = clonedElement.querySelector('.space-y-8');
+            if (mainDiv) {
+              (mainDiv as any).style.width = '100%';
+              (mainDiv as any).style.maxWidth = '1152px';
+              (mainDiv as any).style.margin = '0 auto';
+            }
           }
         }
       });
