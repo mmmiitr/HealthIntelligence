@@ -63,6 +63,14 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const chartColors = ['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'];
 
+  // Create proper insurance breakdown data
+  const insuranceBreakdownData = [
+    { name: 'Medicare', value: 450000, percentage: '45%' },
+    { name: 'Commercial', value: 350000, percentage: '35%' },
+    { name: 'Medicaid', value: 150000, percentage: '15%' },
+    { name: 'Self-Pay', value: 50000, percentage: '5%' }
+  ];
+
   return (
     <div>
       {/* Financial Overview */}
@@ -192,7 +200,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={revenueSourcesData}
+                    data={insuranceBreakdownData}
                     cx="50%"
                     cy="50%"
                     outerRadius={100}
@@ -200,7 +208,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     dataKey="value"
                     label={(entry) => `${entry.name}: ${entry.percentage}`}
                   >
-                    {revenueSourcesData.map((entry, index) => (
+                    {insuranceBreakdownData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                     ))}
                   </Pie>
@@ -224,7 +232,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             <CardContent className="p-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Insurance Breakdown</h4>
               <div className="space-y-4">
-                {revenueSourcesData.map((item, index) => (
+                {insuranceBreakdownData.map((item, index) => (
                   <div key={item.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div 
