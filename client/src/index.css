@@ -1,15 +1,19 @@
-/* Removed all Tailwind-specific directives and @layer base. Replaced with standard CSS for base styles and utility classes. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --primary: #1976d2;
-  --secondary: #4caf50;
-  --accent: #ff9800;
-  --danger: #ef5350;
-  --info: #64b5f6;
-  --purple: #9c27b0;
-  --border: #e5e7eb;
-  --background: #fff;
-  --foreground: #111827;
+@layer base {
+  :root {
+    --primary: #1976d2;
+    --secondary: #4caf50;
+    --accent: #ff9800;
+    --danger: #ef5350;
+    --info: #64b5f6;
+    --purple: #9c27b0;
+    --border: #e5e7eb;
+    --background: #fff;
+    --foreground: #111827;
+  }
 }
 
 body {

@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, TrendingUp, Shield, Brain, AlertTriangle, Calculator, Building, Users, Heart, Stethoscope, Wrench } from "lucide-react";
+import { DollarSign, TrendingUp, TrendingDown, Shield, Brain, AlertTriangle, Calculator, Building, Users, Heart, Stethoscope, Wrench } from "lucide-react";
+import DashboardMetricCard from "@/components/common/DashboardMetricCard";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine, Area, AreaChart } from "recharts";
 import { revenueData, revenueByInsuranceData, payerRevenueTrends, revenueSourcesData, predictionsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
-import { MetricCard } from "@/components/ui/metric-card";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
+
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -35,67 +35,51 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   // Data-driven metric configs for Financial Overview with consistent styling
   const financialOverviewMetrics = [
     {
-      label: "Profit",
-      value: "$842.6K",
-      futureValue: showForecast ? "$895.2K" : undefined,
-      percentChange: showForecast ? "+6.2%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Profit",
+      currentValue: "$842.6K",
+      forecastValue: showForecast ? "$895.2K" : undefined,
+      change: showForecast ? "+6.2%" : undefined,
+      type: "profit" as const,
+      icon: <DollarSign className="h-4 w-4 text-green-600" />
     },
     {
-      label: "Revenue",
-      value: "$1.2M",
-      futureValue: showForecast ? "$1.28M" : undefined,
-      percentChange: showForecast ? "+6.7%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Revenue",
+      currentValue: "$1.2M",
+      forecastValue: showForecast ? "$1.28M" : undefined,
+      change: showForecast ? "+6.7%" : undefined,
+      type: "revenue" as const,
+      icon: <TrendingUp className="h-4 w-4 text-blue-600" />
     },
     {
-      label: "Expenses",
-      value: "$357.4K",
-      futureValue: showForecast ? "$384.8K" : undefined,
-      percentChange: showForecast ? "+7.7%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Expenses",
+      currentValue: "$357.4K",
+      forecastValue: showForecast ? "$384.8K" : undefined,
+      change: showForecast ? "+7.7%" : undefined,
+      type: "cost" as const,
+      icon: <TrendingDown className="h-4 w-4 text-red-600" />
     },
   ];
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("finance-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("FinanceDashboard.pdf");
-  };
+
 
   return (
-    <div id="finance-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
-      </div>
+    <div>
       {/* Financial Overview */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {financialOverviewMetrics.map((metric) => (
-            <MetricCard
+            <DashboardMetricCard
               key={metric.label}
-              className="metric-card"
-              title={metric.label}
-              value={metric.value}
-              futureValue={metric.futureValue}
-              percentChange={metric.percentChange}
-              borderColor={metric.borderColor}
+              label={metric.label}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              percentChange={metric.change}
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
             />
           ))}
         </div>
@@ -103,7 +87,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Revenue Analysis Section (Row 2) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title flex items-center">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
           <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
           Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
         </h3>
@@ -112,13 +96,15 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Average Revenue per Patient */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Average Revenue Per Patient</h6>
-            <MetricCard
-              className="metric-card"
-              title="Average Revenue per patient in panel"
-              value="$2,400"
-              futureValue={showForecast ? "$2,600" : undefined}
+            <DashboardMetricCard
+              label="Average Revenue per patient in panel"
+              currentValue="$2,400"
+              forecastValue={showForecast ? "$2,600" : undefined}
               percentChange={showForecast ? "+8.5%" : undefined}
-              borderColor="border-blue-500"
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type="revenue"
             />
           </div>
 
@@ -275,10 +261,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: '#6B7280' }} />
                     {/* Historical: solid, Forecast: dashed, CI: shaded */}
-                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
+                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
                     {/* Forecast overlays: dashed lines and CI only if showForecast */}
                     {showForecast && (
                       <>

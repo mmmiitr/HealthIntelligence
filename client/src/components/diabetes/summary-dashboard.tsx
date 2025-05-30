@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart, ComposedChart } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-import { MetricCard } from "@/components/ui/metric-card";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles } from "@/lib/styles";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -24,21 +23,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
   };
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("summary-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("SummaryDashboard.pdf");
-  };
+
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
@@ -56,66 +41,76 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Key Metrics with consistent colors
+  // Data-driven metric configs for Key Metrics with semantic colors
   const keyMetrics = [
     {
-      label: "Avg Revenue/Patient/Month",
-      value: "$120",
-      futureValue: showForecast ? "$128" : undefined,
-      percentChange: showForecast ? "+6.7%" : undefined,
-      borderColor: "border-blue-500"
+      title: "Avg Revenue/Patient/Month",
+      currentValue: "$120",
+      forecastValue: showForecast ? "$128" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'revenue' as const,
+      icon: <DollarSign className="h-4 w-4" />
     },
     {
-      label: "% Under CCM",
-      value: "30%",
-      futureValue: showForecast ? "32%" : undefined,
-      percentChange: showForecast ? "+2%" : undefined,
-      borderColor: "border-blue-500"
+      title: "% Under CCM",
+      currentValue: "30%",
+      forecastValue: showForecast ? "32%" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'neutral' as const,
+      icon: <UserCheck className="h-4 w-4" />
     },
     {
-      label: "% Telemedicine Visits",
-      value: "30%",
-      futureValue: showForecast ? "35%" : undefined,
-      percentChange: showForecast ? "+5%" : undefined,
-      borderColor: "border-blue-500"
+      title: "% Telemedicine Visits",
+      currentValue: "30%",
+      forecastValue: showForecast ? "35%" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'neutral' as const,
+      icon: <Monitor className="h-4 w-4" />
     },
     {
-      label: "Avg Cost/Patient/Month",
-      value: "$85",
-      futureValue: showForecast ? "$87" : undefined,
-      percentChange: showForecast ? "+2.4%" : undefined,
-      borderColor: "border-blue-500"
+      title: "Avg Cost/Patient/Month",
+      currentValue: "$85",
+      forecastValue: showForecast ? "$87" : undefined,
+      currentLabel: labels.current,
+      forecastLabel: showForecast ? labels.forecast : undefined,
+      type: 'cost' as const,
+      icon: <Heart className="h-4 w-4" />
     },
   ];
 
   return (
-    <div id="summary-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
       {/* Header */}
       <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Summary Dashboard</h2>
-            <p className="text-gray-600 mt-1">Executive overview of diabetes care management</p>
-          </div>
-          <div className="flex flex-col items-end space-y-2">
-            {/* Download button moved to global header */}
-          </div>
-        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Executive Summary</h2>
+        <p className="text-gray-600">
+          {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
+        </p>
       </div>
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Key Performance Indicators</h3>
+          <p className="text-gray-600">
+            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
+          </p>
+        </div>
+        <div className={styles.grid.cols4}>
           {keyMetrics.map((metric) => (
-            <MetricCard
-              key={metric.label}
-              className="metric-card"
-              title={metric.label}
-              value={metric.value}
-              futureValue={metric.futureValue}
-              percentChange={metric.percentChange}
-              borderColor={metric.borderColor}
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
             />
           ))}
         </div>
@@ -123,31 +118,221 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Critical Alerts */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Critical Alerts</h3>
-        <Card className="bg-red-500 shadow-lg">
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">30-Day ED Visit or Hospitalization (8%) exceeds target of 5%.</p>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Critical Alerts</h3>
+          <p className="text-gray-600">
+            Immediate attention required for these performance indicators
+          </p>
+        </div>
+        <Card className="bg-gradient-to-r from-red-500 to-red-600 border-red-700 shadow-xl rounded-xl">
+          <CardContent className="p-8">
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
+                  <AlertTriangle className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg text-white font-bold">
+                    30-Day ED Visit or Hospitalization Rate
+                  </p>
+                  <p className="text-red-100 mt-2">
+                    Current: 8% | Target: 5% | Action required to reduce readmissions
+                  </p>
+                </div>
               </div>
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">No-Show Appointments (12%) exceeds target of 10%.</p>
+              <div className="flex items-start space-x-4">
+                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
+                  <AlertTriangle className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg text-white font-bold">
+                    No-Show Appointment Rate
+                  </p>
+                  <p className="text-red-100 mt-2">
+                    Current: 12% | Target: 10% | Review scheduling and reminder processes
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
+      {/* Trends Section */}
+      <div className="mb-8">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Key Trends</h3>
+          <p className="text-gray-600">Historical performance and predictions</p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* % In Control HbA1c Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% In Control HbA1c (&lt;7%)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <AreaChart data={(() => {
+                  const getChartData = () => {
+                    if (viewMode === "monthly") {
+                      return showForecast ? [
+                        { month: 'Feb', value: 67, range: [67, 67] },
+                        { month: 'Mar', value: 69, range: [69, 69] },
+                        { month: 'Apr', value: 68, range: [68, 68] },
+                        { month: 'May', value: 70, range: [70, 70] },
+                        { month: 'Jun', value: 72, range: [69, 75] },
+                        { month: 'Jul', value: 74, range: [71, 77] },
+                        { month: 'Aug', value: 76, range: [73, 79] }
+                      ] : [
+                        { month: 'Jan', value: 65, range: [65, 65] },
+                        { month: 'Feb', value: 67, range: [67, 67] },
+                        { month: 'Mar', value: 69, range: [69, 69] },
+                        { month: 'Apr', value: 68, range: [68, 68] },
+                        { month: 'May', value: 70, range: [70, 70] }
+                      ];
+                    } else if (viewMode === "quarterly") {
+                      return showForecast ? [
+                        { month: 'Q4 2024', value: 66, range: [66, 66] },
+                        { month: 'Q1 2025', value: 68, range: [68, 68] },
+                        { month: 'Q2 2025', value: 70, range: [70, 70] },
+                        { month: 'Q3 2025', value: 73, range: [70, 76] },
+                        { month: 'Q4 2025', value: 75, range: [72, 78] }
+                      ] : [
+                        { month: 'Q2 2024', value: 64, range: [64, 64] },
+                        { month: 'Q3 2024', value: 65, range: [65, 65] },
+                        { month: 'Q4 2024', value: 66, range: [66, 66] },
+                        { month: 'Q1 2025', value: 68, range: [68, 68] },
+                        { month: 'Q2 2025', value: 70, range: [70, 70] }
+                      ];
+                    } else {
+                      return showForecast ? [
+                        { month: '2022', value: 62, range: [62, 62] },
+                        { month: '2023', value: 65, range: [65, 65] },
+                        { month: '2024', value: 68, range: [68, 68] },
+                        { month: '2025', value: 72, range: [69, 75] },
+                        { month: '2026', value: 75, range: [72, 78] }
+                      ] : [
+                        { month: '2020', value: 58, range: [58, 58] },
+                        { month: '2021', value: 60, range: [60, 60] },
+                        { month: '2022', value: 62, range: [62, 62] },
+                        { month: '2023', value: 65, range: [65, 65] },
+                        { month: '2024', value: 68, range: [68, 68] }
+                      ];
+                    }
+                  };
+                  return getChartData();
+                })()}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
+                  <Tooltip 
+                    formatter={(value, name) => {
+                      if (name === 'value') return [`${value}%`, 'HbA1c Control'];
+                      if (name === 'range' && Array.isArray(value)) return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
+                      return [value, name];
+                    }}
+                  />
+                  
+                  {/* Confidence Band */}
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="range"
+                      stroke="none"
+                      fill="#1976d2"
+                      fillOpacity={0.2}
+                      connectNulls={false}
+                    />
+                  )}
+                  
+                  {/* Main trend line */}
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#1976d2" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                    dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                  />
+                  
+                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* % Under CCM Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% Under CCM</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={[
+                  { month: 'Jan', value: 25 },
+                  { month: 'Feb', value: 27 },
+                  { month: 'Mar', value: 28 },
+                  { month: 'Apr', value: 29 },
+                  { month: 'May', value: 30 },
+                  { month: 'Jun', value: showForecast ? 32 : null },
+                  { month: 'Jul', value: showForecast ? 34 : null }
+                ]}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
+                  <Tooltip formatter={(value) => [`${value}%`, 'CCM Enrollment']} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#4caf50" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                  />
+                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 30-Day ED Visit Chart */}
+        <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">30-Day ED Visit or Hospitalization</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={[
+                { month: 'Jan', value: 9.2 },
+                { month: 'Feb', value: 8.8 },
+                { month: 'Mar', value: 8.5 },
+                { month: 'Apr', value: 8.1 },
+                { month: 'May', value: 8.0 },
+                { month: 'Jun', value: showForecast ? 7.5 : null },
+                { month: 'Jul', value: showForecast ? 7.2 : null }
+              ]}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
+                <Tooltip formatter={(value) => [`${value}%`, 'ED Visit Rate']} />
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#f44336" 
+                  strokeWidth={3}
+                  connectNulls={false}
+                  strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                />
+                {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
+
     </div>
   );
 }

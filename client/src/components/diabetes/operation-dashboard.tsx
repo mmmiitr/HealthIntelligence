@@ -4,7 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Bed, UserCheck, Heart, Clock, Calendar as CalendarIcon } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
-import { MetricCard } from "@/components/ui/metric-card";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles } from "@/lib/styles";
+
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -38,40 +40,14 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
     queryKey: ["/api/admin/resource-utilization", timeFilter],
   });
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("operation-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("OperationDashboard.pdf");
-  };
+
 
   return (
-    <div id="operation-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
-      </div>
+    <div>
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Operation Dashboard</h2>
-            <p className="text-gray-600 mt-1">Operational efficiency and resource management</p>
-          </div>
-        </div>
+      <div className={styles.section}>
+        <h2 className={styles.heading.h2}>Operation Dashboard</h2>
+        <p className={styles.heading.subtitle}>Operational efficiency and resource management</p>
       </div>
 
       {/* Patient Wait Time (first section, styled like Patient Metrics) */}
@@ -93,20 +69,71 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Patient Metrics (now immediately after Patient Wait Time) */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">Patient Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <MetricCard className="metric-card" title="No-show rate" value="12%" futureValue={showForecast ? "13%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" futureValue={showForecast ? "35%" : undefined} percentChange={showForecast ? "+5%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% with assigned PCP/endocrinologist" value="92%" futureValue={showForecast ? "94%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Avg care manager time/patient" value="35 min" futureValue={showForecast ? "36 min" : undefined} percentChange={showForecast ? "+1 min" : undefined} borderColor="border-blue-500" />
+      {/* Patient Metrics */}
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className={styles.heading.sectionTitle}>Patient Metrics</h3>
+          <p className={styles.heading.sectionSubtitle}>
+            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
+          </p>
+        </div>
+        <div className={styles.grid.cols4}>
+          {[
+            { 
+              title: "No-show rate", 
+              currentValue: "12%", 
+              forecastValue: showForecast ? "11%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'cost' as const,
+              icon: <Clock className="h-4 w-4" />
+            },
+            { 
+              title: "% of telemedicine visits", 
+              currentValue: "30%", 
+              forecastValue: showForecast ? "35%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'neutral' as const,
+              icon: <UserCheck className="h-4 w-4" />
+            },
+            { 
+              title: "Current bed utilization", 
+              currentValue: "87%", 
+              forecastValue: undefined, // Real-time metric, no forecast
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Bed className="h-4 w-4" />
+            },
+            { 
+              title: "Staff on duty today", 
+              currentValue: "24", 
+              forecastValue: undefined, // Real-time operational metric
+              currentLabel: "TODAY",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
+      {/* Appointment Metrics */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
@@ -119,9 +146,9 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
+      {/* Utilization of providers */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
           <CardContent className="p-8">
             <div className="flex flex-col space-y-4">
@@ -207,21 +234,34 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Key Trends (all 11 trends, in required order, after all metrics, consistent style) */}
+      {/* Key Trends */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Key Trends</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MetricCard className="metric-card" title="Wait time for new appointment" value="7 days" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Time to third next available appointment" value="12 days" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="No show rate" value="12%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of patients with assigned PCP/endocrinologist" value="92%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Time per visit (new vs. follow-up)" value="40 min / 25 min" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Care manager utilization" value="85%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Physician utilization" value="90%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Number of Care Managers" value="6" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Number of Physicians with active panel" value="8" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Average care manager time per patient" value="35 min" borderColor="border-blue-500" />
+          {[
+            { title: "Wait time for new appointment", value: "7 days" },
+            { title: "Time to third next available appointment", value: "12 days" },
+            { title: "No show rate", value: "12%" },
+            { title: "% of telemedicine visits", value: "30%" },
+            { title: "% of patients with assigned PCP/endocrinologist", value: "92%" },
+            { title: "Time per visit (new vs. follow-up)", value: "40 min / 25 min" },
+            { title: "Care manager utilization", value: "85%" },
+            { title: "Physician utilization", value: "90%" },
+            { title: "Number of Care Managers", value: "6" },
+            { title: "Number of Physicians with active panel", value: "8" },
+            { title: "Average care manager time per patient", value: "35 min" }
+          ].map((metric) => (
+            <Card key={metric.title} className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.title}</span>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-2xl font-bold text-blue-700">{metric.value}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
