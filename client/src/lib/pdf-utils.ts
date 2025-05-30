@@ -89,108 +89,141 @@ export const exportMultipleTabsToPDF = async (
   currentTab: string,
   filename: string = "dashboard-export.pdf"
 ): Promise<void> => {
-  const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+  // Prevent multiple simultaneous downloads
+  if ((window as any).pdfExportInProgress) {
+    console.log('PDF export already in progress');
+    return;
+  }
   
-  // Fixed positioning constants for consistency
-  const MARGIN = 40;
-  const TITLE_HEIGHT = 60;
-  const CONTENT_START_Y = TITLE_HEIGHT + MARGIN;
+  (window as any).pdfExportInProgress = true;
+  
+  try {
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    
+    // Fixed positioning constants for consistency
+    const MARGIN = 40;
+    const TITLE_HEIGHT = 60;
+    const CONTENT_START_Y = TITLE_HEIGHT + MARGIN;
 
-  for (let i = 0; i < tabs.length; i++) {
-    const tab = tabs[i];
-    
-    // Switch to the tab
-    setActiveTab(tab.id);
-    
-    // Wait for content to load and render
-    await new Promise(resolve => setTimeout(resolve, tab.waitTime || 1500));
-    
-    const element = document.getElementById('dashboard-content');
-    if (!element) {
-      console.error(`Dashboard content not found for tab: ${tab.id}`);
-      continue;
+    for (let i = 0; i < tabs.length; i++) {
+      const tab = tabs[i];
+      
+      // Switch to the tab
+      setActiveTab(tab.id);
+      
+      // Wait for content to load and render
+      await new Promise(resolve => setTimeout(resolve, tab.waitTime || 2000));
+      
+      const element = document.getElementById('dashboard-content');
+      if (!element) {
+        console.error(`Dashboard content not found for tab: ${tab.id}`);
+        continue;
+      }
+
+      // Force a complete layout recalculation
+      element.style.minHeight = 'auto';
+      element.style.height = 'auto';
+      element.style.width = 'auto';
+      
+      // Additional wait for layout stabilization
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Create a standardized wrapper for consistent capture
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = `
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        position: absolute;
+        top: -10000px;
+        left: 0;
+        overflow: visible;
+        box-sizing: border-box;
+      `;
+      
+      // Clone the element content with all styles preserved
+      const clonedElement = element.cloneNode(true) as HTMLElement;
+      clonedElement.style.cssText = `
+        width: 100%;
+        max-width: 1160px;
+        margin: 0 auto;
+        display: block;
+        box-sizing: border-box;
+      `;
+      
+      wrapper.appendChild(clonedElement);
+      document.body.appendChild(wrapper);
+      
+      // Force layout calculation
+      await new Promise(resolve => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(resolve);
+        });
+      });
+
+      const canvas = await html2canvas(wrapper, {
+        scale: 1.2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        width: 1200,
+        height: wrapper.scrollHeight,
+        windowWidth: 1400,
+        windowHeight: wrapper.scrollHeight + 200,
+        scrollX: 0,
+        scrollY: 0,
+        logging: false,
+        onclone: (clonedDoc) => {
+          // Ensure all styles are properly applied in the cloned document
+          const clonedWrapper = clonedDoc.querySelector('[data-html2canvas-ignore]') as HTMLElement;
+          if (clonedWrapper) {
+            clonedWrapper.style.position = 'static';
+            clonedWrapper.style.top = 'auto';
+          }
+        }
+      });
+
+      // Clean up
+      document.body.removeChild(wrapper);
+
+      // Add new page for subsequent tabs
+      if (i > 0) pdf.addPage();
+
+      // Add centered title
+      pdf.setFontSize(18);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`${tab.label} Dashboard`, pageWidth / 2, 35, { align: 'center' });
+
+      // Calculate scaling to fit within PDF page
+      const availableWidth = pageWidth - (MARGIN * 2);
+      const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
+      
+      const scaleX = availableWidth / canvas.width;
+      const scaleY = availableHeight / canvas.height;
+      const scale = Math.min(scaleX, scaleY, 1);
+      
+      const scaledWidth = canvas.width * scale;
+      const scaledHeight = canvas.height * scale;
+      
+      // Always center horizontally
+      const x = (pageWidth - scaledWidth) / 2;
+      const y = CONTENT_START_Y;
+
+      const imgData = canvas.toDataURL("image/png", 0.95);
+      pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
     }
 
-    // Force a complete layout recalculation
-    element.style.minHeight = 'auto';
-    element.style.height = 'auto';
-    element.style.width = 'auto';
+    // Restore original tab
+    setActiveTab(currentTab);
     
-    // Additional wait for layout stabilization
-    await new Promise(resolve => setTimeout(resolve, 800));
-
-    // Handle longer content differently for Operations and Clinical tabs
-    const isLongTab = tab.id === 'operation' || tab.id === 'clinician';
+    // Save the PDF
+    pdf.save(filename);
     
-    // Create a wrapper div to ensure consistent capture dimensions
-    const wrapper = document.createElement('div');
-    wrapper.style.width = '1200px';
-    wrapper.style.margin = '0 auto';
-    wrapper.style.padding = '20px';
-    wrapper.style.backgroundColor = '#ffffff';
-    wrapper.style.position = 'relative';
-    wrapper.style.overflow = 'visible';
-    
-    // Clone the element to avoid modifying the original
-    const clonedElement = element.cloneNode(true) as HTMLElement;
-    clonedElement.style.width = '100%';
-    clonedElement.style.maxWidth = '1160px';
-    clonedElement.style.margin = '0 auto';
-    
-    wrapper.appendChild(clonedElement);
-    document.body.appendChild(wrapper);
-    
-    // Wait for DOM to update
-    await new Promise(resolve => setTimeout(resolve, 300));
-
-    const canvas = await html2canvas(wrapper, {
-      scale: isLongTab ? 1.0 : 1.4,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      width: 1200,
-      height: wrapper.scrollHeight,
-      windowWidth: 1400,
-      windowHeight: wrapper.scrollHeight + 200,
-      scrollX: 0,
-      scrollY: 0,
-      logging: false
-    });
-
-    // Clean up
-    document.body.removeChild(wrapper);
-
-    // Add new page for subsequent tabs
-    if (i > 0) pdf.addPage();
-
-    // Add centered title
-    pdf.setFontSize(18);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text(`${tab.label} Dashboard`, pageWidth / 2, 35, { align: 'center' });
-
-    // Calculate scaling to fit within PDF page
-    const availableWidth = pageWidth - (MARGIN * 2);
-    const availableHeight = pageHeight - CONTENT_START_Y - MARGIN;
-    
-    const scaleX = availableWidth / canvas.width;
-    const scaleY = availableHeight / canvas.height;
-    const scale = Math.min(scaleX, scaleY, 1);
-    
-    const scaledWidth = canvas.width * scale;
-    const scaledHeight = canvas.height * scale;
-    
-    // Always center horizontally
-    const x = (pageWidth - scaledWidth) / 2;
-    const y = CONTENT_START_Y;
-
-    const imgData = canvas.toDataURL("image/png", 0.95);
-    pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
+  } finally {
+    // Reset the flag
+    (window as any).pdfExportInProgress = false;
   }
-
-  // Restore original tab
-  setActiveTab(currentTab);
-  
-  pdf.save(filename);
 };
