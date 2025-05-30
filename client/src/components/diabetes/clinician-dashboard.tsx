@@ -85,7 +85,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with controlled HbA1c (&lt;7%) (Prediction)</h3>
           <p className="text-gray-600">Clinical outcomes by care management status</p>
         </div>
-        <div className={styles.grid.cols2}>
+        <div className={styles.grid.cols4}>
           {[
             { 
               title: "CCM", 
@@ -104,6 +104,24 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'neutral' as const,
               icon: <Heart className="h-4 w-4" />
+            },
+            { 
+              title: "Overall Average", 
+              currentValue: "65%", 
+              forecastValue: showForecast ? "67%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'revenue' as const,
+              icon: <TrendingUp className="h-4 w-4" />
+            },
+            { 
+              title: "Target Goal", 
+              currentValue: "75%", 
+              forecastValue: undefined,
+              currentLabel: "TARGET",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
             }
           ].map((metric) => (
             <StandardMetricCard
@@ -127,7 +145,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with recent HbA1c test (last 6 months)</h3>
           <p className="text-gray-600">Testing compliance tracking by care management status</p>
         </div>
-        <div className={styles.grid.cols2}>
+        <div className={styles.grid.cols4}>
           {[
             { 
               title: "CCM", 
@@ -146,6 +164,24 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
+            },
+            { 
+              title: "Overall Rate", 
+              currentValue: "88%", 
+              forecastValue: showForecast ? "89%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'revenue' as const,
+              icon: <Heart className="h-4 w-4" />
+            },
+            { 
+              title: "Target Rate", 
+              currentValue: "95%", 
+              forecastValue: undefined,
+              currentLabel: "TARGET",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <AlertTriangle className="h-4 w-4" />
             }
           ].map((metric) => (
             <StandardMetricCard
@@ -169,7 +205,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           <h3 className={styles.heading.sectionTitle}>% of patients with hypertension control (&lt;140/90)</h3>
           <p className={styles.heading.sectionSubtitle}>Blood pressure management by care status</p>
         </div>
-        <div className={styles.grid.cols2}>
+        <div className={styles.grid.cols4}>
           {[
             { 
               title: "CCM", 
@@ -188,6 +224,24 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
+            },
+            { 
+              title: "Overall Rate", 
+              currentValue: "73%", 
+              forecastValue: showForecast ? "76%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'revenue' as const,
+              icon: <Activity className="h-4 w-4" />
+            },
+            { 
+              title: "Target Rate", 
+              currentValue: "85%", 
+              forecastValue: undefined,
+              currentLabel: "TARGET",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <TrendingUp className="h-4 w-4" />
             }
           ].map((metric) => (
             <StandardMetricCard
@@ -211,7 +265,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           <h3 className={styles.heading.sectionTitle}>% of patients with &gt;2 co-morbidities</h3>
           <p className={styles.heading.sectionSubtitle}>Complex care management tracking</p>
         </div>
-        <div className={styles.grid.cols2}>
+        <div className={styles.grid.cols4}>
           {[
             { 
               title: "CCM", 
@@ -230,6 +284,24 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
+            },
+            { 
+              title: "Overall Rate", 
+              currentValue: "31%", 
+              forecastValue: showForecast ? "32%" : undefined,
+              currentLabel: labels.current,
+              forecastLabel: showForecast ? labels.forecast : undefined,
+              type: 'revenue' as const,
+              icon: <Heart className="h-4 w-4" />
+            },
+            { 
+              title: "Risk Threshold", 
+              currentValue: "25%", 
+              forecastValue: undefined,
+              currentLabel: "THRESHOLD",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <AlertTriangle className="h-4 w-4" />
             }
           ].map((metric) => (
             <StandardMetricCard
