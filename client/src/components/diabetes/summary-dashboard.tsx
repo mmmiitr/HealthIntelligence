@@ -8,8 +8,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-// Removed design-system import during cleanup
 import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles } from "@/lib/styles";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -101,7 +101,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className={styles.grid.cols4}>
           {keyMetrics.map((metric) => (
             <StandardMetricCard
               key={metric.title}
