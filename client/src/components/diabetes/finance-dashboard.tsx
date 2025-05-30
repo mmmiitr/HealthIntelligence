@@ -35,25 +35,28 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   // Data-driven metric configs for Financial Overview with consistent styling
   const financialOverviewMetrics = [
     {
-      label: "Profit",
-      value: "$842.6K",
-      futureValue: showForecast ? "$895.2K" : undefined,
-      percentChange: showForecast ? "+6.2%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Profit",
+      currentValue: "$842.6K",
+      forecastValue: showForecast ? "$895.2K" : undefined,
+      change: showForecast ? "+6.2%" : undefined,
+      type: "profit",
+      icon: <DollarSign className="h-4 w-4 text-green-600" />
     },
     {
-      label: "Revenue",
-      value: "$1.2M",
-      futureValue: showForecast ? "$1.28M" : undefined,
-      percentChange: showForecast ? "+6.7%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Revenue",
+      currentValue: "$1.2M",
+      forecastValue: showForecast ? "$1.28M" : undefined,
+      change: showForecast ? "+6.7%" : undefined,
+      type: "revenue",
+      icon: <TrendingUp className="h-4 w-4 text-blue-600" />
     },
     {
-      label: "Expenses",
-      value: "$357.4K",
-      futureValue: showForecast ? "$384.8K" : undefined,
-      percentChange: showForecast ? "+7.7%" : undefined,
-      borderColor: "border-blue-500"
+      label: "Total Expenses",
+      currentValue: "$357.4K",
+      forecastValue: showForecast ? "$384.8K" : undefined,
+      change: showForecast ? "+7.7%" : undefined,
+      type: "cost",
+      icon: <TrendingDown className="h-4 w-4 text-red-600" />
     },
   ];
 
@@ -75,14 +78,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   return (
     <div>
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
-      </div>
       {/* Financial Overview */}
       <div className="mb-8">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Financial Overview ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
@@ -133,7 +128,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Revenue Analysis Section (Row 2) */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title flex items-center">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
           <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
           Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
         </h3>
@@ -142,14 +137,32 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Average Revenue per Patient */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Average Revenue Per Patient</h6>
-            <MetricCard
-              className="metric-card"
-              title="Average Revenue per patient in panel"
-              value="$2,400"
-              futureValue={showForecast ? "$2,600" : undefined}
-              percentChange={showForecast ? "+8.5%" : undefined}
-              borderColor="border-blue-500"
-            />
+            <Card className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">Average Revenue per patient in panel</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                      {labels.current}
+                    </p>
+                    <p className="text-2xl font-bold text-blue-700">$2,400</p>
+                  </div>
+                  
+                  {showForecast && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
+                        {labels.forecast}
+                      </p>
+                      <p className="text-lg font-bold text-gray-900">$2,600</p>
+                      <p className="text-xs text-gray-600 mt-1">+8.5% vs current</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Revenue for Top 5 CPT Codes */}
