@@ -150,45 +150,14 @@ export const exportMultipleTabsToPDF = async (
         scrollY: 0,
         logging: false,
         onclone: (clonedDoc) => {
-          // Force identical layout for all dashboard types
+          // Apply minimal styling for consistent capture
           const clonedElement = clonedDoc.getElementById('dashboard-content');
           if (clonedElement) {
             clonedElement.style.width = '1200px';
             clonedElement.style.maxWidth = '1200px';
-            clonedElement.style.minWidth = '1200px';
-            clonedElement.style.margin = '0 auto';
             clonedElement.style.padding = '24px';
+            clonedElement.style.margin = '0 auto';
             clonedElement.style.boxSizing = 'border-box';
-            
-            // Force all content to use full width with more aggressive targeting
-            const allElements = clonedElement.querySelectorAll('*');
-            allElements.forEach((el: any) => {
-              const className = el.className || '';
-              if (className.includes('grid') || className.includes('cols') || className.includes('section') || 
-                  className.includes('space-y') || className.includes('mb-') || className.includes('container')) {
-                el.style.width = '100%';
-                el.style.maxWidth = '1152px';
-                el.style.minWidth = '1152px';
-                el.style.margin = '0 auto';
-              }
-              
-              // Specifically fix cols2 grids which are used in Clinician dashboard
-              if (className.includes('cols-2') || className.includes('grid-cols-2')) {
-                el.style.display = 'grid';
-                el.style.gridTemplateColumns = '1fr 1fr';
-                el.style.gap = '1.5rem';
-                el.style.width = '100%';
-                el.style.maxWidth = '1152px';
-              }
-            });
-            
-            // Force the main content wrapper to be consistent
-            const mainDiv = clonedElement.querySelector('.space-y-8');
-            if (mainDiv) {
-              (mainDiv as any).style.width = '100%';
-              (mainDiv as any).style.maxWidth = '1152px';
-              (mainDiv as any).style.margin = '0 auto';
-            }
           }
         }
       });
