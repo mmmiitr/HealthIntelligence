@@ -160,6 +160,117 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
         </Card>
       </div>
 
+      {/* Trends Section */}
+      <div className="mb-8">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Key Trends</h3>
+          <p className="text-gray-600">Historical performance and predictions</p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* % In Control HbA1c Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% In Control HbA1c (&lt;7%)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={[
+                  { month: 'Jan', value: 65 },
+                  { month: 'Feb', value: 67 },
+                  { month: 'Mar', value: 69 },
+                  { month: 'Apr', value: 68 },
+                  { month: 'May', value: 70 },
+                  { month: 'Jun', value: showForecast ? 72 : null },
+                  { month: 'Jul', value: showForecast ? 74 : null }
+                ]}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
+                  <Tooltip formatter={(value) => [`${value}%`, 'HbA1c Control']} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#1976d2" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                  />
+                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* % Under CCM Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% Under CCM</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={[
+                  { month: 'Jan', value: 25 },
+                  { month: 'Feb', value: 27 },
+                  { month: 'Mar', value: 28 },
+                  { month: 'Apr', value: 29 },
+                  { month: 'May', value: 30 },
+                  { month: 'Jun', value: showForecast ? 32 : null },
+                  { month: 'Jul', value: showForecast ? 34 : null }
+                ]}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
+                  <Tooltip formatter={(value) => [`${value}%`, 'CCM Enrollment']} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#4caf50" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                  />
+                  {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 30-Day ED Visit Chart */}
+        <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">30-Day ED Visit or Hospitalization</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={[
+                { month: 'Jan', value: 9.2 },
+                { month: 'Feb', value: 8.8 },
+                { month: 'Mar', value: 8.5 },
+                { month: 'Apr', value: 8.1 },
+                { month: 'May', value: 8.0 },
+                { month: 'Jun', value: showForecast ? 7.5 : null },
+                { month: 'Jul', value: showForecast ? 7.2 : null }
+              ]}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
+                <Tooltip formatter={(value) => [`${value}%`, 'ED Visit Rate']} />
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#f44336" 
+                  strokeWidth={3}
+                  connectNulls={false}
+                  strokeDasharray={showForecast ? "0 0 5 5" : "0"}
+                />
+                {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
 
     </div>
   );
