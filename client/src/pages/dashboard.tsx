@@ -118,7 +118,7 @@ export default function Dashboard() {
         
         // Add page title
         pdf.setFontSize(16);
-        pdf.setFont(undefined, 'bold');
+        pdf.setFont('helvetica', 'bold');
         const tabName = tabs.find(tab => tab.id === tabId)?.label || tabId;
         pdf.text(`${tabName} Dashboard`, pageWidth / 2, 30, { align: 'center' });
         
@@ -130,40 +130,16 @@ export default function Dashboard() {
         const availableWidth = pageWidth - (margin * 2);
         const availableHeight = pageHeight - (margin * 2) - titleSpace;
         
-        // For longer tabs, use a different approach to ensure content fits
-        if (isLongTab && canvasHeight > canvasWidth * 1.5) {
-          // Scale to fit width first, then handle height
-          const widthRatio = availableWidth / canvasWidth;
-          const scaledHeight = canvasHeight * widthRatio;
-          
-          if (scaledHeight > availableHeight) {
-            // Content too tall, scale to fit height instead
-            const heightRatio = availableHeight / canvasHeight;
-            const imgWidth = canvasWidth * heightRatio;
-            const imgHeight = canvasHeight * heightRatio;
-            const x = (pageWidth - imgWidth) / 2;
-            const y = titleSpace + margin;
-            
-            pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-          } else {
-            // Fits with width scaling
-            const imgWidth = availableWidth;
-            const imgHeight = scaledHeight;
-            const x = margin;
-            const y = titleSpace + margin;
-            
-            pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-          }
-        } else {
-          // Standard scaling for shorter content
-          const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
-          const imgWidth = canvasWidth * ratio;
-          const imgHeight = canvasHeight * ratio;
-          const x = (pageWidth - imgWidth) / 2;
-          const y = titleSpace + margin;
-          
-          pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-        }
+        // Consistent scaling and centering for all tabs
+        const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
+        const imgWidth = canvasWidth * ratio;
+        const imgHeight = canvasHeight * ratio;
+        
+        // Always center the content horizontally
+        const x = (pageWidth - imgWidth) / 2;
+        const y = titleSpace + margin;
+        
+        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
       }
       
       // Restore original tab
