@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { TYPOGRAPHY, COLORS, SPACING, SHADOWS, getMetricCardClasses } from "@/lib/design-system";
 
 interface StandardMetricCardProps {
   title: string;
@@ -24,7 +23,6 @@ export default function StandardMetricCard({
   icon,
   className = ""
 }: StandardMetricCardProps) {
-  const cardStyles = getMetricCardClasses(type);
   
   const getBorderColor = (type: string) => {
     switch(type) {
