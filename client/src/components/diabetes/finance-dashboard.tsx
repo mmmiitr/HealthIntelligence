@@ -261,10 +261,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: '#6B7280' }} />
                     {/* Historical: solid, Forecast: dashed, CI: shaded */}
-                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
-                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? (d => d.isForecast ? '4 4' : undefined) : undefined} />
+                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
                     {/* Forecast overlays: dashed lines and CI only if showForecast */}
                     {showForecast && (
                       <>
