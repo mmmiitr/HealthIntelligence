@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles } from "@/lib/styles";
-import { Activity, Heart, Users, TrendingUp } from "lucide-react";
+import { Activity, Heart, Users, TrendingUp, AlertTriangle } from "lucide-react";
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";

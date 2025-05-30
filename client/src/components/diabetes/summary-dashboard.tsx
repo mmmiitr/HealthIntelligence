@@ -173,15 +173,56 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={[
-                  { month: 'Jan', value: 65, range: [65, 65] },
-                  { month: 'Feb', value: 67, range: [67, 67] },
-                  { month: 'Mar', value: 69, range: [69, 69] },
-                  { month: 'Apr', value: 68, range: [68, 68] },
-                  { month: 'May', value: 70, range: [70, 70] },
-                  { month: 'Jun', value: showForecast ? 72 : null, range: showForecast ? [69, 75] : [70, 70] },
-                  { month: 'Jul', value: showForecast ? 74 : null, range: showForecast ? [71, 77] : [70, 70] }
-                ]}>
+                <AreaChart data={(() => {
+                  const getChartData = () => {
+                    if (viewMode === "monthly") {
+                      return showForecast ? [
+                        { month: 'Feb', value: 67, range: [67, 67] },
+                        { month: 'Mar', value: 69, range: [69, 69] },
+                        { month: 'Apr', value: 68, range: [68, 68] },
+                        { month: 'May', value: 70, range: [70, 70] },
+                        { month: 'Jun', value: 72, range: [69, 75] },
+                        { month: 'Jul', value: 74, range: [71, 77] },
+                        { month: 'Aug', value: 76, range: [73, 79] }
+                      ] : [
+                        { month: 'Jan', value: 65, range: [65, 65] },
+                        { month: 'Feb', value: 67, range: [67, 67] },
+                        { month: 'Mar', value: 69, range: [69, 69] },
+                        { month: 'Apr', value: 68, range: [68, 68] },
+                        { month: 'May', value: 70, range: [70, 70] }
+                      ];
+                    } else if (viewMode === "quarterly") {
+                      return showForecast ? [
+                        { month: 'Q4 2024', value: 66, range: [66, 66] },
+                        { month: 'Q1 2025', value: 68, range: [68, 68] },
+                        { month: 'Q2 2025', value: 70, range: [70, 70] },
+                        { month: 'Q3 2025', value: 73, range: [70, 76] },
+                        { month: 'Q4 2025', value: 75, range: [72, 78] }
+                      ] : [
+                        { month: 'Q2 2024', value: 64, range: [64, 64] },
+                        { month: 'Q3 2024', value: 65, range: [65, 65] },
+                        { month: 'Q4 2024', value: 66, range: [66, 66] },
+                        { month: 'Q1 2025', value: 68, range: [68, 68] },
+                        { month: 'Q2 2025', value: 70, range: [70, 70] }
+                      ];
+                    } else {
+                      return showForecast ? [
+                        { month: '2022', value: 62, range: [62, 62] },
+                        { month: '2023', value: 65, range: [65, 65] },
+                        { month: '2024', value: 68, range: [68, 68] },
+                        { month: '2025', value: 72, range: [69, 75] },
+                        { month: '2026', value: 75, range: [72, 78] }
+                      ] : [
+                        { month: '2020', value: 58, range: [58, 58] },
+                        { month: '2021', value: 60, range: [60, 60] },
+                        { month: '2022', value: 62, range: [62, 62] },
+                        { month: '2023', value: 65, range: [65, 65] },
+                        { month: '2024', value: 68, range: [68, 68] }
+                      ];
+                    }
+                  };
+                  return getChartData();
+                })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
