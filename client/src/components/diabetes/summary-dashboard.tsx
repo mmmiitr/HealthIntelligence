@@ -86,43 +86,6 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </DashboardSection>
 
-      {/* Critical Alerts */}
-      <DashboardSection>
-        <SectionHeader title="Critical Alerts" />
-        <Card className="bg-gradient-to-r from-red-500 to-red-600 border-red-700 shadow-xl rounded-xl">
-          <CardContent className="p-8">
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <AlertTriangle className="h-6 w-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-lg text-white font-bold">
-                    30-Day ED Visit or Hospitalization Rate
-                  </p>
-                  <p className="text-red-100 mt-2">
-                    Current: 8% | Target: 5% | Action required to reduce readmissions
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-                  <AlertTriangle className="h-6 w-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-lg text-white font-bold">
-                    No-Show Appointment Rate
-                  </p>
-                  <p className="text-red-100 mt-2">
-                    Current: 12% | Target: 10% | Review scheduling and reminder processes
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </DashboardSection>
-
       {/* Trends Section */}
       <DashboardSection>
         <SectionHeader title="Key Trends" />
