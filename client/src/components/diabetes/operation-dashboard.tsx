@@ -214,21 +214,34 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </Card>
       </div>
 
-      {/* Key Trends (all 11 trends, in required order, after all metrics, consistent style) */}
+      {/* Key Trends */}
       <div className="mb-8">
-        <h3 className="dashboard-section-title">Key Trends</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MetricCard className="metric-card" title="Wait time for new appointment" value="7 days" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Time to third next available appointment" value="12 days" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="No show rate" value="12%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of telemedicine visits" value="30%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="% of patients with assigned PCP/endocrinologist" value="92%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Time per visit (new vs. follow-up)" value="40 min / 25 min" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Care manager utilization" value="85%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Physician utilization" value="90%" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Number of Care Managers" value="6" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Number of Physicians with active panel" value="8" borderColor="border-blue-500" />
-          <MetricCard className="metric-card" title="Average care manager time per patient" value="35 min" borderColor="border-blue-500" />
+          {[
+            { title: "Wait time for new appointment", value: "7 days" },
+            { title: "Time to third next available appointment", value: "12 days" },
+            { title: "No show rate", value: "12%" },
+            { title: "% of telemedicine visits", value: "30%" },
+            { title: "% of patients with assigned PCP/endocrinologist", value: "92%" },
+            { title: "Time per visit (new vs. follow-up)", value: "40 min / 25 min" },
+            { title: "Care manager utilization", value: "85%" },
+            { title: "Physician utilization", value: "90%" },
+            { title: "Number of Care Managers", value: "6" },
+            { title: "Number of Physicians with active panel", value: "8" },
+            { title: "Average care manager time per patient", value: "35 min" }
+          ].map((metric) => (
+            <Card key={metric.title} className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-3">
+                  <span className="font-medium text-gray-700 text-sm">{metric.title}</span>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-2xl font-bold text-blue-700">{metric.value}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
