@@ -8,7 +8,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
-import { MetricCard } from "@/components/ui/metric-card";
+
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -24,21 +24,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
   };
 
-  // PDF Export Handler
-  const handleExportPDF = async () => {
-    const input = document.getElementById("summary-dashboard-root");
-    if (!input) return;
-    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pageWidth;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("SummaryDashboard.pdf");
-  };
+
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
@@ -163,14 +149,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
         </Card>
       </div>
 
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handleExportPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
-        >
-          Download PDF
-        </button>
-      </div>
+
     </div>
   );
 }
