@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [viewMode, setViewMode] = useState("monthly");
   const [showForecast, setShowForecast] = useState(false);
   const [currentTime, setCurrentTime] = useState(getCurrentTimestamp());
+  const [isExporting, setIsExporting] = useState(false);
 
   const summaryRef = useRef(null);
   const financeRef = useRef(null);
@@ -62,6 +63,9 @@ export default function Dashboard() {
 
   // PDF download handler for all tabs (except technical)
   const handleDownloadPDF = async () => {
+    if (isExporting) return;
+    
+    setIsExporting(true);
     try {
       const tabsToExport = [
         { id: 'summary', label: 'Summary', captureScale: 1.5, waitTime: 1500 },
@@ -79,6 +83,8 @@ export default function Dashboard() {
     } catch (error) {
       console.error('PDF generation failed:', error);
       alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -123,11 +129,24 @@ export default function Dashboard() {
               </Select>
               <Button
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-semibold flex items-center space-x-3 shadow-lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-semibold flex items-center space-x-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleDownloadPDF}
+                disabled={isExporting}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
-                <span>Download Report (PDF)</span>
+                {isExporting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="m15.84 7.66-4.84 4.84v-4.84h2v-2h-2.5c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5h6c.83 0 1.5-.67 1.5-1.5v-2.5h-2v2h-4.84l4.84-4.84z"></path>
+                    </svg>
+                    <span>Generating PDF...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
+                    <span>Download Report (PDF)</span>
+                  </>
+                )}
               </Button>
             </div>
           </div>

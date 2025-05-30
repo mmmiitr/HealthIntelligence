@@ -89,12 +89,15 @@ export const exportMultipleTabsToPDF = async (
   currentTab: string,
   filename: string = "dashboard-export.pdf"
 ): Promise<void> => {
-  // Prevent multiple simultaneous downloads
-  if ((window as any).pdfExportInProgress) {
+  // Prevent multiple simultaneous downloads with timestamp check
+  const now = Date.now();
+  if ((window as any).pdfExportInProgress && ((window as any).lastExportTime && now - (window as any).lastExportTime < 5000)) {
+    console.log('PDF export blocked - too recent');
     return;
   }
   
   (window as any).pdfExportInProgress = true;
+  (window as any).lastExportTime = now;
   
   try {
     const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
@@ -243,7 +246,9 @@ export const exportMultipleTabsToPDF = async (
     pdf.save(filename);
     
   } finally {
-    // Reset the progress flag immediately
-    (window as any).pdfExportInProgress = false;
+    // Reset the progress flag with a short delay to prevent immediate re-triggering
+    setTimeout(() => {
+      (window as any).pdfExportInProgress = false;
+    }, 1000);
   }
 };
