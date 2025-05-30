@@ -74,8 +74,8 @@ export default function Dashboard() {
         // Switch to the tab to render its content
         setActiveTab(tabId);
         
-        // Wait for the tab to render
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait for the tab to render and ensure all content is loaded
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
         const activeElement = document.getElementById('dashboard-content');
         if (!activeElement) {
@@ -83,46 +83,87 @@ export default function Dashboard() {
           continue;
         }
 
-        // Ensure proper width calculation for dashboard content
+        // Force layout calculation and ensure all content is visible
+        activeElement.style.minHeight = 'auto';
+        activeElement.style.height = 'auto';
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Calculate proper dimensions based on actual content
         const elementWidth = Math.max(activeElement.scrollWidth, activeElement.offsetWidth, 1200);
-        const elementHeight = Math.max(activeElement.scrollHeight, activeElement.offsetHeight);
+        const elementHeight = Math.max(activeElement.scrollHeight, activeElement.offsetHeight, 800);
         
-        // Capture the tab content with better width handling
-        const canvas = await html2canvas(activeElement, { 
-          scale: 1.5, 
+        // Use different capture settings for longer tabs (Operation and Clinician)
+        const isLongTab = tabId === 'operation' || tabId === 'clinician';
+        const captureOptions = {
+          scale: isLongTab ? 1.2 : 1.5,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           width: elementWidth,
           height: elementHeight,
           windowWidth: 1400,
-          windowHeight: 800
-        });
+          windowHeight: isLongTab ? elementHeight + 200 : 800,
+          scrollX: 0,
+          scrollY: 0
+        };
+        
+        const canvas = await html2canvas(activeElement, captureOptions);
         
         const imgData = canvas.toDataURL("image/png");
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
         
-        // Calculate aspect ratio to fit content properly with margins
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const margin = 40; // Add margins for better readability
-        const availableWidth = pageWidth - (margin * 2);
-        const availableHeight = pageHeight - (margin * 2);
-        
-        const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
-        
-        const imgWidth = canvasWidth * ratio;
-        const imgHeight = canvasHeight * ratio;
-        
-        // Center the image on the page with margins
-        const x = (pageWidth - imgWidth) / 2;
-        const y = margin;
-        
         // Add new page for subsequent tabs
         if (i > 0) pdf.addPage();
         
-        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+        // Add page title
+        pdf.setFontSize(16);
+        pdf.setFont(undefined, 'bold');
+        const tabName = tabs.find(tab => tab.id === tabId)?.label || tabId;
+        pdf.text(`${tabName} Dashboard`, pageWidth / 2, 30, { align: 'center' });
+        
+        // Calculate dimensions with space for title
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const margin = 30;
+        const titleSpace = 50;
+        const availableWidth = pageWidth - (margin * 2);
+        const availableHeight = pageHeight - (margin * 2) - titleSpace;
+        
+        // For longer tabs, use a different approach to ensure content fits
+        if (isLongTab && canvasHeight > canvasWidth * 1.5) {
+          // Scale to fit width first, then handle height
+          const widthRatio = availableWidth / canvasWidth;
+          const scaledHeight = canvasHeight * widthRatio;
+          
+          if (scaledHeight > availableHeight) {
+            // Content too tall, scale to fit height instead
+            const heightRatio = availableHeight / canvasHeight;
+            const imgWidth = canvasWidth * heightRatio;
+            const imgHeight = canvasHeight * heightRatio;
+            const x = (pageWidth - imgWidth) / 2;
+            const y = titleSpace + margin;
+            
+            pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+          } else {
+            // Fits with width scaling
+            const imgWidth = availableWidth;
+            const imgHeight = scaledHeight;
+            const x = margin;
+            const y = titleSpace + margin;
+            
+            pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+          }
+        } else {
+          // Standard scaling for shorter content
+          const ratio = Math.min(availableWidth / canvasWidth, availableHeight / canvasHeight);
+          const imgWidth = canvasWidth * ratio;
+          const imgHeight = canvasHeight * ratio;
+          const x = (pageWidth - imgWidth) / 2;
+          const y = titleSpace + margin;
+          
+          pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+        }
       }
       
       // Restore original tab
