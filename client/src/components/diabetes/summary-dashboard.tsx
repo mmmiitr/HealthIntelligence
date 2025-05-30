@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart, ComposedChart } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
@@ -175,19 +175,19 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={[
-                  { month: 'Jan', value: 65, upperCI: 65, lowerCI: 65 },
-                  { month: 'Feb', value: 67, upperCI: 67, lowerCI: 67 },
-                  { month: 'Mar', value: 69, upperCI: 69, lowerCI: 69 },
-                  { month: 'Apr', value: 68, upperCI: 68, lowerCI: 68 },
-                  { month: 'May', value: 70, upperCI: 70, lowerCI: 70 },
-                  { month: 'Jun', value: showForecast ? 72 : null, upperCI: showForecast ? 75 : 70, lowerCI: showForecast ? 69 : 70 },
-                  { month: 'Jul', value: showForecast ? 74 : null, upperCI: showForecast ? 77 : 70, lowerCI: showForecast ? 71 : 70 }
+                <ComposedChart data={[
+                  { month: 'Jan', value: 65, upper: null, lower: null },
+                  { month: 'Feb', value: 67, upper: null, lower: null },
+                  { month: 'Mar', value: 69, upper: null, lower: null },
+                  { month: 'Apr', value: 68, upper: null, lower: null },
+                  { month: 'May', value: 70, upper: null, lower: null },
+                  { month: 'Jun', value: showForecast ? 72 : null, upper: showForecast ? 75 : null, lower: showForecast ? 69 : null },
+                  { month: 'Jul', value: showForecast ? 74 : null, upper: showForecast ? 77 : null, lower: showForecast ? 71 : null }
                 ]}>
                   <defs>
-                    <linearGradient id="confidenceArea" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#1976d2" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#1976d2" stopOpacity={0.05}/>
+                    <linearGradient id="confidenceBand" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#1976d2" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#1976d2" stopOpacity={0.1}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -196,42 +196,48 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === 'value') return [`${value}%`, 'HbA1c Control'];
-                      if (name === 'upperCI') return [`${value}%`, 'Upper 95% CI'];
-                      if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
+                      if (name === 'upper') return [`${value}%`, 'Upper 95% CI'];
+                      if (name === 'lower') return [`${value}%`, 'Lower 95% CI'];
                       return [value, name];
                     }}
                   />
+                  
+                  {/* Confidence Band - Only show when forecast is enabled */}
                   {showForecast && (
                     <Area
                       type="monotone"
-                      dataKey="upperCI"
-                      stackId="1"
+                      dataKey="upper"
                       stroke="none"
-                      fill="url(#confidenceArea)"
+                      fill="url(#confidenceBand)"
                       connectNulls={false}
+                      name="Upper CI"
                     />
                   )}
                   {showForecast && (
                     <Area
                       type="monotone"
-                      dataKey="lowerCI"
-                      stackId="1"
+                      dataKey="lower"
                       stroke="none"
                       fill="#ffffff"
                       connectNulls={false}
+                      name="Lower CI"
                     />
                   )}
+                  
+                  {/* Main trend line */}
                   <Line 
                     type="monotone" 
                     dataKey="value" 
                     stroke="#1976d2" 
                     strokeWidth={3}
                     connectNulls={false}
-                    strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                     dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                    strokeDasharray={showForecast ? "0" : "0"}
+                    name="HbA1c Control"
                   />
+                  
                   {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
-                </AreaChart>
+                </ComposedChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
