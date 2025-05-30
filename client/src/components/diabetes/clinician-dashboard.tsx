@@ -1,9 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Activity, Heart, AlertTriangle, Users, Brain, Calendar, Shield, TrendingUp } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, Area, AreaChart, ReferenceLine, BarChart, Bar } from "recharts";
-import { hba1cData, hba1cProgressionData, visitFrequencyData, resourceAllocationData, patientEngagementData } from "@/lib/mock-data";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -67,715 +63,159 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Clinician Dashboard</h2>
-            <p className="text-gray-600 mt-1">Healthcare provider overview for diabetic patient management</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Key Metrics */}
+      {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600" title="Average HbA1c measures long-term blood sugar control in diabetic patients. Lower values (<7%) reduce complication risks.">Average A1C</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↓ -0.3%</span>
-                </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-blue-600">(Prediction)</span></h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-blue-900">68%</span>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Activity className="text-blue-600" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{width: '98%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">98% at target</p>
-              </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">{averageA1C}% / 7.1%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">6.9%</p>
-                      <p className="text-xs text-blue-600">-4.2% forecast</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Patient Adherence Rate</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↗ +5.2%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Heart className="text-green-600" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '96%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">96% complete</p>
-              </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">{adherenceRate}% / 85%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">88%</p>
-                      <p className="text-xs text-blue-600">+7.3% forecast</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white" title="Reflects ADA 2024 Standards of Care updates">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Medication Compliance</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↑ +5.2%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Heart className="text-green-600" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '99%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">99% complete</p>
-              </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">84% / 85%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">87%</p>
-                      <p className="text-xs text-blue-600">+3.6% forecast</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-3 p-2 bg-orange-50 rounded">
-              <p className="text-xs text-orange-700" title="2024 update to address cannabis use in diabetes care">
-                Ask about tobacco/cannabis use (Section 5)
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Complication Rate</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-green-600 font-medium text-sm">↓ -1.8%</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="text-red-600" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Row 1: Progress bar with percentage */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '80%'}}></div>
-                </div>
-                <p className="text-xs text-gray-600 text-center">Below target</p>
-              </div>
-              
-              {/* Row 2: Current values with forecast comparison */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xl font-bold text-gray-900">3.2% / 4.0%</p>
-                    <p className="text-xs text-gray-600">Current</p>
-                  </div>
-                  {showForecast && (
-                    <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">2.8%</p>
-                      <p className="text-xs text-blue-600">-12.5% forecast</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-          <Card className="bg-white" title="Compares average HbA1c for CCM-enrolled vs. non-enrolled patients (May 2025).">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">CCM Impact on HbA1c</p>
-                  <div className="flex items-center space-x-2 mt-1">
-                    <span className="text-green-600 font-medium text-sm">Significant improvement</span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <Heart className="text-green-600" />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">CCM ENROLLED</p>
-                  <p className="text-lg font-bold text-gray-900">6.5%</p>
-                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
-                </div>
-                
-                <div className="bg-orange-50 rounded-lg p-2.5">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">NON-ENROLLED</p>
-                  <p className="text-lg font-bold text-gray-900">7.2%</p>
-                  <p className="text-xs text-gray-600 mt-1">Average HbA1c</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* AI/ML Prediction Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* Predicted HbA1c Improvements */}
-        <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-              <Brain className="mr-2 h-5 w-5 text-blue-600" />
-              AI HbA1c Predictions
-              <Badge className="ml-2 bg-blue-100 text-blue-800">Next Quarter</Badge>
-            </CardTitle>
-            <p className="text-sm text-gray-600 mt-1">Predicted HbA1c improvements using machine learning</p>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-green-700 font-medium">Well-Controlled Patients</p>
-                  <p className="text-xs text-green-600">Current HbA1c below 7%</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-green-900">6.8%</p>
-                  <p className="text-xs text-green-600">±0.2% predicted</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-yellow-700 font-medium">Moderate Control</p>
-                  <p className="text-xs text-yellow-600">Current HbA1c 7-8%</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-yellow-900">7.2%</p>
-                  <p className="text-xs text-yellow-600">±0.3% predicted</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-red-700 font-medium">Poor Control</p>
-                  <p className="text-xs text-red-600">Current HbA1c above 8%</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-red-900">8.1%</p>
-                  <p className="text-xs text-red-600">±0.4% predicted</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Predicted Visit Counts */}
-        <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-              <Calendar className="mr-2 h-5 w-5 text-green-600" />
-              Visit Predictions
-              <Badge className="ml-2 bg-green-100 text-green-800">Next Month</Badge>
-            </CardTitle>
-            <p className="text-sm text-gray-600 mt-1">Patient visit forecasting with clinical insights</p>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-blue-700 font-medium">Routine Follow-ups</p>
-                  <p className="text-xs text-blue-600">Scheduled quarterly visits</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-blue-900">285</p>
-                  <p className="text-xs text-blue-600">expected visits</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-orange-700 font-medium">Urgent Care Needs</p>
-                  <p className="text-xs text-orange-600">Unscheduled appointments</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-orange-900">42</p>
-                  <p className="text-xs text-orange-600">predicted visits</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                <div>
-                  <p className="text-sm text-purple-700 font-medium">Specialist Referrals</p>
-                  <p className="text-xs text-purple-600">Endocrinology referrals</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-purple-900">18</p>
-                  <p className="text-xs text-purple-600">expected referrals</p>
-                </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-blue-900">62%</span>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* ADA 2024 New Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="bg-white" title="New 2024 recommendation to evaluate fracture risk factors">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Bone Health Screening</p>
-                <p className="text-lg font-bold text-gray-900">78% Screened</p>
+      {/* 2. % of patients with recent HbA1c test (last 6 months) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with recent HbA1c test (last 6 months)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">91%</span>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Shield className="text-blue-600" />
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">85%</span>
               </div>
-            </div>
-            <div className="mt-4">
-              <p className="text-sm text-blue-700">Screen patients for bone health risks (Section 4)</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white" title="Updated 2024 guidance to use CGM for prevention">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Hypoglycemia Risk</p>
-                <p className="text-lg font-bold text-gray-900">15% High Risk</p>
-              </div>
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="text-red-600" />
-              </div>
-            </div>
-            <div className="mt-4">
-              <p className="text-sm text-red-700">Assess hypoglycemia risk using CGM (Section 6)</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* High-Risk Patients Table */}
-      <Card className="bg-white mb-8" title="Reflects ADA 2024 Standards of Care updates">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-            <AlertTriangle className="mr-2 h-5 w-5 text-red-600" />
-            High-Risk Patients Requiring Attention
-            <Badge className="ml-2 bg-red-100 text-red-800">Urgent</Badge>
-          </CardTitle>
-          <p className="text-sm text-gray-600 mt-1">Patients with concerning metrics requiring immediate clinical intervention</p>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full table-auto">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient ID</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Current HbA1c</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Risk Factors</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Last Visit</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Action Required</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">Jane Doe</td>
-                  <td className="py-3 px-4 text-gray-700">Prediabetes from antipsychotics</td>
-                  <td className="py-3 px-4 text-blue-600">Screen per Section 2</td>
-                </tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">John Smith</td>
-                  <td className="py-3 px-4 text-gray-700">Bone health concerns</td>
-                  <td className="py-3 px-4 text-blue-600">Evaluate fracture risk</td>
-                </tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">Maria Garcia</td>
-                  <td className="py-3 px-4 text-gray-700">Cannabis use reported</td>
-                  <td className="py-3 px-4 text-blue-600">Tobacco/cannabis counseling</td>
-                </tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 text-gray-900">Robert Johnson</td>
-                  <td className="py-3 px-4 text-gray-700">Frequent hypoglycemia</td>
-                  <td className="py-3 px-4 text-blue-600">CGM assessment</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        {/* A1C Trends */}
-        <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">HbA1c Trends & Predictions</CardTitle>
-            <p className="text-sm text-gray-600">Data Range: Jan 2025 - Oct 2025</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={hba1cData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis domain={[6, 8]} tickFormatter={(value) => `${value}%`} />
-                <Tooltip formatter={(value, name) => [
-                  `${value}%`,
-                  name === "avgHbA1c" ? "Historical HbA1c" : "Predicted HbA1c"
-                ]} />
-                <Legend />
-                {/* Historical Data - Solid Line */}
-                <Line
-                  type="monotone"
-                  dataKey="avgHbA1c"
-                  stroke="#1976d2"
-                  strokeWidth={3}
-                  name="Historical HbA1c"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-                  connectNulls={false}
-                />
-                {/* Predicted Data - Dashed Line */}
-                <Line
-                  type="monotone"
-                  dataKey="predictedHbA1c"
-                  stroke="#64b5f6"
-                  strokeWidth={3}
-                  strokeDasharray="5 5"
-                  name="Predicted HbA1c"
-                  dot={{ fill: "#64b5f6", strokeWidth: 2, r: 4 }}
-                  connectNulls={false}
-                />
-                {/* Reference Line at Current Date */}
-                <ReferenceLine x="May 2025" stroke="#dc2626" strokeWidth={2} label="Today" />
-              </LineChart>
-            </ResponsiveContainer>
-            <p className="text-xs text-gray-500 mt-2">
-              Historical data (solid line) shows actual HbA1c values. Predicted data (dashed line) shows AI/ML forecasts based on current trends.
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Patient Risk Distribution */}
-        <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Patient Risk Distribution</CardTitle>
-            <p className="text-sm text-gray-600">Current risk stratification of diabetic patients</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={riskChartData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                >
-                  {riskChartData.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value, name, props) => [
-                  `${value}% (${props.payload.count} patients)`, ""
-                ]} />
-              </PieChart>
-            </ResponsiveContainer>
+      {/* 3. % of patients with hypertension control (<140/90) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with hypertension control (&lt;140/90)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">77%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-green-900">70%</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* High-Risk Patients Table */}
-      <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-            <Users className="mr-2 h-5 w-5 text-red-600" />
-            High-Risk Patients
-          </CardTitle>
-          <p className="text-sm text-gray-600">Patients requiring immediate attention and intervention</p>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
+      {/* 4. % of patients with >2 co-morbidities */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with &gt;2 co-morbidities</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">CCM</span>
+                <span className="text-2xl font-extrabold text-orange-900">34%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">Non CCM</span>
+                <span className="text-2xl font-extrabold text-orange-900">28%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 5. % enrolled in DSME */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">% enrolled in DSME (Diabetes Self-Management Education)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">All Patients</span>
+                <span className="text-2xl font-extrabold text-purple-900">41%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization <span className="text-xs text-blue-600">(Prediction)</span></h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-base text-gray-600">All Patients</span>
+                <span className="text-2xl font-extrabold text-red-900">8%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 7. Top 5 patients with highest ED visits past quarter */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with highest ED visits (past quarter)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
             <table className="w-full table-auto">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">A1C Level</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Last Visit</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Risk Factors</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Status</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900"># ED Visits</th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(highRiskPatients) ? highRiskPatients.map((patient: any) => (
-                  <tr key={patient.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 text-gray-900 font-medium">{patient.patientName}</td>
-                    <td className="py-3 px-4">
-                      <Badge className={`${
-                        parseFloat(patient.a1c) > 9 ? "bg-red-100 text-red-800" : 
-                        parseFloat(patient.a1c) > 8 ? "bg-orange-100 text-orange-800" : 
-                        "bg-yellow-100 text-yellow-800"
-                      }`}>
-                        {patient.a1c}%
-                      </Badge>
-                    </td>
-                    <td className="py-3 px-4 text-gray-600">{patient.lastVisit}</td>
-                    <td className="py-3 px-4 text-gray-600 text-sm">{patient.riskFactors}</td>
-                    <td className="py-3 px-4">
-                      <Badge className="bg-red-100 text-red-800">High Risk</Badge>
-                    </td>
-                  </tr>
-                )) : null}
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4">4</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4">3</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4">3</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4">2</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4">2</td></tr>
               </tbody>
             </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Clinical Insights */}
-      <Card className="bg-white mt-6">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Clinical Insights</CardTitle>
-          <p className="text-sm text-gray-600">Key observations and recommendations</p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-              <h4 className="font-semibold text-blue-900 mb-2">Medication Adherence</h4>
-              <p className="text-blue-800 text-sm">
-                Patient adherence improved by 5.2% this month. Consider implementing medication reminder systems for high-risk patients.
-              </p>
-            </div>
-            <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
-              <h4 className="font-semibold text-green-900 mb-2">A1C Control</h4>
-              <p className="text-green-800 text-sm">
-                Average A1C decreased by 0.3%. Continue current treatment protocols and lifestyle intervention programs.
-              </p>
-            </div>
-            <div className="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
-              <h4 className="font-semibold text-orange-900 mb-2">Risk Stratification</h4>
-              <p className="text-orange-800 text-sm">
-                20% of patients are in high-risk category. Focus on intensive case management and frequent monitoring.
-              </p>
-            </div>
-            <div className="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
-              <h4 className="font-semibold text-purple-900 mb-2">Complication Prevention</h4>
-              <p className="text-purple-800 text-sm">
-                Complication rates reduced by 1.8%. Maintain current screening schedules and patient education programs.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Additional Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        {/* Predicted HbA1c Progression */}
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Predicted HbA1c Progression</CardTitle>
-            <p className="text-sm text-gray-600">Predicted HbA1c Trends (Accuracy: 95%)</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={hba1cProgressionData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis domain={[5.5, 8.5]} tickFormatter={(value) => `${value}%`} />
-                <Tooltip formatter={(value, name) => [`${value}%`, name]} 
-                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
-                <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                <Line
-                  type="monotone"
-                  dataKey="stable"
-                  stroke="#4caf50"
-                  strokeWidth={3}
-                  name="Stable"
-                  dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="improving"
-                  stroke="#1976d2"
-                  strokeWidth={3}
-                  name="Improving"
-                  dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="declining"
-                  stroke="#ef5350"
-                  strokeWidth={3}
-                  name="Declining"
-                  dot={{ fill: "#ef5350", strokeWidth: 2, r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-            <p className="text-xs text-gray-500 mt-2">
-              Stable (#4caf50), Improving (#1976d2), Declining (#ef5350)
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Predicted Visit Frequency */}
-        <Card className="bg-white shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-gray-900">Predicted Visit Frequency</CardTitle>
-            <p className="text-sm text-gray-600">Predicted Visits per Patient (Accuracy: 95%)</p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={visitFrequencyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip formatter={(value) => [`${value} visits`, 'Visits per Patient']} 
-                         labelFormatter={() => "Mock data simulating trends as of May 2025."} />
-                <Legend />
-                <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-                <Bar
-                  dataKey="visits"
-                  fill="#1976d2"
-                  name="Visits per Patient"
-                />
-              </BarChart>
-            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Resource Allocation Chart */}
-      <Card className="bg-white shadow-md mt-6">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Resource Allocation</CardTitle>
-          <p className="text-sm text-gray-600">Staff Hours for Proactive Allocation</p>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={resourceAllocationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value, name) => [`${value} hours`, name]} 
-                       labelFormatter={() => "Mock data simulating trends as of May 2025."} />
-              <Legend />
-              <Bar
-                dataKey="needed"
-                fill="#ef5350"
-                name="Needed"
-              />
-              <Bar
-                dataKey="available"
-                fill="#4caf50"
-                name="Available"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* Patient Engagement */}
-      <Card className="bg-white shadow-md">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Patient Engagement</CardTitle>
-          <p className="text-sm text-gray-600">Patient Engagement Trends (Mock Data)</p>
-          <p className="text-xs text-gray-500">Data Range: Jan 2025 - Oct 2025</p>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={patientEngagementData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis tickFormatter={(value) => `${value}%`} />
-              <Tooltip formatter={(value, name) => [`${value}%`, name]} 
-                       labelFormatter={() => "Mock data simulating trends as of May 2025."} />
-              <Legend />
-              <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Today" />
-              <Line
-                type="monotone"
-                dataKey="adherence"
-                stroke="#1976d2"
-                strokeWidth={3}
-                name="Appointment Adherence"
-                dot={{ fill: "#1976d2", strokeWidth: 2, r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="telemedicineUsage"
-                stroke="#4caf50"
-                strokeWidth={3}
-                name="Telemedicine Usage"
-                dot={{ fill: "#4caf50", strokeWidth: 2, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+      {/* 8. Top 5 patients with most inpatient LOS (length of stay) past quarter */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with most inpatient LOS (length of stay) (past quarter)</h3>
+        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+          <CardContent className="p-8">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">LOS (days)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4">12</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4">10</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4">9</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4">8</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4">7</td></tr>
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
