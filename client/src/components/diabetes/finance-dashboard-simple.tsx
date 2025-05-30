@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, TrendingUp, TrendingDown } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles, chartColors, pieColors } from "@/lib/styles";
@@ -84,7 +84,56 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         <Card className={styles.card.base}>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={revenueData.slice(0, 8)} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <LineChart data={(() => {
+                const getChartData = () => {
+                  if (viewMode === "monthly") {
+                    return showForecast ? [
+                      { month: 'Feb', revenue: 1120000 },
+                      { month: 'Mar', revenue: 1150000 },
+                      { month: 'Apr', revenue: 1180000 },
+                      { month: 'May', revenue: 1200000 },
+                      { month: 'Jun', revenue: 1280000 },
+                      { month: 'Jul', revenue: 1320000 },
+                      { month: 'Aug', revenue: 1360000 }
+                    ] : [
+                      { month: 'Jan', revenue: 1080000 },
+                      { month: 'Feb', revenue: 1120000 },
+                      { month: 'Mar', revenue: 1150000 },
+                      { month: 'Apr', revenue: 1180000 },
+                      { month: 'May', revenue: 1200000 }
+                    ];
+                  } else if (viewMode === "quarterly") {
+                    return showForecast ? [
+                      { month: 'Q4 2024', revenue: 3400000 },
+                      { month: 'Q1 2025', revenue: 3530000 },
+                      { month: 'Q2 2025', revenue: 3660000 },
+                      { month: 'Q3 2025', revenue: 3900000 },
+                      { month: 'Q4 2025', revenue: 4080000 }
+                    ] : [
+                      { month: 'Q2 2024', revenue: 3200000 },
+                      { month: 'Q3 2024', revenue: 3350000 },
+                      { month: 'Q4 2024', revenue: 3400000 },
+                      { month: 'Q1 2025', revenue: 3530000 },
+                      { month: 'Q2 2025', revenue: 3660000 }
+                    ];
+                  } else {
+                    return showForecast ? [
+                      { month: '2022', revenue: 13200000 },
+                      { month: '2023', revenue: 13850000 },
+                      { month: '2024', revenue: 14400000 },
+                      { month: '2025', revenue: 15600000 },
+                      { month: '2026', revenue: 16320000 }
+                    ] : [
+                      { month: '2020', revenue: 11800000 },
+                      { month: '2021', revenue: 12500000 },
+                      { month: '2022', revenue: 13200000 },
+                      { month: '2023', revenue: 13850000 },
+                      { month: '2024', revenue: 14400000 }
+                    ];
+                  }
+                };
+                return getChartData();
+              })()} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis 
                   dataKey="month" 
@@ -107,7 +156,15 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   strokeWidth={3}
                   name="Revenue"
                   connectNulls={false}
+                  strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                 />
+                {showForecast && (
+                  <ReferenceLine 
+                    x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"} 
+                    stroke="#666" 
+                    strokeDasharray="2 2" 
+                  />
+                )}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
