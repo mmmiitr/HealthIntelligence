@@ -3,6 +3,7 @@ import { DollarSign, TrendingUp, TrendingDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles, chartColors, pieColors } from "@/lib/styles";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -50,20 +51,18 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
     }
   ];
 
-  const COLORS = ['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'];
-
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Financial Overview</h2>
-        <p className="text-gray-600">
+      <div className={styles.section}>
+        <h2 className={styles.heading.h2}>Financial Overview</h2>
+        <p className={styles.heading.subtitle}>
           {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Financial Performance
         </p>
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={styles.grid.cols4}>
         {keyMetrics.map((metric) => (
           <StandardMetricCard
             key={metric.title}
@@ -80,9 +79,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       </div>
 
       {/* Revenue Trends Chart */}
-      <div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-4">Revenue Trends</h3>
-        <Card className="bg-white shadow-lg">
+      <div className={styles.section}>
+        <h3 className={styles.heading.h3}>Revenue Trends</h3>
+        <Card className={styles.card.base}>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={revenueData}>
@@ -91,9 +90,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="revenue" stroke="#1976d2" strokeWidth={3} />
-                <Line type="monotone" dataKey="costs" stroke="#f44336" strokeWidth={3} />
-                <Line type="monotone" dataKey="profit" stroke="#4caf50" strokeWidth={3} />
+                <Line type="monotone" dataKey="revenue" stroke={chartColors.primary} strokeWidth={3} />
+                <Line type="monotone" dataKey="costs" stroke={chartColors.danger} strokeWidth={3} />
+                <Line type="monotone" dataKey="profit" stroke={chartColors.success} strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -101,9 +100,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       </div>
 
       {/* Revenue by Insurance */}
-      <div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-4">Revenue by Insurance</h3>
-        <Card className="bg-white shadow-lg">
+      <div className={styles.section}>
+        <h3 className={styles.heading.h3}>Revenue by Insurance</h3>
+        <Card className={styles.card.base}>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -117,7 +116,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   label={({ name, value }) => `${name}: $${value}K`}
                 >
                   {revenueSourcesData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
