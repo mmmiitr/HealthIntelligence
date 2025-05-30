@@ -33,22 +33,22 @@ export const styles = {
   // Enhanced Metric styling with stronger visual identity
   metric: {
     profit: {
-      border: "border-l-6 border-l-green-500",
+      border: "border-l-4 border-l-green-500",
       text: "text-green-700",
       bg: "bg-green-50"
     },
     revenue: {
-      border: "border-l-6 border-l-blue-500", 
+      border: "border-l-4 border-l-blue-500", 
       text: "text-blue-700",
       bg: "bg-blue-50"
     },
     cost: {
-      border: "border-l-6 border-l-red-500",
+      border: "border-l-4 border-l-red-500",
       text: "text-red-700",
       bg: "bg-red-50"
     },
     neutral: {
-      border: "border-l-6 border-l-gray-400",
+      border: "border-l-4 border-l-gray-400",
       text: "text-gray-900",
       bg: "bg-gray-50"
     }
