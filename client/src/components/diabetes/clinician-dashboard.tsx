@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
+import { MetricCard } from "@/components/ui/metric-card";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -61,132 +64,102 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   const COLORS = ['#00A86B', '#F59E0B', '#EF4444'];
 
+  // PDF Export Handler
+  const handleExportPDF = async () => {
+    const input = document.getElementById("clinician-dashboard-root");
+    if (!input) return;
+    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pageWidth;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("ClinicianDashboard.pdf");
+  };
+
   return (
-    <div>
+    <div id="clinician-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleExportPDF}
+          className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
+        >
+          Download PDF
+        </button>
+      </div>
       {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-blue-600">(Prediction)</span></h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">CCM</span>
-                <span className="text-2xl font-extrabold text-blue-900">68%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Non CCM</span>
-                <span className="text-2xl font-extrabold text-blue-900">62%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">% of patients with controlled HbA1c (&lt;7%) <span className="text-xs text-gray-500">(Prediction)</span></h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="CCM" value="68%" futureValue={showForecast ? "70%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+          <MetricCard className="metric-card" title="Non CCM" value="62%" futureValue={showForecast ? "64%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 2. % of patients with recent HbA1c test (last 6 months) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with recent HbA1c test (last 6 months)</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">CCM</span>
-                <span className="text-2xl font-extrabold text-green-900">91%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Non CCM</span>
-                <span className="text-2xl font-extrabold text-green-900">85%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">% of patients with recent HbA1c test (last 6 months)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="CCM" value="91%" futureValue={showForecast ? "92%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
+          <MetricCard className="metric-card" title="Non CCM" value="85%" futureValue={showForecast ? "86%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 3. % of patients with hypertension control (<140/90) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with hypertension control (&lt;140/90)</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">CCM</span>
-                <span className="text-2xl font-extrabold text-green-900">77%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Non CCM</span>
-                <span className="text-2xl font-extrabold text-green-900">70%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">% of patients with hypertension control (&lt;140/90)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="CCM" value="77%" futureValue={showForecast ? "80%" : undefined} percentChange={showForecast ? "+3%" : undefined} borderColor="border-purple-500" />
+          <MetricCard className="metric-card" title="Non CCM" value="70%" futureValue={showForecast ? "72%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 4. % of patients with >2 co-morbidities */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% of patients with &gt;2 co-morbidities</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">CCM</span>
-                <span className="text-2xl font-extrabold text-orange-900">34%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Non CCM</span>
-                <span className="text-2xl font-extrabold text-orange-900">28%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">% of patients with &gt;2 co-morbidities</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="CCM" value="34%" futureValue={showForecast ? "36%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+          <MetricCard className="metric-card" title="Non CCM" value="28%" futureValue={showForecast ? "29%" : undefined} percentChange={showForecast ? "+1%" : undefined} borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 5. % enrolled in DSME */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% enrolled in DSME (Diabetes Self-Management Education)</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">All Patients</span>
-                <span className="text-2xl font-extrabold text-purple-900">41%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">% enrolled in DSME (Diabetes Self-Management Education)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="All Patients" value="41%" futureValue={showForecast ? "43%" : undefined} percentChange={showForecast ? "+2%" : undefined} borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization <span className="text-xs text-blue-600">(Prediction)</span></h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">All Patients</span>
-                <span className="text-2xl font-extrabold text-red-900">8%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <h3 className="dashboard-section-title">30-Day ED Visit or Hospitalization <span className="text-xs text-gray-500">(Prediction)</span></h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <MetricCard className="metric-card" title="All Patients" value="8%" borderColor="border-purple-500" />
+        </div>
       </div>
 
       {/* 7. Top 5 patients with highest ED visits past quarter */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with highest ED visits (past quarter)</h3>
+        <h3 className="dashboard-section-title">Top 5 patients with highest ED visits (past quarter)</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
-            <table className="w-full table-auto">
+            <table className="table w-full">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900"># ED Visits</th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-900"># ED Visits</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4">4</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4">3</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4">3</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4">2</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4">2</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4 text-right">4</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4 text-right">3</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4 text-right">3</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4 text-right">2</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4 text-right">2</td></tr>
               </tbody>
             </table>
           </CardContent>
@@ -195,22 +168,22 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
       {/* 8. Top 5 patients with most inpatient LOS (length of stay) past quarter */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Top 5 patients with most inpatient LOS (length of stay) (past quarter)</h3>
+        <h3 className="dashboard-section-title">Top 5 patients with most inpatient LOS (length of stay) (past quarter)</h3>
         <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
           <CardContent className="p-8">
-            <table className="w-full table-auto">
+            <table className="table w-full">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">Patient Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">LOS (days)</th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-900">LOS (days)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4">12</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4">10</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4">9</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4">8</td></tr>
-                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4">7</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Jane Smith</td><td className="py-3 px-4 text-right">12</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Mark Jones</td><td className="py-3 px-4 text-right">10</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Emily Davis</td><td className="py-3 px-4 text-right">9</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Robert Johnson</td><td className="py-3 px-4 text-right">8</td></tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50"><td className="py-3 px-4">Maria Garcia</td><td className="py-3 px-4 text-right">7</td></tr>
               </tbody>
             </table>
           </CardContent>

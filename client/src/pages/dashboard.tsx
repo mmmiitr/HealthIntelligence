@@ -135,9 +135,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
                 <Heart className="text-primary text-2xl" />
-                <div>
-                  <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
-                </div>
+                <h1 className="text-xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -173,8 +171,8 @@ export default function Dashboard() {
         </div>
       </header>
       
-      <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Tab Navigation */}
+      {/* Tabs Navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Card className="mb-6 bg-white">
           <CardContent className="p-6">
             <div className="flex space-x-1 rounded-lg bg-gray-100 p-1">
@@ -204,25 +202,25 @@ export default function Dashboard() {
         </Card>
         
         {/* Active Tab Content */}
-        <div>
+        <div id="dashboard-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {renderActiveTab()}
         </div>
+      </div>
 
-        {/* Global Footer with Badges and Timestamp */}
-        <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
-          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-            <div className="flex items-center space-x-3">
-              <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
-                <Shield className="h-3 w-3 mr-1" />
-                HIPAA Compliant
-              </Badge>
-              <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-3 py-1">
-                <Brain className="h-3 w-3 mr-1" />
-                AI-Enhanced Analytics
-              </Badge>
-            </div>
-            <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
+      {/* Global Footer with Badges and Timestamp */}
+      <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
+        <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
+          <div className="flex items-center space-x-3">
+            <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
+              <Shield className="h-3 w-3 mr-1" />
+              HIPAA Compliant
+            </Badge>
+            <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-3 py-1">
+              <Brain className="h-3 w-3 mr-1" />
+              AI-Enhanced Analytics
+            </Badge>
           </div>
+          <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
         </div>
       </div>
     </div>

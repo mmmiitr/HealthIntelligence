@@ -8,6 +8,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
+import { MetricCard } from "@/components/ui/metric-card";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -19,6 +22,22 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   
   const handleDownloadReport = () => {
     window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
+  };
+
+  // PDF Export Handler
+  const handleExportPDF = async () => {
+    const input = document.getElementById("summary-dashboard-root");
+    if (!input) return;
+    const canvas = await html2canvas(input, { backgroundColor: '#fff', scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pageWidth;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("SummaryDashboard.pdf");
   };
 
   // Dynamic labels based on view mode
@@ -40,41 +59,37 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   // Data-driven metric configs for Key Metrics with consistent colors
   const keyMetrics = [
     {
-      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
       label: "Avg Revenue/Patient/Month",
-      currentValue: "$120",
-      forecastValue: showForecast ? "$128" : null,
-      color: "blue", // revenue = blue
-      type: "revenue"
+      value: "$120",
+      futureValue: showForecast ? "$128" : undefined,
+      percentChange: showForecast ? "+6.7%" : undefined,
+      borderColor: "border-blue-500"
     },
     {
-      icon: <Users className="h-5 w-5 text-blue-600" />,
       label: "% Under CCM",
-      currentValue: "30%",
-      forecastValue: showForecast ? "32%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
+      value: "30%",
+      futureValue: showForecast ? "32%" : undefined,
+      percentChange: showForecast ? "+2%" : undefined,
+      borderColor: "border-blue-500"
     },
     {
-      icon: <Monitor className="h-5 w-5 text-blue-600" />,
       label: "% Telemedicine Visits",
-      currentValue: "30%",
-      forecastValue: showForecast ? "35%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
+      value: "30%",
+      futureValue: showForecast ? "35%" : undefined,
+      percentChange: showForecast ? "+5%" : undefined,
+      borderColor: "border-blue-500"
     },
     {
-      icon: <DollarSign className="h-5 w-5 text-red-600" />,
       label: "Avg Cost/Patient/Month",
-      currentValue: "$85",
-      forecastValue: showForecast ? "$87" : null,
-      color: "red", // cost = red
-      type: "cost"
+      value: "$85",
+      futureValue: showForecast ? "$87" : undefined,
+      percentChange: showForecast ? "+2.4%" : undefined,
+      borderColor: "border-blue-500"
     },
   ];
 
   return (
-    <div>
+    <div id="summary-dashboard-root" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-start">
@@ -90,50 +105,18 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
+        <h3 className="dashboard-section-title">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {keyMetrics.map((metric, idx) => (
-            <Card key={metric.label} className={`bg-white shadow-none rounded-xl border-l-4 ${
-              metric.type === "revenue" ? "border-blue-500" : 
-              metric.type === "cost" ? "border-red-500" : 
-              "border-blue-300"
-            }`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  {metric.icon}
-                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  {/* Current Value */}
-                  <div className={`bg-${metric.type === "revenue" ? "blue" : metric.type === "cost" ? "red" : "blue"}-50 rounded-lg p-3`}>
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className={`text-2xl font-bold ${
-                      metric.type === "revenue" ? "text-blue-700" : 
-                      metric.type === "cost" ? "text-red-700" : 
-                      "text-blue-700"
-                    }`}>
-                      {metric.currentValue}
-                    </p>
-                  </div>
-                  
-                  {/* Forecast Value */}
-                  {showForecast && metric.forecastValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.type === "cost" ? "↑ 2.4%" : "↑ 6.7%"} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+          {keyMetrics.map((metric) => (
+            <MetricCard
+              key={metric.label}
+              className="metric-card"
+              title={metric.label}
+              value={metric.value}
+              futureValue={metric.futureValue}
+              percentChange={metric.percentChange}
+              borderColor={metric.borderColor}
+            />
           ))}
         </div>
       </div>
@@ -155,6 +138,15 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleExportPDF}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm text-sm"
+        >
+          Download PDF
+        </button>
       </div>
     </div>
   );
