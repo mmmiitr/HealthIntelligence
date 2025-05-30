@@ -47,7 +47,30 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         <p className="text-gray-600">Operational efficiency and resource management</p>
       </div>
 
-      {/* Patient Metrics (4-col grid) */}
+      {/* Patient Wait Time */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Wait Time</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {showForecast && (
+            <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+              <CardContent className="p-8">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600">Average wait for new appointments</span>
+                    <span className="text-2xl font-extrabold text-gray-900">7 days</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600">Time to third next available appointment</span>
+                    <span className="text-2xl font-extrabold text-gray-900">12 days</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </DashboardSection>
+
+      {/* Patient Metrics */}
       <DashboardSection>
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -71,19 +94,10 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <UserCheck className="h-4 w-4" />
             },
             { 
-              title: "Current bed utilization", 
-              currentValue: "87%", 
+              title: "% of patients with assigned PCP/endocrinologist", 
+              currentValue: "92%", 
               forecastValue: undefined, // Real-time metric, no forecast
               currentLabel: "CURRENT STATUS",
-              forecastLabel: undefined,
-              type: 'neutral' as const,
-              icon: <Bed className="h-4 w-4" />
-            },
-            { 
-              title: "Staff on duty today", 
-              currentValue: "24", 
-              forecastValue: undefined, // Real-time operational metric
-              currentLabel: "TODAY",
               forecastLabel: undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
@@ -104,7 +118,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </div>
       </DashboardSection>
 
-      {/* Appointment Metrics (2-col grid) */}
+      {/* Appointment Metrics */}
       <DashboardSection>
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -121,9 +135,9 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         </div>
       </DashboardSection>
 
-      {/* Workforce/Workload/Utilization (2-col grid) */}
+      {/* Utilization of Providers */}
       <DashboardSection>
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workforce & Utilization</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of Providers</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
@@ -143,7 +157,28 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
-            },
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+
+      {/* Workforce Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workforce Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
             {
               title: "Number of Care Managers",
               currentValue: "6",
@@ -161,7 +196,28 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
-            },
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+
+      {/* Workload Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workload Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
             {
               title: "Panel size per provider (Care Manager)",
               currentValue: "120",
@@ -197,7 +253,28 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel: undefined,
               type: 'neutral' as const,
               icon: <Clock className="h-4 w-4" />
-            },
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+
+      {/* CCM Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">CCM Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
             {
               title: "Average care manager time per patient",
               currentValue: "35 min",
@@ -235,36 +312,6 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               forecastLabel={metric.forecastLabel}
               showForecast={showForecast}
               type={metric.type}
-              icon={metric.icon}
-            />
-          ))}
-        </div>
-      </DashboardSection>
-
-      {/* Key Trends (charts/tables) */}
-      <DashboardSection>
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { title: "Wait time for new appointment", value: "7 days", icon: <CalendarIcon className="h-4 w-4" /> },
-            { title: "Time to third next available appointment", value: "12 days", icon: <CalendarIcon className="h-4 w-4" /> },
-            { title: "No show rate", value: "12%", icon: <Clock className="h-4 w-4" /> },
-            { title: "% of telemedicine visits", value: "30%", icon: <UserCheck className="h-4 w-4" /> },
-            { title: "% of patients with assigned PCP/endocrinologist", value: "92%", icon: <Users className="h-4 w-4" /> },
-            { title: "Time per visit (new vs. follow-up)", value: "40 min / 25 min", icon: <Clock className="h-4 w-4" /> },
-            { title: "Care manager utilization", value: "85%", icon: <Users className="h-4 w-4" /> },
-            { title: "Physician utilization", value: "90%", icon: <Users className="h-4 w-4" /> },
-            { title: "Number of Care Managers", value: "6", icon: <Users className="h-4 w-4" /> },
-            { title: "Number of Physicians with active panel", value: "8", icon: <Users className="h-4 w-4" /> },
-            { title: "Average care manager time per patient", value: "35 min", icon: <Clock className="h-4 w-4" /> }
-          ].map((metric) => (
-            <StandardMetricCard
-              key={metric.title}
-              title={metric.title}
-              currentValue={metric.value}
-              currentLabel="CURRENT STATUS"
-              showForecast={false}
-              type="neutral"
               icon={metric.icon}
             />
           ))}

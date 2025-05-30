@@ -48,7 +48,13 @@ export default function StandardMetricCard({
   return (
     <div className={`bg-white rounded-lg shadow-md border border-gray-200 ${getBorderClass()} border-l-4 p-6 hover:shadow-lg transition-shadow duration-200 ${className}`}>
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+          {/* Show a badge for prediction metrics */}
+          {title.toLowerCase().includes('prediction') && (
+            <span className="ml-2 px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase">Prediction</span>
+          )}
+        </div>
         {icon && <div className="text-gray-400 p-2 bg-gray-50 rounded-lg">{icon}</div>}
       </div>
       
