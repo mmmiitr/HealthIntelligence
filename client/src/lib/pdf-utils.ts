@@ -203,6 +203,22 @@ export const exportMultipleTabsToPDF = async (
             containers.forEach((container: any) => {
               container.style.padding = '8px';
             });
+            
+            // Force table containers to use full width
+            const tableContainers = clonedElement.querySelectorAll('.overflow-x-auto');
+            tableContainers.forEach((container: any) => {
+              container.style.width = '100%';
+              container.style.maxWidth = 'none';
+            });
+            
+            // Force consistent responsive layouts
+            const responsiveElements = clonedElement.querySelectorAll('.lg\\:grid-cols-2, .md\\:grid-cols-2');
+            responsiveElements.forEach((element: any) => {
+              element.style.display = 'grid';
+              element.style.gridTemplateColumns = '1fr 1fr';
+              element.style.gap = '0.75rem';
+              element.style.width = '100%';
+            });
           }
         }
       });
