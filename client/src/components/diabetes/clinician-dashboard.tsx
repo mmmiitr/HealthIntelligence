@@ -70,12 +70,20 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
 
   return (
-    <div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Clinical Overview</h2>
+        <p className="text-gray-600">
+          {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Clinical Performance Metrics
+        </p>
+      </div>
+
       {/* 1. % of patients with controlled HbA1c (<7%) (Prediction) */}
       <div className={styles.section}>
         <div className="mb-6">
-          <h3 className={styles.heading.sectionTitle}>% of patients with controlled HbA1c (&lt;7%) (Prediction)</h3>
-          <p className={styles.heading.sectionSubtitle}>Clinical outcomes by care management status</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with controlled HbA1c (&lt;7%) (Prediction)</h3>
+          <p className="text-gray-600">Clinical outcomes by care management status</p>
         </div>
         <div className={styles.grid.cols2}>
           {[
@@ -116,8 +124,8 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       {/* 2. % of patients with recent HbA1c test (last 6 months) */}
       <div className={styles.section}>
         <div className="mb-6">
-          <h3 className={styles.heading.sectionTitle}>% of patients with recent HbA1c test (last 6 months)</h3>
-          <p className={styles.heading.sectionSubtitle}>Testing compliance tracking by care management status</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">% of patients with recent HbA1c test (last 6 months)</h3>
+          <p className="text-gray-600">Testing compliance tracking by care management status</p>
         </div>
         <div className={styles.grid.cols2}>
           {[
