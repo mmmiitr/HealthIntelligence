@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
 import { keyMetricsTrendsData } from "@/lib/mock-data";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
@@ -175,19 +175,39 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={[
-                  { month: 'Jan', value: 65 },
-                  { month: 'Feb', value: 67 },
-                  { month: 'Mar', value: 69 },
-                  { month: 'Apr', value: 68 },
-                  { month: 'May', value: 70 },
-                  { month: 'Jun', value: showForecast ? 72 : null },
-                  { month: 'Jul', value: showForecast ? 74 : null }
+                <AreaChart data={[
+                  { month: 'Jan', value: 65, upperCI: null, lowerCI: null },
+                  { month: 'Feb', value: 67, upperCI: null, lowerCI: null },
+                  { month: 'Mar', value: 69, upperCI: null, lowerCI: null },
+                  { month: 'Apr', value: 68, upperCI: null, lowerCI: null },
+                  { month: 'May', value: 70, upperCI: null, lowerCI: null },
+                  { month: 'Jun', value: showForecast ? 72 : null, upperCI: showForecast ? 75 : null, lowerCI: showForecast ? 69 : null },
+                  { month: 'Jul', value: showForecast ? 74 : null, upperCI: showForecast ? 77 : null, lowerCI: showForecast ? 71 : null }
                 ]}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
                   <Tooltip formatter={(value) => [`${value}%`, 'HbA1c Control']} />
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="upperCI"
+                      stroke="none"
+                      fill="#1976d2"
+                      fillOpacity={0.1}
+                      connectNulls={false}
+                    />
+                  )}
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="lowerCI"
+                      stroke="none"
+                      fill="#ffffff"
+                      fillOpacity={1}
+                      connectNulls={false}
+                    />
+                  )}
                   <Line 
                     type="monotone" 
                     dataKey="value" 
@@ -197,7 +217,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                   />
                   {showForecast && <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />}
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
