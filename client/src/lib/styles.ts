@@ -1,47 +1,56 @@
-// Clean Design System - DRY and reusable
+// Professional Design System - DRY and reusable
 export const styles = {
-  // Layout
-  section: "mb-8",
+  // Layout sections with proper spacing
+  section: "mb-12",
+  sectionTight: "mb-8", 
   grid: {
-    cols2: "grid grid-cols-1 md:grid-cols-2 gap-6",
-    cols3: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", 
-    cols4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+    cols2: "grid grid-cols-1 md:grid-cols-2 gap-8",
+    cols3: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8", 
+    cols4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
   },
   
-  // Typography
+  // Professional Typography
   heading: {
-    h1: "text-4xl font-bold text-gray-900 tracking-tight",
-    h2: "text-3xl font-bold text-gray-900 mb-2",
-    h3: "text-2xl font-bold text-gray-900 mb-4",
-    subtitle: "text-gray-600"
+    h1: "text-4xl font-bold text-gray-900 tracking-tight mb-4",
+    h2: "text-3xl font-bold text-gray-900 mb-3 tracking-tight",
+    h3: "text-2xl font-bold text-gray-900 mb-6 tracking-tight",
+    subtitle: "text-lg text-gray-600 leading-relaxed",
+    sectionTitle: "text-2xl font-bold text-gray-900 mb-2",
+    sectionSubtitle: "text-base text-gray-600 mb-6"
   },
   
-  // Cards
+  // Professional Cards with proper spacing
   card: {
-    base: "bg-white rounded-lg shadow-lg border border-gray-200 p-6 transition-all duration-300 hover:shadow-xl",
-    metric: "bg-white rounded-lg shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-300",
-    title: "text-lg font-bold text-gray-900",
-    value: "text-3xl font-bold",
+    base: "bg-white rounded-xl shadow-lg border border-gray-200 p-8 transition-all duration-300 hover:shadow-xl",
+    metric: "bg-white rounded-xl shadow-lg border border-gray-200 p-8 hover:shadow-xl transition-all duration-300",
+    chart: "bg-white rounded-xl shadow-lg border border-gray-200 p-6",
+    title: "text-xl font-bold text-gray-900 mb-2",
+    value: "text-4xl font-bold tracking-tight",
+    forecast: "text-2xl font-bold tracking-tight", 
     label: "text-xs font-bold text-gray-500 uppercase tracking-widest"
   },
   
-  // Metric colors and borders
+  // Enhanced Metric styling with stronger visual identity
   metric: {
     profit: {
-      border: "border-l-4 border-l-green-500",
-      text: "text-green-700"
+      border: "border-l-6 border-l-green-500",
+      text: "text-green-700",
+      bg: "bg-green-50"
     },
     revenue: {
-      border: "border-l-4 border-l-blue-500", 
-      text: "text-blue-700"
+      border: "border-l-6 border-l-blue-500", 
+      text: "text-blue-700",
+      bg: "bg-blue-50"
     },
     cost: {
-      border: "border-l-4 border-l-red-500",
-      text: "text-red-700"
+      border: "border-l-6 border-l-red-500",
+      text: "text-red-700",
+      bg: "bg-red-50"
     },
     neutral: {
-      border: "border-l-4 border-l-gray-400",
-      text: "text-gray-900"
+      border: "border-l-6 border-l-gray-400",
+      text: "text-gray-900",
+      bg: "bg-gray-50"
     }
   }
 };

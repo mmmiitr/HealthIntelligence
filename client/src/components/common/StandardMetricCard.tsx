@@ -29,20 +29,20 @@ export default function StandardMetricCard({
   
   return (
     <div className={cn(styles.card.metric, metricStyle.border, className)}>
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-6">
         <h3 className={styles.card.title}>{title}</h3>
-        {icon && <div className="text-gray-400 p-2 bg-gray-50 rounded-lg">{icon}</div>}
+        {icon && <div className="text-gray-400 p-3 bg-gray-50 rounded-xl">{icon}</div>}
       </div>
       
-      <div className="space-y-4">
-        <div className="space-y-2">
+      <div className="space-y-6">
+        <div className="space-y-3">
           <div className={cn(styles.card.value, metricStyle.text)}>{currentValue}</div>
           <div className={styles.card.label}>{currentLabel}</div>
         </div>
         
         {showForecast && forecastValue && forecastLabel && (
-          <div className="pt-3 border-t border-gray-200 space-y-2">
-            <div className={cn("text-xl font-bold", metricStyle.text)}>
+          <div className="pt-4 border-t-2 border-gray-100 space-y-3">
+            <div className={cn(styles.card.forecast, metricStyle.text)}>
               {forecastValue}
             </div>
             <div className={styles.card.label}>{forecastLabel}</div>
