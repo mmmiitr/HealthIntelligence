@@ -248,49 +248,42 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       </div>
 
       {/* 5. % enrolled in DSME */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">% enrolled in DSME (Diabetes Self-Management Education)</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
-            <CardContent className="p-6">
-              <div className="flex items-center mb-3">
-                <span className="font-medium text-gray-700 text-sm">All Patients</span>
-              </div>
-              <div className="space-y-3">
-                <div className="bg-purple-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-2xl font-bold text-purple-700">41%</p>
-                </div>
-                {showForecast && (
-                  <div className="bg-gray-50 rounded-lg p-3">
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.forecast}</p>
-                    <p className="text-lg font-bold text-gray-900">43%</p>
-                    <p className="text-xs text-gray-600 mt-1">+2% vs current</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">% enrolled in DSME (Diabetes Self-Management Education)</h3>
+          <p className="text-gray-600">All patients diabetes education enrollment tracking</p>
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          <StandardMetricCard
+            title="All Patients"
+            currentValue="41%"
+            forecastValue={showForecast ? "43%" : undefined}
+            currentLabel={labels.current}
+            forecastLabel={showForecast ? labels.forecast : undefined}
+            showForecast={showForecast}
+            type="neutral"
+            icon={<Users className="h-4 w-4" />}
+          />
         </div>
       </div>
 
       {/* 6. 30-Day ED Visit or Hospitalization (Prediction) */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization <span className="text-xs text-gray-500">(Prediction)</span></h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="bg-white shadow-sm rounded-lg border-l-4 border-purple-500">
-            <CardContent className="p-6">
-              <div className="flex items-center mb-3">
-                <span className="font-medium text-gray-700 text-sm">All Patients</span>
-              </div>
-              <div className="space-y-3">
-                <div className="bg-purple-50 rounded-lg p-3">
-                  <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">{labels.current}</p>
-                  <p className="text-2xl font-bold text-purple-700">8%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <div className={styles.section}>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">30-Day ED Visit or Hospitalization</h3>
+          <p className="text-gray-600">Emergency department and hospitalization tracking (Prediction)</p>
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          <StandardMetricCard
+            title="All Patients"
+            currentValue="8%"
+            forecastValue={showForecast ? "7.5%" : undefined}
+            currentLabel={labels.current}
+            forecastLabel={showForecast ? labels.forecast : undefined}
+            showForecast={showForecast}
+            type="cost"
+            icon={<AlertTriangle className="h-4 w-4" />}
+          />
         </div>
       </div>
 
