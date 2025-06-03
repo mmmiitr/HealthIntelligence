@@ -1,6 +1,6 @@
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import SectionHeader from "@/components/common/SectionHeader";
-import { summaryKeyMetrics, summaryTrends } from "@/lib/summary-metrics-data";
+import { summaryKeyMetrics, getSummaryTrends } from "@/lib/summary-metrics-data";
 import { summarySectionData } from "@/lib/summary-section-data";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Monitor, Shield } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
@@ -19,6 +19,9 @@ interface SummaryDashboardProps {
 export default function SummaryDashboard({ timeFilter, viewMode, showForecast }: SummaryDashboardProps) {
   // Icon mapping for modular data
   const iconMap = { DollarSign: <DollarSign className="h-4 w-4" />, UserCheck: <UserCheck className="h-4 w-4" />, Monitor: <Monitor className="h-4 w-4" />, Heart: <Heart className="h-4 w-4" /> };
+
+  // Get data based on view mode
+  const summaryTrends = getSummaryTrends(viewMode);
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
@@ -93,7 +96,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <XAxis dataKey="period" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
                   <Tooltip 
                     formatter={(value, name) => {
@@ -161,7 +164,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={summaryTrends.underCCM}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <XAxis dataKey="period" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
                   <Tooltip 
                     formatter={(value, name) => {
@@ -230,7 +233,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={summaryTrends.edVisit}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="period" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
                 <Tooltip 
                   formatter={(value, name) => {
