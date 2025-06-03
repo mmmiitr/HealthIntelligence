@@ -3,7 +3,7 @@ import SectionHeader from "@/components/common/SectionHeader";
 import { summaryKeyMetrics, getSummaryTrends } from "@/lib/summary-metrics-data";
 import { summarySectionData } from "@/lib/summary-section-data";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Monitor, Shield } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart ,Label} from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
@@ -96,8 +96,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="period" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
+                  <XAxis dataKey="period" tick={{ fontSize: 12 }}/>
+
+                  <YAxis tick={{ fontSize: 12 }} domain={[60, 80]}>
+                    <Label value="Patient % In Control HbA1c" angle={-90} position="insideLeft" offset={10} fontSize={12} />
+                  </YAxis>
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === 'value') return [`${value}%`, 'HbA1c Control'];
@@ -106,6 +109,26 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       return [value, name];
                     }}
                   />
+                   <Legend
+                      verticalAlign="top"
+                      align="right"
+                      layout="horizontal"
+                      iconType="line"
+                      wrapperStyle={{
+                        paddingBottom: 10,
+                        paddingRight: 20,
+                        fontSize: 12,
+                        color: '#374151', // Tailwind's gray-700
+                        fontWeight: '500',
+                        lineHeight: '20px'
+                      }}
+                      formatter={(value) => {
+                        if (value === 'value') return 'HbA1c Control';
+                        if (value === 'upperBand') return 'Upper Confidence';
+                        if (value === 'lowerBand') return 'Lower Confidence';
+                        return value;
+                      }}
+                    />
                   {showForecast && (
                     <>
                       <Line 
@@ -164,8 +187,12 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={summaryTrends.underCCM}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="period" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
+                  <XAxis dataKey="period" tick={{ fontSize: 12 }}/>
+                    
+
+                  <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} >
+                     <Label value="Patient % Under CCM" angle={-90} position="insideLeft" offset={20} fontSize={12} />
+                  </YAxis>
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === 'value') return [`${value}%`, 'CCM Enrollment'];
@@ -174,6 +201,26 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       return [value, name];
                     }}
                   />
+                   <Legend
+                      verticalAlign="top"
+                      align="right"
+                      layout="horizontal"
+                      iconType="line"
+                      wrapperStyle={{
+                        paddingBottom: 10,
+                        paddingRight: 20,
+                        fontSize: 12,
+                        color: '#374151', // Tailwind's gray-700
+                        fontWeight: '500',
+                        lineHeight: '20px'
+                      }}
+                      formatter={(value) => {
+                        if (value === 'value') return 'CCM Enrollment';
+                        if (value === 'upperBand') return 'Upper Confidence';
+                        if (value === 'lowerBand') return 'Lower Confidence';
+                        return value;
+                      }}
+                    />
                   {showForecast && (
                     <>
                       <Line 
