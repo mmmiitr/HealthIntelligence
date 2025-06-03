@@ -100,7 +100,7 @@ export default function Dashboard() {
               <h1 className="text-2xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3 bg-gray-100 px-4 py-2 rounded-lg">
+              <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-md ">
                 <label htmlFor="global-forecast-toggle" className="text-sm font-semibold text-gray-700">
                   Forecast
                 </label>
@@ -108,7 +108,9 @@ export default function Dashboard() {
                   id="global-forecast-toggle"
                   checked={showForecast}
                   onCheckedChange={setShowForecast}
-                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 border-2 border-gray-300"
+                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 data-[state=unchecked]:border-white-400 border-2 border-gray-400 shadow-sm 
+                            [&>span]:bg-white [&>span]:shadow  [&>span]:flex-none [&>span]:block [&>span]:rounded-full  [&>span]:h-5 [&>span]:w-5 
+                            data-[state=unchecked]:[&>span]:translate-x-[-14px]   data-[state=checked]:[&>span]:translate-x-[7px]" 
                 />
               </div>
               <Select value={viewMode} onValueChange={setViewMode}>
@@ -152,7 +154,7 @@ export default function Dashboard() {
           </div>
           
           {/* Second Row: Navigation Tabs */}
-          <div className="flex justify-center py-3 border-t border-gray-100">
+          <div className="flex justify-start  py-3 border-t border-gray-100">
             <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
