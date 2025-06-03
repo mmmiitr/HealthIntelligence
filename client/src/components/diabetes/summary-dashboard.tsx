@@ -91,27 +91,11 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={summaryTrends.inControlHba1c}>
+                <LineChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
-                  <Tooltip 
-                    formatter={(value, name) => {
-                      if (name === 'value') return [`${value}%`, 'HbA1c Control'];
-                      if (name === 'range' && Array.isArray(value)) return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
-                      return [value, name];
-                    }}
-                  />
-                  {/* Confidence Band */}
-                  <Area
-                    type="monotone"
-                    dataKey="range"
-                    stroke="none"
-                    fill="#1976d2"
-                    fillOpacity={0.2}
-                    connectNulls={false}
-                  />
-                  {/* Main trend line */}
+                  <Tooltip formatter={(value) => [`${value}%`, 'HbA1c Control']} />
                   <Line 
                     type="monotone" 
                     dataKey="value" 
@@ -120,7 +104,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     connectNulls={false}
                     dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
