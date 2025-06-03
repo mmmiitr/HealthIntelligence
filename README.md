@@ -1,4 +1,4 @@
-# Diabetes Care Dashboard V1
+# Diabetes Care Dashboard V0
 
 A comprehensive healthcare analytics platform delivering diabetes care insights through advanced predictive modeling and user-centric visualization technologies.
 

@@ -212,19 +212,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={payerRevenueTrends.map((d, i, arr) => {
-                    if (showForecast && d.month === 'May 2025') {
-                      return [
-                        d,
+                  <LineChart data={(() => {
+                    let baseData = [...payerRevenueTrends];
+                    if (showForecast) {
+                      const forecastData = [
                         { month: 'Jun 2025', medicare: 5050, medicaid: 2080, commercial: 3450, selfPay: 1070, medicareUpper: 5300, medicareLower: 4800, isForecast: true },
                         { month: 'Jul 2025', medicare: 5150, medicaid: 2120, commercial: 3520, selfPay: 1090, medicareUpper: 5420, medicareLower: 4880, isForecast: true },
                         { month: 'Aug 2025', medicare: 5250, medicaid: 2160, commercial: 3590, selfPay: 1110, medicareUpper: 5540, medicareLower: 4960, isForecast: true },
                         { month: 'Sep 2025', medicare: 5350, medicaid: 2200, commercial: 3660, selfPay: 1130, medicareUpper: 5660, medicareLower: 5040, isForecast: true },
                         { month: 'Oct 2025', medicare: 5450, medicaid: 2240, commercial: 3730, selfPay: 1150, medicareUpper: 5780, medicareLower: 5120, isForecast: true }
                       ];
+                      return [...baseData, ...forecastData];
                     }
-                    return d;
-                  }).flat()}>
+                    return baseData;
+                  })()}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#6B7280' }} />
                     <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} tick={{ fontSize: 12, fill: '#6B7280' }} />
@@ -280,12 +281,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={350}>
-                  <LineChart data={predictionsData.map(d => ({
-                    ...d,
-                    revenue: d.isHistorical ? d.revenue : (showForecast ? d.revenue : null),
-                    upperBound: showForecast && !d.isHistorical ? d.upperBound : null,
-                    lowerBound: showForecast && !d.isHistorical ? d.lowerBound : null
-                  }))}>
+                  <LineChart data={showForecast ? predictionsData : predictionsData.filter(d => d.isHistorical)}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis 
                       dataKey="month"

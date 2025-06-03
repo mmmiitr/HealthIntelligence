@@ -49,12 +49,41 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
   const adherenceRate = currentMetrics?.adherenceRate || "0";
   const complicationRate = currentMetrics?.complicationRate || "0";
 
-  // Prepare A1C trend chart data
+  // Prepare A1C trend chart data and prediction data
   const a1cChartData = Array.isArray(a1cTrends) ? a1cTrends.map((item: any) => ({
     month: item.month,
     a1c: isNaN(parseFloat(item.averageA1C)) ? 0 : parseFloat(item.averageA1C),
     patientCount: item.patientCount || 0,
   })) : [];
+
+  // Prepare prediction data based on existing A1C trends
+  const predictionChartData = Array.isArray(a1cTrends) ? (() => {
+    // Historical data (past months)
+    const historicalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+    const baseData = a1cTrends
+      .filter((item: any) => historicalMonths.includes(item.month))
+      .map((item: any) => ({
+        month: item.month,
+        value: 8 + (parseFloat(item.averageA1C) - 7) * 2, // Convert A1C to ED visit rate
+        ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+        isForecast: false,
+      }));
+    
+    if (showForecast) {
+      // Future months (forecast)
+      const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
+      const forecastData = a1cTrends
+        .filter((item: any) => forecastMonths.includes(item.month))
+        .map((item: any) => ({
+          month: item.month,
+          value: 8 + (parseFloat(item.averageA1C) - 7) * 2,
+          ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+          isForecast: true,
+        }));
+      return [...baseData, ...forecastData];
+    }
+    return baseData; // Only historical data when forecast is disabled
+  })() : [];
 
   // Prepare risk distribution chart data
   const riskChartData = Array.isArray(riskDistribution) ? riskDistribution.map((item: any) => ({
@@ -89,7 +118,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<Activity className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
           {/* Non CCM - Prediction (Red) */}
           <StandardMetricCard 
@@ -101,7 +129,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<Heart className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
           {/* CCM - Recent HbA1c Test (Green) */}
           <StandardMetricCard 
@@ -190,7 +217,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<AlertTriangle className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
         </div>
       </DashboardSection>
@@ -297,14 +323,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         <Card>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={[
-                { month: 'Jan', value: 8, ci: [7, 9] },
-                { month: 'Feb', value: 8.5, ci: [7.5, 9.5] },
-                { month: 'Mar', value: 9, ci: [8, 10] },
-                { month: 'Apr', value: 10, ci: [9, 11] },
-                { month: 'May', value: 11, ci: [10, 12] },
-                { month: 'Jun', value: 12, ci: [11, 13] },
-              ]}>
+              <AreaChart data={predictionChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />

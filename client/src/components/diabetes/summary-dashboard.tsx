@@ -21,7 +21,20 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
   const iconMap = { DollarSign: <DollarSign className="h-4 w-4" />, UserCheck: <UserCheck className="h-4 w-4" />, Monitor: <Monitor className="h-4 w-4" />, Heart: <Heart className="h-4 w-4" /> };
 
   // Get data based on view mode
-  const summaryTrends = getSummaryTrends(viewMode);
+  const rawSummaryTrends = getSummaryTrends(viewMode);
+  
+  // Filter data based on forecast setting
+  const summaryTrends = {
+    inControlHba1c: showForecast 
+      ? rawSummaryTrends.inControlHba1c 
+      : rawSummaryTrends.inControlHba1c.filter(d => !d.isForecast),
+    underCCM: showForecast 
+      ? rawSummaryTrends.underCCM 
+      : rawSummaryTrends.underCCM.filter(d => !d.isForecast),
+    edVisit: showForecast 
+      ? rawSummaryTrends.edVisit 
+      : rawSummaryTrends.edVisit.filter(d => !d.isForecast),
+  };
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
