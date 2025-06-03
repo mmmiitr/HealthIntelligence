@@ -477,7 +477,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-
       {/* HIPAA sticker in footer only */}
       <footer className="flex justify-end mt-8">
         <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-md px-6 py-2" style={{ minWidth: 0 }}>
