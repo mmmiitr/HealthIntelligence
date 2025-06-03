@@ -25,14 +25,15 @@ export default function StandardMetricCard({
   icon,
   className = ""
 }: StandardMetricCardProps) {
-  const metricStyle = styles.metric[type];
+
+  const metricStyle = styles.metric[type]; 
   
   const getBorderClass = () => {
     switch(type) {
       case 'profit': return 'border-l-blue-500';
       case 'revenue': return 'border-l-blue-500'; 
       case 'cost': return 'border-l-blue-500';
-      default: return 'border-l-blue-500'; // Simplified - all use blue by default
+      default: return 'border-l-blue-500';
     }
   };
 
@@ -41,35 +42,49 @@ export default function StandardMetricCard({
       case 'profit': return 'text-blue-600';
       case 'revenue': return 'text-blue-600';
       case 'cost': return 'text-blue-600';
-      default: return 'text-blue-600'; // Simplified - default to blue
+      default: return 'text-blue-600';
     }
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-md border border-gray-200 ${getBorderClass()} border-l-4 p-6 hover:shadow-lg transition-shadow duration-200 ${className}`}>
+    <div className={cn(
+        "relative bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between overflow-hidden",
+        "hover:shadow-lg transition-shadow duration-200", 
+        className
+    )}>
+      
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-lg"></div>
+
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-          {/* Show a badge for prediction metrics */}
+          
+          <p className="text-gray-700 text-base font-medium pr-8 leading-tight">{title}</p>
+          
           {title.toLowerCase().includes('prediction') && (
             <span className="ml-2 px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase">Prediction</span>
           )}
         </div>
-        {icon && <div className="text-gray-400 p-2 bg-gray-50 rounded-lg">{icon}</div>}
+        
+        {icon && <div className="text-gray-500">{icon}</div>}
       </div>
       
-      <div className={showForecast && forecastValue ? "flex justify-between items-end" : "space-y-2"}>
-        <div className="space-y-1">
-          <div className={`text-3xl font-bold ${getTextColor()}`}>{currentValue}</div>
-          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">{currentLabel}</div>
+      
+      <div className={showForecast && forecastValue ? "flex justify-between items-end" : "flex flex-col space-y-1"}> 
+        <div className="space-y-1"> 
+          
+          <div className={`text-blue-600 text-4xl font-bold`}>{currentValue}</div>
+          
+          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">{currentLabel}</div>
         </div>
         
         {showForecast && forecastValue && forecastLabel && (
-          <div className="text-right space-y-1">
-            <div className={`text-xl font-semibold ${getTextColor()}`}>
+          <div className="text-right space-y-1"> 
+            
+            <div className={`text-blue-500 text-2xl font-bold`}>
               {forecastValue}
             </div>
-            <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">{forecastLabel}</div>
+            
+            <div className="text-gray-400 text-xs uppercase">{forecastLabel}</div>
           </div>
         )}
       </div>
