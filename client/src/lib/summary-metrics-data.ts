@@ -29,13 +29,13 @@ export const summaryKeyMetrics = [
     icon: 'Heart',
   },
   {
-    title: "% Under CCM",
+    title: "% enrolled in ccm",
     currentValue: "30%",
     forecastValue: "32%",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
-    type: 'neutral',
-    icon: 'UserCheck',
+    type: 'cost',
+    icon: 'Heart',
   },
   {
     title: "% Telemedicine Visits",
