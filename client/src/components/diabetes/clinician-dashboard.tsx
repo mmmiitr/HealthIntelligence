@@ -49,12 +49,33 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
   const adherenceRate = currentMetrics?.adherenceRate || "0";
   const complicationRate = currentMetrics?.complicationRate || "0";
 
-  // Prepare A1C trend chart data
+  // Prepare A1C trend chart data and prediction data
   const a1cChartData = Array.isArray(a1cTrends) ? a1cTrends.map((item: any) => ({
     month: item.month,
     a1c: isNaN(parseFloat(item.averageA1C)) ? 0 : parseFloat(item.averageA1C),
     patientCount: item.patientCount || 0,
   })) : [];
+
+  // Prepare prediction data based on existing A1C trends
+  const predictionChartData = Array.isArray(a1cTrends) ? (() => {
+    const baseData = a1cTrends.slice(0, 5).map((item: any) => ({
+      month: item.month,
+      value: 8 + (parseFloat(item.averageA1C) - 7) * 2, // Convert A1C to ED visit rate
+      ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+      isForecast: false,
+    }));
+    
+    if (showForecast) {
+      const forecastData = a1cTrends.slice(5).map((item: any) => ({
+        month: item.month,
+        value: 8 + (parseFloat(item.averageA1C) - 7) * 2,
+        ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+        isForecast: true,
+      }));
+      return [...baseData, ...forecastData];
+    }
+    return baseData;
+  })() : [];
 
   // Prepare risk distribution chart data
   const riskChartData = Array.isArray(riskDistribution) ? riskDistribution.map((item: any) => ({
@@ -89,7 +110,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<Activity className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
           {/* Non CCM - Prediction (Red) */}
           <StandardMetricCard 
@@ -297,22 +317,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         <Card>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={(() => {
-                const baseData = [
-                  { month: 'Jan', value: 8, ci: [7, 9], isForecast: false },
-                  { month: 'Feb', value: 8.5, ci: [7.5, 9.5], isForecast: false },
-                  { month: 'Mar', value: 9, ci: [8, 10], isForecast: false },
-                  { month: 'Apr', value: 10, ci: [9, 11], isForecast: false },
-                  { month: 'May', value: 11, ci: [10, 12], isForecast: false },
-                ];
-                const forecastData = [
-                  { month: 'Jun', value: 12, ci: [11, 13], isForecast: true },
-                  { month: 'Jul', value: 11.5, ci: [10.5, 12.5], isForecast: true },
-                  { month: 'Aug', value: 11, ci: [10, 12], isForecast: true },
-                  { month: 'Sep', value: 10.5, ci: [9.5, 11.5], isForecast: true },
-                ];
-                return showForecast ? [...baseData, ...forecastData] : baseData;
-              })()}>
+              <AreaChart data={predictionChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />
