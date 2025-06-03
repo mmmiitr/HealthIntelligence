@@ -190,7 +190,7 @@ export default function Dashboard() {
       {/* Global Footer with Badges and Timestamp */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-8">
         <div className="py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
-          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 px-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
             <div className="flex items-center space-x-3">
               <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
                 <Shield className="h-3 w-3 mr-1" />
