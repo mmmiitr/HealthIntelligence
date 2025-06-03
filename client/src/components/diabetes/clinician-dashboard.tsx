@@ -121,7 +121,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<Heart className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
           {/* CCM - Recent HbA1c Test (Green) */}
           <StandardMetricCard 
@@ -210,7 +209,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             showForecast={showForecast}
             type="cost"
             icon={<AlertTriangle className="h-4 w-4 text-red-500" />} 
-            badge="Prediction"
           />
         </div>
       </DashboardSection>
