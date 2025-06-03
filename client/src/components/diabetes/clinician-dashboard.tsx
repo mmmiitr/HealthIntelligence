@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Line } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -62,24 +62,32 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
     const historicalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
     const baseData = a1cTrends
       .filter((item: any) => historicalMonths.includes(item.month))
-      .map((item: any) => ({
-        month: item.month,
-        value: 8 + (parseFloat(item.averageA1C) - 7) * 2, // Convert A1C to ED visit rate
-        ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
-        isForecast: false,
-      }));
+      .map((item: any) => {
+        const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2; // Convert A1C to ED visit rate
+        return {
+          month: item.month,
+          value: edRate,
+          upperCI: edRate + 1,
+          lowerCI: edRate - 1,
+          isForecast: false,
+        };
+      });
     
     if (showForecast) {
       // Future months (forecast)
       const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
       const forecastData = a1cTrends
         .filter((item: any) => forecastMonths.includes(item.month))
-        .map((item: any) => ({
-          month: item.month,
-          value: 8 + (parseFloat(item.averageA1C) - 7) * 2,
-          ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
-          isForecast: true,
-        }));
+        .map((item: any) => {
+          const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2;
+          return {
+            month: item.month,
+            value: edRate,
+            upperCI: edRate + 1,
+            lowerCI: edRate - 1,
+            isForecast: true,
+          };
+        });
       return [...baseData, ...forecastData];
     }
     return baseData; // Only historical data when forecast is disabled
@@ -323,24 +331,16 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         <Card>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={predictionChartData}>
+              <LineChart data={predictionChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />
                 <Tooltip formatter={(value, name) => {
                   if (name === 'value') return [`${value}%`, 'ED Visit Rate'];
-                  if (name === 'ci' && Array.isArray(value)) return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
+                  if (name === 'upperCI') return [`${value}%`, 'Upper 95% CI'];
+                  if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
                   return [value, name];
                 }} />
-                {/* Confidence Band */}
-                <Area
-                  type="monotone"
-                  dataKey="ci"
-                  stroke="none"
-                  fill="#1976d2"
-                  fillOpacity={0.2}
-                  connectNulls={false}
-                />
                 {/* Main trend line */}
                 <Line
                   type="monotone"
@@ -350,7 +350,27 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   connectNulls={false}
                   dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
                 />
-              </AreaChart>
+                {/* Upper confidence interval line */}
+                <Line
+                  type="monotone"
+                  dataKey="upperCI"
+                  stroke="#1976d2"
+                  strokeWidth={1}
+                  strokeDasharray="5 5"
+                  connectNulls={false}
+                  dot={false}
+                />
+                {/* Lower confidence interval line */}
+                <Line
+                  type="monotone"
+                  dataKey="lowerCI"
+                  stroke="#1976d2"
+                  strokeWidth={1}
+                  strokeDasharray="5 5"
+                  connectNulls={false}
+                  dot={false}
+                />
+              </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
