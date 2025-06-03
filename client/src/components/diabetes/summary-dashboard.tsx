@@ -91,20 +91,62 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={summaryTrends.inControlHba1c}>
+                <AreaChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
-                  <Tooltip formatter={(value) => [`${value}%`, 'HbA1c Control']} />
+                  <Tooltip 
+                    formatter={(value, name) => {
+                      if (name === 'value') return [`${value}%`, 'HbA1c Control'];
+                      if (name === 'upperBand') return [`${value}%`, 'Upper Confidence'];
+                      if (name === 'lowerBand') return [`${value}%`, 'Lower Confidence'];
+                      return [value, name];
+                    }}
+                  />
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="upperBand"
+                      stackId="1"
+                      stroke="none"
+                      fill="#1976d2"
+                      fillOpacity={0.15}
+                      connectNulls={false}
+                    />
+                  )}
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="lowerBand"
+                      stackId="1"
+                      stroke="none"
+                      fill="#ffffff"
+                      fillOpacity={1}
+                      connectNulls={false}
+                    />
+                  )}
                   <Line 
                     type="monotone" 
                     dataKey="value" 
                     stroke="#1976d2" 
                     strokeWidth={3}
                     connectNulls={false}
-                    dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                    dot={(props) => {
+                      const { payload } = props;
+                      return (
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={4}
+                          fill={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                          stroke={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                          strokeWidth={2}
+                        />
+                      );
+                    }}
+
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -116,19 +158,61 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={summaryTrends.underCCM}>
+                <AreaChart data={summaryTrends.underCCM}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
-                  <Tooltip formatter={(value) => [`${value}%`, 'CCM Enrollment']} />
+                  <Tooltip 
+                    formatter={(value, name) => {
+                      if (name === 'value') return [`${value}%`, 'CCM Enrollment'];
+                      if (name === 'upperBand') return [`${value}%`, 'Upper Confidence'];
+                      if (name === 'lowerBand') return [`${value}%`, 'Lower Confidence'];
+                      return [value, name];
+                    }}
+                  />
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="upperBand"
+                      stackId="1"
+                      stroke="none"
+                      fill="#4caf50"
+                      fillOpacity={0.15}
+                      connectNulls={false}
+                    />
+                  )}
+                  {showForecast && (
+                    <Area
+                      type="monotone"
+                      dataKey="lowerBand"
+                      stackId="1"
+                      stroke="none"
+                      fill="#ffffff"
+                      fillOpacity={1}
+                      connectNulls={false}
+                    />
+                  )}
                   <Line 
                     type="monotone" 
                     dataKey="value" 
                     stroke="#4caf50" 
                     strokeWidth={3}
                     connectNulls={false}
+                    dot={(props) => {
+                      const { payload } = props;
+                      return (
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={4}
+                          fill={payload?.isForecast ? '#ff9800' : '#4caf50'}
+                          stroke={payload?.isForecast ? '#ff9800' : '#4caf50'}
+                          strokeWidth={2}
+                        />
+                      );
+                    }}
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -141,19 +225,61 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={summaryTrends.edVisit}>
+              <AreaChart data={summaryTrends.edVisit}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
-                <Tooltip formatter={(value) => [`${value}%`, 'ED Visit Rate']} />
+                <Tooltip 
+                  formatter={(value, name) => {
+                    if (name === 'value') return [`${value}%`, 'ED Visit Rate'];
+                    if (name === 'upperBand') return [`${value}%`, 'Upper Confidence'];
+                    if (name === 'lowerBand') return [`${value}%`, 'Lower Confidence'];
+                    return [value, name];
+                  }}
+                />
+                {showForecast && (
+                  <Area
+                    type="monotone"
+                    dataKey="upperBand"
+                    stackId="1"
+                    stroke="none"
+                    fill="#f44336"
+                    fillOpacity={0.15}
+                    connectNulls={false}
+                  />
+                )}
+                {showForecast && (
+                  <Area
+                    type="monotone"
+                    dataKey="lowerBand"
+                    stackId="1"
+                    stroke="none"
+                    fill="#ffffff"
+                    fillOpacity={1}
+                    connectNulls={false}
+                  />
+                )}
                 <Line 
                   type="monotone" 
                   dataKey="value" 
                   stroke="#f44336" 
                   strokeWidth={3}
                   connectNulls={false}
+                  dot={(props) => {
+                    const { payload } = props;
+                    return (
+                      <circle
+                        cx={props.cx}
+                        cy={props.cy}
+                        r={4}
+                        fill={payload?.isForecast ? '#ff9800' : '#f44336'}
+                        stroke={payload?.isForecast ? '#ff9800' : '#f44336'}
+                        strokeWidth={2}
+                      />
+                    );
+                  }}
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
