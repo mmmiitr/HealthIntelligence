@@ -39,15 +39,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       forecastLabel: "JUN FORECAST", 
       type: "profit" as const,
       icon: <TrendingUp className="h-5 w-5" />
-    },
-    {
-      title: "Cost per Patient",
-      currentValue: "$285",
-      forecastValue: "$275",
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST",
-      type: "neutral" as const,
-      icon: <DollarSign className="h-5 w-5" />
     }
   ];
 
@@ -206,6 +197,138 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </CardContent>
         </Card>
       </div>
+
+      {/* Revenue & Cost Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Revenue Section */}
+        <div>
+          <h3 className={styles.heading.h3}>Revenue</h3>
+          <div className="space-y-6">
+            {/* Average Revenue per Patient in Panel */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue per Patient in Panel</div>
+                <div className="text-3xl font-bold text-blue-700">$2,400</div>
+                <div className="text-xs text-gray-500 mt-1">May 2025</div>
+              </CardContent>
+            </Card>
+            {/* Payer Mix Distribution Pie Chart */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Payer Mix Distribution</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Medicare', value: 420, color: '#1976d2' },
+                        { name: 'Medicaid', value: 180, color: '#4caf50' },
+                        { name: 'Commercial', value: 290, color: '#ff9800' },
+                        { name: 'Cash Pay', value: 85, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`}
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
+                        <Cell key={`cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+            {/* Revenue Source Split Pie Chart */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'In Person Visits', value: 320, color: '#1976d2' },
+                        { name: 'CCM', value: 120, color: '#4caf50' },
+                        { name: 'DSMT', value: 60, color: '#ff9800' },
+                        { name: 'Telemedicine', value: 80, color: '#f44336' },
+                        { name: 'Labs', value: 40, color: '#9c27b0' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`}
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
+                        <Cell key={`cell2-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        {/* Cost Section */}
+        <div>
+          <h3 className={styles.heading.h3}>Cost</h3>
+          <div className="space-y-6">
+            {/* Average Cost per Patient in Panel */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
+                <div className="text-3xl font-bold text-red-700">$1,100</div>
+                <div className="text-xs text-gray-500 mt-1">May 2025</div>
+              </CardContent>
+            </Card>
+            {/* Cost per Visit */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
+                <div className="text-3xl font-bold text-red-700">$95</div>
+                <div className="text-xs text-gray-500 mt-1">May 2025</div>
+              </CardContent>
+            </Card>
+            {/* Labor Cost Pie Chart */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Labor Cost by Role</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Physician', value: 400, color: '#1976d2' },
+                        { name: 'Nurse', value: 220, color: '#4caf50' },
+                        { name: 'Technician', value: 120, color: '#ff9800' },
+                        { name: 'Care Manager', value: 180, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`}
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
+                        <Cell key={`cell3-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+      {/* HIPAA sticker in footer only */}
+      <footer className="flex justify-end mt-8">
+        <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-md px-6 py-2" style={{ minWidth: 0 }}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01" /></svg>
+          <span className="text-green-700 font-semibold text-base">HIPAA Compliant</span>
+        </div>
+      </footer>
     </div>
   );
 }

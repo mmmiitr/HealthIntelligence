@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Users, Bed, UserCheck, Heart, Clock, Calendar as CalendarIcon } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles } from "@/lib/styles";
-
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 interface OperationDashboardProps {
   timeFilter: string;
@@ -43,41 +40,40 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
 
 
   return (
-    <div>
+    <DashboardContainer>
       {/* Header */}
-      <div className={styles.section}>
-        <h2 className={styles.heading.h2}>Operation Dashboard</h2>
-        <p className={styles.heading.subtitle}>Operational efficiency and resource management</p>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Operations Dashboard</h2>
+        <p className="text-gray-600">Operational efficiency and resource management</p>
       </div>
 
-      {/* Patient Wait Time (first section, styled like Patient Metrics) */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">Patient Wait Time</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Average wait time for new appointments</span>
-                <span className="text-2xl font-extrabold text-gray-900">7 days</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Time to Third next available appointment</span>
-                <span className="text-2xl font-extrabold text-gray-900">12 days</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Patient Wait Time */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Wait Time</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {showForecast && (
+            <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+              <CardContent className="p-8">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600">Average wait for new appointments</span>
+                    <span className="text-2xl font-extrabold text-gray-900">7 days</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600">Time to third next available appointment</span>
+                    <span className="text-2xl font-extrabold text-gray-900">12 days</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </DashboardSection>
 
       {/* Patient Metrics */}
-      <div className={styles.section}>
-        <div className="mb-6">
-          <h3 className={styles.heading.sectionTitle}>Patient Metrics</h3>
-          <p className={styles.heading.sectionSubtitle}>
-            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Performance Metrics
-          </p>
-        </div>
-        <div className={styles.grid.cols4}>
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
             { 
               title: "No-show rate", 
@@ -98,19 +94,10 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <UserCheck className="h-4 w-4" />
             },
             { 
-              title: "Current bed utilization", 
-              currentValue: "87%", 
+              title: "% of patients with assigned PCP/endocrinologist", 
+              currentValue: "92%", 
               forecastValue: undefined, // Real-time metric, no forecast
               currentLabel: "CURRENT STATUS",
-              forecastLabel: undefined,
-              type: 'neutral' as const,
-              icon: <Bed className="h-4 w-4" />
-            },
-            { 
-              title: "Staff on duty today", 
-              currentValue: "24", 
-              forecastValue: undefined, // Real-time operational metric
-              currentLabel: "TODAY",
               forecastLabel: undefined,
               type: 'neutral' as const,
               icon: <Users className="h-4 w-4" />
@@ -129,141 +116,207 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
             />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
       {/* Appointment Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Time per visit (new vs. follow-up)</span>
-                <span className="text-2xl font-extrabold text-gray-900">40 min / 25 min</span>
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Appointment Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="bg-white border border-gray-200 shadow-none rounded-xl">
+            <CardContent className="p-8">
+              <div className="flex flex-col space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-base text-gray-600">Time per visit (new vs. follow-up)</span>
+                  <span className="text-2xl font-extrabold text-gray-900">40 min / 25 min</span>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
+      </DashboardSection>
 
-      {/* Utilization of providers */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of providers ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Care managers</span>
-                <span className="text-2xl font-extrabold text-gray-900">85%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Physicians</span>
-                <span className="text-2xl font-extrabold text-gray-900">90%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Workforce Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">Workforce Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Number of Care Managers</span>
-                <span className="text-2xl font-extrabold text-gray-900">6</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Number of Physicians with active panel</span>
-                <span className="text-2xl font-extrabold text-gray-900">8</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Workload Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">Workload Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Panel size per provider</span>
-                <span className="text-2xl font-extrabold text-gray-900">Care Manager: 120</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600"></span>
-                <span className="text-2xl font-extrabold text-gray-900">Physician: 180</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Overtime hours for provider</span>
-                <span className="text-2xl font-extrabold text-gray-900">Care Manager: 6</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600"></span>
-                <span className="text-2xl font-extrabold text-gray-900">Physician: 8</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* CCM ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"}) */}
-      <div className="mb-8">
-        <h3 className="dashboard-section-title">CCM ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <Card className="bg-white border border-blue-500 shadow-none rounded-xl">
-          <CardContent className="p-8">
-            <div className="flex flex-col space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Average care manager time per patient</span>
-                <span className="text-2xl font-extrabold text-gray-900">35 min</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Number discharged in month</span>
-                <span className="text-2xl font-extrabold text-gray-900">14</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-base text-gray-600">Number enrolled in month</span>
-                <span className="text-2xl font-extrabold text-gray-900">22</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Key Trends */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Trends</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Utilization of Providers */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Utilization of Providers</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
-            { title: "Wait time for new appointment", value: "7 days" },
-            { title: "Time to third next available appointment", value: "12 days" },
-            { title: "No show rate", value: "12%" },
-            { title: "% of telemedicine visits", value: "30%" },
-            { title: "% of patients with assigned PCP/endocrinologist", value: "92%" },
-            { title: "Time per visit (new vs. follow-up)", value: "40 min / 25 min" },
-            { title: "Care manager utilization", value: "85%" },
-            { title: "Physician utilization", value: "90%" },
-            { title: "Number of Care Managers", value: "6" },
-            { title: "Number of Physicians with active panel", value: "8" },
-            { title: "Average care manager time per patient", value: "35 min" }
+            {
+              title: "Care managers",
+              currentValue: "85%",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            {
+              title: "Physicians",
+              currentValue: "90%",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
           ].map((metric) => (
-            <Card key={metric.title} className="bg-white shadow-sm rounded-lg border-l-4 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="font-medium text-gray-700 text-sm">{metric.title}</span>
-                </div>
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-2xl font-bold text-blue-700">{metric.value}</p>
-                </div>
-              </CardContent>
-            </Card>
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
-      </div>
-    </div>
+      </DashboardSection>
+
+      {/* Workforce Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workforce Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              title: "Number of Care Managers",
+              currentValue: "6",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            {
+              title: "Number of Physicians with active panel",
+              currentValue: "8",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+
+      {/* Workload Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Workload Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              title: "Panel size per provider (Care Manager)",
+              currentValue: "120",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            {
+              title: "Panel size per provider (Physician)",
+              currentValue: "180",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            {
+              title: "Overtime hours for provider (Care Manager)",
+              currentValue: "6",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Clock className="h-4 w-4" />
+            },
+            {
+              title: "Overtime hours for provider (Physician)",
+              currentValue: "8",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Clock className="h-4 w-4" />
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+
+      {/* CCM Metrics */}
+      <DashboardSection>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">CCM Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              title: "Average care manager time per patient",
+              currentValue: "35 min",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Clock className="h-4 w-4" />
+            },
+            {
+              title: "Number discharged in month",
+              currentValue: "14",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            },
+            {
+              title: "Number enrolled in month",
+              currentValue: "22",
+              forecastValue: undefined,
+              currentLabel: "CURRENT STATUS",
+              forecastLabel: undefined,
+              type: 'neutral' as const,
+              icon: <Users className="h-4 w-4" />
+            }
+          ].map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+      </DashboardSection>
+    </DashboardContainer>
   );
 }

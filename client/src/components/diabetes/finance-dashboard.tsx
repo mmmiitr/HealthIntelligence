@@ -85,14 +85,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
       </div>
 
-      {/* Revenue Analysis Section (Row 2) */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+      {/* Revenue Section */}
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-blue-700 mb-4 flex items-center">
           <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
-          Revenue Analysis ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})
+          Revenue
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
           {/* Average Revenue per Patient */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Average Revenue Per Patient</h6>
@@ -107,7 +106,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               type="revenue"
             />
           </div>
-
           {/* Revenue for Top 5 CPT Codes */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue for Top 5 CPT Codes</h6>
@@ -138,7 +136,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
           </div>
-
           {/* Payer Mix Distribution */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Mix Distribution</h6>
@@ -171,7 +168,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
           </div>
-
           {/* Revenue Source Split */}
           <div className="mb-6">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Source Split</h6>
@@ -206,7 +202,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
           </div>
-
           {/* Payer Revenue Trends */}
           <div className="mb-6 col-span-1 lg:col-span-2">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Payer Revenue Trends</h6>
@@ -218,7 +213,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={payerRevenueTrends.map((d, i, arr) => {
-                    // If showForecast, append forecast data after May 2025
                     if (showForecast && d.month === 'May 2025') {
                       return [
                         d,
@@ -260,12 +254,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       }}
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: '#6B7280' }} />
-                    {/* Historical: solid, Forecast: dashed, CI: shaded */}
                     <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
                     <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
                     <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
                     <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
-                    {/* Forecast overlays: dashed lines and CI only if showForecast */}
                     {showForecast && (
                       <>
                         <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="4 4" dot={false} name="95% CI" connectNulls={false} />
@@ -278,7 +270,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
           </div>
-
           {/* Revenue Predictions with Confidence Intervals */}
           <div className="mb-6 col-span-1 lg:col-span-2">
             <h6 className="text-lg font-medium text-gray-800 mb-3">Revenue Predictions</h6>
@@ -343,7 +334,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       }}
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: '#6B7280' }} />
-                    {/* Main revenue line: solid for historical, dashed for forecast */}
                     <Line 
                       type="monotone" 
                       dataKey="revenue" 
@@ -370,7 +360,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         data={predictionsData.filter(d => !d.isHistorical)}
                       />
                     )}
-                    {/* Confidence interval bounds: dashed lines, only if showForecast */}
                     {showForecast && (
                       <>
                         <Line 
@@ -396,6 +385,76 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       </>
                     )}
                   </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Cost Section */}
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-red-700 mb-4 flex items-center">
+          <TrendingDown className="mr-2 h-5 w-5 text-red-600" />
+          Cost
+        </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Average Cost per Patient */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Average Cost Per Patient</h6>
+            <DashboardMetricCard
+              label="Average Cost per patient in panel"
+              currentValue="$1,100"
+              forecastValue={showForecast ? "$1,200" : undefined}
+              percentChange={showForecast ? "+9.1%" : undefined}
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type="cost"
+            />
+          </div>
+          {/* Cost per Visit */}
+          <div className="mb-6">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Cost per Visit</h6>
+            <DashboardMetricCard
+              label="Cost per Visit"
+              currentValue="$95"
+              forecastValue={showForecast ? "$105" : undefined}
+              percentChange={showForecast ? "+10.5%" : undefined}
+              currentLabel={labels.current}
+              forecastLabel={labels.forecast}
+              showForecast={showForecast}
+              type="cost"
+            />
+          </div>
+          {/* Labor Cost by Role Pie Chart */}
+          <div className="mb-6 col-span-1 lg:col-span-2">
+            <h6 className="text-lg font-medium text-gray-800 mb-3">Labor Cost by Role</h6>
+            <Card>
+              <CardContent className="p-4">
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Physician', value: 400, color: '#1976d2' },
+                        { name: 'Nurse', value: 220, color: '#4caf50' },
+                        { name: 'Technician', value: 120, color: '#ff9800' },
+                        { name: 'Care Manager', value: 180, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`}
+                    >
+                      <Cell fill="#1976d2" />
+                      <Cell fill="#4caf50" />
+                      <Cell fill="#ff9800" />
+                      <Cell fill="#f44336" />
+                    </Pie>
+                    <Tooltip formatter={(value) => [`$${value}K`, '']} />
+                    <Legend />
+                  </PieChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
