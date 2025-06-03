@@ -188,19 +188,21 @@ export default function Dashboard() {
       </div>
 
       {/* Global Footer with Badges and Timestamp */}
-      <div className="mt-8 py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
-        <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-          <div className="flex items-center space-x-3">
-            <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
-              <Shield className="h-3 w-3 mr-1" />
-              HIPAA Compliant
-            </Badge>
-            <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-3 py-1">
-              <Brain className="h-3 w-3 mr-1" />
-              AI-Enhanced Analytics
-            </Badge>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-8">
+        <div className="py-4 border-t border-gray-200 bg-gray-50 rounded-lg">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 px-6">
+            <div className="flex items-center space-x-3">
+              <Badge className="bg-green-100 text-green-800 flex items-center text-xs px-3 py-1">
+                <Shield className="h-3 w-3 mr-1" />
+                HIPAA Compliant
+              </Badge>
+              <Badge className="bg-blue-100 text-blue-800 flex items-center text-xs px-3 py-1">
+                <Brain className="h-3 w-3 mr-1" />
+                AI-Enhanced Analytics
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
           </div>
-          <p className="text-sm text-gray-500">Last Updated: {currentTime}</p>
         </div>
       </div>
     </div>
