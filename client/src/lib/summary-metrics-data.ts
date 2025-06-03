@@ -39,8 +39,8 @@ export const summaryKeyMetrics = [
   },
   {
     title: "Active Panel Size",
-    currentValue: "$85",
-    forecastValue: "$87",
+    currentValue: "100",
+    forecastValue: "100",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
