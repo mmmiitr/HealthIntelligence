@@ -64,7 +64,7 @@ export default function Dashboard() {
   // PDF download handler for all tabs (except technical)
   const handleDownloadPDF = async () => {
     if (isExporting) return;
-    
+
     setIsExporting(true);
     try {
       const tabsToExport = [
@@ -110,7 +110,7 @@ export default function Dashboard() {
                   onCheckedChange={setShowForecast}
                   className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 data-[state=unchecked]:border-white-400 border-2 border-gray-400 shadow-sm 
                             [&>span]:bg-white [&>span]:shadow  [&>span]:flex-none [&>span]:block [&>span]:rounded-full  [&>span]:h-5 [&>span]:w-5 
-                            data-[state=unchecked]:[&>span]:translate-x-[-14px]   data-[state=checked]:[&>span]:translate-x-[7px]" 
+                            data-[state=unchecked]:[&>span]:translate-x-[-14px]   data-[state=checked]:[&>span]:translate-x-[7px]"
                 />
               </div>
               <Select value={viewMode} onValueChange={setViewMode}>
@@ -152,9 +152,8 @@ export default function Dashboard() {
               </Button>
             </div>
           </div>
-          
-          {/* Second Row: Navigation Tabs */}
-          <div className="flex justify-start  py-3 border-t border-gray-100">
+
+          <div className="flex justify-start py-3 border-t border-black-100">
             <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -163,11 +162,10 @@ export default function Dashboard() {
                     key={tab.id}
                     size="sm"
                     variant={activeTab === tab.id ? "default" : "ghost"}
-                    className={`justify-center space-x-2 py-3 px-6 rounded-md transition-all duration-200 ${
-                      activeTab === tab.id
-                        ? "bg-blue-600 shadow-md text-white hover:bg-blue-700"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-white"
-                    }`}
+                    className={`justify-center space-x-2 py-3 px-6 rounded-md transition-all duration-200 ${activeTab === tab.id
+                        ? "bg-blue-600 shadow-md text-white hover:bg-blue-700" 
+                        : "bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-600" 
+                      }`}
                     onClick={() => setActiveTab(tab.id)}
                   >
                     <Icon className="h-5 w-5" />
@@ -179,7 +177,7 @@ export default function Dashboard() {
           </div>
         </div>
       </header>
-      
+
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
         <div id="dashboard-content" className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
