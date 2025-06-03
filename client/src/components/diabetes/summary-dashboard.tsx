@@ -91,7 +91,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={summaryTrends.inControlHba1c}>
+                <LineChart data={summaryTrends.inControlHba1c}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
@@ -104,26 +104,28 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     }}
                   />
                   {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="upperBand"
-                      stackId="1"
-                      stroke="none"
-                      fill="#1976d2"
-                      fillOpacity={0.15}
-                      connectNulls={false}
-                    />
-                  )}
-                  {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="lowerBand"
-                      stackId="1"
-                      stroke="none"
-                      fill="#ffffff"
-                      fillOpacity={1}
-                      connectNulls={false}
-                    />
+                    <>
+                      <Line 
+                        type="monotone" 
+                        dataKey="upperBand" 
+                        stroke="#1976d2" 
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        connectNulls={false}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="lowerBand" 
+                        stroke="#1976d2" 
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        connectNulls={false}
+                      />
+                    </>
                   )}
                   <Line 
                     type="monotone" 
@@ -144,9 +146,8 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         />
                       );
                     }}
-
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -158,7 +159,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
-                <AreaChart data={summaryTrends.underCCM}>
+                <LineChart data={summaryTrends.underCCM}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
@@ -171,26 +172,28 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     }}
                   />
                   {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="upperBand"
-                      stackId="1"
-                      stroke="none"
-                      fill="#4caf50"
-                      fillOpacity={0.15}
-                      connectNulls={false}
-                    />
-                  )}
-                  {showForecast && (
-                    <Area
-                      type="monotone"
-                      dataKey="lowerBand"
-                      stackId="1"
-                      stroke="none"
-                      fill="#ffffff"
-                      fillOpacity={1}
-                      connectNulls={false}
-                    />
+                    <>
+                      <Line 
+                        type="monotone" 
+                        dataKey="upperBand" 
+                        stroke="#4caf50" 
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        connectNulls={false}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="lowerBand" 
+                        stroke="#4caf50" 
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        connectNulls={false}
+                      />
+                    </>
                   )}
                   <Line 
                     type="monotone" 
@@ -212,7 +215,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       );
                     }}
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -225,7 +228,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={summaryTrends.edVisit}>
+              <LineChart data={summaryTrends.edVisit}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
@@ -238,26 +241,28 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                   }}
                 />
                 {showForecast && (
-                  <Area
-                    type="monotone"
-                    dataKey="upperBand"
-                    stackId="1"
-                    stroke="none"
-                    fill="#f44336"
-                    fillOpacity={0.15}
-                    connectNulls={false}
-                  />
-                )}
-                {showForecast && (
-                  <Area
-                    type="monotone"
-                    dataKey="lowerBand"
-                    stackId="1"
-                    stroke="none"
-                    fill="#ffffff"
-                    fillOpacity={1}
-                    connectNulls={false}
-                  />
+                  <>
+                    <Line 
+                      type="monotone" 
+                      dataKey="upperBand" 
+                      stroke="#f44336" 
+                      strokeWidth={1}
+                      strokeDasharray="3,3"
+                      strokeOpacity={0.5}
+                      dot={false}
+                      connectNulls={false}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="lowerBand" 
+                      stroke="#f44336" 
+                      strokeWidth={1}
+                      strokeDasharray="3,3"
+                      strokeOpacity={0.5}
+                      dot={false}
+                      connectNulls={false}
+                    />
+                  </>
                 )}
                 <Line 
                   type="monotone" 
@@ -279,7 +284,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     );
                   }}
                 />
-              </AreaChart>
+              </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
