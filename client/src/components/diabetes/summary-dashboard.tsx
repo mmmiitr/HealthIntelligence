@@ -1,13 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Download, Settings, Shield, Brain, Monitor } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
-import { keyMetricsTrendsData } from "@/lib/mock-data";
+import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
+import SectionHeader from "@/components/common/SectionHeader";
+import { summaryKeyMetrics, summaryTrends } from "@/lib/summary-metrics-data";
+import { summarySectionData } from "@/lib/summary-section-data";
+import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Monitor, Shield } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
+import StandardMetricCard from "@/components/common/StandardMetricCard";
+import { styles } from "@/lib/styles";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -16,10 +17,8 @@ interface SummaryDashboardProps {
 }
 
 export default function SummaryDashboard({ timeFilter, viewMode, showForecast }: SummaryDashboardProps) {
-  
-  const handleDownloadReport = () => {
-    window.alert("Downloading CSV: Key Metrics (Profitability, HbA1c, CCM Enrollment, Readmission Rate)");
-  };
+  // Icon mapping for modular data
+  const iconMap = { DollarSign: <DollarSign className="h-4 w-4" />, UserCheck: <UserCheck className="h-4 w-4" />, Monitor: <Monitor className="h-4 w-4" />, Heart: <Heart className="h-4 w-4" /> };
 
   // Dynamic labels based on view mode
   const getViewLabels = () => {
@@ -37,125 +36,150 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
   const labels = getViewLabels();
 
-  // Data-driven metric configs for Key Metrics with consistent colors
-  const keyMetrics = [
-    {
-      icon: <DollarSign className="h-5 w-5 text-blue-600" />,
-      label: "Avg Revenue/Patient/Month",
-      currentValue: "$120",
-      forecastValue: showForecast ? "$128" : null,
-      color: "blue", // revenue = blue
-      type: "revenue"
-    },
-    {
-      icon: <Users className="h-5 w-5 text-blue-600" />,
-      label: "% Under CCM",
-      currentValue: "30%",
-      forecastValue: showForecast ? "32%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
-    },
-    {
-      icon: <Monitor className="h-5 w-5 text-blue-600" />,
-      label: "% Telemedicine Visits",
-      currentValue: "30%",
-      forecastValue: showForecast ? "35%" : null,
-      color: "blue", // neutral metric = blue
-      type: "neutral"
-    },
-    {
-      icon: <DollarSign className="h-5 w-5 text-red-600" />,
-      label: "Avg Cost/Patient/Month",
-      currentValue: "$85",
-      forecastValue: showForecast ? "$87" : null,
-      color: "red", // cost = red
-      type: "cost"
-    },
-  ];
+  // Use modularized key metrics
+  // Fix type for StandardMetricCard: ensure type is correct
+  const keyMetrics = summaryKeyMetrics.map(metric => ({
+    ...metric,
+    icon: iconMap[metric.icon as keyof typeof iconMap],
+    type: metric.type as 'revenue' | 'neutral' | 'cost' | 'profit',
+    currentLabel: labels.current,
+    forecastLabel: showForecast ? labels.forecast : undefined,
+    forecastValue: showForecast ? metric.forecastValue : undefined,
+  }));
 
   return (
-    <div>
+    <DashboardContainer>
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Summary Dashboard</h2>
-            <p className="text-gray-600 mt-1">Executive overview of diabetes care management</p>
-          </div>
-          <div className="flex flex-col items-end space-y-2">
-            {/* Download button moved to global header */}
-          </div>
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Executive Summary</h2>
+          <p className="text-gray-600">
+            {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
+          </p>
         </div>
+        {/* HIPAA sticker moved to header */}
+        {summarySectionData.hipaaCompliant && (
+          <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+            <Shield className="h-5 w-5 text-green-600" />
+            <span className="text-green-700 font-semibold text-sm">HIPAA Compliant</span>
+          </div>
+        )}
       </div>
 
       {/* Key Metrics */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Metrics ({viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"})</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {keyMetrics.map((metric, idx) => (
-            <Card key={metric.label} className={`bg-white shadow-none rounded-xl border-l-4 ${
-              metric.type === "revenue" ? "border-blue-500" : 
-              metric.type === "cost" ? "border-red-500" : 
-              "border-blue-300"
-            }`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-3">
-                  {metric.icon}
-                  <span className="font-medium ml-2 text-gray-700 text-sm">{metric.label}</span>
-                </div>
-                
-                <div className="space-y-3">
-                  {/* Current Value */}
-                  <div className={`bg-${metric.type === "revenue" ? "blue" : metric.type === "cost" ? "red" : "blue"}-50 rounded-lg p-3`}>
-                    <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                      {labels.current}
-                    </p>
-                    <p className={`text-2xl font-bold ${
-                      metric.type === "revenue" ? "text-blue-700" : 
-                      metric.type === "cost" ? "text-red-700" : 
-                      "text-blue-700"
-                    }`}>
-                      {metric.currentValue}
-                    </p>
-                  </div>
-                  
-                  {/* Forecast Value */}
-                  {showForecast && metric.forecastValue && (
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1">
-                        {labels.forecast}
-                      </p>
-                      <p className="text-lg font-bold text-gray-900">{metric.forecastValue}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {metric.type === "cost" ? "↑ 2.4%" : "↑ 6.7%"} vs current
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+      <DashboardSection>
+        <SectionHeader title="Key Performance Indicators" timePeriod={viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} />
+        <div className={styles.grid.cols4}>
+          {keyMetrics.map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
           ))}
         </div>
-      </div>
+      </DashboardSection>
 
-      {/* Critical Alerts */}
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Critical Alerts</h3>
-        <Card className="bg-red-500 shadow-lg">
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">30-Day ED Visit or Hospitalization (8%) exceeds target of 5%.</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-white mt-0.5" />
-                <p className="text-white font-medium">No-Show Appointments (12%) exceeds target of 10%.</p>
-              </div>
-            </div>
+      {/* Trends Section */}
+      <DashboardSection>
+        <SectionHeader title="Key Trends" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* % In Control HbA1c Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% In Control HbA1c (&lt;7%)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <AreaChart data={summaryTrends.inControlHba1c}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[60, 80]} />
+                  <Tooltip 
+                    formatter={(value, name) => {
+                      if (name === 'value') return [`${value}%`, 'HbA1c Control'];
+                      if (name === 'range' && Array.isArray(value)) return [`${value[0]}% - ${value[1]}%`, '95% Confidence Interval'];
+                      return [value, name];
+                    }}
+                  />
+                  {/* Confidence Band */}
+                  <Area
+                    type="monotone"
+                    dataKey="range"
+                    stroke="none"
+                    fill="#1976d2"
+                    fillOpacity={0.2}
+                    connectNulls={false}
+                  />
+                  {/* Main trend line */}
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#1976d2" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                    dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* % Under CCM Chart */}
+          <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">% Under CCM</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={summaryTrends.underCCM}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} domain={[20, 40]} />
+                  <Tooltip formatter={(value) => [`${value}%`, 'CCM Enrollment']} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#4caf50" 
+                    strokeWidth={3}
+                    connectNulls={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 30-Day ED Visit Chart */}
+        <Card className="bg-white rounded-lg shadow-md border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold text-gray-900">30-Day ED Visit or Hospitalization</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={summaryTrends.edVisit}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
+                <Tooltip formatter={(value) => [`${value}%`, 'ED Visit Rate']} />
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#f44336" 
+                  strokeWidth={3}
+                  connectNulls={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </DashboardSection>
+    </DashboardContainer>
   );
 }
