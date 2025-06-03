@@ -255,14 +255,34 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       }}
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: '#6B7280' }} />
-                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
-                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
-                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
-                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} strokeDasharray={showForecast ? "4 4" : "0"} />
+                    <Line type="monotone" dataKey="medicare" stroke="#1976d2" strokeWidth={2} name="Medicare" dot={{ fill: '#1976d2', r: 3 }} />
+                    <Line type="monotone" dataKey="medicaid" stroke="#4caf50" strokeWidth={2} name="Medicaid" dot={{ fill: '#4caf50', r: 3 }} />
+                    <Line type="monotone" dataKey="commercial" stroke="#ff9800" strokeWidth={2} name="Commercial" dot={{ fill: '#ff9800', r: 3 }} />
+                    <Line type="monotone" dataKey="selfPay" stroke="#f44336" strokeWidth={2} name="Self-Pay" dot={{ fill: '#f44336', r: 3 }} />
                     {showForecast && (
                       <>
-                        <Line type="monotone" dataKey="medicareUpper" stroke="#64b5f6" strokeWidth={1} strokeDasharray="4 4" dot={false} name="95% CI" connectNulls={false} />
-                        <Line type="monotone" dataKey="medicareLower" stroke="#64b5f6" strokeWidth={1} strokeDasharray="4 4" dot={false} name="" connectNulls={false} />
+                        <Line 
+                          type="monotone" 
+                          dataKey="medicareUpper" 
+                          stroke="#1976d2" 
+                          strokeWidth={1}
+                          strokeDasharray="3,3"
+                          strokeOpacity={0.5}
+                          dot={false}
+                          name="Upper Confidence"
+                          connectNulls={false}
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="medicareLower" 
+                          stroke="#1976d2" 
+                          strokeWidth={1}
+                          strokeDasharray="3,3"
+                          strokeOpacity={0.5}
+                          dot={false}
+                          name="Lower Confidence"
+                          connectNulls={false}
+                        />
                         <ReferenceLine x="May 2025" stroke="#666" strokeDasharray="2 2" label="Current" />
                       </>
                     )}
