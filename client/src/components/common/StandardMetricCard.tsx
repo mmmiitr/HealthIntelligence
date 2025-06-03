@@ -29,18 +29,18 @@ export default function StandardMetricCard({
   
   const getBorderClass = () => {
     switch(type) {
-      case 'profit': return 'border-l-green-500';
+      case 'profit': return 'border-l-blue-500';
       case 'revenue': return 'border-l-blue-500'; 
-      case 'cost': return 'border-l-red-500';
+      case 'cost': return 'border-l-blue-500';
       default: return 'border-l-blue-500'; // Simplified - all use blue by default
     }
   };
 
   const getTextColor = () => {
     switch(type) {
-      case 'profit': return 'text-green-600';
+      case 'profit': return 'text-blue-600';
       case 'revenue': return 'text-blue-600';
-      case 'cost': return 'text-red-600';
+      case 'cost': return 'text-blue-600';
       default: return 'text-blue-600'; // Simplified - default to blue
     }
   };
