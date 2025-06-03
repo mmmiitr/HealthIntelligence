@@ -37,20 +37,7 @@ export default function MockDataDashboard({ timeFilter, viewMode, showForecast }
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Technical Documentation</h2>
             <p className="text-gray-600 mt-1">Comprehensive API documentation and system architecture for development teams</p>
-            <div className="flex items-center mt-2 space-x-4">
-              <Badge className="bg-green-100 text-green-800 flex items-center">
-                <Shield className="h-3 w-3 mr-1" />
-                HIPAA Compliant
-              </Badge>
-              <Badge className="bg-blue-100 text-blue-800 flex items-center">
-                <Code className="h-3 w-3 mr-1" />
-                Living Documentation
-              </Badge>
-              <Badge className="bg-purple-100 text-purple-800 flex items-center">
-                <GitBranch className="h-3 w-3 mr-1" />
-                Version 2.1.0
-              </Badge>
-            </div>
+
           </div>
         </div>
       </div>
