@@ -20,6 +20,15 @@ export const summaryKeyMetrics = [
     icon: 'Heart',
   },
   {
+    title: "Active Panel Size",
+    currentValue: "1500",
+    forecastValue: "1800",
+    currentLabel: "MAY PROGRESS",
+    forecastLabel: "JUN FORECAST",
+    type: 'cost',
+    icon: 'Heart',
+  },
+  {
     title: "% Under CCM",
     currentValue: "30%",
     forecastValue: "32%",
@@ -37,15 +46,7 @@ export const summaryKeyMetrics = [
     type: 'neutral',
     icon: 'Monitor',
   },
-  {
-    title: "Active Panel Size",
-    currentValue: "100",
-    forecastValue: "100",
-    currentLabel: "MAY PROGRESS",
-    forecastLabel: "JUN FORECAST",
-    type: 'cost',
-    icon: 'Heart',
-  },
+  
   
 ];
 

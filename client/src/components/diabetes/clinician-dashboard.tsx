@@ -237,11 +237,11 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             <CardContent>
               <h4 className="font-semibold mb-2">Highest ED Visits (Past Quarter)</h4>
               <ul className="list-disc pl-5 text-gray-700">
-                <li>Patient A</li>
-                <li>Patient B</li>
-                <li>Patient C</li>
-                <li>Patient D</li>
-                <li>Patient E</li>
+                <li>Emily Johnson</li>
+                <li>Michael Smith</li>
+                <li>Ava Thompson</li>
+                <li>Daniel Lee</li>
+                <li>Sophia Patel</li>
               </ul>
             </CardContent>
           </Card>
@@ -249,11 +249,11 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             <CardContent>
               <h4 className="font-semibold mb-2">Most Inpatient LOS (Past Quarter)</h4>
               <ul className="list-disc pl-5 text-gray-700">
-                <li>Patient F</li>
-                <li>Patient G</li>
-                <li>Patient H</li>
-                <li>Patient I</li>
-                <li>Patient J</li>
+                <li>James Anderson</li>
+                <li>Isabella Garcia</li>
+                <li>William Nguyen</li>
+                <li>Olivia Martinez</li>
+                <li>Ethan Robinson</li>
               </ul>
             </CardContent>
           </Card>
