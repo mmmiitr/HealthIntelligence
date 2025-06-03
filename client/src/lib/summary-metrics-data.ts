@@ -11,6 +11,15 @@ export const summaryKeyMetrics = [
     icon: 'DollarSign',
   },
   {
+    title: "Avg Cost/Patient/Month",
+    currentValue: "$85",
+    forecastValue: "$87",
+    currentLabel: "MAY PROGRESS",
+    forecastLabel: "JUN FORECAST",
+    type: 'cost',
+    icon: 'Heart',
+  },
+  {
     title: "% Under CCM",
     currentValue: "30%",
     forecastValue: "32%",
@@ -29,7 +38,7 @@ export const summaryKeyMetrics = [
     icon: 'Monitor',
   },
   {
-    title: "Avg Cost/Patient/Month",
+    title: "Active Panel Size",
     currentValue: "$85",
     forecastValue: "$87",
     currentLabel: "MAY PROGRESS",
@@ -37,6 +46,7 @@ export const summaryKeyMetrics = [
     type: 'cost',
     icon: 'Heart',
   },
+  
 ];
 
 export const summaryTrendsData = {

@@ -65,9 +65,37 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
 
       {/* Key Metrics */}
       <DashboardSection>
-        <SectionHeader title="Key Performance Indicators" timePeriod={viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} />
-        <div className={styles.grid.cols4}>
-          {keyMetrics.map((metric) => (
+        <SectionHeader
+          title="Key Performance Indicators"
+          timePeriod={
+            viewMode === "monthly"
+              ? "May 2025"
+              : viewMode === "quarterly"
+              ? "Q2 2025"
+              : "2025"
+          }
+        />
+
+        {/* First row: 2 cards */}
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          {keyMetrics.slice(0, 2).map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
+        </div>
+
+        {/* Second row: 3 cards */}
+        <div className="grid grid-cols-3 gap-4">
+          {keyMetrics.slice(2).map((metric) => (
             <StandardMetricCard
               key={metric.title}
               title={metric.title}
@@ -82,6 +110,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           ))}
         </div>
       </DashboardSection>
+
 
       {/* Trends Section */}
       <DashboardSection>
