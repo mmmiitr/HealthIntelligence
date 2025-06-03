@@ -58,23 +58,31 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   // Prepare prediction data based on existing A1C trends
   const predictionChartData = Array.isArray(a1cTrends) ? (() => {
-    const baseData = a1cTrends.slice(0, 5).map((item: any) => ({
-      month: item.month,
-      value: 8 + (parseFloat(item.averageA1C) - 7) * 2, // Convert A1C to ED visit rate
-      ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
-      isForecast: false,
-    }));
+    // Historical data (past months)
+    const historicalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+    const baseData = a1cTrends
+      .filter((item: any) => historicalMonths.includes(item.month))
+      .map((item: any) => ({
+        month: item.month,
+        value: 8 + (parseFloat(item.averageA1C) - 7) * 2, // Convert A1C to ED visit rate
+        ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+        isForecast: false,
+      }));
     
     if (showForecast) {
-      const forecastData = a1cTrends.slice(5).map((item: any) => ({
-        month: item.month,
-        value: 8 + (parseFloat(item.averageA1C) - 7) * 2,
-        ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
-        isForecast: true,
-      }));
+      // Future months (forecast)
+      const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
+      const forecastData = a1cTrends
+        .filter((item: any) => forecastMonths.includes(item.month))
+        .map((item: any) => ({
+          month: item.month,
+          value: 8 + (parseFloat(item.averageA1C) - 7) * 2,
+          ci: [7 + (parseFloat(item.averageA1C) - 7) * 2, 9 + (parseFloat(item.averageA1C) - 7) * 2],
+          isForecast: true,
+        }));
       return [...baseData, ...forecastData];
     }
-    return baseData;
+    return baseData; // Only historical data when forecast is disabled
   })() : [];
 
   // Prepare risk distribution chart data
