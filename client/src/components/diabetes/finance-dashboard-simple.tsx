@@ -83,9 +83,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       { month: 'Mar', revenue: 1150000 },
                       { month: 'Apr', revenue: 1180000 },
                       { month: 'May', revenue: 1200000 },
-                      { month: 'Jun', revenue: 1280000 },
-                      { month: 'Jul', revenue: 1320000 },
-                      { month: 'Aug', revenue: 1360000 }
+                      { month: 'Jun', revenue: 1280000, upperBound: 1350000, lowerBound: 1210000 },
+                      { month: 'Jul', revenue: 1320000, upperBound: 1400000, lowerBound: 1240000 },
+                      { month: 'Aug', revenue: 1360000, upperBound: 1450000, lowerBound: 1270000 }
                     ] : [
                       { month: 'Jan', revenue: 1080000 },
                       { month: 'Feb', revenue: 1120000 },
@@ -98,8 +98,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       { month: 'Q4 2024', revenue: 3400000 },
                       { month: 'Q1 2025', revenue: 3530000 },
                       { month: 'Q2 2025', revenue: 3660000 },
-                      { month: 'Q3 2025', revenue: 3900000 },
-                      { month: 'Q4 2025', revenue: 4080000 }
+                      { month: 'Q3 2025', revenue: 3900000, upperBound: 4100000, lowerBound: 3700000 },
+                      { month: 'Q4 2025', revenue: 4080000, upperBound: 4300000, lowerBound: 3860000 }
                     ] : [
                       { month: 'Q2 2024', revenue: 3200000 },
                       { month: 'Q3 2024', revenue: 3350000 },
@@ -112,8 +112,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       { month: '2022', revenue: 13200000 },
                       { month: '2023', revenue: 13850000 },
                       { month: '2024', revenue: 14400000 },
-                      { month: '2025', revenue: 15600000 },
-                      { month: '2026', revenue: 16320000 }
+                      { month: '2025', revenue: 15600000, upperBound: 16200000, lowerBound: 15000000 },
+                      { month: '2026', revenue: 16320000, upperBound: 17000000, lowerBound: 15640000 }
                     ] : [
                       { month: '2020', revenue: 11800000 },
                       { month: '2021', revenue: 12500000 },
@@ -150,11 +150,35 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   strokeDasharray={showForecast ? "0 0 5 5" : "0"}
                 />
                 {showForecast && (
-                  <ReferenceLine 
-                    x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"} 
-                    stroke="#666" 
-                    strokeDasharray="2 2" 
-                  />
+                  <>
+                    <Line 
+                      type="monotone" 
+                      dataKey="upperBound" 
+                      stroke="#1976d2" 
+                      strokeWidth={1}
+                      strokeDasharray="3,3"
+                      strokeOpacity={0.5}
+                      dot={false}
+                      name="Upper Confidence"
+                      connectNulls={false}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="lowerBound" 
+                      stroke="#1976d2" 
+                      strokeWidth={1}
+                      strokeDasharray="3,3"
+                      strokeOpacity={0.5}
+                      dot={false}
+                      name="Lower Confidence"
+                      connectNulls={false}
+                    />
+                    <ReferenceLine 
+                      x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"} 
+                      stroke="#666" 
+                      strokeDasharray="2 2" 
+                    />
+                  </>
                 )}
               </LineChart>
             </ResponsiveContainer>
