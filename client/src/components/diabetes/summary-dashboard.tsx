@@ -323,7 +323,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               <LineChart data={summaryTrends.edVisit}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="period" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} />
+                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} >  
+                  <Label value="ED Visit Rate" angle={-90} position="insideLeft" offset={20} fontSize={12} />
+                </YAxis>
                 <Tooltip 
                   formatter={(value, name) => {
                     if (name === 'value') return [`${value}%`, 'ED Visit Rate'];
@@ -332,6 +334,26 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     return [value, name];
                   }}
                 />
+                <Legend
+                      verticalAlign="top"
+                      align="right"
+                      layout="horizontal"
+                      iconType="line"
+                      wrapperStyle={{
+                        paddingBottom: 10,
+                        paddingRight: 20,
+                        fontSize: 12,
+                        color: '#374151', // Tailwind's gray-700
+                        fontWeight: '500',
+                        lineHeight: '20px'
+                      }}
+                      formatter={(value) => {
+                        if (value === 'value') return 'ED Visit Rate';
+                        if (value === 'upperBand') return 'Upper Confidence';
+                        if (value === 'lowerBand') return 'Lower Confidence';
+                        return value;
+                      }}
+                    />
                 {showForecast && (
                   <>
                     <Line 

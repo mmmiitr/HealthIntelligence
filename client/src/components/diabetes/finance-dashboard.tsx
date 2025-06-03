@@ -478,13 +478,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       </div>
 
 
-      {/* HIPAA sticker in footer only */}
-      <footer className="flex justify-end mt-8">
-        <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-md px-6 py-2" style={{ minWidth: 0 }}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01" /></svg>
-          <span className="text-green-700 font-semibold text-base">HIPAA Compliant</span>
-        </div>
-      </footer>
     </div>
   );
 }
