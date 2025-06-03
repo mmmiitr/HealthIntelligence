@@ -297,14 +297,22 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         <Card>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={[
-                { month: 'Jan', value: 8, ci: [7, 9] },
-                { month: 'Feb', value: 8.5, ci: [7.5, 9.5] },
-                { month: 'Mar', value: 9, ci: [8, 10] },
-                { month: 'Apr', value: 10, ci: [9, 11] },
-                { month: 'May', value: 11, ci: [10, 12] },
-                { month: 'Jun', value: 12, ci: [11, 13] },
-              ]}>
+              <AreaChart data={(() => {
+                const baseData = [
+                  { month: 'Jan', value: 8, ci: [7, 9], isForecast: false },
+                  { month: 'Feb', value: 8.5, ci: [7.5, 9.5], isForecast: false },
+                  { month: 'Mar', value: 9, ci: [8, 10], isForecast: false },
+                  { month: 'Apr', value: 10, ci: [9, 11], isForecast: false },
+                  { month: 'May', value: 11, ci: [10, 12], isForecast: false },
+                ];
+                const forecastData = [
+                  { month: 'Jun', value: 12, ci: [11, 13], isForecast: true },
+                  { month: 'Jul', value: 11.5, ci: [10.5, 12.5], isForecast: true },
+                  { month: 'Aug', value: 11, ci: [10, 12], isForecast: true },
+                  { month: 'Sep', value: 10.5, ci: [9.5, 11.5], isForecast: true },
+                ];
+                return showForecast ? [...baseData, ...forecastData] : baseData;
+              })()}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />
