@@ -57,13 +57,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             {viewMode === "monthly" ? "May 2025" : viewMode === "quarterly" ? "Q2 2025" : "2025"} Comprehensive Overview
           </p>
         </div>
-        {/* HIPAA sticker moved to header */}
-        {summarySectionData.hipaaCompliant && (
-          <div className="flex items-center space-x-2 bg-green-50 border border-green-200 rounded-lg px-4 py-2">
-            <Shield className="h-5 w-5 text-green-600" />
-            <span className="text-green-700 font-semibold text-sm">HIPAA Compliant</span>
-          </div>
-        )}
+
       </div>
 
       {/* Key Metrics */}
