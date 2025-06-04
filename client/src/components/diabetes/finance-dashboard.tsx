@@ -158,7 +158,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <Line 
                     type="monotone" 
                     dataKey="cost" 
-                    stroke="#f44336" 
+                    stroke="#1976d2" 
                     strokeWidth={3}
                     name="Operating Cost"
                     connectNulls={false}
@@ -168,7 +168,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       <Line 
                         type="monotone" 
                         dataKey="upperBound" 
-                        stroke="#f44336" 
+                        stroke="#1976d2" 
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -179,7 +179,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       <Line 
                         type="monotone" 
                         dataKey="lowerBound" 
-                        stroke="#f44336" 
+                        stroke="#1976d2" 
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
