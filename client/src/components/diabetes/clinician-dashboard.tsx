@@ -3,7 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area } from "recharts";
+
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -88,7 +89,11 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             isForecast: true,
           };
         });
-      return [...baseData, ...forecastData];
+      //return [...baseData, ...forecastData];
+      const combinedData = [...baseData, ...forecastData];
+      const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      combinedData.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
+      return combinedData
     }
     return baseData; // Only historical data when forecast is disabled
   })() : [];
@@ -341,6 +346,24 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
                   return [value, name];
                 }} />
+               {/* Confidence interval shading between upperCI and lowerCI */}
+                  <Area
+                    type="monotone"
+                    dataKey="upperCI"
+                    stroke="none"
+                    fill="#1976d2"
+                    fillOpacity={0.15}
+                    stackId="1"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="lowerCI"
+                    stroke="none"
+                    fill="#1976d2"
+                    fillOpacity={0}
+                    stackId="1"
+                  />
+    
                 {/* Main trend line */}
                 <Line
                   type="monotone"

@@ -268,7 +268,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       <Line 
                         type="monotone" 
                         dataKey="upperBand" 
-                        stroke="#4caf50" 
+                        stroke="#1976d2" 
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -278,7 +278,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       <Line 
                         type="monotone" 
                         dataKey="lowerBand" 
-                        stroke="#4caf50" 
+                        stroke="#1976d2" 
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -290,7 +290,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                   <Line 
                     type="monotone" 
                     dataKey="value" 
-                    stroke="#4caf50" 
+                    stroke="#1976d2" 
                     strokeWidth={3}
                     connectNulls={false}
                     dot={(props) => {
@@ -300,8 +300,8 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                           cx={props.cx}
                           cy={props.cy}
                           r={4}
-                          fill={payload?.isForecast ? '#ff9800' : '#4caf50'}
-                          stroke={payload?.isForecast ? '#ff9800' : '#4caf50'}
+                          fill={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                          stroke={payload?.isForecast ? '#ff9800' : '#1976d2'}
                           strokeWidth={2}
                         />
                       );
@@ -359,7 +359,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     <Line 
                       type="monotone" 
                       dataKey="upperBand" 
-                      stroke="#f44336" 
+                      stroke="#1976d2" 
                       strokeWidth={1}
                       strokeDasharray="3,3"
                       strokeOpacity={0.5}
@@ -369,7 +369,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                     <Line 
                       type="monotone" 
                       dataKey="lowerBand" 
-                      stroke="#f44336" 
+                      stroke="#1976d2" 
                       strokeWidth={1}
                       strokeDasharray="3,3"
                       strokeOpacity={0.5}
@@ -381,7 +381,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                 <Line 
                   type="monotone" 
                   dataKey="value" 
-                  stroke="#f44336" 
+                  stroke="#1976d2" 
                   strokeWidth={3}
                   connectNulls={false}
                   dot={(props) => {
@@ -391,8 +391,8 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         cx={props.cx}
                         cy={props.cy}
                         r={4}
-                        fill={payload?.isForecast ? '#ff9800' : '#f44336'}
-                        stroke={payload?.isForecast ? '#ff9800' : '#f44336'}
+                        fill={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                        stroke={payload?.isForecast ? '#ff9800' : '#1976d2'}
                         strokeWidth={2}
                       />
                     );

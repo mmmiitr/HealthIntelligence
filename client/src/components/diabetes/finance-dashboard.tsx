@@ -130,13 +130,13 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
                       ];
 
-                    } else 
-                    {return showForecast ? [
-                      { month: '2022', cost: 11500000 },
-                      { month: '2023', cost: 12000000 },
-                      { month: '2024', cost: 12400000 },
-                      { month: '2025', cost: 13200000, upperBound: 13800000, lowerBound: 12600000 },
-                      { month: '2026', cost: 13680000, upperBound: 14300000, lowerBound: 13060000 }
+                    } else {
+                      return showForecast ? [
+                        { month: '2022', cost: 11500000 },
+                        { month: '2023', cost: 12000000 },
+                        { month: '2024', cost: 12400000 },
+                        { month: '2025', cost: 13200000, upperBound: 13800000, lowerBound: 12600000 },
+                        { month: '2026', cost: 13680000, upperBound: 14300000, lowerBound: 13060000 }
 
                       ] : [
                         { month: '2020', cost: 10800000 },
@@ -156,63 +156,74 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis
-                  dataKey="month"
-                  tick={{ fontSize: 12 }}
-                  tickFormatter={(value) => value.split(' ')[0]}
+                    dataKey="month"
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) => value.split(' ')[0]}
 
                   />
                   <YAxis
-                  tick={{ fontSize: 12 }}
-                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                    tick={{ fontSize: 12 }}
+                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
 
                   />
 
                   <Tooltip
-                  formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
-                  labelFormatter={(label: string) => `Month: ${label}`}
+                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
+                    labelFormatter={(label: string) => `Month: ${label}`}
 
                   />
                   <Legend />
                   <Line
-                  type="monotone"
-                  dataKey="cost"
-                  stroke="#f44336"
-                  strokeWidth={3}
-                  name="Operating Cost"
-                  connectNulls={false}
+                    type="monotone"
+                    dataKey="cost"
+                    stroke="#1976d2"
+                    strokeWidth={3}
+                    name="Operating Cost"
+                    connectNulls={false}
 
                   />
 
                   {showForecast && (
                     <>
-                    <Line
-                    type="monotone"
-                    dataKey="upperBound"
-                    stroke="#f44336"
-                    strokeWidth={1}
-                    strokeDasharray="3,3"
-                    strokeOpacity={0.5}
-                    dot={false}
-                    name="Upper Confidence"
-                    connectNulls={false}
+                      <Line
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#1976d2"
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        name="Upper Confidence"
+                        connectNulls={false}
+                        />
+                      <Line
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#1976d2"
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        name="Upper Confidence"
+                        connectNulls={false}
 
                       />
                       <Line
-                      type="monotone"
-                      dataKey="lowerBound"
-                      stroke="#f44336"
-                      strokeWidth={1}
-                      strokeDasharray="3,3"
-                      strokeOpacity={0.5}
-                      dot={false}
-                      name="Lower Confidence"
-                      connectNulls={false}
+                        type="monotone"
+                        dataKey="lowerBound"
+                        stroke="#1976d2"
+                        strokeWidth={1}
+                        strokeDasharray="3,3"
+                        strokeOpacity={0.5}
+                        dot={false}
+                        name="Lower Confidence"
+                        connectNulls={false}
 
                       />
                       <ReferenceLine
-                      x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
-                      stroke="#666"
-                      strokeDasharray="2 2"
+                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
+                        stroke="#666"
+                        strokeDasharray="2 2"
 
                       />
 
@@ -238,11 +249,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={350}>
                 <PieChart>
                   <Pie
-                  data={[
-                    { name: 'Physician', value: 400, color: '#1976d2' },
-                    { name: 'Nurse', value: 220, color: '#4caf50' },
-                    { name: 'Technician', value: 120, color: '#ff9800' },
-                    { name: 'Care Manager', value: 180, color: '#f44336' }
+                    data={[
+                      { name: 'Physician', value: 400, color: '#1976d2' },
+                      { name: 'Nurse', value: 220, color: '#4caf50' },
+                      { name: 'Technician', value: 120, color: '#ff9800' },
+                      { name: 'Care Manager', value: 180, color: '#f44336' }
 
                     ]}
                     cx="50%"
