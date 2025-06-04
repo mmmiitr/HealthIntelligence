@@ -16,7 +16,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
     {
       title: "Total Revenue",
       currentValue: "$1.84M",
-      forecastValue: "$2.1M", 
+      forecastValue: "$2.1M",
       currentLabel: "MAY PROGRESS",
       forecastLabel: "JUN FORECAST",
       type: "revenue" as const,
@@ -26,7 +26,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       title: "Operating Costs",
       currentValue: "$1.37M",
       forecastValue: "$1.45M",
-      currentLabel: "MAY PROGRESS", 
+      currentLabel: "MAY PROGRESS",
       forecastLabel: "JUN FORECAST",
       type: "cost" as const,
       icon: <TrendingDown className="h-5 w-5" />
@@ -36,7 +36,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentValue: "$470K",
       forecastValue: "$650K",
       currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST", 
+      forecastLabel: "JUN FORECAST",
       type: "profit" as const,
       icon: <TrendingUp className="h-5 w-5" />
     }
@@ -79,8 +79,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Cost Trends Chart */}
+        <div>
+          {/* Cost Trends Chart - now takes full width */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Cost Trends</h3>
@@ -136,34 +136,34 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   return getCostData();
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis 
-                    dataKey="month" 
+                  <XAxis
+                    dataKey="month"
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => value.split(' ')[0]}
                   />
-                  <YAxis 
+                  <YAxis
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => `$${(value/1000000).toFixed(1)}M`}
+                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                   />
-                  <Tooltip 
-                    formatter={(value: any) => [`$${(value/1000000).toFixed(2)}M`, '']}
+                  <Tooltip
+                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
                   <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="cost" 
-                    stroke="#f44336" 
+                  <Line
+                    type="monotone"
+                    dataKey="cost"
+                    stroke="#f44336"
                     strokeWidth={3}
                     name="Operating Cost"
                     connectNulls={false}
                   />
                   {showForecast && (
                     <>
-                      <Line 
-                        type="monotone" 
-                        dataKey="upperBound" 
-                        stroke="#f44336" 
+                      <Line
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#f44336"
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -171,10 +171,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         name="Upper Confidence"
                         connectNulls={false}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="lowerBound" 
-                        stroke="#f44336" 
+                      <Line
+                        type="monotone"
+                        dataKey="lowerBound"
+                        stroke="#f44336"
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -182,10 +182,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         name="Lower Confidence"
                         connectNulls={false}
                       />
-                      <ReferenceLine 
-                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"} 
-                        stroke="#666" 
-                        strokeDasharray="2 2" 
+                      <ReferenceLine
+                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
+                        stroke="#666"
+                        strokeDasharray="2 2"
                       />
                     </>
                   )}
@@ -194,36 +194,38 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </CardContent>
           </Card>
 
-          {/* Labor Cost by Role */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost by Role</h3>
-              <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Physician', value: 400, color: '#1976d2' },
-                      { name: 'Nurse', value: 220, color: '#4caf50' },
-                      { name: 'Technician', value: 120, color: '#ff9800' },
-                      { name: 'Care Manager', value: 180, color: '#f44336' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value}K`}
-                  >
-                    {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
-                      <Cell key={`labor-cell-${index}`} fill={color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`$${value}K`, '']} />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          {/* Labor Cost by Role - now in a new row, full width */}
+          <div className="mt-6"> {/* Adds vertical space between the charts */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost by Role</h3>
+                <ResponsiveContainer width="100%" height={350}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Physician', value: 400, color: '#1976d2' },
+                        { name: 'Nurse', value: 220, color: '#4caf50' },
+                        { name: 'Technician', value: 120, color: '#ff9800' },
+                        { name: 'Care Manager', value: 180, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`}
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
+                        <Cell key={`labor-cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-
+        
         {/* Additional Cost Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Average Cost per Patient */}
@@ -312,34 +314,34 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   return getChartData();
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis 
-                    dataKey="month" 
+                  <XAxis
+                    dataKey="month"
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => value.split(' ')[0]}
                   />
-                  <YAxis 
+                  <YAxis
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => `$${(value/1000000).toFixed(1)}M`}
+                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                   />
-                  <Tooltip 
-                    formatter={(value: any) => [`$${(value/1000000).toFixed(2)}M`, '']}
+                  <Tooltip
+                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
                   <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="revenue" 
-                    stroke="#1976d2" 
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#1976d2"
                     strokeWidth={3}
                     name="Revenue"
                     connectNulls={false}
                   />
                   {showForecast && (
                     <>
-                      <Line 
-                        type="monotone" 
-                        dataKey="upperBound" 
-                        stroke="#1976d2" 
+                      <Line
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#1976d2"
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -347,10 +349,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         name="Upper Confidence"
                         connectNulls={false}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="lowerBound" 
-                        stroke="#1976d2" 
+                      <Line
+                        type="monotone"
+                        dataKey="lowerBound"
+                        stroke="#1976d2"
                         strokeWidth={1}
                         strokeDasharray="3,3"
                         strokeOpacity={0.5}
@@ -358,10 +360,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         name="Lower Confidence"
                         connectNulls={false}
                       />
-                      <ReferenceLine 
-                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"} 
-                        stroke="#666" 
-                        strokeDasharray="2 2" 
+                      <ReferenceLine
+                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
+                        stroke="#666"
+                        strokeDasharray="2 2"
                       />
                     </>
                   )}
@@ -406,74 +408,81 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         {/* Additional Revenue Details */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          {/* Average Revenue per Patient */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue per Patient in Panel</div>
-              <div className="text-3xl font-bold text-blue-700">$2,400</div>
-              <div className="text-xs text-gray-500 mt-1">May 2025</div>
-            </CardContent>
-          </Card>
+        <div className="mt-6"> {/* Main container, adding margin top */}
+          {/* Row for Pie Charts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {/* Two columns for medium screens and above */}
+            {/* Payer Mix Distribution */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Payer Mix Distribution</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Medicare', value: 420, color: '#1976d2' },
+                        { name: 'Medicaid', value: 180, color: '#4caf50' },
+                        { name: 'Commercial', value: 290, color: '#ff9800' },
+                        { name: 'Cash Pay', value: 85, color: '#f44336' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70} // No change to outerRadius as per request
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
+                        <Cell key={`payer-cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
-          {/* Payer Mix Distribution */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Payer Mix Distribution</div>
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Medicare', value: 420, color: '#1976d2' },
-                      { name: 'Medicaid', value: 180, color: '#4caf50' },
-                      { name: 'Commercial', value: 290, color: '#ff9800' },
-                      { name: 'Cash Pay', value: 85, color: '#f44336' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={70}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value}K`}
-                  >
-                    {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
-                      <Cell key={`payer-cell-${index}`} fill={color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`$${value}K`, '']} />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            {/* Revenue Source Split */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'In Person Visits', value: 320, color: '#1976d2' },
+                        { name: 'CCM', value: 120, color: '#4caf50' },
+                        { name: 'DSMT', value: 60, color: '#ff9800' },
+                        { name: 'Telemedicine', value: 80, color: '#f44336' },
+                        { name: 'Labs', value: 40, color: '#9c27b0' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70} // No change to outerRadius as per request
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
+                        <Cell key={`source-cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Revenue Source Split */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'In Person Visits', value: 320, color: '#1976d2' },
-                      { name: 'CCM', value: 120, color: '#4caf50' },
-                      { name: 'DSMT', value: 60, color: '#ff9800' },
-                      { name: 'Telemedicine', value: 80, color: '#f44336' },
-                      { name: 'Labs', value: 40, color: '#9c27b0' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={70}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value}K`}
-                  >
-                    {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
-                      <Cell key={`source-cell-${index}`} fill={color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`$${value}K`, '']} />
-                </PieChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          {/* Row for Average Revenue per Patient - now a 2-column grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"> {/* Changed to md:grid-cols-2 */}
+            {/* Average Revenue per Patient */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue per Patient in Panel</div>
+                <div className="text-3xl font-bold text-blue-700">$2,400</div>
+                <div className="text-xs text-gray-500 mt-1">May 2025</div>
+              </CardContent>
+            </Card>
+            {/* The second column in this row will be implicitly empty, aligning the card to the left */}
+          </div>
         </div>
       </div>
 
