@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles, chartColors, pieColors } from "@/lib/styles";
+import { getViewLabels } from "@/lib/utils";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -12,13 +13,17 @@ interface FinanceDashboardProps {
 }
 
 export default function FinanceDashboard({ timeFilter, viewMode, showForecast }: FinanceDashboardProps) {
+  // Use shared getViewLabels utility for dynamic labels
+
+  const labels = getViewLabels(viewMode);
+
   const keyMetrics = [
     {
       title: "Total Revenue",
       currentValue: "$1.84M",
       forecastValue: "$2.1M",
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST",
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
       type: "revenue" as const,
       icon: <DollarSign className="h-5 w-5" />
     },
@@ -26,8 +31,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       title: "Operating Costs",
       currentValue: "$1.37M",
       forecastValue: "$1.45M",
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST",
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
       type: "cost" as const,
       icon: <TrendingDown className="h-5 w-5" />
     },
@@ -79,8 +84,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
-        <div>
-          {/* Cost Trends Chart - now takes full width */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {/* Cost Trends Chart */}
+
           <Card className={styles.card.base}>
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Cost Trends</h3>
@@ -96,136 +103,166 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         { month: 'Jun', cost: 1120000, upperBound: 1180000, lowerBound: 1060000 },
                         { month: 'Jul', cost: 1150000, upperBound: 1210000, lowerBound: 1090000 },
                         { month: 'Aug', cost: 1180000, upperBound: 1240000, lowerBound: 1120000 }
+
                       ] : [
                         { month: 'Jan', cost: 950000 },
                         { month: 'Feb', cost: 980000 },
                         { month: 'Mar', cost: 1020000 },
                         { month: 'Apr', cost: 1050000 },
                         { month: 'May', cost: 1080000 }
+
                       ];
                     } else if (viewMode === "quarterly") {
+
                       return showForecast ? [
                         { month: 'Q4 2024', cost: 3000000 },
                         { month: 'Q1 2025', cost: 3100000 },
                         { month: 'Q2 2025', cost: 3200000 },
                         { month: 'Q3 2025', cost: 3350000, upperBound: 3500000, lowerBound: 3200000 },
                         { month: 'Q4 2025', cost: 3450000, upperBound: 3600000, lowerBound: 3300000 }
+
                       ] : [
                         { month: 'Q2 2024', cost: 2800000 },
                         { month: 'Q3 2024', cost: 2900000 },
                         { month: 'Q4 2024', cost: 3000000 },
                         { month: 'Q1 2025', cost: 3100000 },
                         { month: 'Q2 2025', cost: 3200000 }
+
                       ];
-                    } else {
-                      return showForecast ? [
-                        { month: '2022', cost: 11500000 },
-                        { month: '2023', cost: 12000000 },
-                        { month: '2024', cost: 12400000 },
-                        { month: '2025', cost: 13200000, upperBound: 13800000, lowerBound: 12600000 },
-                        { month: '2026', cost: 13680000, upperBound: 14300000, lowerBound: 13060000 }
+
+                    } else 
+                    {return showForecast ? [
+                      { month: '2022', cost: 11500000 },
+                      { month: '2023', cost: 12000000 },
+                      { month: '2024', cost: 12400000 },
+                      { month: '2025', cost: 13200000, upperBound: 13800000, lowerBound: 12600000 },
+                      { month: '2026', cost: 13680000, upperBound: 14300000, lowerBound: 13060000 }
+
                       ] : [
                         { month: '2020', cost: 10800000 },
                         { month: '2021', cost: 11200000 },
                         { month: '2022', cost: 11500000 },
                         { month: '2023', cost: 12000000 },
                         { month: '2024', cost: 12400000 }
+
                       ];
+
                     }
+
                   };
+
                   return getCostData();
+
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis
-                    dataKey="month"
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0]}
+                  dataKey="month"
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => value.split(' ')[0]}
+
                   />
                   <YAxis
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+
                   />
+
                   <Tooltip
-                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
-                    labelFormatter={(label: string) => `Month: ${label}`}
+                  formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
+                  labelFormatter={(label: string) => `Month: ${label}`}
+
                   />
                   <Legend />
                   <Line
-                    type="monotone"
-                    dataKey="cost"
-                    stroke="#f44336"
-                    strokeWidth={3}
-                    name="Operating Cost"
-                    connectNulls={false}
+                  type="monotone"
+                  dataKey="cost"
+                  stroke="#f44336"
+                  strokeWidth={3}
+                  name="Operating Cost"
+                  connectNulls={false}
+
                   />
+
                   {showForecast && (
                     <>
-                      <Line
-                        type="monotone"
-                        dataKey="upperBound"
-                        stroke="#f44336"
-                        strokeWidth={1}
-                        strokeDasharray="3,3"
-                        strokeOpacity={0.5}
-                        dot={false}
-                        name="Upper Confidence"
-                        connectNulls={false}
+                    <Line
+                    type="monotone"
+                    dataKey="upperBound"
+                    stroke="#f44336"
+                    strokeWidth={1}
+                    strokeDasharray="3,3"
+                    strokeOpacity={0.5}
+                    dot={false}
+                    name="Upper Confidence"
+                    connectNulls={false}
+
                       />
                       <Line
-                        type="monotone"
-                        dataKey="lowerBound"
-                        stroke="#f44336"
-                        strokeWidth={1}
-                        strokeDasharray="3,3"
-                        strokeOpacity={0.5}
-                        dot={false}
-                        name="Lower Confidence"
-                        connectNulls={false}
+                      type="monotone"
+                      dataKey="lowerBound"
+                      stroke="#f44336"
+                      strokeWidth={1}
+                      strokeDasharray="3,3"
+                      strokeOpacity={0.5}
+                      dot={false}
+                      name="Lower Confidence"
+                      connectNulls={false}
+
                       />
                       <ReferenceLine
-                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
-                        stroke="#666"
-                        strokeDasharray="2 2"
+                      x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
+                      stroke="#666"
+                      strokeDasharray="2 2"
+
                       />
+
                     </>
+
                   )}
+
                 </LineChart>
+
+              </ResponsiveContainer>
+
+            </CardContent>
+
+          </Card>
+
+
+
+          {/* Labor Cost by Role */}
+
+          <Card className={styles.card.base}>
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost by Role</h3>
+              <ResponsiveContainer width="100%" height={350}>
+                <PieChart>
+                  <Pie
+                  data={[
+                    { name: 'Physician', value: 400, color: '#1976d2' },
+                    { name: 'Nurse', value: 220, color: '#4caf50' },
+                    { name: 'Technician', value: 120, color: '#ff9800' },
+                    { name: 'Care Manager', value: 180, color: '#f44336' }
+
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: $${value}K`}
+
+                  >
+                    {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
+                      <Cell key={`labor-cell-${index}`} fill={color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => [`$${value}K`, '']} />
+                </PieChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
-
-          {/* Labor Cost by Role - now in a new row, full width */}
-          <div className="mt-6"> {/* Adds vertical space between the charts */}
-            <Card className={styles.card.base}>
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost by Role</h3>
-                <ResponsiveContainer width="100%" height={350}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Physician', value: 400, color: '#1976d2' },
-                        { name: 'Nurse', value: 220, color: '#4caf50' },
-                        { name: 'Technician', value: 120, color: '#ff9800' },
-                        { name: 'Care Manager', value: 180, color: '#f44336' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`}
-                    >
-                      {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
-                        <Cell key={`labor-cell-${index}`} fill={color} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
         </div>
-        
+
         {/* Additional Cost Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Average Cost per Patient */}
