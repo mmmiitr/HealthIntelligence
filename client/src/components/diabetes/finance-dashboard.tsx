@@ -280,7 +280,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           <Card className={styles.card.base}>
             <CardContent className="p-6">
               <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
-              <div className="text-3xl font-bold text-red-700">$1,100</div>
+              <div className="text-3xl font-bold text-[#1976d2]">$1,100</div>
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
           </Card>
@@ -289,7 +289,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           <Card className={styles.card.base}>
             <CardContent className="p-6">
               <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
-              <div className="text-3xl font-bold text-red-700">$95</div>
+              <div className="text-3xl font-bold text-[#1976d2]">$95</div>
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
           </Card>
