@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { revenueData, revenueByInsuranceData, revenueSourcesData } from "@/lib/mock-data";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles, chartColors, pieColors } from "@/lib/styles";
+import { getViewLabels } from "@/lib/utils";
 
 interface FinanceDashboardProps {
   timeFilter: string;
@@ -12,13 +13,17 @@ interface FinanceDashboardProps {
 }
 
 export default function FinanceDashboard({ timeFilter, viewMode, showForecast }: FinanceDashboardProps) {
+  // Use shared getViewLabels utility for dynamic labels
+  
+  const labels = getViewLabels(viewMode);
+
   const keyMetrics = [
     {
       title: "Total Revenue",
       currentValue: "$1.84M",
       forecastValue: "$2.1M", 
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST",
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
       type: "revenue" as const,
       icon: <DollarSign className="h-5 w-5" />
     },
@@ -26,8 +31,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       title: "Operating Costs",
       currentValue: "$1.37M",
       forecastValue: "$1.45M",
-      currentLabel: "MAY PROGRESS", 
-      forecastLabel: "JUN FORECAST",
+      currentLabel: labels.current, 
+      forecastLabel: labels.forecast,
       type: "cost" as const,
       icon: <TrendingDown className="h-5 w-5" />
     },
@@ -35,8 +40,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       title: "Net Profit",
       currentValue: "$470K",
       forecastValue: "$650K",
-      currentLabel: "MAY PROGRESS",
-      forecastLabel: "JUN FORECAST", 
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast, 
       type: "profit" as const,
       icon: <TrendingUp className="h-5 w-5" />
     }
