@@ -154,7 +154,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     formatter={(value: any) => [`$${(value/1000000).toFixed(2)}M`, '']}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
-                  <Legend />
+                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20 }} />
+
                   <Line 
                     type="monotone" 
                     dataKey="cost" 
@@ -330,7 +331,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     formatter={(value: any) => [`$${(value/1000000).toFixed(2)}M`, '']}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
-                  <Legend />
+                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20 }}  />
+
                   <Line 
                     type="monotone" 
                     dataKey="revenue" 
