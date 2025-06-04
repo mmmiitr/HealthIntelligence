@@ -16,7 +16,7 @@ interface OperationDashboardProps {
 export default function OperationDashboard({ timeFilter, viewMode, showForecast }: OperationDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
-    switch(viewMode) {
+    switch (viewMode) {
       case "monthly":
         return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
       case "quarterly":
@@ -69,33 +69,34 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
           )}
         </div>
       </DashboardSection>
+      
 
       {/* Patient Metrics */}
       <DashboardSection>
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> {/* Changed from md:grid-cols-4 to md:grid-cols-3 */}
           {[
-            { 
-              title: "No-show rate", 
-              currentValue: "12%", 
+            {
+              title: "No-show rate",
+              currentValue: "12%",
               forecastValue: showForecast ? "11%" : undefined,
               currentLabel: labels.current,
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'cost' as const,
               icon: <Clock className="h-4 w-4" />
             },
-            { 
-              title: "% of telemedicine visits", 
-              currentValue: "30%", 
+            {
+              title: "% of telemedicine visits",
+              currentValue: "30%",
               forecastValue: showForecast ? "35%" : undefined,
               currentLabel: labels.current,
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'neutral' as const,
               icon: <UserCheck className="h-4 w-4" />
             },
-            { 
-              title: "% of patients with assigned PCP/endocrinologist", 
-              currentValue: "92%", 
+            {
+              title: "% of patients with assigned PCP/endocrinologist",
+              currentValue: "92%",
               forecastValue: undefined, // Real-time metric, no forecast
               currentLabel: "CURRENT STATUS",
               forecastLabel: undefined,
@@ -117,6 +118,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
           ))}
         </div>
       </DashboardSection>
+
 
       {/* Appointment Metrics */}
       <DashboardSection>
