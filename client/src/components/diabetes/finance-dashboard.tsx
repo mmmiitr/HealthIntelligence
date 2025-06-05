@@ -84,7 +84,28 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Additional Cost Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {/* Removed mt-6 here as it's now at the top */}
+          {/* Average Cost per Patient */}
+          <Card className={styles.card.base}>
+            <CardContent className="p-6">
+              <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
+              <div className="text-3xl font-bold text-blue-700">$1,100</div>
+              <div className="text-xs text-gray-500 mt-1">May 2025</div>
+            </CardContent>
+          </Card>
+
+          {/* Cost per Visit */}
+          <Card className={styles.card.base}>
+            <CardContent className="p-6">
+              <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
+              <div className="text-3xl font-bold text-blue-700">$95</div>
+              <div className="text-xs text-gray-500 mt-1">May 2025</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           {/* Cost Trends Chart */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -218,6 +239,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     outerRadius={80}
                     dataKey="value"
                     label={({ name, value }) => `${name}: $${value}K`}
+                    
                   >
                     {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
                       <Cell key={`labor-cell-${index}`} fill={color} />
@@ -226,27 +248,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <Tooltip formatter={(value) => [`$${value}K`, '']} />
                 </PieChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Additional Cost Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          {/* Average Cost per Patient */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
-              <div className="text-3xl font-bold text-blue-700">$1,100</div>
-              <div className="text-xs text-gray-500 mt-1">May 2025</div>
-            </CardContent>
-          </Card>
-
-          {/* Cost per Visit */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
-              <div className="text-3xl font-bold text-blue-700">$95</div>
-              <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
           </Card>
         </div>
@@ -395,6 +396,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     outerRadius={80}
                     dataKey="value"
                     label={({ name, value }) => `${name}: $${value}K`}
+                    
                   >
                     {[
                       { name: 'Medicare', value: 420, color: '#1976d2' },
@@ -434,6 +436,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       outerRadius={70} // No change to outerRadius as per request
                       dataKey="value"
                       label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                      
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
                         <Cell key={`payer-cell-${index}`} fill={color} />
@@ -464,6 +467,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       outerRadius={70} // No change to outerRadius as per request
                       dataKey="value"
                       label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                      labelLine={false}
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
                         <Cell key={`source-cell-${index}`} fill={color} />
