@@ -130,7 +130,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            icon={<Activity className="h-4 w-4 text-red-500" />} 
+            //icon={<Activity className="h-4 w-4 text-red-500" />} 
           />
           {/* Non CCM - Prediction (Red) */}
           <StandardMetricCard 
@@ -152,7 +152,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            icon={<TrendingUp className="h-4 w-4 text-green-500" />} 
+            //icon={<TrendingUp className="h-4 w-4 text-green-500" />} 
           />
           {/* Non CCM - Recent HbA1c Test (Blue) */}
           <StandardMetricCard 
@@ -163,7 +163,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            icon={<Users className="h-4 w-4 text-blue-500" />} 
+            //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* CCM - Hypertension Control (Green) */}
           <StandardMetricCard 
@@ -185,7 +185,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            icon={<Users className="h-4 w-4 text-blue-500" />} 
+            //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* CCM - >2 Co-morbidities (Green) */}
           <StandardMetricCard 
@@ -196,7 +196,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            icon={<Activity className="h-4 w-4 text-green-500" />} 
+            //icon={<Activity className="h-4 w-4 text-green-500" />} 
           />
           {/* Non CCM - >2 Co-morbidities (Blue) */}
           <StandardMetricCard 
@@ -207,7 +207,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            icon={<Users className="h-4 w-4 text-blue-500" />} 
+            //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* Enrolled in DSME (Green) */}
           <StandardMetricCard 
