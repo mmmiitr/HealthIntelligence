@@ -431,7 +431,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
                   <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
-                  <Legend />
+                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20 }}/>
                   <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
                   <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
                   <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
