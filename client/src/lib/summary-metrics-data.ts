@@ -29,7 +29,7 @@ export const summaryKeyMetrics = [
     icon: 'Heart',
   },
   {
-    title: "% enrolled in ccm",
+    title: "% Enrolled In CCM",
     currentValue: "30%",
     forecastValue: "32%",
     currentLabel: "MAY PROGRESS",

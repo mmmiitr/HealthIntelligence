@@ -84,7 +84,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Cost Trends Chart */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -203,7 +203,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Labor Cost by Role */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost by Role</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Labor Cost By Role</h3>
               <ResponsiveContainer width="100%" height={350}>
                 <PieChart>
                   <Pie
@@ -235,7 +235,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Average Cost per Patient */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost Per Patient In Panel</div>
               <div className="text-3xl font-bold text-blue-700">$1,100</div>
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
@@ -244,7 +244,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Cost per Visit */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Cost Per Visit</div>
               <div className="text-3xl font-bold text-blue-700">$95</div>
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
@@ -380,7 +380,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Revenue by Insurance */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue by Insurance</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue By Insurance</h3>
               <ResponsiveContainer width="100%" height={350}>
                 <PieChart>
                   <Pie
@@ -481,7 +481,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             {/* Average Revenue per Patient */}
             <Card className={styles.card.base}>
               <CardContent className="p-6">
-                <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue per Patient in Panel</div>
+                <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue Per Patient In Panel</div>
                 <div className="text-3xl font-bold text-blue-700">$2,400</div>
                 <div className="text-xs text-gray-500 mt-1">May 2025</div>
               </CardContent>
