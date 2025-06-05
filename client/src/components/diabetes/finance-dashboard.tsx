@@ -47,6 +47,27 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
     }
   ];
 
+  const costMetrics = [
+    {
+      title: "Average Cost per Patient in Panel",
+      currentValue: "$90",
+      forecastValue: "$75", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+    {
+      title: "Cost per Visit",
+      currentValue: "$100",
+      forecastValue: "$90", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {/* Financial Overview Section */}
@@ -85,24 +106,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         {/* Additional Cost Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {/* Removed mt-6 here as it's now at the top */}
-          {/* Average Cost per Patient */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Average Cost per Patient in Panel</div>
-              <div className="text-3xl font-bold text-blue-700">$1,100</div>
-              <div className="text-xs text-gray-500 mt-1">May 2025</div>
-            </CardContent>
-          </Card>
-
-          {/* Cost per Visit */}
-          <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Cost per Visit</div>
-              <div className="text-3xl font-bold text-blue-700">$95</div>
-              <div className="text-xs text-gray-500 mt-1">May 2025</div>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {costMetrics.map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+            />
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -239,7 +255,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     outerRadius={80}
                     dataKey="value"
                     label={({ name, value }) => `${name}: $${value}K`}
-                    
+                    labelLine={false} 
+
                   >
                     {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
                       <Cell key={`labor-cell-${index}`} fill={color} />
@@ -260,6 +277,18 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           <p className={styles.heading.subtitle}>
             Revenue Trends and Source Analysis
           </p>
+        </div>
+
+        {/* Average Revenue per Patient - Moved above charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className={styles.card.base}>
+            <CardContent className="p-6">
+              <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue Per Patient In Panel</div>
+              <div className="text-3xl font-bold text-blue-700">$2,400</div>
+              <div className="text-xs text-gray-500 mt-1">May 2025</div>
+            </CardContent>
+          </Card>
+          {/* The second column in this row will be implicitly empty, aligning the card to the left */}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -378,40 +407,40 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </CardContent>
           </Card>
 
-          {/* Revenue by Insurance */}
+
+          {/* Revenue Source Split */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue By Insurance</h3>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
               <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Medicare', value: 420, color: '#1976d2' },
-                      { name: 'Medicaid', value: 180, color: '#4caf50' },
-                      { name: 'Commercial', value: 290, color: '#ff9800' },
-                      { name: 'Cash Pay', value: 85, color: '#f44336' }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value}K`}
-                    
-                  >
-                    {[
-                      { name: 'Medicare', value: 420, color: '#1976d2' },
-                      { name: 'Medicaid', value: 180, color: '#4caf50' },
-                      { name: 'Commercial', value: 290, color: '#ff9800' },
-                      { name: 'Cash Pay', value: 85, color: '#f44336' }
-                    ].map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`$${value}K`, '']} />
-                </PieChart>
+                <LineChart
+                  data={[
+                    // Illustrative data for a trend line
+                    { month: 'Jan', 'In Person Visits': 280, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
+                    { month: 'Feb', 'In Person Visits': 300, 'CCM': 110, 'DSMT': 58, 'Telemedicine': 75, 'Labs': 38 },
+                    { month: 'Mar', 'In Person Visits': 320, 'CCM': 120, 'DSMT': 60, 'Telemedicine': 80, 'Labs': 40 },
+                    { month: 'Apr', 'In Person Visits': 310, 'CCM': 115, 'DSMT': 62, 'Telemedicine': 85, 'Labs': 42 },
+                    { month: 'May', 'In Person Visits': 330, 'CCM': 125, 'DSMT': 65, 'Telemedicine': 90, 'Labs': 45 },
+                  ]}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
+                  <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  <Legend />
+                  <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
+                  <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
+                  <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
+                  <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
+                  <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
+
+
+
         </div>
 
         {/* Additional Revenue Details */}
@@ -435,8 +464,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       cy="50%"
                       outerRadius={70} // No change to outerRadius as per request
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
-                      
+                      label={({ name, value }) => `${name}: $${value}K`} 
+                      labelLine={false} 
+
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
                         <Cell key={`payer-cell-${index}`} fill={color} />
@@ -448,49 +478,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
 
-            {/* Revenue Source Split */}
-            <Card className={styles.card.base}>
-              <CardContent className="p-6">
-                <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
-                <ResponsiveContainer width="100%" height={220}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'In Person Visits', value: 320, color: '#1976d2' },
-                        { name: 'CCM', value: 120, color: '#4caf50' },
-                        { name: 'DSMT', value: 60, color: '#ff9800' },
-                        { name: 'Telemedicine', value: 80, color: '#f44336' },
-                        { name: 'Labs', value: 40, color: '#9c27b0' }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={70} // No change to outerRadius as per request
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
-                      labelLine={false}
-                    >
-                      {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
-                        <Cell key={`source-cell-${index}`} fill={color} />
-                      ))}
-                    </Pie>
-                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Row for Average Revenue per Patient - now a 2-column grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"> {/* Changed to md:grid-cols-2 */}
-            {/* Average Revenue per Patient */}
-            <Card className={styles.card.base}>
-              <CardContent className="p-6">
-                <div className="text-lg font-semibold text-gray-900 mb-2">Average Revenue Per Patient In Panel</div>
-                <div className="text-3xl font-bold text-blue-700">$2,400</div>
-                <div className="text-xs text-gray-500 mt-1">May 2025</div>
-              </CardContent>
-            </Card>
-            {/* The second column in this row will be implicitly empty, aligning the card to the left */}
+            
           </div>
         </div>
       </div>
