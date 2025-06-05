@@ -255,7 +255,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     outerRadius={80}
                     dataKey="value"
                     label={({ name, value }) => `${name}: $${value}K`}
-                    labelLine={false} 
 
                   >
                     {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
@@ -415,12 +414,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart
                   data={[
-                    // Illustrative data for a trend line
-                    { month: 'Jan', 'In Person Visits': 280, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
-                    { month: 'Feb', 'In Person Visits': 300, 'CCM': 110, 'DSMT': 58, 'Telemedicine': 75, 'Labs': 38 },
-                    { month: 'Mar', 'In Person Visits': 320, 'CCM': 120, 'DSMT': 60, 'Telemedicine': 80, 'Labs': 40 },
-                    { month: 'Apr', 'In Person Visits': 310, 'CCM': 115, 'DSMT': 62, 'Telemedicine': 85, 'Labs': 42 },
-                    { month: 'May', 'In Person Visits': 330, 'CCM': 125, 'DSMT': 65, 'Telemedicine': 90, 'Labs': 45 },
+
+                    { month: 'Jan', 'In Person Visits': 330, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
+                    { month: 'Feb', 'In Person Visits': 320, 'CCM': 105, 'DSMT': 56, 'Telemedicine': 78, 'Labs': 36 },
+                    { month: 'Mar', 'In Person Visits': 310, 'CCM': 110, 'DSMT': 57, 'Telemedicine': 85, 'Labs': 37 },
+                    { month: 'Apr', 'In Person Visits': 305, 'CCM': 118, 'DSMT': 58, 'Telemedicine': 95, 'Labs': 38 },
+                    { month: 'May', 'In Person Visits': 295, 'CCM': 128, 'DSMT': 59, 'Telemedicine': 105, 'Labs': 39 },
+                    { month: 'Jun', 'In Person Visits': 285, 'CCM': 138, 'DSMT': 60, 'Telemedicine': 115, 'Labs': 40 },
+                    { month: 'Jul', 'In Person Visits': 290, 'CCM': 135, 'DSMT': 61, 'Telemedicine': 112, 'Labs': 41 },
+                    { month: 'Aug', 'In Person Visits': 288, 'CCM': 142, 'DSMT': 62, 'Telemedicine': 120, 'Labs': 42 },
+                    { month: 'Sep', 'In Person Visits': 295, 'CCM': 148, 'DSMT': 63, 'Telemedicine': 128, 'Labs': 43 },
                   ]}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
@@ -464,8 +467,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       cy="50%"
                       outerRadius={70} // No change to outerRadius as per request
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} 
-                      labelLine={false} 
+                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
 
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
@@ -478,7 +480,36 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               </CardContent>
             </Card>
 
-            
+            {/* Revenue Source Split */}
+            <Card className={styles.card.base}>
+              <CardContent className="p-6">
+                <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'In Person Visits', value: 320, color: '#1976d2' },
+                        { name: 'CCM', value: 120, color: '#4caf50' },
+                        { name: 'DSMT', value: 60, color: '#ff9800' },
+                        { name: 'Telemedicine', value: 80, color: '#f44336' },
+                        { name: 'Labs', value: 40, color: '#9c27b0' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={70} // No change to outerRadius as per request
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+
+                    >
+                      {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
+                        <Cell key={`source-cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
