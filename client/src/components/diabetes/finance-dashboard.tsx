@@ -279,8 +279,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
-        {/* Average Revenue per Patient - Moved above charts */}
-      {/*  
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -289,9 +287,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
           </Card>
-          {/* The second column in this row will be implicitly empty, aligning the card to the left 
+          
         </div>
-      */}
+      
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Revenue Trends Chart */}
           <Card className={styles.card.base}>
@@ -467,9 +465,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       ]}
                       cx="50%"
                       cy="50%"
-                      outerRadius={70} 
+                      outerRadius={70}
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} 
+                      label={({ name, value }) => `${name}: $${value}K`}
                       labelLine={false}
 
                     >
@@ -499,10 +497,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       ]}
                       cx="50%"
                       cy="50%"
-                      outerRadius={70} 
+                      outerRadius={70}
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} 
-                      labelLine={false} 
+                      label={({ name, value }) => `${name}: $${value}K`}
+                      labelLine={false}
 
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
