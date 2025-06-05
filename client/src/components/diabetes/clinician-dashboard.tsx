@@ -114,7 +114,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       {/* Header */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Clinical Dashboard</h2>
-        <p className="text-gray-600">Clinical performance and patient outcomes</p>
+        <p className="text-gray-600">Clinical Performance And Patient Outcomes</p>
       </div>
 
       {/* Clinical Metrics (2-col grid) */}
@@ -189,7 +189,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           />
           {/* CCM - >2 Co-morbidities (Green) */}
           <StandardMetricCard 
-            title="% >2 Co-morbidities - CCM"
+            title="% >2 Co-Morbidities - CCM"
             currentValue="55%"
             forecastValue={showForecast ? "57%" : undefined}
             currentLabel={labels.current}
@@ -200,7 +200,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           />
           {/* Non CCM - >2 Co-morbidities (Blue) */}
           <StandardMetricCard 
-            title="% >2 Co-morbidities - Non CCM"
+            title="% >2 Co-Morbidities - Non CCM"
             currentValue="50%"
             forecastValue={showForecast ? "52%" : undefined}
             currentLabel={labels.current}
@@ -211,7 +211,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           />
           {/* Enrolled in DSME (Green) */}
           <StandardMetricCard 
-            title="% Enrolled in DSME"
+            title="% Enrolled In DSME"
             currentValue="40%"
             forecastValue={showForecast ? "42%" : undefined}
             currentLabel={labels.current}

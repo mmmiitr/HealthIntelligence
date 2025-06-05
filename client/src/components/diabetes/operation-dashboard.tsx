@@ -77,7 +77,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> {/* Changed from md:grid-cols-4 to md:grid-cols-3 */}
           {[
             {
-              title: "No-show rate",
+              title: "No-Show Rate",
               currentValue: "12%",
               forecastValue: showForecast ? "11%" : undefined,
               currentLabel: labels.current,
@@ -86,7 +86,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Clock className="h-4 w-4" />
             },
             {
-              title: "% of telemedicine visits",
+              title: "% Of Telemedicine Visits",
               currentValue: "30%",
               forecastValue: showForecast ? "35%" : undefined,
               currentLabel: labels.current,
@@ -95,7 +95,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <UserCheck className="h-4 w-4" />
             },
             {
-              title: "% of patients with assigned PCP/endocrinologist",
+              title: "% Of Patients With Assigned PCP/Endocrinologist",
               currentValue: "92%",
               forecastValue: undefined, // Real-time metric, no forecast
               currentLabel: "CURRENT STATUS",
@@ -143,7 +143,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              title: "Care managers",
+              title: "Care Managers",
               currentValue: "85%",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -191,7 +191,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Users className="h-4 w-4" />
             },
             {
-              title: "Number of Physicians with active panel",
+              title: "Number of Physicians With Active Panel",
               currentValue: "8",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -221,7 +221,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              title: "Panel size per provider (Care Manager)",
+              title: "Panel Size Per Provider (Care Manager)",
               currentValue: "120",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -230,7 +230,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Users className="h-4 w-4" />
             },
             {
-              title: "Panel size per provider (Physician)",
+              title: "Panel Size Per Provider (Physician)",
               currentValue: "180",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -239,7 +239,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Users className="h-4 w-4" />
             },
             {
-              title: "Overtime hours for provider (Care Manager)",
+              title: "Overtime Hours For Provider (Care Manager)",
               currentValue: "6",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -248,7 +248,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Clock className="h-4 w-4" />
             },
             {
-              title: "Overtime hours for provider (Physician)",
+              title: "Overtime Hours For Provider (Physician)",
               currentValue: "8",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -278,7 +278,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              title: "Average care manager time per patient",
+              title: "Average Care Manager Time Per Patient",
               currentValue: "35 min",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -287,7 +287,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Clock className="h-4 w-4" />
             },
             {
-              title: "Number discharged in month",
+              title: "Number Discharged In Month",
               currentValue: "14",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
@@ -296,7 +296,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
               icon: <Users className="h-4 w-4" />
             },
             {
-              title: "Number enrolled in month",
+              title: "Number Enrolled In Month",
               currentValue: "22",
               forecastValue: undefined,
               currentLabel: "CURRENT STATUS",
