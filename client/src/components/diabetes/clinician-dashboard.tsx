@@ -141,7 +141,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            icon={<Heart className="h-4 w-4 text-red-500" />} 
+            
           />
           {/* CCM - Recent HbA1c Test (Green) */}
           <StandardMetricCard 
@@ -174,7 +174,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            icon={<Heart className="h-4 w-4 text-green-500" />} 
+            
           />
           {/* Non CCM - Hypertension Control (Blue) */}
           <StandardMetricCard 
@@ -218,7 +218,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            icon={<TrendingUp className="h-4 w-4 text-green-500" />} 
+            
           />
           {/* 30-Day ED Visit or Hospitalization (Prediction, Red) */}
           <StandardMetricCard 
@@ -229,7 +229,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            icon={<AlertTriangle className="h-4 w-4 text-red-500" />} 
+            
           />
         </div>
       </DashboardSection>
@@ -252,7 +252,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           </Card>
           <Card>
             <CardContent>
-              <h4 className="font-semibold mb-2">Most Inpatient LOS (Past Quarter)</h4>
+              <h4 className="font-semibold mb-2">Highest Inpatient LOS (Past Quarter)</h4>
               <ul className="list-disc pl-5 text-gray-700">
                 <li>James Anderson</li>
                 <li>Isabella Garcia</li>
@@ -266,7 +266,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
       </DashboardSection>
 
       {/* Risk/Readmission (2-col grid) */}
-      <DashboardSection>
+      {/* <DashboardSection>
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Risk & Readmission</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -277,7 +277,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               currentLabel: labels.current,
               forecastLabel: showForecast ? labels.forecast : undefined,
               type: 'profit' as const,
-              icon: <Heart className="h-4 w-4" />
+              icon: null
             },
             { 
               title: "Non CCM", 
@@ -320,7 +320,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             />
           ))}
         </div>
-      </DashboardSection>
+      </DashboardSection> */}
 
       {/* Key Trends (charts/tables) */}
       <DashboardSection>

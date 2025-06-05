@@ -60,9 +60,7 @@ export default function StandardMetricCard({
           
           <p className="text-gray-700 text-base font-medium pr-8 leading-tight">{title}</p>
           
-          {title.toLowerCase().includes('prediction') && (
-            <span className="ml-2 px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase">Prediction</span>
-          )}
+          
         </div>
         
         {icon && <div className="text-gray-500">{icon}</div>}

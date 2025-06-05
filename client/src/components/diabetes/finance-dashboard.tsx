@@ -49,7 +49,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
   const costMetrics = [
     {
-      title: "Average Cost per Patient in Panel",
+      title: "Revenue Per Visit",
       currentValue: "$90",
       forecastValue: "$75", // Added a sample forecast value
       currentLabel: labels.current,
@@ -280,6 +280,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         {/* Average Revenue per Patient - Moved above charts */}
+      {/*  
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -288,9 +289,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <div className="text-xs text-gray-500 mt-1">May 2025</div>
             </CardContent>
           </Card>
-          {/* The second column in this row will be implicitly empty, aligning the card to the left */}
+          {/* The second column in this row will be implicitly empty, aligning the card to the left 
         </div>
-
+      */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Revenue Trends Chart */}
           <Card className={styles.card.base}>
