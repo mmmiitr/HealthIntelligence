@@ -278,7 +278,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             Revenue Trends and Source Analysis
           </p>
         </div>
-
+{/* 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -288,7 +288,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </CardContent>
           </Card>
           
-        </div>
+        </div> */}
       
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Revenue Trends Chart */}
