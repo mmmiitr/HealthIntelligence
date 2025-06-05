@@ -255,6 +255,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     outerRadius={80}
                     dataKey="value"
                     label={({ name, value }) => `${name}: $${value}K`}
+                    labelLine={false}
 
                   >
                     {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
@@ -465,9 +466,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       ]}
                       cx="50%"
                       cy="50%"
-                      outerRadius={70} // No change to outerRadius as per request
+                      outerRadius={70} 
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                      label={({ name, value }) => `${name}: $${value}K`} 
+                      labelLine={false}
 
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336'].map((color, index) => (
@@ -496,9 +498,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       ]}
                       cx="50%"
                       cy="50%"
-                      outerRadius={70} // No change to outerRadius as per request
+                      outerRadius={70} 
                       dataKey="value"
-                      label={({ name, value }) => `${name}: $${value}K`} // No change to label function as per request
+                      label={({ name, value }) => `${name}: $${value}K`} 
+                      labelLine={false} 
 
                     >
                       {['#1976d2', '#4caf50', '#ff9800', '#f44336', '#9c27b0'].map((color, index) => (
