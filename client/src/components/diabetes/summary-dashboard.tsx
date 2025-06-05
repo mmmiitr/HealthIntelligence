@@ -10,6 +10,7 @@ import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles } from "@/lib/styles";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+
 interface SummaryDashboardProps {
   timeFilter: string;
   viewMode: string;
@@ -223,7 +224,7 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
           {/* % Under CCM Chart */}
           <Card className="bg-white rounded-lg shadow-md border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">% enrolled in ccm</CardTitle>
+              <CardTitle className="text-lg font-semibold text-gray-900">% Enrolled In CCM</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>

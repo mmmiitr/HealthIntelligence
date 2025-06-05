@@ -1,23 +1,25 @@
 // Summary dashboard metrics and chart data (modularized)
+import { TrendingUp, TrendingDown } from 'lucide-react';
+
 
 export const summaryKeyMetrics = [
   {
     title: "Avg Revenue/Patient/Month",
-    currentValue: "$120",
-    forecastValue: "$128",
+    currentValue: "$180",
+    forecastValue: "$200",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'revenue',
-    icon: 'DollarSign',
+    icon: '',
   },
   {
     title: "Avg Cost/Patient/Month",
-    currentValue: "$85",
-    forecastValue: "$87",
+    currentValue: "$140",
+    forecastValue: "$120",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
-    icon: 'Heart',
+    icon: TrendingDown,
   },
   {
     title: "Active Panel Size",
@@ -26,16 +28,17 @@ export const summaryKeyMetrics = [
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
-    icon: 'Heart',
+    icon: TrendingUp,
   },
   {
-    title: "% enrolled in ccm",
+    title: "% Enrolled In CCM",
     currentValue: "30%",
     forecastValue: "32%",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
-    icon: 'Heart',
+    icon: '',
+
   },
   {
     title: "% Telemedicine Visits",
@@ -44,7 +47,7 @@ export const summaryKeyMetrics = [
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'neutral',
-    icon: 'Monitor',
+    icon: '',
   },
   
   
