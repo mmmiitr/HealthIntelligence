@@ -25,16 +25,16 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "revenue" as const,
-      icon: <DollarSign className="h-5 w-5" />
+      // icon: <DollarSign className="h-5 w-5" />
     },
     {
       title: "Operating Costs",
-      currentValue: "$1.37M",
-      forecastValue: "$1.45M",
+      currentValue: "$1.2M",
+      forecastValue: "$1.2M",
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "cost" as const,
-      icon: <TrendingDown className="h-5 w-5" />
+      // icon: <TrendingDown className="h-5 w-5" />
     },
     {
       title: "Net Profit",
@@ -43,7 +43,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "profit" as const,
-      icon: <TrendingUp className="h-5 w-5" />
+      icon: <TrendingUp className="h-5 w-5 text-green-500" />
     }
   ];
 
