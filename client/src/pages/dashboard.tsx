@@ -93,42 +93,15 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {/* First Row: Title and Controls */}
+          {/* First Row: Title and Download Report (PDF) Button */}
           <div className="flex justify-between items-center h-16">
+            {/* Left: Diabetes Care Dashboard Title */}
             <div className="flex items-center space-x-4">
               <Heart className="h-8 w-8 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-md ">
-                <label htmlFor="global-forecast-toggle" className="text-sm font-semibold text-gray-700">
-                  Forecast
-                </label>
-                <Switch
-                  id="global-forecast-toggle"
-                  checked={showForecast}
-                  onCheckedChange={setShowForecast}
-                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 data-[state=unchecked]:border-white-400 border-2 border-gray-400 shadow-sm 
-                            [&>span]:bg-white [&>span]:shadow  [&>span]:flex-none [&>span]:block [&>span]:rounded-full  [&>span]:h-5 [&>span]:w-5 
-                            data-[state=unchecked]:[&>span]:translate-x-[-14px]   data-[state=checked]:[&>span]:translate-x-[7px]"
-                />
-              </div>
-              <Select value={viewMode} onValueChange={setViewMode}>
-                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-400 hover:border-blue-500 focus:border-blue-600 shadow-lg text-gray-900">
-                  <SelectValue placeholder="View Mode" className="text-gray-900 font-medium" />
-                </SelectTrigger>
-                <SelectContent className="z-[100] bg-white border-2 border-gray-400 shadow-2xl rounded-md min-w-[144px]">
-                  <SelectItem value="monthly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
-                    Monthly
-                  </SelectItem>
-                  <SelectItem value="quarterly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
-                    Quarterly
-                  </SelectItem>
-                  <SelectItem value="yearly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
-                    Yearly
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Right: Download Report (PDF) Button (Forecast and Monthly moved from here) */}
+            <div className="flex items-center space-x-4"> {/* Keep space-x-4 for consistent spacing if other elements were to be added, or remove if only button */}
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-semibold flex items-center space-x-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
@@ -153,7 +126,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="flex justify-start py-3 border-t border-black-100">
+          
+          <div className="flex justify-between items-center py-3 border-t border-black-100">
+            {/* Left: Navigation Tabs */}
             <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -163,8 +138,8 @@ export default function Dashboard() {
                     size="sm"
                     variant={activeTab === tab.id ? "default" : "ghost"}
                     className={`justify-center space-x-2 py-3 px-6 rounded-md transition-all duration-200 ${activeTab === tab.id
-                        ? "bg-blue-600 shadow-md text-white hover:bg-blue-700" 
-                        : "bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-600" 
+                      ? "bg-blue-600 shadow-md text-white hover:bg-blue-700"
+                      : "bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-600"
                       }`}
                     onClick={() => setActiveTab(tab.id)}
                   >
@@ -173,6 +148,39 @@ export default function Dashboard() {
                   </Button>
                 );
               })}
+            </div>
+
+            
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-lg shadow-md ">
+                <label htmlFor="global-forecast-toggle" className="text-sm font-semibold text-gray-700">
+                  Forecast
+                </label>
+                <Switch
+                  id="global-forecast-toggle"
+                  checked={showForecast}
+                  onCheckedChange={setShowForecast}
+                  className="data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-gray-300 data-[state=unchecked]:border-white-400 border-2 border-gray-400 shadow-sm 
+                                    [&>span]:bg-white [&>span]:shadow  [&>span]:flex-none [&>span]:block [&>span]:rounded-full  [&>span]:h-5 [&>span]:w-5 
+                                    data-[state=unchecked]:[&>span]:translate-x-[-14px]   data-[state=checked]:[&>span]:translate-x-[7px]"
+                />
+              </div>
+              <Select value={viewMode} onValueChange={setViewMode}>
+                <SelectTrigger className="w-36 h-10 text-sm font-medium bg-white border-2 border-gray-400 hover:border-blue-500 focus:border-blue-600 shadow-lg text-gray-900">
+                  <SelectValue placeholder="View Mode" className="text-gray-900 font-medium" />
+                </SelectTrigger>
+                <SelectContent className="z-[100] bg-white border-2 border-gray-400 shadow-2xl rounded-md min-w-[144px]">
+                  <SelectItem value="monthly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
+                    Monthly
+                  </SelectItem>
+                  <SelectItem value="quarterly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
+                    Quarterly
+                  </SelectItem>
+                  <SelectItem value="yearly" className="text-gray-900 font-medium hover:bg-blue-50 hover:text-blue-900 cursor-pointer px-3 py-2">
+                    Yearly
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
