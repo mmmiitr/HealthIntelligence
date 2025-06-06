@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, Legend } from "recharts";
 
 
 interface ClinicianDashboardProps {
@@ -15,7 +15,7 @@ interface ClinicianDashboardProps {
 export default function ClinicianDashboard({ timeFilter, viewMode, showForecast }: ClinicianDashboardProps) {
   // Dynamic labels based on view mode
   const getViewLabels = () => {
-    switch(viewMode) {
+    switch (viewMode) {
       case "monthly":
         return { current: "MAY PROGRESS", forecast: "JUN FORECAST" };
       case "quarterly":
@@ -59,43 +59,50 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
   // Prepare prediction data based on existing A1C trends
   const predictionChartData = Array.isArray(a1cTrends) ? (() => {
-    // Historical data (past months)
+    const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const historicalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
-    const baseData = a1cTrends
-      .filter((item: any) => historicalMonths.includes(item.month))
+    const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
+
+    
+    const baseProcessedData = a1cTrends
+
+      .filter(item => monthOrder.indexOf(item.month) <= monthOrder.indexOf('Sep'))
       .map((item: any) => {
-        const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2; // Convert A1C to ED visit rate
+        const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2;
+        const isForecastMonth = forecastMonths.includes(item.month);
+
         return {
           month: item.month,
           value: edRate,
-          upperCI: edRate + 1,
-          lowerCI: edRate - 1,
-          isForecast: false,
+          upperCI: undefined, 
+          lowerCI: undefined, 
+          isForecast: isForecastMonth, 
         };
       });
-    
+
+    let finalChartData = [];
+
     if (showForecast) {
-      // Future months (forecast)
-      const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
-      const forecastData = a1cTrends
-        .filter((item: any) => forecastMonths.includes(item.month))
-        .map((item: any) => {
-          const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2;
+      
+      finalChartData = baseProcessedData.map(item => {
+        if (item.isForecast) {
           return {
-            month: item.month,
-            value: edRate,
-            upperCI: edRate + 1,
-            lowerCI: edRate - 1,
-            isForecast: true,
+            ...item,
+            upperCI: item.value + 1, 
+            lowerCI: item.value - 1, 
           };
-        });
-      //return [...baseData, ...forecastData];
-      const combinedData = [...baseData, ...forecastData];
-      const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      combinedData.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
-      return combinedData
+        }
+        return item; 
+      });
+    } else {
+      
+      finalChartData = baseProcessedData.filter(item => historicalMonths.includes(item.month));
     }
-    return baseData; // Only historical data when forecast is disabled
+
+    
+    finalChartData.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
+
+    return finalChartData;
   })() : [];
 
   // Prepare risk distribution chart data
@@ -122,29 +129,29 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Clinical Metrics</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* CCM - Prediction (Red) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Controlled HbA1c (<7%) - CCM"
-            currentValue="68%"
-            forecastValue={showForecast ? "70%" : undefined}
+            currentValue="78%"
+            forecastValue={showForecast ? "80%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            //icon={<Activity className="h-4 w-4 text-red-500" />} 
+          //icon={<Activity className="h-4 w-4 text-red-500" />} 
           />
           {/* Non CCM - Prediction (Red) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Controlled HbA1c (<7%) - Non CCM"
-            currentValue="62%"
-            forecastValue={showForecast ? "64%" : undefined}
+            currentValue="45%"
+            forecastValue={showForecast ? "43%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            
+
           />
           {/* CCM - Recent HbA1c Test (Green) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Recent HbA1c Test (6mo) - CCM"
             currentValue="85%"
             forecastValue={showForecast ? "87%" : undefined}
@@ -152,21 +159,21 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            //icon={<TrendingUp className="h-4 w-4 text-green-500" />} 
+          //icon={<TrendingUp className="h-4 w-4 text-green-500" />} 
           />
           {/* Non CCM - Recent HbA1c Test (Blue) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Recent HbA1c Test (6mo) - Non CCM"
-            currentValue="80%"
-            forecastValue={showForecast ? "82%" : undefined}
+            currentValue="60%"
+            forecastValue={showForecast ? "59%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            //icon={<Users className="h-4 w-4 text-blue-500" />} 
+          //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* CCM - Hypertension Control (Green) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Hypertension Control (<140/90) - CCM"
             currentValue="72%"
             forecastValue={showForecast ? "74%" : undefined}
@@ -174,10 +181,10 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            
+
           />
           {/* Non CCM - Hypertension Control (Blue) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Hypertension Control (<140/90) - Non CCM"
             currentValue="68%"
             forecastValue={showForecast ? "70%" : undefined}
@@ -185,32 +192,32 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            //icon={<Users className="h-4 w-4 text-blue-500" />} 
+          //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* CCM - >2 Co-morbidities (Green) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% >2 Co-Morbidities - CCM"
-            currentValue="55%"
-            forecastValue={showForecast ? "57%" : undefined}
+            currentValue="90%"
+            forecastValue={showForecast ? "95%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            //icon={<Activity className="h-4 w-4 text-green-500" />} 
+          //icon={<Activity className="h-4 w-4 text-green-500" />} 
           />
           {/* Non CCM - >2 Co-morbidities (Blue) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% >2 Co-Morbidities - Non CCM"
             currentValue="50%"
-            forecastValue={showForecast ? "52%" : undefined}
+            forecastValue={showForecast ? "55%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="neutral"
-            //icon={<Users className="h-4 w-4 text-blue-500" />} 
+          //icon={<Users className="h-4 w-4 text-blue-500" />} 
           />
           {/* Enrolled in DSME (Green) */}
-          <StandardMetricCard 
+          <StandardMetricCard
             title="% Enrolled In DSME"
             currentValue="40%"
             forecastValue={showForecast ? "42%" : undefined}
@@ -218,18 +225,18 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="profit"
-            
+
           />
           {/* 30-Day ED Visit or Hospitalization (Prediction, Red) */}
-          <StandardMetricCard 
-            title="30-Day ED Visit or Hospitalization (Prediction)"
+          <StandardMetricCard
+            title="30-Day ED Visit or Hospitalization"
             currentValue="8%"
             forecastValue={showForecast ? "7%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
             type="cost"
-            
+
           />
         </div>
       </DashboardSection>
@@ -346,24 +353,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
                   return [value, name];
                 }} />
-               {/* Confidence interval shading between upperCI and lowerCI */}
-                  <Area
-                    type="monotone"
-                    dataKey="upperCI"
-                    stroke="none"
-                    fill="#1976d2"
-                    fillOpacity={0.15}
-                    stackId="1"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="lowerCI"
-                    stroke="none"
-                    fill="#1976d2"
-                    fillOpacity={0}
-                    stackId="1"
-                  />
-    
                 {/* Main trend line */}
                 <Line
                   type="monotone"
@@ -371,28 +360,48 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   stroke="#1976d2"
                   strokeWidth={3}
                   connectNulls={false}
-                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  dot={(props) => {
+                    const { payload } = props;
+                    return (
+                      <circle
+                        cx={props.cx}
+                        cy={props.cy}
+                        r={4}
+                        fill={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                        stroke={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                        strokeWidth={2}
+                      />
+                    );
+                  }}
                 />
-                {/* Upper confidence interval line */}
-                <Line
-                  type="monotone"
-                  dataKey="upperCI"
-                  stroke="#1976d2"
-                  strokeWidth={1}
-                  strokeDasharray="5 5"
-                  connectNulls={false}
-                  dot={false}
-                />
-                {/* Lower confidence interval line */}
-                <Line
-                  type="monotone"
-                  dataKey="lowerCI"
-                  stroke="#1976d2"
-                  strokeWidth={1}
-                  strokeDasharray="5 5"
-                  connectNulls={false}
-                  dot={false}
-                />
+
+                {/* Upper and Lower confidence interval lines, only for forecast */}
+                {showForecast && (
+                  <>
+                    <Line
+                      type="monotone"
+                      dataKey="upperCI"
+                      stroke="#1976d2"
+                      strokeWidth={1}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.5}
+                      connectNulls={false}
+                      dot={false}
+
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="lowerCI"
+                      stroke="#1976d2"
+                      strokeWidth={1}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.5}
+                      connectNulls={false}
+                      dot={false}
+
+                    />
+                  </>
+                )}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
