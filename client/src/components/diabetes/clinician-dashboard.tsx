@@ -382,9 +382,9 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                       type="monotone"
                       dataKey="upperCI"
                       stroke="#1976d2"
-                      strokeWidth={1}
+                      strokeWidth={2}
                       strokeDasharray="5 5"
-                      strokeOpacity={0.5}
+                      strokeOpacity={1}
                       connectNulls={false}
                       dot={false}
 
@@ -393,9 +393,9 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                       type="monotone"
                       dataKey="lowerCI"
                       stroke="#1976d2"
-                      strokeWidth={1}
+                      strokeWidth={2}
                       strokeDasharray="5 5"
-                      strokeOpacity={0.5}
+                      strokeOpacity={1}
                       connectNulls={false}
                       dot={false}
 
