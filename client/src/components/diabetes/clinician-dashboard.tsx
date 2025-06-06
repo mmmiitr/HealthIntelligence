@@ -124,8 +124,8 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           {/* CCM - Prediction (Red) */}
           <StandardMetricCard 
             title="% Controlled HbA1c (<7%) - CCM"
-            currentValue="68%"
-            forecastValue={showForecast ? "70%" : undefined}
+            currentValue="78%"
+            forecastValue={showForecast ? "80%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
@@ -135,8 +135,8 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           {/* Non CCM - Prediction (Red) */}
           <StandardMetricCard 
             title="% Controlled HbA1c (<7%) - Non CCM"
-            currentValue="62%"
-            forecastValue={showForecast ? "64%" : undefined}
+            currentValue="45%"
+            forecastValue={showForecast ? "43%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
@@ -157,8 +157,8 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           {/* Non CCM - Recent HbA1c Test (Blue) */}
           <StandardMetricCard 
             title="% Recent HbA1c Test (6mo) - Non CCM"
-            currentValue="80%"
-            forecastValue={showForecast ? "82%" : undefined}
+            currentValue="60%"
+            forecastValue={showForecast ? "59%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
@@ -190,8 +190,8 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           {/* CCM - >2 Co-morbidities (Green) */}
           <StandardMetricCard 
             title="% >2 Co-Morbidities - CCM"
-            currentValue="55%"
-            forecastValue={showForecast ? "57%" : undefined}
+            currentValue="90%"
+            forecastValue={showForecast ? "95%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
@@ -202,7 +202,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           <StandardMetricCard 
             title="% >2 Co-Morbidities - Non CCM"
             currentValue="50%"
-            forecastValue={showForecast ? "52%" : undefined}
+            forecastValue={showForecast ? "55%" : undefined}
             currentLabel={labels.current}
             forecastLabel={showForecast ? labels.forecast : undefined}
             showForecast={showForecast}
@@ -222,7 +222,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
           />
           {/* 30-Day ED Visit or Hospitalization (Prediction, Red) */}
           <StandardMetricCard 
-            title="30-Day ED Visit or Hospitalization (Prediction)"
+            title="30-Day ED Visit or Hospitalization"
             currentValue="8%"
             forecastValue={showForecast ? "7%" : undefined}
             currentLabel={labels.current}
@@ -346,24 +346,6 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
                   return [value, name];
                 }} />
-               {/* Confidence interval shading between upperCI and lowerCI */}
-                {/*  <Area
-                    type="monotone"
-                    dataKey="upperCI"
-                    stroke="none"
-                    fill="#1976d2"
-                    fillOpacity={0.15}
-                    stackId="1"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="lowerCI"
-                    stroke="none"
-                    fill="#1976d2"
-                    fillOpacity={0}
-                    stackId="1"
-                  /> */}
-    
                 {/* Main trend line */}
                 <Line
                   type="monotone"
@@ -371,28 +353,47 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   stroke="#1976d2"
                   strokeWidth={3}
                   connectNulls={false}
-                  dot={{ fill: '#1976d2', strokeWidth: 2, r: 4 }}
+                  dot={(props) => {
+                    const { payload } = props;
+                    return (
+                      <circle
+                        cx={props.cx}
+                        cy={props.cy}
+                        r={4}
+                        fill={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                        stroke={payload?.isForecast ? '#ff9800' : '#1976d2'}
+                        strokeWidth={2}
+                      />
+                    );
+                  }}
                 />
-                {/* Upper confidence interval line */}
-                <Line
-                  type="monotone"
-                  dataKey="upperCI"
-                  stroke="#1976d2"
-                  strokeWidth={1}
-                  strokeDasharray="5 5"
-                  connectNulls={false}
-                  dot={false}
-                />
-                {/* Lower confidence interval line */}
-                <Line
-                  type="monotone"
-                  dataKey="lowerCI"
-                  stroke="#1976d2"
-                  strokeWidth={1}
-                  strokeDasharray="5 5"
-                  connectNulls={false}
-                  dot={false}
-                />
+                {/* Upper and Lower confidence interval lines, only for forecast */}
+                {showForecast && (
+                  <>
+                    <Line
+                      type="monotone"
+                      dataKey="upperCI"
+                      stroke="#1976d2"
+                      strokeWidth={1}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.5}
+                      connectNulls={false}
+                      dot={false}
+                     
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="lowerCI"
+                      stroke="#1976d2"
+                      strokeWidth={1}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.5}
+                      connectNulls={false}
+                      dot={false}
+                      
+                    />
+                  </>
+                )}
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
