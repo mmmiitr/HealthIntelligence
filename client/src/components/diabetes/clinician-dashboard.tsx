@@ -347,7 +347,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   return [value, name];
                 }} />
                {/* Confidence interval shading between upperCI and lowerCI */}
-                  <Area
+                {/*  <Area
                     type="monotone"
                     dataKey="upperCI"
                     stroke="none"
@@ -362,7 +362,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                     fill="#1976d2"
                     fillOpacity={0}
                     stackId="1"
-                  />
+                  /> */}
     
                 {/* Main trend line */}
                 <Line
