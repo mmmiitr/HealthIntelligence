@@ -37,14 +37,18 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       // icon: <TrendingDown className="h-5 w-5" />
     },
     {
-      title: "Net Profit",
-      currentValue: "$470K",
-      forecastValue: "$650K",
-      currentLabel: labels.current,
-      forecastLabel: labels.forecast,
-      type: "profit" as const,
-      icon: <TrendingUp className="h-5 w-5 text-green-500" />
-    }
+  title: "Net Profit",
+  currentValue: "$470K",
+  forecastValue: "$650K",
+  currentLabel: labels.current,
+  forecastLabel: labels.forecast,
+  type: "profit" as const,
+  icon: (
+    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100"> 
+      <TrendingUp className="h-5 w-5 text-green-600" /> 
+    </div>
+  )
+}
   ];
 
   const costMetrics = [
