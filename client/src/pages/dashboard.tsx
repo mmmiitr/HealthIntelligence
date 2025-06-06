@@ -93,15 +93,15 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {/* First Row: Title and Download Report (PDF) Button */}
+          
           <div className="flex justify-between items-center h-16">
-            {/* Left: Diabetes Care Dashboard Title */}
+          
             <div className="flex items-center space-x-4">
               <Heart className="h-8 w-8 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900">Diabetes Care Dashboard</h1>
             </div>
-            {/* Right: Download Report (PDF) Button (Forecast and Monthly moved from here) */}
-            <div className="flex items-center space-x-4"> {/* Keep space-x-4 for consistent spacing if other elements were to be added, or remove if only button */}
+            
+            <div className="flex items-center space-x-4"> 
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-sm font-semibold flex items-center space-x-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"

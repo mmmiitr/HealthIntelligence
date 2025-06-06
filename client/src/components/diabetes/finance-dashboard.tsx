@@ -50,8 +50,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   const costMetrics = [
     {
       title: "Revenue Per Visit",
-      currentValue: "$90",
-      forecastValue: "$75", // Added a sample forecast value
+      currentValue: "$100",
+      forecastValue: "$110", // Added a sample forecast value
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "cost" as const,
@@ -59,8 +59,8 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
     },
     {
       title: "Cost per Visit",
-      currentValue: "$100",
-      forecastValue: "$90", // Added a sample forecast value
+      currentValue: "$90",
+      forecastValue: "$75", // Added a sample forecast value
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "cost" as const,
@@ -207,6 +207,21 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     strokeWidth={3}
                     name="Operating Cost"
                     connectNulls={false}
+                    dot={(props) => {
+                        const { cx, cy, payload } = props;
+                        // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
+                        const isForecastPoint = showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
+                        return (
+                            <circle
+                                cx={cx}
+                                cy={cy}
+                                r={4}
+                                fill={isForecastPoint ? '#ff9800' : '#1976d2'} 
+                                stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
+                                strokeWidth={2}
+                            />
+                        );
+                    }}
                   />
                   {showForecast && (
                     <>
@@ -378,6 +393,21 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     strokeWidth={3}
                     name="Revenue"
                     connectNulls={false}
+                    dot={(props) => {
+                        const { cx, cy, payload } = props;
+                        // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
+                        const isForecastPoint = showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
+                        return (
+                            <circle
+                                cx={cx}
+                                cy={cy}
+                                r={4}
+                                fill={isForecastPoint ? '#ff9800' : '#1976d2'} 
+                                stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
+                                strokeWidth={2}
+                            />
+                        );
+                    }}
                   />
                   {showForecast && (
                     <>
@@ -416,40 +446,39 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </Card>
 
 
-          {/* Revenue Source Split */}
           <Card className={styles.card.base}>
-            <CardContent className="p-6">
-              <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
-              <ResponsiveContainer width="100%" height={350}>
-                <LineChart
-                  data={[
-
-                    { month: 'Jan', 'In Person Visits': 330, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
-                    { month: 'Feb', 'In Person Visits': 320, 'CCM': 105, 'DSMT': 56, 'Telemedicine': 78, 'Labs': 36 },
-                    { month: 'Mar', 'In Person Visits': 310, 'CCM': 110, 'DSMT': 57, 'Telemedicine': 85, 'Labs': 37 },
-                    { month: 'Apr', 'In Person Visits': 305, 'CCM': 118, 'DSMT': 58, 'Telemedicine': 95, 'Labs': 38 },
-                    { month: 'May', 'In Person Visits': 295, 'CCM': 128, 'DSMT': 59, 'Telemedicine': 105, 'Labs': 39 },
-                    { month: 'Jun', 'In Person Visits': 285, 'CCM': 138, 'DSMT': 60, 'Telemedicine': 115, 'Labs': 40 },
-                    { month: 'Jul', 'In Person Visits': 290, 'CCM': 135, 'DSMT': 61, 'Telemedicine': 112, 'Labs': 41 },
-                    { month: 'Aug', 'In Person Visits': 288, 'CCM': 142, 'DSMT': 62, 'Telemedicine': 120, 'Labs': 42 },
-                    { month: 'Sep', 'In Person Visits': 295, 'CCM': 148, 'DSMT': 63, 'Telemedicine': 128, 'Labs': 43 },
-                  ]}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
-                  <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
-                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25 , fontSize: '14px'}}/>
-                  <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
-                  <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
-                  <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
-                  <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
-                  <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+    <CardContent className="p-6">
+        <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
+        <ResponsiveContainer width="100%" height={350}>
+            <LineChart
+                data={[
+                    // Modified 'In Person Visits' data
+                    { month: 'Jan', 'In Person Visits': 170, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
+                    { month: 'Feb', 'In Person Visits': 165, 'CCM': 105, 'DSMT': 56, 'Telemedicine': 78, 'Labs': 36 },
+                    { month: 'Mar', 'In Person Visits': 160, 'CCM': 110, 'DSMT': 57, 'Telemedicine': 85, 'Labs': 37 },
+                    { month: 'Apr', 'In Person Visits': 155, 'CCM': 118, 'DSMT': 58, 'Telemedicine': 95, 'Labs': 38 },
+                    { month: 'May', 'In Person Visits': 150, 'CCM': 128, 'DSMT': 59, 'Telemedicine': 105, 'Labs': 39 },
+                    { month: 'Jun', 'In Person Visits': 145, 'CCM': 138, 'DSMT': 60, 'Telemedicine': 115, 'Labs': 40 },
+                    { month: 'Jul', 'In Person Visits': 140, 'CCM': 135, 'DSMT': 61, 'Telemedicine': 112, 'Labs': 41 },
+                    { month: 'Aug', 'In Person Visits': 135, 'CCM': 142, 'DSMT': 62, 'Telemedicine': 120, 'Labs': 42 },
+                    { month: 'Sep', 'In Person Visits': 130, 'CCM': 148, 'DSMT': 63, 'Telemedicine': 128, 'Labs': 43 },
+                ]}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
+                <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25 , fontSize: '14px'}}/>
+                <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
+                <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
+                <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
+                <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
+                <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
+            </LineChart>
+        </ResponsiveContainer>
+    </CardContent>
+</Card>
 
 
 
