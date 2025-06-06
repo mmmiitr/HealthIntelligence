@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, Legend } from "recharts";
 
 
 interface ClinicianDashboardProps {
@@ -367,6 +367,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                     );
                   }}
                 />
+                  
                 {/* Upper and Lower confidence interval lines, only for forecast */}
                 {showForecast && (
                   <>
