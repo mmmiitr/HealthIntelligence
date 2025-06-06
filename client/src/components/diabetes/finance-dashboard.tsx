@@ -233,9 +233,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="upperBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Upper Confidence"
                         connectNulls={false}
@@ -244,9 +244,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="lowerBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Lower Confidence"
                         connectNulls={false}
