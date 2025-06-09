@@ -47,7 +47,7 @@ export default function Dashboard() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case "summary":
-        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} onNavigateToFinance={() => setActiveTab("finance")} />;
       case "finance":
         return <FinanceDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       case "operation":
@@ -57,7 +57,7 @@ export default function Dashboard() {
       case "mockdata":
         return <MockDataDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
       default:
-        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} />;
+        return <SummaryDashboard timeFilter={timeFilter} viewMode={viewMode} showForecast={showForecast} onNavigateToFinance={() => setActiveTab("finance")} />;
     }
   };
 

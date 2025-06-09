@@ -52,17 +52,27 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   ];
 
   const costMetrics = [
+
     {
-      title: "Revenue Per Visit",
-      currentValue: "$100",
-      forecastValue: "$110", // Added a sample forecast value
+      title: "Operating Cost",
+      currentValue: "$1.2M",
+      forecastValue: "$1.2M", // Added a sample forecast value
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "cost" as const,
 
     },
     {
-      title: "Cost per Visit",
+      title: "Avg Cost/Patient/Month",
+      currentValue: "$140",
+      forecastValue: "$120", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+    {
+      title: "Cost Per Visit",
       currentValue: "$90",
       forecastValue: "$75", // Added a sample forecast value
       currentLabel: labels.current,
@@ -83,6 +93,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
+        {/*
         <div className={styles.grid.cols3}>
           {keyMetrics.map((metric) => (
             <StandardMetricCard
@@ -97,7 +108,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               icon={metric.icon}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Cost Overview Section */}
@@ -110,7 +121,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         {/* Additional Cost Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {costMetrics.map((metric) => (
             <StandardMetricCard
               key={metric.title}
@@ -316,11 +327,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           
         </div> */}
 
-        <div> 
+        <div>
           {/* Revenue from top 5 CPT codes card with similar styling */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue from top 5 CPT codes</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue From Top 5 CPT Codes</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -502,30 +513,171 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart
-                  data={[
-                    // Modified 'In Person Visits' data
-                    { month: 'Jan', 'In Person Visits': 170, CCM: 100, DSMT: 55, Telemedicine: 70, Labs: 35 },
-                    { month: 'Feb', 'In Person Visits': 165, CCM: 105, DSMT: 56, Telemedicine: 78, Labs: 36 },
-                    { month: 'Mar', 'In Person Visits': 160, CCM: 110, DSMT: 57, Telemedicine: 85, Labs: 37 },
-                    { month: 'Apr', 'In Person Visits': 155, CCM: 118, DSMT: 58, Telemedicine: 95, Labs: 38 },
-                    { month: 'May', 'In Person Visits': 150, CCM: 128, DSMT: 59, Telemedicine: 105, Labs: 39 },
-                    { month: 'Jun', 'In Person Visits': 145, CCM: 138, DSMT: 60, Telemedicine: 115, Labs: 40 },
-                    { month: 'Jul', 'In Person Visits': 140, CCM: 135, DSMT: 61, Telemedicine: 112, Labs: 41 },
-                    { month: 'Aug', 'In Person Visits': 135, CCM: 142, DSMT: 62, Telemedicine: 120, Labs: 42 },
-                    { month: 'Sep', 'In Person Visits': 130, CCM: 148, DSMT: 63, Telemedicine: 128, Labs: 43 },
-                  ]}
+                  data={(() => {
+                    const fullHistoricalData = [
+                      { month: 'Jan', 'In Person Visits': 170, CCM: 100, DSMT: 55, Telemedicine: 70, Labs: 35 },
+                      { month: 'Feb', 'In Person Visits': 160, CCM: 110, DSMT: 58, Telemedicine: 75, Labs: 38 },
+                      { month: 'Mar', 'In Person Visits': 150, CCM: 125, DSMT: 60, Telemedicine: 80, Labs: 40 },
+                      { month: 'Apr', 'In Person Visits': 140, CCM: 130, DSMT: 65, Telemedicine: 90, Labs: 42 },
+                      { month: 'May', 'In Person Visits': 130, CCM: 135, DSMT: 62, Telemedicine: 100, Labs: 45 },
+                      { month: 'Jun', 'In Person Visits': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48 },
+                      { month: 'Jul', 'In Person Visits': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46 },
+                      { month: 'Aug', 'In Person Visits': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44 },
+                      { month: 'Sep', 'In Person Visits': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47 },
+                    ];
+
+                    const forecastOnlyData = [
+                      { month: 'Jun', 'In Person Visits': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48, isForecast: true, upperBound_InPerson: 130, lowerBound_InPerson: 118, upperBound_CCM: 145, lowerBound_CCM: 135, upperBound_DSMT: 72, lowerBound_DSMT: 64, upperBound_Telemedicine: 100, lowerBound_Telemedicine: 90, upperBound_Labs: 50, lowerBound_Labs: 46 },
+                      { month: 'Jul', 'In Person Visits': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46, isForecast: true, upperBound_InPerson: 140, lowerBound_InPerson: 128, upperBound_CCM: 135, lowerBound_CCM: 125, upperBound_DSMT: 75, lowerBound_DSMT: 66, upperBound_Telemedicine: 115, lowerBound_Telemedicine: 105, upperBound_Labs: 48, lowerBound_Labs: 44 },
+                      { month: 'Aug', 'In Person Visits': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44, isForecast: true, upperBound_InPerson: 150, lowerBound_InPerson: 138, upperBound_CCM: 125, lowerBound_CCM: 115, upperBound_DSMT: 77, lowerBound_DSMT: 68, upperBound_Telemedicine: 125, lowerBound_Telemedicine: 115, upperBound_Labs: 46, lowerBound_Labs: 42 },
+                      { month: 'Sep', 'In Person Visits': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47, isForecast: true, upperBound_InPerson: 155, lowerBound_InPerson: 142, upperBound_CCM: 120, lowerBound_CCM: 110, upperBound_DSMT: 80, lowerBound_DSMT: 70, upperBound_Telemedicine: 130, lowerBound_Telemedicine: 120, upperBound_Labs: 49, lowerBound_Labs: 43 },
+                    ];
+
+                    const dataWhenToggleOff = fullHistoricalData.slice(0, 5);
+                    const dataWhenToggleOnWithForecast = [...dataWhenToggleOff, ...forecastOnlyData];
+
+                    return showForecast ? dataWhenToggleOnWithForecast : dataWhenToggleOff;
+                  })()}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
                   <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+
                   <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25, fontSize: '14px' }} />
-                  <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
-                  <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
-                  <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
-                  <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
-                  <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
+
+                  <Line
+                    type="monotone"
+                    dataKey="In Person Visits"
+                    stroke="#1976d2"
+                    strokeWidth={2}
+                    name={!showForecast ? "In Person Visits" : undefined}
+                    dot={(props) => {
+                      const { cx, cy, payload } = props;
+                      const isForecastPoint = showForecast && payload.isForecast;
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={isForecastPoint ? 3 : 4}
+                          fill={isForecastPoint ? '#1976d2' : '#1976d2'}
+                          stroke={isForecastPoint ? '#1976d2' : '#1976d2'}
+                          strokeWidth={isForecastPoint ? 1 : 2}
+                          strokeDasharray={isForecastPoint ? '3 3' : '0 0'}
+                        />
+                      );
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="CCM"
+                    stroke="#4caf50"
+                    strokeWidth={2}
+                    name={!showForecast ? "CCM" : undefined}
+                    dot={(props) => {
+                      const { cx, cy, payload } = props;
+                      const isForecastPoint = showForecast && payload.isForecast;
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={isForecastPoint ? 3 : 4}
+                          fill={isForecastPoint ? '#4caf50' : '#4caf50'}
+                          stroke={isForecastPoint ? '#4caf50' : '#4caf50'}
+                          strokeWidth={isForecastPoint ? 1 : 2}
+                          strokeDasharray={isForecastPoint ? '3 3' : '0 0'}
+                        />
+                      );
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="DSMT"
+                    stroke="#ff9800"
+                    strokeWidth={2}
+                    name={!showForecast ? "DSMT" : undefined}
+                    dot={(props) => {
+                      const { cx, cy, payload } = props;
+                      const isForecastPoint = showForecast && payload.isForecast;
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={isForecastPoint ? 3 : 4}
+                          fill={isForecastPoint ? '#ff9800' : '#ff9800'}
+                          stroke={isForecastPoint ? '#ff9800' : '#ff9800'}
+                          strokeWidth={isForecastPoint ? 1 : 2}
+                          strokeDasharray={isForecastPoint ? '3 3' : '0 0'}
+                        />
+                      );
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="Telemedicine"
+                    stroke="#f44336"
+                    strokeWidth={2}
+                    name={!showForecast ? "Telemedicine" : undefined}
+                    dot={(props) => {
+                      const { cx, cy, payload } = props;
+                      const isForecastPoint = showForecast && payload.isForecast;
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={isForecastPoint ? 3 : 4}
+                          fill={isForecastPoint ? '#f44336' : '#f44336'}
+                          stroke={isForecastPoint ? '#f44336' : '#f44336'}
+                          strokeWidth={isForecastPoint ? 1 : 2}
+                          strokeDasharray={isForecastPoint ? '3 3' : '0 0'}
+                        />
+                      );
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="Labs"
+                    stroke="#9c27b0"
+                    strokeWidth={2}
+                    name={!showForecast ? "Labs" : undefined}
+                    dot={(props) => {
+                      const { cx, cy, payload } = props;
+                      const isForecastPoint = showForecast && payload.isForecast;
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={isForecastPoint ? 3 : 4}
+                          fill={isForecastPoint ? '#9c27b0' : '#9c27b0'}
+                          stroke={isForecastPoint ? '#9c27b0' : '#9c27b0'}
+                          strokeWidth={isForecastPoint ? 1 : 2}
+                          strokeDasharray={isForecastPoint ? '3 3' : '0 0'}
+                        />
+                      );
+                    }}
+                  />
+
+                  {showForecast && (
+                    <>
+                      <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" /> {/* Changed x to "May" */}
+
+                      <Line type="monotone" dataKey="upperBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="In Person (Upper)" />
+                      <Line type="monotone" dataKey="lowerBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="In Person (Lower)" />
+
+                      <Line type="monotone" dataKey="upperBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="CCM (Upper)" />
+                      <Line type="monotone" dataKey="lowerBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="CCM (Lower)" />
+
+                      <Line type="monotone" dataKey="upperBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="DSMT (Upper)" />
+                      <Line type="monotone" dataKey="lowerBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="DSMT (Lower)" />
+
+                      <Line type="monotone" dataKey="upperBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Telemedicine (Upper)" />
+                      <Line type="monotone" dataKey="lowerBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Telemedicine (Lower)" />
+
+                      <Line type="monotone" dataKey="upperBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Labs (Upper)" />
+                      <Line type="monotone" dataKey="lowerBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Labs (Lower)" />
+                    </>
+                  )}
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>

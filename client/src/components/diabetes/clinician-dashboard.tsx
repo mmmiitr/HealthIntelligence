@@ -4,7 +4,7 @@ import { DashboardContainer, DashboardSection } from "@/components/common/Dashbo
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, Legend } from "recharts";
-
+import { summaryTrendsData } from "@/lib/summary-metrics-data";
 
 interface ClinicianDashboardProps {
   timeFilter: string;
@@ -57,26 +57,27 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
     patientCount: item.patientCount || 0,
   })) : [];
 
-  // Prepare prediction data based on existing A1C trends
-  const predictionChartData = Array.isArray(a1cTrends) ? (() => {
-    const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const historicalMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
-    const forecastMonths = ['Jun', 'Jul', 'Aug', 'Sep'];
 
+
+
+  
+  const predictionChartData = Array.isArray(summaryTrendsData.monthly.edVisit) ? (() => {
     
-    const baseProcessedData = a1cTrends
+    const monthOrder = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May ', 'Jun ', 'Jul ', 'Aug ', 'Sep ', 'Oct ', 'Nov ', 'Dec '];
+    const historicalMonths = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May '];
 
-      .filter(item => monthOrder.indexOf(item.month) <= monthOrder.indexOf('Sep'))
+   
+    const baseProcessedData = summaryTrendsData.monthly.edVisit
+     
+      .filter(item => monthOrder.indexOf(item.period) <= monthOrder.indexOf('Sep '))
       .map((item: any) => {
-        const edRate = 8 + (parseFloat(item.averageA1C) - 7) * 2;
-        const isForecastMonth = forecastMonths.includes(item.month);
-
+        
         return {
-          month: item.month,
-          value: edRate,
-          upperCI: undefined, 
-          lowerCI: undefined, 
-          isForecast: isForecastMonth, 
+          period: item.period, // Use 'period' as the X-axis key
+          value: item.value,
+          upperBand: item.upperBand, 
+          lowerBand: item.lowerBand, 
+          isForecast: item.isForecast,
         };
       });
 
@@ -84,26 +85,19 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
     if (showForecast) {
       
-      finalChartData = baseProcessedData.map(item => {
-        if (item.isForecast) {
-          return {
-            ...item,
-            upperCI: item.value + 1, 
-            lowerCI: item.value - 1, 
-          };
-        }
-        return item; 
-      });
+      finalChartData = baseProcessedData;
     } else {
       
-      finalChartData = baseProcessedData.filter(item => historicalMonths.includes(item.month));
+      finalChartData = baseProcessedData.filter(item => historicalMonths.includes(item.period));
     }
 
     
-    finalChartData.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
+    finalChartData.sort((a, b) => monthOrder.indexOf(a.period) - monthOrder.indexOf(b.period));
 
     return finalChartData;
   })() : [];
+
+
 
   // Prepare risk distribution chart data
   const riskChartData = Array.isArray(riskDistribution) ? riskDistribution.map((item: any) => ({
@@ -339,18 +333,18 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
       {/* Prediction Chart with Confidence Interval */}
       <DashboardSection>
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization Prediction</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">30-Day ED Visit or Hospitalization</h3>
         <Card>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={predictionChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="period" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />
                 <Tooltip formatter={(value, name) => {
                   if (name === 'value') return [`${value}%`, 'ED Visit Rate'];
-                  if (name === 'upperCI') return [`${value}%`, 'Upper 95% CI'];
-                  if (name === 'lowerCI') return [`${value}%`, 'Lower 95% CI'];
+                  if (name === 'upperBand') return [`${value}%`, 'Upper 95% CI'];
+                  if (name === 'lowerBand') return [`${value}%`, 'Lower 95% CI'];
                   return [value, name];
                 }} />
                 {/* Main trend line */}
@@ -380,7 +374,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                   <>
                     <Line
                       type="monotone"
-                      dataKey="upperCI"
+                      dataKey="upperBand"
                       stroke="#1976d2"
                       strokeWidth={2}
                       strokeDasharray="5 5"
@@ -391,7 +385,7 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
                     />
                     <Line
                       type="monotone"
-                      dataKey="lowerCI"
+                      dataKey="lowerBand"
                       stroke="#1976d2"
                       strokeWidth={2}
                       strokeDasharray="5 5"
