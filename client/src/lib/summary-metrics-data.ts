@@ -7,7 +7,7 @@ export const summaryKeyMetrics = [
   {
     title: "Total Revenue",
     currentValue: "$1.84M",
-    forecastValue: "$2.1M",
+    forecastValue: "$1.90M",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'revenue',
@@ -24,8 +24,8 @@ export const summaryKeyMetrics = [
   },
   {
     title: "Net Profit",
-    currentValue: "$470K",
-    forecastValue: "$650K",
+    currentValue: "$640K",
+    forecastValue: "$700K",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
