@@ -88,15 +88,17 @@ export const summaryTrendsData = {
       { period: 'Sep ', value: 38, isForecast: true, lowerBand: 36, upperBand: 40 },
     ],
     edVisit: [
-      { period: 'Jan ', value: 9.2, isForecast: false },
-      { period: 'Feb ', value: 8.8, isForecast: false },
-      { period: 'Mar ', value: 8.5, isForecast: false },
-      { period: 'Apr ', value: 8.1, isForecast: false },
-      { period: 'May ', value: 8.0, isForecast: false },
-      { period: 'Jun ', value: 7.5, isForecast: true, lowerBand: 7.0, upperBand: 8.0 },
-      { period: 'Jul ', value: 7.2, isForecast: true, lowerBand: 6.8, upperBand: 7.6 },
-      { period: 'Aug ', value: 6.9, isForecast: true, lowerBand: 6.5, upperBand: 7.3 },
-      { period: 'Sep ', value: 6.6, isForecast: true, lowerBand: 6.2, upperBand: 7.0 },
+   
+      { period: 'Jan ', value: 9.8, isForecast: false }, // Higher start
+      { period: 'Feb ', value: 9.2, isForecast: false },
+      { period: 'Mar ', value: 9.5, isForecast: false }, // Slight increase
+      { period: 'Apr ', value: 8.9, isForecast: false },
+      { period: 'May ', value: 9.0, isForecast: false }, // Slight increase
+   
+      { period: 'Jun ', value: 8.5, isForecast: true, lowerBand: 8.0, upperBand: 9.0 },
+      { period: 'Jul ', value: 8.2, isForecast: true, lowerBand: 7.6, upperBand: 8.8 },
+      { period: 'Aug ', value: 8.0, isForecast: true, lowerBand: 7.2, upperBand: 8.8 },
+      { period: 'Sep ', value: 7.7, isForecast: true, lowerBand: 6.8, upperBand: 8.6 },
     ],
   },
   quarterly: {
@@ -123,15 +125,17 @@ export const summaryTrendsData = {
       { period: 'Q1 2026', value: 37, isForecast: true, lowerBand: 35, upperBand: 39 },
     ],
     edVisit: [
-      { period: 'Q1 2024', value: 10.1, isForecast: false },
-      { period: 'Q2 2024', value: 9.8, isForecast: false },
-      { period: 'Q3 2024', value: 9.2, isForecast: false },
-      { period: 'Q4 2024', value: 8.8, isForecast: false },
-      { period: 'Q1 2025', value: 8.3, isForecast: false },
-      { period: 'Q2 2025', value: 7.8, isForecast: true, lowerBand: 7.2, upperBand: 8.4 },
-      { period: 'Q3 2025', value: 7.4, isForecast: true, lowerBand: 6.8, upperBand: 8.0 },
-      { period: 'Q4 2025', value: 7.0, isForecast: true, lowerBand: 6.4, upperBand: 7.6 },
-      { period: 'Q1 2026', value: 6.6, isForecast: true, lowerBand: 6.0, upperBand: 7.2 },
+      // Quarterly data with more pronounced fluctuations
+      { period: 'Q1 2024', value: 10.8, isForecast: false }, // Higher start
+      { period: 'Q2 2024', value: 10.0, isForecast: false },
+      { period: 'Q3 2024', value: 10.2, isForecast: false }, // Slight rebound
+      { period: 'Q4 2024', value: 9.5, isForecast: false },
+      { period: 'Q1 2025', value: 9.0, isForecast: false },
+    
+      { period: 'Q2 2025', value: 8.5, isForecast: true, lowerBand: 7.8, upperBand: 9.2 },
+      { period: 'Q3 2025', value: 8.1, isForecast: true, lowerBand: 7.2, upperBand: 9.0 },
+      { period: 'Q4 2025', value: 7.8, isForecast: true, lowerBand: 6.8, upperBand: 8.8 },
+      { period: 'Q1 2026', value: 7.5, isForecast: true, lowerBand: 6.4, upperBand: 8.6 },
     ],
   },
   yearly: {
@@ -156,14 +160,16 @@ export const summaryTrendsData = {
       { period: '2028', value: 39, isForecast: true, lowerBand: 37, upperBand: 41 },
     ],
     edVisit: [
-      { period: '2021', value: 11.2, isForecast: false },
-      { period: '2022', value: 10.5, isForecast: false },
-      { period: '2023', value: 9.8, isForecast: false },
-      { period: '2024', value: 8.9, isForecast: false },
-      { period: '2025', value: 8.2, isForecast: true, lowerBand: 7.6, upperBand: 8.8 },
-      { period: '2026', value: 7.5, isForecast: true, lowerBand: 6.9, upperBand: 8.1 },
-      { period: '2027', value: 6.8, isForecast: true, lowerBand: 6.2, upperBand: 7.4 },
-      { period: '2028', value: 6.1, isForecast: true, lowerBand: 5.5, upperBand: 6.7 },
+      
+      { period: '2021', value: 12.0, isForecast: false }, 
+      { period: '2022', value: 11.0, isForecast: false },
+      { period: '2023', value: 11.5, isForecast: false }, 
+      { period: '2024', value: 9.8, isForecast: false }, 
+      
+      { period: '2025', value: 9.0, isForecast: true, lowerBand: 8.2, upperBand: 9.8 },
+      { period: '2026', value: 8.2, isForecast: true, lowerBand: 7.0, upperBand: 9.4 },
+      { period: '2027', value: 7.5, isForecast: true, lowerBand: 6.2, upperBand: 8.8 },
+      { period: '2028', value: 6.9, isForecast: true, lowerBand: 5.5, upperBand: 8.3 },
     ],
   },
 };
