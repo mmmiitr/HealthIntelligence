@@ -3,23 +3,33 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 
 
 export const summaryKeyMetrics = [
+  
   {
-    title: "Avg Revenue/Patient/Month",
-    currentValue: "$180",
-    forecastValue: "$200",
+    title: "Total Revenue",
+    currentValue: "$1.84M",
+    forecastValue: "$2.1M",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'revenue',
     icon: '',
   },
   {
-    title: "Avg Cost/Patient/Month",
-    currentValue: "$140",
-    forecastValue: "$120",
+    title: "Operating Cost",
+    currentValue: "$1.2M",
+    forecastValue: "$1.2M",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
     type: 'cost',
     icon: TrendingDown,
+  },
+  {
+    title: "Net Profit",
+    currentValue: "$470K",
+    forecastValue: "$650K",
+    currentLabel: "MAY PROGRESS",
+    forecastLabel: "JUN FORECAST",
+    type: 'cost',
+    icon: '',
   },
   {
     title: "Active Panel Size",

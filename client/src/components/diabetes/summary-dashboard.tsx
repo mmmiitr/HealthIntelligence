@@ -9,7 +9,9 @@ import { useState } from "react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
 import { styles } from "@/lib/styles";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+//import { useRouter } from "next/navigation";
+import React from "react";
+import { useLocation, useRouter } from "wouter";
 
 interface SummaryDashboardProps {
   timeFilter: string;
@@ -36,7 +38,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
       ? rawSummaryTrends.edVisit 
       : rawSummaryTrends.edVisit.filter(d => !d.isForecast),
   };
-
+  
+  const router = useRouter();
+  const [_, setLocation] = useLocation(); // Use Wouter's useLocation for navigation
   // Dynamic labels based on view mode
   const getViewLabels = () => {
     switch(viewMode) {
@@ -89,8 +93,25 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
               : "2025"
           }
         />
+        {/* First row: 3 cards */}
+        <div className="grid grid-cols-3 gap-4 mb-4">
+           {keyMetrics.slice(0,3).map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+              icon={metric.icon}
+            />
+          ))}
 
-        {/* First row: 2 cards */}
+        </div>
+
+        {/* First row: 2 cards 
         <div className="grid grid-cols-2 gap-4 mb-4">
           {keyMetrics.slice(0, 2).map((metric) => (
             <StandardMetricCard
@@ -106,10 +127,10 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
             />
           ))}
         </div>
-
+        */}
         {/* Second row: 3 cards */}
         <div className="grid grid-cols-3 gap-4">
-          {keyMetrics.slice(2).map((metric) => (
+          {keyMetrics.slice(3).map((metric) => (
             <StandardMetricCard
               key={metric.title}
               title={metric.title}

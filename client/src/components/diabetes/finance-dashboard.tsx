@@ -52,17 +52,27 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
   ];
 
   const costMetrics = [
+    
     {
-      title: "Revenue Per Visit",
-      currentValue: "$100",
-      forecastValue: "$110", // Added a sample forecast value
+      title: "Operating Cost",
+      currentValue: "$1.2M",
+      forecastValue: "$1.2M", // Added a sample forecast value
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "cost" as const,
 
     },
     {
-      title: "Cost per Visit",
+      title: "Avg Cost/Patient/Month",
+      currentValue: "$140",
+      forecastValue: "$120", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+    {
+      title: "Cost Per Visit",
       currentValue: "$90",
       forecastValue: "$75", // Added a sample forecast value
       currentLabel: labels.current,
@@ -83,6 +93,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </p>
         </div>
 
+       {/*
         <div className={styles.grid.cols3}>
           {keyMetrics.map((metric) => (
             <StandardMetricCard
@@ -97,7 +108,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               icon={metric.icon}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Cost Overview Section */}
@@ -110,7 +121,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         {/* Additional Cost Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {costMetrics.map((metric) => (
             <StandardMetricCard
               key={metric.title}
@@ -320,7 +331,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           {/* Revenue from top 5 CPT codes card with similar styling */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue from top 5 CPT codes</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue From Top 5 CPT Codes</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
