@@ -177,3 +177,5 @@ export const summaryTrendsData = {
 export const getSummaryTrends = (viewMode: string) => {
   return summaryTrendsData[viewMode as keyof typeof summaryTrendsData] || summaryTrendsData.monthly;
 };
+
+
