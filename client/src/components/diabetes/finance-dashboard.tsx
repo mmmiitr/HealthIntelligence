@@ -43,7 +43,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       currentLabel: labels.current,
       forecastLabel: labels.forecast,
       type: "profit" as const,
-      icon: <TrendingUp className="h-5 w-5 text-green-500" />
+      icon: (
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+          <TrendingUp className="h-5 w-5 text-green-600" />
+        </div>
+      )
     }
   ];
 
@@ -193,10 +197,10 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
-                  <Legend 
-                    verticalAlign="top" 
-                    height={34} 
-                    iconType="line" 
+                  <Legend
+                    verticalAlign="top"
+                    height={34}
+                    iconType="line"
                     wrapperStyle={{ marginLeft: 20, fontSize: '12px' }} // Smaller font size for legend
                   />
 
@@ -208,19 +212,19 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     name="Operating Cost"
                     connectNulls={false}
                     dot={(props) => {
-                        const { cx, cy, payload } = props;
-                        // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
-                        const isForecastPoint = showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
-                        return (
-                            <circle
-                                cx={cx}
-                                cy={cy}
-                                r={4}
-                                fill={isForecastPoint ? '#ff9800' : '#1976d2'} 
-                                stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
-                                strokeWidth={2}
-                            />
-                        );
+                      const { cx, cy, payload } = props;
+                      // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
+                      const isForecastPoint = showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={4}
+                          fill={isForecastPoint ? '#ff9800' : '#1976d2'}
+                          stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
+                          strokeWidth={2}
+                        />
+                      );
                     }}
                   />
                   {showForecast && (
@@ -229,9 +233,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="upperBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Upper Confidence"
                         connectNulls={false}
@@ -240,9 +244,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="lowerBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Lower Confidence"
                         connectNulls={false}
@@ -300,7 +304,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             Revenue Trends and Source Analysis
           </p>
         </div>
-{/* 
+        {/* 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -311,80 +315,131 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </Card>
           
         </div> */}
-      
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <div> 
+          {/* Revenue from top 5 CPT codes card with similar styling */}
+          <Card className={styles.card.base}>
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue from top 5 CPT codes</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        CPT Code
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Total Revenue
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">99214</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Office visit, established patient (25 min, moderate)</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">$130,000</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">83036</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Hemoglobin A1c test (HbA1c – diabetes control check)</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">$13,000</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">81001</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Urinalysis, automated with microscopy</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">$10,000</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">99490</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Chronic Care Management (20+ min/month)</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">$25,200</td>
+                    </tr>
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">82962</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Glucose, blood by glucose monitoring device</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">$4,000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6"> {/* This grid is specifically for the two charts */}
           {/* Revenue Trends Chart */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Trends</h3>
               <ResponsiveContainer width="100%" height={350}>
-                <LineChart data={(() => {
-                  const getChartData = () => {
-                    if (viewMode === "monthly") {
-                      return showForecast ? [
-                        { month: 'Jan', revenue: 1100000 },
-                        { month: 'Feb', revenue: 1120000 },
-                        { month: 'Mar', revenue: 1150000 },
-                        { month: 'Apr', revenue: 1180000 },
-                        { month: 'May', revenue: 1200000 },
-                        { month: 'Jun', revenue: 1280000, upperBound: 1350000, lowerBound: 1210000 },
-                        { month: 'Jul', revenue: 1320000, upperBound: 1400000, lowerBound: 1240000 },
-                        { month: 'Aug', revenue: 1360000, upperBound: 1450000, lowerBound: 1270000 },
-                        { month: 'Sep', revenue: 1380000, upperBound: 1500000, lowerBound: 1300000 }
-                      ] : [
-                        { month: 'Jan', revenue: 1080000 },
-                        { month: 'Feb', revenue: 1120000 },
-                        { month: 'Mar', revenue: 1150000 },
-                        { month: 'Apr', revenue: 1180000 },
-                        { month: 'May', revenue: 1200000 }
-                      ];
-                    } else if (viewMode === "quarterly") {
-                      return showForecast ? [
-                        { month: 'Q4 2024', revenue: 3400000 },
-                        { month: 'Q1 2025', revenue: 3530000 },
-                        { month: 'Q2 2025', revenue: 3660000 },
-                        { month: 'Q3 2025', revenue: 3900000, upperBound: 4100000, lowerBound: 3700000 },
-                        { month: 'Q4 2025', revenue: 4080000, upperBound: 4300000, lowerBound: 3860000 }
-                      ] : [
-                        { month: 'Q2 2024', revenue: 3200000 },
-                        { month: 'Q3 2024', revenue: 3350000 },
-                        { month: 'Q4 2024', revenue: 3400000 },
-                        { month: 'Q1 2025', revenue: 3530000 },
-                        { month: 'Q2 2025', revenue: 3660000 }
-                      ];
-                    } else {
-                      return showForecast ? [
-                        { month: '2022', revenue: 13200000 },
-                        { month: '2023', revenue: 13850000 },
-                        { month: '2024', revenue: 14400000 },
-                        { month: '2025', revenue: 15600000, upperBound: 16200000, lowerBound: 15000000 },
-                        { month: '2026', revenue: 16320000, upperBound: 17000000, lowerBound: 15640000 }
-                      ] : [
-                        { month: '2020', revenue: 11800000 },
-                        { month: '2021', revenue: 12500000 },
-                        { month: '2022', revenue: 13200000 },
-                        { month: '2023', revenue: 13850000 },
-                        { month: '2024', revenue: 14400000 }
-                      ];
-                    }
-                  };
-                  return getChartData();
-                })()}>
+                <LineChart
+                  data={(() => {
+                    const getChartData = () => {
+                      if (viewMode === 'monthly') {
+                        return showForecast
+                          ? [
+                            { month: 'Jan', revenue: 1100000 },
+                            { month: 'Feb', revenue: 1120000 },
+                            { month: 'Mar', revenue: 1150000 },
+                            { month: 'Apr', revenue: 1180000 },
+                            { month: 'May', revenue: 1200000 },
+                            { month: 'Jun', revenue: 1280000, upperBound: 1350000, lowerBound: 1210000 },
+                            { month: 'Jul', revenue: 1320000, upperBound: 1400000, lowerBound: 1240000 },
+                            { month: 'Aug', revenue: 1360000, upperBound: 1450000, lowerBound: 1270000 },
+                            { month: 'Sep', revenue: 1380000, upperBound: 1500000, lowerBound: 1300000 },
+                          ]
+                          : [
+                            { month: 'Jan', revenue: 1080000 },
+                            { month: 'Feb', revenue: 1120000 },
+                            { month: 'Mar', revenue: 1150000 },
+                            { month: 'Apr', revenue: 1180000 },
+                            { month: 'May', revenue: 1200000 },
+                          ];
+                      } else if (viewMode === 'quarterly') {
+                        return showForecast
+                          ? [
+                            { month: 'Q4 2024', revenue: 3400000 },
+                            { month: 'Q1 2025', revenue: 3530000 },
+                            { month: 'Q2 2025', revenue: 3660000 },
+                            { month: 'Q3 2025', revenue: 3900000, upperBound: 4100000, lowerBound: 3700000 },
+                            { month: 'Q4 2025', revenue: 4080000, upperBound: 4300000, lowerBound: 3860000 },
+                          ]
+                          : [
+                            { month: 'Q2 2024', revenue: 3200000 },
+                            { month: 'Q3 2024', revenue: 3350000 },
+                            { month: 'Q4 2024', revenue: 3400000 },
+                            { month: 'Q1 2025', revenue: 3530000 },
+                            { month: 'Q2 2025', revenue: 3660000 },
+                          ];
+                      } else {
+                        return showForecast
+                          ? [
+                            { month: '2022', revenue: 13200000 },
+                            { month: '2023', revenue: 13850000 },
+                            { month: '2024', revenue: 14400000 },
+                            { month: '2025', revenue: 15600000, upperBound: 16200000, lowerBound: 15000000 },
+                            { month: '2026', revenue: 16320000, upperBound: 17000000, lowerBound: 15640000 },
+                          ]
+                          : [
+                            { month: '2020', revenue: 11800000 },
+                            { month: '2021', revenue: 12500000 },
+                            { month: '2022', revenue: 13200000 },
+                            { month: '2023', revenue: 13850000 },
+                            { month: '2024', revenue: 14400000 },
+                          ];
+                      }
+                    };
+                    return getChartData();
+                  })()}
+                >
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis
-                    dataKey="month"
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0]}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
-                  />
-                  <Tooltip
-                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
-                    labelFormatter={(label: string) => `Month: ${label}`}
-                  />
-                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20 , fontSize: '14px'}} />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} tickFormatter={(value) => value.split(' ')[0]} />
+                  <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
+                  <Tooltip formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']} labelFormatter={(label: string) => `Month: ${label}`} />
+                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20, fontSize: '14px' }} />
 
                   <Line
                     type="monotone"
@@ -394,19 +449,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     name="Revenue"
                     connectNulls={false}
                     dot={(props) => {
-                        const { cx, cy, payload } = props;
-                        // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
-                        const isForecastPoint = showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
-                        return (
-                            <circle
-                                cx={cx}
-                                cy={cy}
-                                r={4}
-                                fill={isForecastPoint ? '#ff9800' : '#1976d2'} 
-                                stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
-                                strokeWidth={2}
-                            />
-                        );
+                      const { cx, cy, payload } = props;
+                      // Check if showForecast is true and if the data point has upperBound/lowerBound (indicating it's a forecast point)
+                      const isForecastPoint =
+                        showForecast && (payload.upperBound !== undefined || payload.lowerBound !== undefined);
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={4}
+                          fill={isForecastPoint ? '#ff9800' : '#1976d2'}
+                          stroke={isForecastPoint ? '#ff9800' : '#1976d2'}
+                          strokeWidth={2}
+                        />
+                      );
                     }}
                   />
                   {showForecast && (
@@ -415,9 +471,9 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="upperBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Upper Confidence"
                         connectNulls={false}
@@ -426,18 +482,14 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone"
                         dataKey="lowerBound"
                         stroke="#1976d2"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         name="Lower Confidence"
                         connectNulls={false}
                       />
-                      <ReferenceLine
-                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
-                        stroke="#666"
-                        strokeDasharray="2 2"
-                      />
+                      <ReferenceLine x={viewMode === 'monthly' ? 'May' : viewMode === 'quarterly' ? 'Q2 2025' : '2024'} stroke="#666" strokeDasharray="2 2" />
                     </>
                   )}
                 </LineChart>
@@ -445,43 +497,39 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             </CardContent>
           </Card>
 
-
           <Card className={styles.card.base}>
-    <CardContent className="p-6">
-        <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
-        <ResponsiveContainer width="100%" height={350}>
-            <LineChart
-                data={[
+            <CardContent className="p-6">
+              <div className="text-lg font-semibold text-gray-900 mb-2">Revenue Source Split</div>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart
+                  data={[
                     // Modified 'In Person Visits' data
-                    { month: 'Jan', 'In Person Visits': 170, 'CCM': 100, 'DSMT': 55, 'Telemedicine': 70, 'Labs': 35 },
-                    { month: 'Feb', 'In Person Visits': 165, 'CCM': 105, 'DSMT': 56, 'Telemedicine': 78, 'Labs': 36 },
-                    { month: 'Mar', 'In Person Visits': 160, 'CCM': 110, 'DSMT': 57, 'Telemedicine': 85, 'Labs': 37 },
-                    { month: 'Apr', 'In Person Visits': 155, 'CCM': 118, 'DSMT': 58, 'Telemedicine': 95, 'Labs': 38 },
-                    { month: 'May', 'In Person Visits': 150, 'CCM': 128, 'DSMT': 59, 'Telemedicine': 105, 'Labs': 39 },
-                    { month: 'Jun', 'In Person Visits': 145, 'CCM': 138, 'DSMT': 60, 'Telemedicine': 115, 'Labs': 40 },
-                    { month: 'Jul', 'In Person Visits': 140, 'CCM': 135, 'DSMT': 61, 'Telemedicine': 112, 'Labs': 41 },
-                    { month: 'Aug', 'In Person Visits': 135, 'CCM': 142, 'DSMT': 62, 'Telemedicine': 120, 'Labs': 42 },
-                    { month: 'Sep', 'In Person Visits': 130, 'CCM': 148, 'DSMT': 63, 'Telemedicine': 128, 'Labs': 43 },
-                ]}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
-                <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
-                <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25 , fontSize: '14px'}}/>
-                <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
-                <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
-                <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
-                <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
-                <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
-            </LineChart>
-        </ResponsiveContainer>
-    </CardContent>
-</Card>
-
-
-
+                    { month: 'Jan', 'In Person Visits': 170, CCM: 100, DSMT: 55, Telemedicine: 70, Labs: 35 },
+                    { month: 'Feb', 'In Person Visits': 165, CCM: 105, DSMT: 56, Telemedicine: 78, Labs: 36 },
+                    { month: 'Mar', 'In Person Visits': 160, CCM: 110, DSMT: 57, Telemedicine: 85, Labs: 37 },
+                    { month: 'Apr', 'In Person Visits': 155, CCM: 118, DSMT: 58, Telemedicine: 95, Labs: 38 },
+                    { month: 'May', 'In Person Visits': 150, CCM: 128, DSMT: 59, Telemedicine: 105, Labs: 39 },
+                    { month: 'Jun', 'In Person Visits': 145, CCM: 138, DSMT: 60, Telemedicine: 115, Labs: 40 },
+                    { month: 'Jul', 'In Person Visits': 140, CCM: 135, DSMT: 61, Telemedicine: 112, Labs: 41 },
+                    { month: 'Aug', 'In Person Visits': 135, CCM: 142, DSMT: 62, Telemedicine: 120, Labs: 42 },
+                    { month: 'Sep', 'In Person Visits': 130, CCM: 148, DSMT: 63, Telemedicine: 128, Labs: 43 },
+                  ]}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
+                  <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
+                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25, fontSize: '14px' }} />
+                  <Line type="monotone" dataKey="In Person Visits" stroke="#1976d2" strokeWidth={2} name="In Person Visits" />
+                  <Line type="monotone" dataKey="CCM" stroke="#4caf50" strokeWidth={2} name="CCM" />
+                  <Line type="monotone" dataKey="DSMT" stroke="#ff9800" strokeWidth={2} name="DSMT" />
+                  <Line type="monotone" dataKey="Telemedicine" stroke="#f44336" strokeWidth={2} name="Telemedicine" />
+                  <Line type="monotone" dataKey="Labs" stroke="#9c27b0" strokeWidth={2} name="Labs" />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Additional Revenue Details */}

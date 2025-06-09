@@ -178,9 +178,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone" 
                         dataKey="upperBand" 
                         stroke="#1976d2" 
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         connectNulls={false}
                       />
@@ -188,9 +188,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone" 
                         dataKey="lowerBand" 
                         stroke="#1976d2" 
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         connectNulls={false}
                       />
@@ -270,9 +270,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone" 
                         dataKey="upperBand" 
                         stroke="#1976d2" 
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         connectNulls={false}
                       />
@@ -280,9 +280,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                         type="monotone" 
                         dataKey="lowerBand" 
                         stroke="#1976d2" 
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeDasharray="3,3"
-                        strokeOpacity={0.5}
+                        strokeOpacity={1}
                         dot={false}
                         connectNulls={false}
                       />
@@ -361,9 +361,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       type="monotone" 
                       dataKey="upperBand" 
                       stroke="#1976d2" 
-                      strokeWidth={1}
+                      strokeWidth={2}
                       strokeDasharray="3,3"
-                      strokeOpacity={0.5}
+                      strokeOpacity={1}
                       dot={false}
                       connectNulls={false}
                     />
@@ -371,9 +371,9 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast }:
                       type="monotone" 
                       dataKey="lowerBand" 
                       stroke="#1976d2" 
-                      strokeWidth={1}
+                      strokeWidth={2}
                       strokeDasharray="3,3"
-                      strokeOpacity={0.5}
+                      strokeOpacity={1}
                       dot={false}
                       connectNulls={false}
                     />
