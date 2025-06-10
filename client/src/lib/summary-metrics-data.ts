@@ -39,6 +39,7 @@ export const summaryKeyMetrics = [
     forecastLabel: "JUN FORECAST",
     type: 'cost',
     icon: TrendingUp,
+    tooltipText: "Active panel size represents the total number of diabetic patients as of the current month",
   },
   {
     title: "% Enrolled In CCM",
@@ -48,6 +49,7 @@ export const summaryKeyMetrics = [
     forecastLabel: "JUN FORECAST",
     type: 'cost',
     icon: '',
+    tooltipText: "% Enrolled in CCM, reflects the percentage of Active Panel Size who are currently enrolled in Chronic care management program",
 
   },
   {
@@ -56,8 +58,9 @@ export const summaryKeyMetrics = [
     forecastValue: "35%",
     currentLabel: "MAY PROGRESS",
     forecastLabel: "JUN FORECAST",
-    type: 'neutral',
+    type: 'cost',
     icon: '',
+    tooltipText: "Percentage of patient encounters conducted via telehealth (video, audio, messaging) out of all encounters for the month",
   },
   
   

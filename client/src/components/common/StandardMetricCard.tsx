@@ -12,6 +12,7 @@ interface StandardMetricCardProps {
   type?: 'revenue' | 'profit' | 'cost' | 'neutral';
   icon?: ReactNode;
   className?: string;
+  tooltipText?: string;
 }
 
 export default function StandardMetricCard({
@@ -23,7 +24,8 @@ export default function StandardMetricCard({
   showForecast = false,
   type = 'neutral',
   icon,
-  className = ""
+  className = "",
+  tooltipText 
 }: StandardMetricCardProps) {
 
   const metricStyle = styles.metric[type]; 
@@ -51,7 +53,10 @@ export default function StandardMetricCard({
         "relative bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between overflow-hidden",
         "hover:shadow-lg transition-shadow duration-200", 
         className
-    )}>
+    )}
+    title={tooltipText}
+    >
+
       
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-lg"></div>
 
