@@ -149,7 +149,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       { month: 'Jan', cost: 920000 },
                       { month: 'Feb', cost: 890000 },
                       { month: 'Mar', cost: 910000 },
-                      { month: 'Apr', cost: 890000 },
+                      { month: 'Apr', cost: 880000 },
                       { month: 'May', cost: 920000 },
                       { month: 'Jun', cost: 880000, upperBound: 980000, lowerBound: 780000 },
                       { month: 'Jul', cost: 875000, upperBound: 975000, lowerBound: 775000 },
@@ -159,7 +159,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       { month: 'Jan', cost: 920000 },
                       { month: 'Feb', cost: 890000 },
                       { month: 'Mar', cost: 910000 },
-                      { month: 'Apr', cost: 890000 },
+                      { month: 'Apr', cost: 880000 },
                       { month: 'May', cost: 920000 }
                     ];
                   } else if (viewMode === "quarterly") {
