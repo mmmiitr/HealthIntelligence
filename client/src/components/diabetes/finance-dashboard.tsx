@@ -266,16 +266,57 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                   />
                   <Tooltip
-                    formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']}
+                    formatter={(value: any, name: string, props: any) => {
+                      if (name === 'upperBound') { // Change 'cost' to 'Operating Cost' for display
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Upper Bound'];
+                      } else if (name === 'cost') {
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Operating Cost'];
+                      } else if (name === 'lowerBound') {
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Lower Bound'];
+                      }
+                      return [`$${(value / 1000000).toFixed(2)}M`, name];
+                    }}
                     labelFormatter={(label: string) => `Month: ${label}`}
                   />
                   <Legend
                     verticalAlign="top"
                     height={34}
                     iconType="line"
-                    wrapperStyle={{ marginLeft: 20, fontSize: '12px' }} // Smaller font size for legend
+                    wrapperStyle={{ marginLeft: 20, fontSize: '14px' }}
+                    payload={[{ value: 'Operating Cost', type: 'line', color: '#1976d2' }]} // Only show 'Operating Cost' in legend
                   />
 
+                  {showForecast && (
+                    <>
+                      <Line
+                        type="monotone"
+                        dataKey="upperBound"
+                        stroke="#1976d2"
+                        strokeWidth={2}
+                        strokeDasharray="3,3"
+                        strokeOpacity={1}
+                        dot={false}
+                        name="upperBound" // Changed name to 'upperBound' for formatter to pick up
+                        connectNulls={false}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="lowerBound"
+                        stroke="#1976d2"
+                        strokeWidth={2}
+                        strokeDasharray="3,3"
+                        strokeOpacity={1}
+                        dot={false}
+                        name="lowerBound" // Changed name to 'lowerBound' for formatter to pick up
+                        connectNulls={false}
+                      />
+                      <ReferenceLine
+                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
+                        stroke="#666"
+                        strokeDasharray="2 2"
+                      />
+                    </>
+                  )}
                   <Line
                     type="monotone"
                     dataKey="cost"
@@ -299,41 +340,11 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       );
                     }}
                   />
-                  {showForecast && (
-                    <>
-                      <Line
-                        type="monotone"
-                        dataKey="upperBound"
-                        stroke="#1976d2"
-                        strokeWidth={2}
-                        strokeDasharray="3,3"
-                        strokeOpacity={1}
-                        dot={false}
-                        name="Upper Confidence"
-                        connectNulls={false}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="lowerBound"
-                        stroke="#1976d2"
-                        strokeWidth={2}
-                        strokeDasharray="3,3"
-                        strokeOpacity={1}
-                        dot={false}
-                        name="Lower Confidence"
-                        connectNulls={false}
-                      />
-                      <ReferenceLine
-                        x={viewMode === "monthly" ? "May" : viewMode === "quarterly" ? "Q2 2025" : "2024"}
-                        stroke="#666"
-                        strokeDasharray="2 2"
-                      />
-                    </>
-                  )}
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
+
 
           {/* Labor Cost by Role */}
           <Card className={styles.card.base}>
@@ -456,6 +467,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6"> {/* This grid is specifically for the two charts */}
+          
           {/* Revenue Trends Chart */}
           <Card className={styles.card.base}>
             <CardContent className="p-6">
@@ -524,8 +536,29 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" tick={{ fontSize: 12 }} tickFormatter={(value) => value.split(' ')[0]} />
                   <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                  <Tooltip formatter={(value: any) => [`$${(value / 1000000).toFixed(2)}M`, '']} labelFormatter={(label: string) => `Month: ${label}`} />
-                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 20, fontSize: '14px' }} />
+                  <Tooltip
+                    formatter={(value: any, name: string, props: any) => {
+                      if (name === 'Revenue') {
+                        // For the actual revenue line
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Revenue'];
+                      } else if (name === 'upperBound') {
+                        // For the upper bound line
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Upper Bound'];
+                      } else if (name === 'lowerBound') {
+                        // For the lower bound line
+                        return [`$${(value / 1000000).toFixed(2)}M`, 'Lower Bound'];
+                      }
+                      return [`$${(value / 1000000).toFixed(2)}M`, name]; // Default for other lines if any
+                    }}
+                    labelFormatter={(label: string) => `Month: ${label}`}
+                  />
+                  <Legend
+                    verticalAlign="top"
+                    height={34}
+                    iconType="line"
+                    wrapperStyle={{ marginLeft: 20, fontSize: '14px' }}
+                    payload={[{ value: 'Revenue', type: 'line', color: '#1976d2' }]} // Only show 'Revenue' in legend
+                  />
 
                   <Line
                     type="monotone"
@@ -561,7 +594,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         strokeDasharray="3,3"
                         strokeOpacity={1}
                         dot={false}
-                        name="Upper Confidence"
+                        name="upperBound" // Changed name to 'upperBound' for formatter to pick up
                         connectNulls={false}
                       />
                       <Line
@@ -572,7 +605,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                         strokeDasharray="3,3"
                         strokeOpacity={1}
                         dot={false}
-                        name="Lower Confidence"
+                        name="lowerBound" // Changed name to 'lowerBound' for formatter to pick up
                         connectNulls={false}
                       />
                       <ReferenceLine x={viewMode === 'monthly' ? 'May' : viewMode === 'quarterly' ? 'Q2 2025' : '2024'} stroke="#666" strokeDasharray="2 2" />
