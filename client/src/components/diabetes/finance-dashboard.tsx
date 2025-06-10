@@ -127,7 +127,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       type: "cost" as const,
 
     },
-   
+
   ];
   return (
     <div className="space-y-8">
@@ -169,7 +169,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
         {/* Additional Cost Details */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {costMetrics.slice(0,3).map((metric) => (
+          {costMetrics.slice(0, 3).map((metric) => (
             <StandardMetricCard
               key={metric.title}
               title={metric.title}
@@ -182,7 +182,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
             />
           ))}
         </div>
-         <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {costMetrics.slice(3).map((metric) => (
             <StandardMetricCard
               key={metric.title}
@@ -205,54 +205,54 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={(() => {
                   const getCostData = () => {
-                  if (viewMode === "monthly") {
-                    return showForecast ? [
-                      { month: 'Jan', cost: 920000 },
-                      { month: 'Feb', cost: 890000 },
-                      { month: 'Mar', cost: 910000 },
-                      { month: 'Apr', cost: 880000 },
-                      { month: 'May', cost: 920000 },
-                      { month: 'Jun', cost: 880000, upperBound: 980000, lowerBound: 780000 },
-                      { month: 'Jul', cost: 875000, upperBound: 975000, lowerBound: 775000 },
-                      { month: 'Aug', cost: 870000, upperBound: 970000, lowerBound: 770000 },
-                      { month: 'Sep', cost: 865000, upperBound: 965000, lowerBound: 765000 }
-                    ] : [
-                      { month: 'Jan', cost: 920000 },
-                      { month: 'Feb', cost: 890000 },
-                      { month: 'Mar', cost: 910000 },
-                      { month: 'Apr', cost: 880000 },
-                      { month: 'May', cost: 920000 }
-                    ];
-                  } else if (viewMode === "quarterly") {
-                    return showForecast ? [
-                      { month: 'Q4 2024', cost: 2600000 },
-                      { month: 'Q1 2025', cost: 2550000 },
-                      { month: 'Q2 2025', cost: 2500000 },
-                      { month: 'Q3 2025', cost: 2450000, upperBound: 2650000, lowerBound: 2250000 },
-                      { month: 'Q4 2025', cost: 2400000, upperBound: 2600000, lowerBound: 2200000 }
-                    ] : [
-                      { month: 'Q2 2024', cost: 2700000 },
-                      { month: 'Q3 2024', cost: 2650000 },
-                      { month: 'Q4 2024', cost: 2600000 },
-                      { month: 'Q1 2025', cost: 2550000 },
-                      { month: 'Q2 2025', cost: 2500000 }
-                    ];
-                  } else {
-                    return showForecast ? [
-                      { month: '2022', cost: 9500000 },
-                      { month: '2023', cost: 9300000 },
-                      { month: '2024', cost: 9200000 },
-                      { month: '2025', cost: 9100000, upperBound: 10100000, lowerBound: 8100000 },
-                      { month: '2026', cost: 9000000, upperBound: 10000000, lowerBound: 8000000 }
-                    ] : [
-                      { month: '2020', cost: 9800000 },
-                      { month: '2021', cost: 9700000 },
-                      { month: '2022', cost: 9500000 },
-                      { month: '2023', cost: 9300000 },
-                      { month: '2024', cost: 9200000 }
-                    ];
-                  }
-                };
+                    if (viewMode === "monthly") {
+                      return showForecast ? [
+                        { month: 'Jan', cost: 920000 },
+                        { month: 'Feb', cost: 890000 },
+                        { month: 'Mar', cost: 910000 },
+                        { month: 'Apr', cost: 880000 },
+                        { month: 'May', cost: 920000 },
+                        { month: 'Jun', cost: 880000, upperBound: 980000, lowerBound: 780000 },
+                        { month: 'Jul', cost: 875000, upperBound: 975000, lowerBound: 775000 },
+                        { month: 'Aug', cost: 870000, upperBound: 970000, lowerBound: 770000 },
+                        { month: 'Sep', cost: 865000, upperBound: 965000, lowerBound: 765000 }
+                      ] : [
+                        { month: 'Jan', cost: 920000 },
+                        { month: 'Feb', cost: 890000 },
+                        { month: 'Mar', cost: 910000 },
+                        { month: 'Apr', cost: 880000 },
+                        { month: 'May', cost: 920000 }
+                      ];
+                    } else if (viewMode === "quarterly") {
+                      return showForecast ? [
+                        { month: 'Q4 2024', cost: 2600000 },
+                        { month: 'Q1 2025', cost: 2550000 },
+                        { month: 'Q2 2025', cost: 2500000 },
+                        { month: 'Q3 2025', cost: 2450000, upperBound: 2650000, lowerBound: 2250000 },
+                        { month: 'Q4 2025', cost: 2400000, upperBound: 2600000, lowerBound: 2200000 }
+                      ] : [
+                        { month: 'Q2 2024', cost: 2700000 },
+                        { month: 'Q3 2024', cost: 2650000 },
+                        { month: 'Q4 2024', cost: 2600000 },
+                        { month: 'Q1 2025', cost: 2550000 },
+                        { month: 'Q2 2025', cost: 2500000 }
+                      ];
+                    } else {
+                      return showForecast ? [
+                        { month: '2022', cost: 9500000 },
+                        { month: '2023', cost: 9300000 },
+                        { month: '2024', cost: 9200000 },
+                        { month: '2025', cost: 9100000, upperBound: 10100000, lowerBound: 8100000 },
+                        { month: '2026', cost: 9000000, upperBound: 10000000, lowerBound: 8000000 }
+                      ] : [
+                        { month: '2020', cost: 9800000 },
+                        { month: '2021', cost: 9700000 },
+                        { month: '2022', cost: 9500000 },
+                        { month: '2023', cost: 9300000 },
+                        { month: '2024', cost: 9200000 }
+                      ];
+                    }
+                  };
                   return getCostData();
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -388,7 +388,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           
         </div> */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {revenueMetrics.slice(0,3).map((metric) => (
+          {revenueMetrics.slice(0, 3).map((metric) => (
             <StandardMetricCard
               key={metric.title}
               title={metric.title}
@@ -620,14 +620,26 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `$${value}K`} />
                   <Tooltip formatter={(value: any) => [`$${value}K`, '']} />
 
-                  <Legend verticalAlign="top" height={34} iconType="line" wrapperStyle={{ marginLeft: 25, fontSize: '14px' }} />
+                  {/* Custom Legend to control visible items */}
+                  <Legend
+                    verticalAlign="top"
+                    height={34}
+                    iconType="line"
+                    wrapperStyle={{ marginLeft: 25, fontSize: '14px' }}
+                    payload={[
+                      { value: 'In Person Visits', type: 'line', color: '#1976d2' },
+                      { value: 'CCM', type: 'line', color: '#4caf50' },
+                      { value: 'DSMT', type: 'line', color: '#ff9800' },
+                      { value: 'Telemedicine', type: 'line', color: '#f44336' },
+                      { value: 'Labs', type: 'line', color: '#9c27b0' },
+                    ]}
+                  />
 
                   <Line
                     type="monotone"
                     dataKey="In Person Visits"
                     stroke="#1976d2"
                     strokeWidth={2}
-                    name={!showForecast ? "In Person Visits" : undefined}
                     dot={(props) => {
                       const { cx, cy, payload } = props;
                       const isForecastPoint = showForecast && payload.isForecast;
@@ -649,7 +661,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     dataKey="CCM"
                     stroke="#4caf50"
                     strokeWidth={2}
-                    name={!showForecast ? "CCM" : undefined}
                     dot={(props) => {
                       const { cx, cy, payload } = props;
                       const isForecastPoint = showForecast && payload.isForecast;
@@ -671,7 +682,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     dataKey="DSMT"
                     stroke="#ff9800"
                     strokeWidth={2}
-                    name={!showForecast ? "DSMT" : undefined}
                     dot={(props) => {
                       const { cx, cy, payload } = props;
                       const isForecastPoint = showForecast && payload.isForecast;
@@ -693,7 +703,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     dataKey="Telemedicine"
                     stroke="#f44336"
                     strokeWidth={2}
-                    name={!showForecast ? "Telemedicine" : undefined}
                     dot={(props) => {
                       const { cx, cy, payload } = props;
                       const isForecastPoint = showForecast && payload.isForecast;
@@ -715,7 +724,6 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     dataKey="Labs"
                     stroke="#9c27b0"
                     strokeWidth={2}
-                    name={!showForecast ? "Labs" : undefined}
                     dot={(props) => {
                       const { cx, cy, payload } = props;
                       const isForecastPoint = showForecast && payload.isForecast;
@@ -735,22 +743,22 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
                   {showForecast && (
                     <>
-                      <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" /> {/* Changed x to "May" */}
+                      <ReferenceLine x="May" stroke="#666" strokeDasharray="2 2" />
 
-                      <Line type="monotone" dataKey="upperBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="In Person (Upper)" />
-                      <Line type="monotone" dataKey="lowerBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="In Person (Lower)" />
+                      <Line type="monotone" dataKey="upperBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
+                      <Line type="monotone" dataKey="lowerBound_InPerson" stroke="#1976d2" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
 
-                      <Line type="monotone" dataKey="upperBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="CCM (Upper)" />
-                      <Line type="monotone" dataKey="lowerBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="CCM (Lower)" />
+                      <Line type="monotone" dataKey="upperBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
+                      <Line type="monotone" dataKey="lowerBound_CCM" stroke="#4caf50" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
 
-                      <Line type="monotone" dataKey="upperBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="DSMT (Upper)" />
-                      <Line type="monotone" dataKey="lowerBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="DSMT (Lower)" />
+                      <Line type="monotone" dataKey="upperBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
+                      <Line type="monotone" dataKey="lowerBound_DSMT" stroke="#ff9800" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
 
-                      <Line type="monotone" dataKey="upperBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Telemedicine (Upper)" />
-                      <Line type="monotone" dataKey="lowerBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Telemedicine (Lower)" />
+                      <Line type="monotone" dataKey="upperBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
+                      <Line type="monotone" dataKey="lowerBound_Telemedicine" stroke="#f44336" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
 
-                      <Line type="monotone" dataKey="upperBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Labs (Upper)" />
-                      <Line type="monotone" dataKey="lowerBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} name="Labs (Lower)" />
+                      <Line type="monotone" dataKey="upperBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
+                      <Line type="monotone" dataKey="lowerBound_Labs" stroke="#9c27b0" strokeWidth={2} strokeDasharray="3 3" strokeOpacity={0.7} dot={false} />
                     </>
                   )}
                 </LineChart>
