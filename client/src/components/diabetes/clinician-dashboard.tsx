@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DashboardContainer, DashboardSection } from "@/components/common/DashboardLayout";
 import { Activity, Heart, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, Legend, Label } from "recharts";
 import { summaryTrendsData } from "@/lib/summary-metrics-data";
 
 interface ClinicianDashboardProps {
@@ -60,23 +60,23 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
 
 
 
-  
+
   const predictionChartData = Array.isArray(summaryTrendsData.monthly.edVisit) ? (() => {
-    
+
     const monthOrder = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May ', 'Jun ', 'Jul ', 'Aug ', 'Sep ', 'Oct ', 'Nov ', 'Dec '];
     const historicalMonths = ['Jan ', 'Feb ', 'Mar ', 'Apr ', 'May '];
 
-   
+
     const baseProcessedData = summaryTrendsData.monthly.edVisit
-     
+
       .filter(item => monthOrder.indexOf(item.period) <= monthOrder.indexOf('Sep '))
       .map((item: any) => {
-        
+
         return {
           period: item.period, // Use 'period' as the X-axis key
           value: item.value,
-          upperBand: item.upperBand, 
-          lowerBand: item.lowerBand, 
+          upperBand: item.upperBand,
+          lowerBand: item.lowerBand,
           isForecast: item.isForecast,
         };
       });
@@ -84,14 +84,14 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
     let finalChartData = [];
 
     if (showForecast) {
-      
+
       finalChartData = baseProcessedData;
     } else {
-      
+
       finalChartData = baseProcessedData.filter(item => historicalMonths.includes(item.period));
     }
 
-    
+
     finalChartData.sort((a, b) => monthOrder.indexOf(a.period) - monthOrder.indexOf(b.period));
 
     return finalChartData;
@@ -340,13 +340,36 @@ export default function ClinicianDashboard({ timeFilter, viewMode, showForecast 
               <LineChart data={predictionChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="period" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} domain={[6, 14]} />
+                <YAxis tick={{ fontSize: 12 }} domain={[6, 10]} >
+                  <Label value="ED Visit Rate" angle={-90} position="insideLeft" offset={20} fontSize={12} />
+                </YAxis>
                 <Tooltip formatter={(value, name) => {
                   if (name === 'value') return [`${value}%`, 'ED Visit Rate'];
-                  if (name === 'upperBand') return [`${value}%`, 'Upper 95% CI'];
-                  if (name === 'lowerBand') return [`${value}%`, 'Lower 95% CI'];
+                  if (name === 'upperBand') return [`${value}%`, 'Upper Confidence'];
+                  if (name === 'lowerBand') return [`${value}%`, 'Lower Confidence'];
                   return [value, name];
                 }} />
+
+                <Legend
+                  verticalAlign="top"
+                  align="right"
+                  layout="horizontal"
+                  iconType="line"
+                  wrapperStyle={{
+                    paddingBottom: 10,
+                    paddingRight: 20,
+                    fontSize: 12,
+                    color: '#374151', // Tailwind's gray-700
+                    fontWeight: '500',
+                    lineHeight: '20px'
+                  }}
+                  formatter={(value) => {
+                    if (value === 'value') return 'ED Visit Rate';
+                    if (value === 'upperBand') return 'Upper Confidence';
+                    if (value === 'lowerBand') return 'Lower Confidence';
+                    return value;
+                  }}
+                />
                 {/* Main trend line */}
                 <Line
                   type="monotone"
