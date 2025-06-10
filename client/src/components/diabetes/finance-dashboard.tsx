@@ -80,8 +80,55 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
       type: "cost" as const,
 
     },
-  ];
+    {
+      title: "Labor Cost",
+      currentValue: "$920K",
+      forecastValue: "$900K", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
 
+    },
+    {
+      title: "Other Cost",
+      currentValue: "$280K",
+      forecastValue: "$275K", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+  ];
+  const revenueMetrics = [
+    {
+      title: "Total Revenue",
+      currentValue: "$1.84M",
+      forecastValue: "$1.90M", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+    {
+      title: "Avg Revenue/Patient/Month",
+      currentValue: "$180",
+      forecastValue: "$200", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+    {
+      title: "Revenue Per Visit",
+      currentValue: "$100",
+      forecastValue: "$110", // Added a sample forecast value
+      currentLabel: labels.current,
+      forecastLabel: labels.forecast,
+      type: "cost" as const,
+
+    },
+   
+  ];
   return (
     <div className="space-y-8">
       {/* Financial Overview Section */}
@@ -122,7 +169,21 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
         {/* Additional Cost Details */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {costMetrics.map((metric) => (
+          {costMetrics.slice(0,3).map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+            />
+          ))}
+        </div>
+         <div className="grid md:grid-cols-2 gap-4">
+          {costMetrics.slice(3).map((metric) => (
             <StandardMetricCard
               key={metric.title}
               title={metric.title}
@@ -326,6 +387,20 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
           </Card>
           
         </div> */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {revenueMetrics.slice(0,3).map((metric) => (
+            <StandardMetricCard
+              key={metric.title}
+              title={metric.title}
+              currentValue={metric.currentValue}
+              forecastValue={metric.forecastValue}
+              currentLabel={metric.currentLabel}
+              forecastLabel={metric.forecastLabel}
+              showForecast={showForecast}
+              type={metric.type}
+            />
+          ))}
+        </div>
 
         <div>
           {/* Revenue from top 5 CPT codes card with similar styling */}
