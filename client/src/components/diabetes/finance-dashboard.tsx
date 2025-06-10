@@ -144,54 +144,54 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={(() => {
                   const getCostData = () => {
-                    if (viewMode === "monthly") {
-                      return showForecast ? [
-                        { month: 'Jan', cost: 1780000 },
-                        { month: 'Feb', cost: 1600000 },
-                        { month: 'Mar', cost: 1580000 },
-                        { month: 'Apr', cost: 1400000 },
-                        { month: 'May', cost: 1380000 },
-                        { month: 'Jun', cost: 1280000, upperBound: 1330000, lowerBound: 1230000 },
-                        { month: 'Jul', cost: 1180000, upperBound: 1230000, lowerBound: 1130000 },
-                        { month: 'Aug', cost: 1080000, upperBound: 1130000, lowerBound: 1030000 },
-                        { month: 'Sep', cost: 980000, upperBound: 1030000, lowerBound: 930000 }
-                      ] : [
-                        { month: 'Jan', cost: 1780000 },
-                        { month: 'Feb', cost: 1600000 },
-                        { month: 'Mar', cost: 1580000 },
-                        { month: 'Apr', cost: 1400000 },
-                        { month: 'May', cost: 1380000 }
-                      ];
-                    } else if (viewMode === "quarterly") {
-                      return showForecast ? [
-                        { month: 'Q4 2024', cost: 3100000 },
-                        { month: 'Q1 2025', cost: 2900000 },
-                        { month: 'Q2 2025', cost: 2700000 },
-                        { month: 'Q3 2025', cost: 2500000, upperBound: 2600000, lowerBound: 2400000 },
-                        { month: 'Q4 2025', cost: 2300000, upperBound: 2400000, lowerBound: 2200000 }
-                      ] : [
-                        { month: 'Q2 2024', cost: 3100000 },
-                        { month: 'Q3 2024', cost: 2900000 },
-                        { month: 'Q4 2024', cost: 2700000 },
-                        { month: 'Q1 2025', cost: 2500000 },
-                        { month: 'Q2 2025', cost: 2300000 }
-                      ];
-                    } else {
-                      return showForecast ? [
-                        { month: '2022', cost: 11700000 },
-                        { month: '2023', cost: 11300000 },
-                        { month: '2024', cost: 10900000 },
-                        { month: '2025', cost: 10500000, upperBound: 11000000, lowerBound: 10000000 },
-                        { month: '2026', cost: 10100000, upperBound: 10600000, lowerBound: 9600000 }
-                      ] : [
-                        { month: '2020', cost: 11700000 },
-                        { month: '2021', cost: 11400000 },
-                        { month: '2022', cost: 11100000 },
-                        { month: '2023', cost: 10800000 },
-                        { month: '2024', cost: 10500000 }
-                      ];
-                    }
-                  };
+                  if (viewMode === "monthly") {
+                    return showForecast ? [
+                      { month: 'Jan', cost: 920000 },
+                      { month: 'Feb', cost: 890000 },
+                      { month: 'Mar', cost: 910000 },
+                      { month: 'Apr', cost: 890000 },
+                      { month: 'May', cost: 920000 },
+                      { month: 'Jun', cost: 880000, upperBound: 980000, lowerBound: 780000 },
+                      { month: 'Jul', cost: 875000, upperBound: 975000, lowerBound: 775000 },
+                      { month: 'Aug', cost: 870000, upperBound: 970000, lowerBound: 770000 },
+                      { month: 'Sep', cost: 865000, upperBound: 965000, lowerBound: 765000 }
+                    ] : [
+                      { month: 'Jan', cost: 920000 },
+                      { month: 'Feb', cost: 890000 },
+                      { month: 'Mar', cost: 910000 },
+                      { month: 'Apr', cost: 890000 },
+                      { month: 'May', cost: 920000 }
+                    ];
+                  } else if (viewMode === "quarterly") {
+                    return showForecast ? [
+                      { month: 'Q4 2024', cost: 2600000 },
+                      { month: 'Q1 2025', cost: 2550000 },
+                      { month: 'Q2 2025', cost: 2500000 },
+                      { month: 'Q3 2025', cost: 2450000, upperBound: 2650000, lowerBound: 2250000 },
+                      { month: 'Q4 2025', cost: 2400000, upperBound: 2600000, lowerBound: 2200000 }
+                    ] : [
+                      { month: 'Q2 2024', cost: 2700000 },
+                      { month: 'Q3 2024', cost: 2650000 },
+                      { month: 'Q4 2024', cost: 2600000 },
+                      { month: 'Q1 2025', cost: 2550000 },
+                      { month: 'Q2 2025', cost: 2500000 }
+                    ];
+                  } else {
+                    return showForecast ? [
+                      { month: '2022', cost: 9500000 },
+                      { month: '2023', cost: 9300000 },
+                      { month: '2024', cost: 9200000 },
+                      { month: '2025', cost: 9100000, upperBound: 10100000, lowerBound: 8100000 },
+                      { month: '2026', cost: 9000000, upperBound: 10000000, lowerBound: 8000000 }
+                    ] : [
+                      { month: '2020', cost: 9800000 },
+                      { month: '2021', cost: 9700000 },
+                      { month: '2022', cost: 9500000 },
+                      { month: '2023', cost: 9300000 },
+                      { month: '2024', cost: 9200000 }
+                    ];
+                  }
+                };
                   return getCostData();
                 })()}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -392,54 +392,54 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                       if (viewMode === 'monthly') {
                         return showForecast
                           ? [
-                            { month: 'Jan', revenue: 1100000 },
-                            { month: 'Feb', revenue: 1120000 },
-                            { month: 'Mar', revenue: 1150000 },
-                            { month: 'Apr', revenue: 1180000 },
-                            { month: 'May', revenue: 1200000 },
-                            { month: 'Jun', revenue: 1280000, upperBound: 1350000, lowerBound: 1210000 },
-                            { month: 'Jul', revenue: 1320000, upperBound: 1400000, lowerBound: 1240000 },
-                            { month: 'Aug', revenue: 1360000, upperBound: 1450000, lowerBound: 1270000 },
-                            { month: 'Sep', revenue: 1380000, upperBound: 1500000, lowerBound: 1300000 },
+                            { month: 'Jan', revenue: 950000 },
+                            { month: 'Feb', revenue: 900000 },
+                            { month: 'Mar', revenue: 930000 },
+                            { month: 'Apr', revenue: 910000 },
+                            { month: 'May', revenue: 940000 },
+                            { month: 'Jun', revenue: 900000, upperBound: 1000000, lowerBound: 800000 },
+                            { month: 'Jul', revenue: 890000, upperBound: 992000, lowerBound: 792000 },
+                            { month: 'Aug', revenue: 888000, upperBound: 988000, lowerBound: 790000 },
+                            { month: 'Sep', revenue: 885000, upperBound: 985000, lowerBound: 785000 },
                           ]
                           : [
-                            { month: 'Jan', revenue: 1080000 },
-                            { month: 'Feb', revenue: 1120000 },
-                            { month: 'Mar', revenue: 1150000 },
-                            { month: 'Apr', revenue: 1180000 },
-                            { month: 'May', revenue: 1200000 },
+                            { month: 'Jan', revenue: 950000 },
+                            { month: 'Feb', revenue: 900000 },
+                            { month: 'Mar', revenue: 930000 },
+                            { month: 'Apr', revenue: 910000 },
+                            { month: 'May', revenue: 940000 },
                           ];
                       } else if (viewMode === 'quarterly') {
                         return showForecast
                           ? [
-                            { month: 'Q4 2024', revenue: 3400000 },
-                            { month: 'Q1 2025', revenue: 3530000 },
-                            { month: 'Q2 2025', revenue: 3660000 },
-                            { month: 'Q3 2025', revenue: 3900000, upperBound: 4100000, lowerBound: 3700000 },
-                            { month: 'Q4 2025', revenue: 4080000, upperBound: 4300000, lowerBound: 3860000 },
+                            { month: 'Q4 2024', revenue: 2700000 },
+                            { month: 'Q1 2025', revenue: 2650000 },
+                            { month: 'Q2 2025', revenue: 2600000 },
+                            { month: 'Q3 2025', revenue: 2550000, upperBound: 2750000, lowerBound: 2350000 },
+                            { month: 'Q4 2025', revenue: 2500000, upperBound: 2700000, lowerBound: 2300000 },
                           ]
                           : [
-                            { month: 'Q2 2024', revenue: 3200000 },
-                            { month: 'Q3 2024', revenue: 3350000 },
-                            { month: 'Q4 2024', revenue: 3400000 },
-                            { month: 'Q1 2025', revenue: 3530000 },
-                            { month: 'Q2 2025', revenue: 3660000 },
+                            { month: 'Q2 2024', revenue: 2800000 },
+                            { month: 'Q3 2024', revenue: 2750000 },
+                            { month: 'Q4 2024', revenue: 2700000 },
+                            { month: 'Q1 2025', revenue: 2650000 },
+                            { month: 'Q2 2025', revenue: 2600000 },
                           ];
                       } else {
                         return showForecast
                           ? [
-                            { month: '2022', revenue: 13200000 },
-                            { month: '2023', revenue: 13850000 },
-                            { month: '2024', revenue: 14400000 },
-                            { month: '2025', revenue: 15600000, upperBound: 16200000, lowerBound: 15000000 },
-                            { month: '2026', revenue: 16320000, upperBound: 17000000, lowerBound: 15640000 },
+                            { month: '2022', revenue: 9800000 },
+                            { month: '2023', revenue: 9600000 },
+                            { month: '2024', revenue: 9400000 },
+                            { month: '2025', revenue: 9300000, upperBound: 10300000, lowerBound: 8300000 },
+                            { month: '2026', revenue: 9200000, upperBound: 10200000, lowerBound: 8200000 },
                           ]
                           : [
-                            { month: '2020', revenue: 11800000 },
-                            { month: '2021', revenue: 12500000 },
-                            { month: '2022', revenue: 13200000 },
-                            { month: '2023', revenue: 13850000 },
-                            { month: '2024', revenue: 14400000 },
+                            { month: '2020', revenue: 10000000 },
+                            { month: '2021', revenue: 9900000 },
+                            { month: '2022', revenue: 9800000 },
+                            { month: '2023', revenue: 9600000 },
+                            { month: '2024', revenue: 9400000 },
                           ];
                       }
                     };
