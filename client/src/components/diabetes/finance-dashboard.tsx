@@ -623,22 +623,22 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                 <LineChart
                   data={(() => {
                     const fullHistoricalData = [
-                      { month: 'Jan', 'In Person Visits': 170, CCM: 100, DSMT: 55, Telemedicine: 70, Labs: 35 },
-                      { month: 'Feb', 'In Person Visits': 160, CCM: 110, DSMT: 58, Telemedicine: 75, Labs: 38 },
-                      { month: 'Mar', 'In Person Visits': 150, CCM: 125, DSMT: 60, Telemedicine: 80, Labs: 40 },
-                      { month: 'Apr', 'In Person Visits': 140, CCM: 130, DSMT: 65, Telemedicine: 90, Labs: 42 },
-                      { month: 'May', 'In Person Visits': 130, CCM: 135, DSMT: 62, Telemedicine: 100, Labs: 45 },
-                      { month: 'Jun', 'In Person Visits': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48 },
-                      { month: 'Jul', 'In Person Visits': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46 },
-                      { month: 'Aug', 'In Person Visits': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44 },
-                      { month: 'Sep', 'In Person Visits': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47 },
+                      { month: 'Jan', 'In Person Consultation': 170, CCM: 100, DSMT: 55, Telemedicine: 70, Labs: 35 },
+                      { month: 'Feb', 'In Person Consultation': 160, CCM: 110, DSMT: 58, Telemedicine: 75, Labs: 38 },
+                      { month: 'Mar', 'In Person Consultation': 150, CCM: 125, DSMT: 60, Telemedicine: 80, Labs: 40 },
+                      { month: 'Apr', 'In Person Consultation': 140, CCM: 130, DSMT: 65, Telemedicine: 90, Labs: 42 },
+                      { month: 'May', 'In Person Consultation': 130, CCM: 135, DSMT: 62, Telemedicine: 100, Labs: 45 },
+                      { month: 'Jun', 'In Person Consultation': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48 },
+                      { month: 'Jul', 'In Person Consultation': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46 },
+                      { month: 'Aug', 'In Person Consultation': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44 },
+                      { month: 'Sep', 'In Person Consultation': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47 },
                     ];
 
                     const forecastOnlyData = [
-                      { month: 'Jun', 'In Person Visits': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48, isForecast: true, upperBound_InPerson: 130, lowerBound_InPerson: 118, upperBound_CCM: 145, lowerBound_CCM: 135, upperBound_DSMT: 72, lowerBound_DSMT: 64, upperBound_Telemedicine: 100, lowerBound_Telemedicine: 90, upperBound_Labs: 50, lowerBound_Labs: 46 },
-                      { month: 'Jul', 'In Person Visits': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46, isForecast: true, upperBound_InPerson: 140, lowerBound_InPerson: 128, upperBound_CCM: 135, lowerBound_CCM: 125, upperBound_DSMT: 75, lowerBound_DSMT: 66, upperBound_Telemedicine: 115, lowerBound_Telemedicine: 105, upperBound_Labs: 48, lowerBound_Labs: 44 },
-                      { month: 'Aug', 'In Person Visits': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44, isForecast: true, upperBound_InPerson: 150, lowerBound_InPerson: 138, upperBound_CCM: 125, lowerBound_CCM: 115, upperBound_DSMT: 77, lowerBound_DSMT: 68, upperBound_Telemedicine: 125, lowerBound_Telemedicine: 115, upperBound_Labs: 46, lowerBound_Labs: 42 },
-                      { month: 'Sep', 'In Person Visits': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47, isForecast: true, upperBound_InPerson: 155, lowerBound_InPerson: 142, upperBound_CCM: 120, lowerBound_CCM: 110, upperBound_DSMT: 80, lowerBound_DSMT: 70, upperBound_Telemedicine: 130, lowerBound_Telemedicine: 120, upperBound_Labs: 49, lowerBound_Labs: 43 },
+                      { month: 'Jun', 'In Person Consultation': 125, CCM: 140, DSMT: 68, Telemedicine: 95, Labs: 48, isForecast: true, upperBound_InPerson: 130, lowerBound_InPerson: 118, upperBound_CCM: 145, lowerBound_CCM: 135, upperBound_DSMT: 72, lowerBound_DSMT: 64, upperBound_Telemedicine: 100, lowerBound_Telemedicine: 90, upperBound_Labs: 50, lowerBound_Labs: 46 },
+                      { month: 'Jul', 'In Person Consultation': 135, CCM: 130, DSMT: 70, Telemedicine: 110, Labs: 46, isForecast: true, upperBound_InPerson: 140, lowerBound_InPerson: 128, upperBound_CCM: 135, lowerBound_CCM: 125, upperBound_DSMT: 75, lowerBound_DSMT: 66, upperBound_Telemedicine: 115, lowerBound_Telemedicine: 105, upperBound_Labs: 48, lowerBound_Labs: 44 },
+                      { month: 'Aug', 'In Person Consultation': 145, CCM: 120, DSMT: 72, Telemedicine: 120, Labs: 44, isForecast: true, upperBound_InPerson: 150, lowerBound_InPerson: 138, upperBound_CCM: 125, lowerBound_CCM: 115, upperBound_DSMT: 77, lowerBound_DSMT: 68, upperBound_Telemedicine: 125, lowerBound_Telemedicine: 115, upperBound_Labs: 46, lowerBound_Labs: 42 },
+                      { month: 'Sep', 'In Person Consultation': 150, CCM: 115, DSMT: 75, Telemedicine: 125, Labs: 47, isForecast: true, upperBound_InPerson: 155, lowerBound_InPerson: 142, upperBound_CCM: 120, lowerBound_CCM: 110, upperBound_DSMT: 80, lowerBound_DSMT: 70, upperBound_Telemedicine: 130, lowerBound_Telemedicine: 120, upperBound_Labs: 49, lowerBound_Labs: 43 },
                     ];
 
                     const dataWhenToggleOff = fullHistoricalData.slice(0, 5);
@@ -660,7 +660,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                     iconType="line"
                     wrapperStyle={{ marginLeft: 25, fontSize: '14px' }}
                     payload={[
-                      { value: 'In Person Visits', type: 'line', color: '#1976d2' },
+                      { value: 'In Person Consultation', type: 'line', color: '#1976d2' },
                       { value: 'CCM', type: 'line', color: '#4caf50' },
                       { value: 'DSMT', type: 'line', color: '#ff9800' },
                       { value: 'Telemedicine', type: 'line', color: '#f44336' },
@@ -670,7 +670,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
 
                   <Line
                     type="monotone"
-                    dataKey="In Person Visits"
+                    dataKey="In Person Consultation"
                     stroke="#1976d2"
                     strokeWidth={2}
                     dot={(props) => {
@@ -843,7 +843,7 @@ export default function FinanceDashboard({ timeFilter, viewMode, showForecast }:
                   <PieChart>
                     <Pie
                       data={[
-                        { name: 'In Person Visits', value: 320, color: '#1976d2' },
+                        { name: 'In Person Consultation', value: 320, color: '#1976d2' },
                         { name: 'CCM', value: 120, color: '#4caf50' },
                         { name: 'DSMT', value: 60, color: '#ff9800' },
                         { name: 'Telemedicine', value: 80, color: '#f44336' },
