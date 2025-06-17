@@ -142,7 +142,6 @@ export default function SummaryDashboard({ timeFilter, viewMode, showForecast, o
           ))}
         </div>
         */}
-        
         {/* Second row: 3 cards */}
         <div className="grid grid-cols-3 gap-4">
           {keyMetrics.slice(3).map((metric) => (
