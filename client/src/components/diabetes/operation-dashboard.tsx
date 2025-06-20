@@ -74,7 +74,7 @@ export default function OperationDashboard({ timeFilter, viewMode, showForecast 
       {/* Patient Metrics */}
       <DashboardSection>
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Patient Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> {/* Changed from md:grid-cols-4 to md:grid-cols-3 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {/* Changed from md:grid-cols-4 to md:grid-cols-3 */}
           {[
             {
               title: "No-Show Rate",
