@@ -3,7 +3,7 @@ import SectionHeader from "@/components/common/SectionHeader";
 import { summaryKeyMetrics, getSummaryTrends } from "@/lib/summary-metrics-data";
 import { summarySectionData } from "@/lib/summary-section-data";
 import { DollarSign, Users, Heart, UserCheck, AlertTriangle, Monitor, Shield } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Area, AreaChart, Label } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, ReferenceLine, Area, AreaChart, Label } from "recharts";
 import { getCurrentTimestamp } from "@/lib/utils";
 import { useState } from "react";
 import StandardMetricCard from "@/components/common/StandardMetricCard";
